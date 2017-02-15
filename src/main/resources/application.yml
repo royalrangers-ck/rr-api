@@ -1,0 +1,46 @@
+spring:
+    application:
+        name: royal-rangers
+    profiles:
+        active: dev
+    main:
+        banner-mode: "off"
+    jpa:
+        show_sql: false
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database: MYSQL
+    mvc:
+        favicon:
+            enabled: false
+---
+spring:
+    profiles: dev
+    datasource:
+        url: jdbc:mysql://localhost:3306/royalrangers?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password:
+        test-on-borrow: true
+        validation-query: SELECT 1
+        test-while-idle: true
+    jpa:
+        hibernate:
+            ddl-auto: create
+    resources:
+        chain:
+            cache: false
+---
+spring:
+    profiles: prod
+    datasource:
+        url:
+        username:
+        password:
+        validation-query: SELECT 1
+        test-while-idle: true
+    jpa:
+        hibernate:
+            ddl-auto: create
+    resources:
+        chain:
+            cache: true
+---
