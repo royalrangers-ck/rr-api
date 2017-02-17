@@ -44,7 +44,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile "org.springframework.boot:spring-boot-starter-web"
     compileOnly "org.projectlombok:lombok"
-    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
+    compile("org.springframework.boot:spring-boot-starter-tomcat")
     testCompile "org.springframework.boot:spring-boot-starter-test"
     compile group: "mysql", name: "mysql-connector-java", version: "${project.mysqlConnectorVersion}"
     compile group: "junit", name: "junit", version: "${project.junitVersion}"
