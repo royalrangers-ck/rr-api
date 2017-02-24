@@ -15,10 +15,6 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
 
-    static final String CLAIM_KEY_USERNAME = "sub";
-    static final String CLAIM_KEY_AUDIENCE = "audience";
-    static final String CLAIM_KEY_CREATED = "created";
-
     @Value("${jwt.secret}")
     private String secret;
 
@@ -40,7 +36,7 @@ public class JwtTokenUtil {
         Date created;
         try {
             final Claims claims = getClaimsFromToken(token);
-            created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
+            created = new Date((Long) claims.get("created"));
         } catch (Exception e) {
             created = null;
         }
@@ -62,7 +58,7 @@ public class JwtTokenUtil {
         String audience;
         try {
             final Claims claims = getClaimsFromToken(token);
-            audience = (String) claims.get(CLAIM_KEY_AUDIENCE);
+            audience = (String) claims.get("audience");
         } catch (Exception e) {
             audience = null;
         }
@@ -96,28 +92,28 @@ public class JwtTokenUtil {
     }
 
     private String generateAudience(Device device) {
-        JwtAudience audience = JwtAudience.unknown;
+        JwtTokenAudience audience = JwtTokenAudience.unknown;
         if (device.isNormal()) {
-            audience = JwtAudience.web;
+            audience = JwtTokenAudience.web;
         } else if (device.isTablet()) {
-            audience = JwtAudience.tablet;
+            audience = JwtTokenAudience.tablet;
         } else if (device.isMobile()) {
-            audience = JwtAudience.mobile;
+            audience = JwtTokenAudience.mobile;
         }
         return audience.name();
     }
 
     private Boolean ignoreTokenExpiration(String token) {
         String audience = getAudienceFromToken(token);
-        return (JwtAudience.tablet.name().equals(audience)
-                || JwtAudience.mobile.name().equals(audience));
+        return (JwtTokenAudience.tablet.name().equals(audience)
+                || JwtTokenAudience.mobile.name().equals(audience));
     }
 
     public String generateToken(UserDetails userDetails, Device device) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
-        claims.put(CLAIM_KEY_CREATED, new Date());
+        claims.put("sub", userDetails.getUsername());
+        claims.put("audience", generateAudience(device));
+        claims.put("created", new Date());
         return generateToken(claims);
     }
 
@@ -139,7 +135,7 @@ public class JwtTokenUtil {
         String refreshedToken;
         try {
             final Claims claims = getClaimsFromToken(token);
-            claims.put(CLAIM_KEY_CREATED, new Date());
+            claims.put("created", new Date());
             refreshedToken = generateToken(claims);
         } catch (Exception e) {
             refreshedToken = null;
