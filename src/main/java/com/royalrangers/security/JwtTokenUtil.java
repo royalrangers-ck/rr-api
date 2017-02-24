@@ -14,16 +14,10 @@ import java.util.Map;
 
 @Component
 public class JwtTokenUtil {
-    private static final long serialVersionUID = -3301605591108950415L;
 
     static final String CLAIM_KEY_USERNAME = "sub";
     static final String CLAIM_KEY_AUDIENCE = "audience";
     static final String CLAIM_KEY_CREATED = "created";
-
-    private static final String AUDIENCE_UNKNOWN = "unknown";
-    private static final String AUDIENCE_WEB = "web";
-    private static final String AUDIENCE_MOBILE = "mobile";
-    private static final String AUDIENCE_TABLET = "tablet";
 
     @Value("${jwt.secret}")
     private String secret;
@@ -102,20 +96,21 @@ public class JwtTokenUtil {
     }
 
     private String generateAudience(Device device) {
-        String audience = AUDIENCE_UNKNOWN;
+        JwtAudience audience = JwtAudience.unknown;
         if (device.isNormal()) {
-            audience = AUDIENCE_WEB;
+            audience = JwtAudience.web;
         } else if (device.isTablet()) {
-            audience = AUDIENCE_TABLET;
+            audience = JwtAudience.tablet;
         } else if (device.isMobile()) {
-            audience = AUDIENCE_MOBILE;
+            audience = JwtAudience.mobile;
         }
-        return audience;
+        return audience.name();
     }
 
     private Boolean ignoreTokenExpiration(String token) {
         String audience = getAudienceFromToken(token);
-        return (AUDIENCE_TABLET.equals(audience) || AUDIENCE_MOBILE.equals(audience));
+        return (JwtAudience.tablet.name().equals(audience)
+                || JwtAudience.mobile.name().equals(audience));
     }
 
     public String generateToken(UserDetails userDetails, Device device) {

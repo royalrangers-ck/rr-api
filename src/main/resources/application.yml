@@ -18,13 +18,13 @@ spring:
     datasource:
         url: jdbc:mysql://localhost:3306/royalrangers?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8
         username: root
-        password: root
+        password:
         test-on-borrow: true
         validation-query: SELECT 1
         test-while-idle: true
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: create
     resources:
         chain:
             cache: false
