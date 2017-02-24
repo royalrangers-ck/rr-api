@@ -1,5 +1,5 @@
 package com.royalrangers.security;
 
-public enum JwtAudience {
+public enum JwtTokenAudience {
     unknown , web, mobile, tablet
 }
