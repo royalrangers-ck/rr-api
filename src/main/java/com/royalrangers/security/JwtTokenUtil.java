@@ -15,6 +15,11 @@ import java.util.Map;
 @Component
 public class JwtTokenUtil {
 
+    private static final String AUDIENCE_UNKNOWN = "unknown";
+    private static final String AUDIENCE_WEB = "web";
+    private static final String AUDIENCE_MOBILE = "mobile";
+    private static final String AUDIENCE_TABLET = "tablet";
+
     @Value("${jwt.secret}")
     private String secret;
 
@@ -92,21 +97,21 @@ public class JwtTokenUtil {
     }
 
     private String generateAudience(Device device) {
-        JwtTokenAudience audience = JwtTokenAudience.unknown;
+        String audience = AUDIENCE_UNKNOWN;
         if (device.isNormal()) {
-            audience = JwtTokenAudience.web;
+            audience = AUDIENCE_WEB;
         } else if (device.isTablet()) {
-            audience = JwtTokenAudience.tablet;
+            audience = AUDIENCE_TABLET;
         } else if (device.isMobile()) {
-            audience = JwtTokenAudience.mobile;
+            audience = AUDIENCE_MOBILE;
         }
-        return audience.name();
+        return audience;
     }
 
     private Boolean ignoreTokenExpiration(String token) {
         String audience = getAudienceFromToken(token);
-        return (JwtTokenAudience.tablet.name().equals(audience)
-                || JwtTokenAudience.mobile.name().equals(audience));
+        return (AUDIENCE_TABLET.equals(audience)
+                || AUDIENCE_MOBILE.equals(audience));
     }
 
     public String generateToken(UserDetails userDetails, Device device) {
