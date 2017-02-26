@@ -40,16 +40,21 @@ configurations {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-actuator"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compileOnly "org.projectlombok:lombok"
-    providedRuntime "org.springframework.boot:spring-boot-starter-tomcat"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.mobile:spring-mobile-device:1.1.4.RELEASE'
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
+
+
+    compileOnly 'org.projectlombok:lombok'
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
     compile group: "mysql", name: "mysql-connector-java", version: "${project.mysqlConnectorVersion}"
     compile group: "junit", name: "junit", version: "${project.junitVersion}"
     compile group: "com.esotericsoftware.yamlbeans", name: "yamlbeans", version: "${project.yamlBeansVersion}"
-    compile group: "com.google.code.gson", name: "gson", version: "${project.gsonVersion}"
-    compile "org.springframework.boot:spring-boot-starter-security"
-    compile 'org.springframework.data:spring-data-jpa'
+
 }

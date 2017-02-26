@@ -44,3 +44,11 @@ spring:
         chain:
             cache: true
 ---
+jwt:
+  header: Authorization
+  secret: s3kr3t
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
