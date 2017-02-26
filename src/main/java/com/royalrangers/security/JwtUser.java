@@ -1,6 +1,7 @@
 package com.royalrangers.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
@@ -8,36 +9,17 @@ import java.util.Date;
 
 public class JwtUser implements UserDetails {
 
-    private final Long id;
-    private final String username;
-    private final String firstname;
-    private final String lastname;
-    private final String password;
-    private final String email;
-    private final Collection<? extends GrantedAuthority> authorities;
-    private final boolean enabled;
-    private final Date lastPasswordResetDate;
+    private Long id;
+    private String username;
+    private String firstname;
+    private String lastname;
+    private String password;
+    private String email;
+    private Collection<? extends GrantedAuthority> authorities;
+    private boolean enabled;
+    private Date lastPasswordResetDate;
 
-    public JwtUser(
-          Long id,
-          String username,
-          String firstname,
-          String lastname,
-          String email,
-          String password, Collection<? extends GrantedAuthority> authorities,
-          boolean enabled,
-          Date lastPasswordResetDate
-    ) {
-        this.id = id;
-        this.username = username;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-        this.enabled = enabled;
-        this.lastPasswordResetDate = lastPasswordResetDate;
-    }
+    private JwtUser() {}
 
     @JsonIgnore
     public Long getId() {
@@ -99,4 +81,58 @@ public class JwtUser implements UserDetails {
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
+
+    public static Builder newBuilder() {
+        return new JwtUser().new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {}
+
+        public Builder setId(Long id) {
+            JwtUser.this.id = id;
+            return this;
+        }
+
+        public Builder setUsername(String username) {
+            JwtUser.this.username = username;
+            return this;
+        }
+        public Builder setFirstname(String firstname) {
+            JwtUser.this.firstname = firstname;
+            return this;
+        }
+        public Builder setLastname(String lastname) {
+            JwtUser.this.lastname = lastname;
+            return this;
+        }
+        public Builder setPassword(String password) {
+            JwtUser.this.password = password;
+            return this;
+        }
+        public Builder setEmail(String email) {
+            JwtUser.this.email = email;
+            return this;
+        }
+        public Builder setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+            JwtUser.this.authorities = authorities;
+            return this;
+        }
+
+        public Builder setEnabled(boolean enabled) {
+            JwtUser.this.enabled = enabled;
+            return this;
+        }
+
+        public Builder setLastPasswordResetDate(Date lastPasswordResetDate) {
+            JwtUser.this.lastPasswordResetDate = lastPasswordResetDate;
+            return this;
+        }
+
+        public JwtUser build() {
+            return JwtUser.this;
+        }
+    }
+
 }
