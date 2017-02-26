@@ -53,6 +53,18 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date lastPasswordResetDate;
+    
+    @ManyToOne
+    private City city;
+
+    @ManyToOne
+    private Group group;
+
+    @ManyToOne
+    private Platoon platoon;
+
+    @ManyToOne
+    private Section section;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
