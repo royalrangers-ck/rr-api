@@ -53,8 +53,24 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date lastPasswordResetDate;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    private City city;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "platoon_id")
+    private Platoon platoon;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id")
+    private Section section;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
