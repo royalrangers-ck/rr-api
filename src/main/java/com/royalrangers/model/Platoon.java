@@ -9,16 +9,16 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "platoon")
 public class Platoon {
     @Id
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<Section> sections;
 
     @Column(nullable = false)
