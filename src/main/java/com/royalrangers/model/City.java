@@ -14,8 +14,18 @@ public class City {
     @GeneratedValue
     private Long id;
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Group> groups;
 
-    public City() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cityLibrary_id")
+    private CityLibrary cityLibrary;
+
+    public City() {
+    }
+
+    public City(Set<Group> groups, CityLibrary cityLibrary) {
+        this.groups = groups;
+        this.cityLibrary = cityLibrary;
+    }
 }
