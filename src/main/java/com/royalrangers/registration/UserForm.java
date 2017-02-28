@@ -28,3 +28,4 @@ public class UserForm {
     @Size(min = 4, max = 50)
     private String email;
 }
+

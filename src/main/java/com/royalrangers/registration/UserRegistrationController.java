@@ -52,4 +52,5 @@ public class UserRegistrationController {
 
         return "redirect:/welcome";
     }
+
 }
