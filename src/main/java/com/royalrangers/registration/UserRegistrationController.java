@@ -21,16 +21,13 @@ public class UserRegistrationController {
     @Autowired
     private Validator userValidator;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
         return "/registration";
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = "Accept=application/json")
     public String registration(@Valid @RequestBody UserForm userForm, BindingResult bindingResult) {
 
         userValidator.validate(userForm, bindingResult);
@@ -38,14 +35,7 @@ public class UserRegistrationController {
         if (bindingResult.hasErrors()) {
             return "/registration";
         }
-
-        User user = new User();
-        user.setUsername(userForm.getUsername());
-        user.setFirstname(userForm.getFirstname());
-        user.setLastname(userForm.getLastname());
-        user.setEmail(userForm.getEmail());
-        user.setPassword(passwordEncoder.encode(userForm.getPassword()));
-
+        User user = userService.createUserFromUserform(userForm);
         userService.save(user);
 
         return "redirect:/welcome";

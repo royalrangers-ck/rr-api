@@ -13,20 +13,13 @@ public class EmailValidator {
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     public EmailValidator() {
-
         pattern = Pattern.compile(EMAIL_PATTERN);
     }
 
-
     public  boolean  validate(final String hex) {
-
-        System.out.print("EMAIL IS :"+hex+"PAttern ise"+pattern);
-
         matcher = pattern.matcher(hex);
         System.out.print("MATCHER is"+matcher);
         return matcher.matches();
-
-
     }
 }
 
