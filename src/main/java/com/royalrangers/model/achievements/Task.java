@@ -1,4 +1,4 @@
-package com.royalrangers.model.achivaments;
+package com.royalrangers.model.achievements;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.model.achivaments.Achievement;
+import com.royalrangers.model.achievements.Achievement;
 
 import java.util.List;
 

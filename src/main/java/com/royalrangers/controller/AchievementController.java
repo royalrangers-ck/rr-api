@@ -1,9 +1,8 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.model.achivaments.Achievement;
+import com.royalrangers.model.achievements.Achievement;
 import com.royalrangers.service.AchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
