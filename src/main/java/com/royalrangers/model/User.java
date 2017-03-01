@@ -7,7 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -33,12 +33,12 @@ public class User {
     @Column(length = 50)
     @NotNull
     @Size(min = 4, max = 50)
-    private String firstname;
+    private String firstName;
 
     @Column(length = 50)
     @NotNull
     @Size(min = 4, max = 50)
-    private String lastname;
+    private String lastName;
 
     @Column(length = 50)
     @NotNull
@@ -75,6 +75,6 @@ public class User {
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
 
 }
