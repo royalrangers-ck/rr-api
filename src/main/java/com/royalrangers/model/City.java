@@ -18,14 +18,16 @@ public class City {
     private Set<Group> groups;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cityLibrary_id")
-    private CityLibrary cityLibrary;
+    @JoinColumn(name = "country_id")
+    private Country country;
 
-    public City() {
-    }
+    @Column(nullable = false)
+    private String name;
 
-    public City(Set<Group> groups, CityLibrary cityLibrary) {
-        this.groups = groups;
-        this.cityLibrary = cityLibrary;
+    public City() {}
+
+    public City(Country country, String name) {
+        this.country = country;
+        this.name = name;
     }
 }

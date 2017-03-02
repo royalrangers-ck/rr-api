@@ -15,13 +15,12 @@ public class Country {
     private Long id;
 
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<CityLibrary> cityLibraries;
+    private Set<City> city;
 
     @Column(nullable = false)
     private String name;
 
-    public Country() {
-    }
+    public Country() {}
 
     public Country(String name) {
         this.name = name;

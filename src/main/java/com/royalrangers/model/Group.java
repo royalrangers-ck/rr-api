@@ -25,8 +25,7 @@ public class Group {
     @Column(nullable = false)
     private String name;
 
-    public Group() {
-    }
+    public Group() {}
 
     public Group(City city, String name) {
         this.city = city;
