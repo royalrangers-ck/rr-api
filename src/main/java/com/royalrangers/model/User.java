@@ -53,6 +53,10 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date lastPasswordResetDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")

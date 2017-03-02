@@ -24,8 +24,7 @@ public class Platoon {
     @Column(nullable = false)
     private String name;
 
-    public Platoon() {
-    }
+    public Platoon() {}
 
     public Platoon(Group group, String name) {
         this.group = group;
