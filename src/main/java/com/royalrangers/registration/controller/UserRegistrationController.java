@@ -36,7 +36,7 @@ public class UserRegistrationController {
             return new ResponseEntity<>(message, HttpStatus.OK);
         } else {
             message = "User with this email already exists";
-            return new ResponseEntity<>(message, HttpStatus.OK);
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
         }
     }
 }
