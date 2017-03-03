@@ -17,12 +17,11 @@ public class UserBean {
     private String email;
     private String gender;
     private String status;
+    private String country;
     private String city;
     private String group;
     private String platoon;
     private String section;
-
-    private List<Authority> authorities;
 
     public UserBean() {
 

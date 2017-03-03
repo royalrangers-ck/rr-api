@@ -1,8 +1,6 @@
 package com.royalrangers.registration.service;
 
-import com.royalrangers.model.Authority;
-import com.royalrangers.model.AuthorityName;
-import com.royalrangers.model.User;
+import com.royalrangers.model.*;
 import com.royalrangers.registration.pojo.UserBean;
 import com.royalrangers.registration.validator.Validator;
 import com.royalrangers.security.repository.UserRepository;
@@ -44,6 +42,11 @@ public class UserService {
         user.setEmail(userBean.getEmail());
         user.setGender(userBean.getGender());
         user.setStatus(userBean.getStatus());
+        user.setCountry(new Country(userBean.getCountry()));
+        user.setCity(new City(user.getCountry(), userBean.getCity()));
+        user.setGroup(new Group(user.getCity(), userBean.getGroup()));
+        user.setPlatoon(new Platoon(user.getGroup(),userBean.getPlatoon()));
+        user.setSection(new Section(user.getPlatoon(),userBean.getSection()));
         if (userBean.getStatus()=="teacher")
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         else grantAuthority(user,AuthorityName.ROLE_USER);
