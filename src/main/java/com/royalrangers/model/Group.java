@@ -9,6 +9,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
+@Table(name = "\"group\"")
 public class Group {
     @Id
     @GeneratedValue
@@ -24,8 +25,7 @@ public class Group {
     @Column(nullable = false)
     private String name;
 
-    public Group() {
-    }
+    public Group() {}
 
     public Group(City city, String name) {
         this.city = city;
