@@ -2,11 +2,8 @@ package com.royalrangers.registration.service;
 
 import com.royalrangers.model.*;
 import com.royalrangers.registration.pojo.UserBean;
-import com.royalrangers.registration.validator.Validator;
 import com.royalrangers.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,20 +17,18 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-    @Autowired
-    private Validator userValidator;
 
-    void grantAuthority(User user, AuthorityName ... role){
+    void grantAuthority(User user, AuthorityName... roles) {
         List<Authority> authorityList = new ArrayList<>();
         Authority authority = new Authority();
-        for(AuthorityName authorityName: role) {
+        for (AuthorityName authorityName : roles) {
             authority.setName(authorityName);
             authorityList.add(authority);
         }
         user.setAuthorities(authorityList);
     }
 
-    public User convertPojoToEntity(UserBean userBean){
+    public User convertPojoToEntity(UserBean userBean) {
         User user = new User();
         user.setUsername(userBean.getUsername());
         user.setFirstname(userBean.getFirstname());
@@ -45,23 +40,24 @@ public class UserService {
         user.setCountry(new Country(userBean.getCountry()));
         user.setCity(new City(user.getCountry(), userBean.getCity()));
         user.setGroup(new Group(user.getCity(), userBean.getGroup()));
-        user.setPlatoon(new Platoon(user.getGroup(),userBean.getPlatoon()));
-        user.setSection(new Section(user.getPlatoon(),userBean.getSection()));
-        if (userBean.getStatus()=="teacher")
+        user.setPlatoon(new Platoon(user.getGroup(), userBean.getPlatoon()));
+        user.setSection(new Section(user.getPlatoon(), userBean.getSection()));
+        if (userBean.getStatus() == "teacher")
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
-        else grantAuthority(user,AuthorityName.ROLE_USER);
+        else grantAuthority(user, AuthorityName.ROLE_USER);
 
         return user;
     }
 
-    public ResponseEntity<String> validateAndSaveUser(UserBean userBean, User user) {
-        if (!userValidator.validate(userBean))
-            return new ResponseEntity<>("User with this email already exists", HttpStatus.CONFLICT);
+    public Boolean validate(UserBean userBean) {
+        User userByEmail = findByUserEmail(userBean.getEmail());
+        return userByEmail == null;
+    }
 
+    public void SaveUser(UserBean userBean, User user) {
         String password = passwordEncoder.encode(userBean.getPassword());
         userBean.setPassword(password);
         userRepository.save(user);
-        return new ResponseEntity<>("User created successfully", HttpStatus.OK);
     }
 
     public User findByUserEmail(String email) {
