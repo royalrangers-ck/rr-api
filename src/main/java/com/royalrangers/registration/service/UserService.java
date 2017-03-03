@@ -33,7 +33,7 @@ public class UserService {
         user.setUsername(userBean.getUsername());
         user.setFirstname(userBean.getFirstname());
         user.setLastname(userBean.getLastname());
-        user.setPassword(userBean.getPassword());
+        user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
         user.setGender(userBean.getGender());
         user.setStatus(userBean.getStatus());

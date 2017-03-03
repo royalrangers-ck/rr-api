@@ -1,10 +1,7 @@
 package com.royalrangers.registration.pojo;
 
-import com.royalrangers.model.Authority;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -24,7 +21,6 @@ public class UserBean {
     private String section;
 
     public UserBean() {
-
     }
 }
 
