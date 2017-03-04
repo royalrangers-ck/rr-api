@@ -37,23 +37,13 @@ public class User {
 
     @Column(length = 50)
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = 4, max = 50)
     private String lastname;
 
     @Column(length = 50)
     @NotNull
     @Size(min = 4, max = 50)
     private String email;
-
-    @Column(length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String status;
-
-    @Column(length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String gender;
 
     @Column
     @NotNull
@@ -64,27 +54,27 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
     private Country country;
     
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "platoon_id")
     private Platoon platoon;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
