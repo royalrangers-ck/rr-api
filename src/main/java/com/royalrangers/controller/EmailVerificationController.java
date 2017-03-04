@@ -16,10 +16,27 @@ public class EmailVerificationController {
 
     @PostMapping("/open/checkEmail")
     public ResultResponse checkEmail(@RequestBody Email email) {
-        log.info("checking email: " +email.getEmail());
-        if (userRepository.countByEmail(email.getEmail()) > 0) {
-            return new ResultResponse("exist");
+        Boolean responseStatus = false;
+        String responseMessage;
+        String mail = email.getEmail();
+
+        log.info("checking email: " + mail);
+
+        if (mail != null) {
+            try {
+                int count = userRepository.countByEmail(mail);
+                if (count > 0) {
+                    responseMessage = "user with this email already exist";
+                } else {
+                    responseMessage = "user with this email not exist";
+                }
+                responseStatus = true;
+            } catch (Exception e) {
+                responseMessage = e.getMessage();
+            }
+        } else {
+            responseMessage = "invalid request";
         }
-        return new ResultResponse("not exist");
+        return new ResultResponse(responseStatus, responseMessage);
     }
 }

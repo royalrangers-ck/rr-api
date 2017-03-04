@@ -6,9 +6,11 @@ import java.io.Serializable;
 
 @Getter
 public class ResultResponse implements Serializable {
-    private String result;
+    private boolean status;
+    private String message;
 
-    public ResultResponse(String result) {
-        this.result = result;
+    public ResultResponse(Boolean status, String message) {
+        this.status = status;
+        this.message = message;
      }
 }
