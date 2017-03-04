@@ -14,14 +14,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
-    private int number;
-
     @Column(length = 300)
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "achievement_id", nullable = false)
-    private Achievement achievement;
+    @JoinColumn(name = "quarterAchievement_id", nullable = true)
+    private QuarterAchievement quarterAchievement;
 
 }

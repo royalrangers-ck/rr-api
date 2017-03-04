@@ -1,16 +1,18 @@
 package com.royalrangers.model.achievements;
 
+import com.royalrangers.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-@Entity
-public class Achievement {
+@MappedSuperclass
+public abstract class Achievement {
 
     @Id
     @Column
@@ -20,9 +22,6 @@ public class Achievement {
     @Column(length = 50)
     @NotNull
     private String name;
-
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "achievement")
-    private Set<Task> tasks;
 
     @Column
     @NotNull
@@ -34,4 +33,7 @@ public class Achievement {
     @Column(length = 150)
     @NotNull
     private String requirements;
+
+
+
 }

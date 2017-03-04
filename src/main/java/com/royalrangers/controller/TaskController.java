@@ -23,12 +23,7 @@ public class TaskController {
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
     public void addTask(@RequestBody Map<String, Object> map
     ){
-        Task savedTask = new Task();
 
-        savedTask.setDescription((String) map.get("description"));
-        Integer id = (Integer) map.get("id");
-        savedTask.setAchievement(achievementService.getAchievementById(id.longValue()));
-        taskService.addTask(savedTask);
     }
 
     @RequestMapping(value = "/tasks", method = RequestMethod.GET)
