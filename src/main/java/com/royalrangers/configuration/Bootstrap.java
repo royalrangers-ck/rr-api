@@ -41,6 +41,7 @@ public class Bootstrap {
             user.setPassword(encoder.encode("password" + element));
             user.setFirstName("first" + element);
             user.setLastName("last" + element);
+            user.setGender("gender" + element);
             user.setEnabled(true);
             user.setLastPasswordResetDate(new Date());
             Authority authority = new Authority();

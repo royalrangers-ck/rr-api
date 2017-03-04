@@ -17,6 +17,8 @@ public class UserBean {
     private Boolean enabled;
     private Date lastPasswordResetDate;
     private String gender;
+    private String telephonNumber;
+    private String birthDate;
     private String status;
     private String country;
     private String city;

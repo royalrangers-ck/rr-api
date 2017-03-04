@@ -36,7 +36,9 @@ public class UserService {
         user.setEmail(userBean.getEmail());
         user.setEnabled(true);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
-        //user.setGender(userBean.getGender());
+        user.setGender(userBean.getGender());
+        user.setTelephoneNumber(userBean.getTelephonNumber());
+        user.setBirthDate(userBean.getBirthDate());
         user.setCountry(new Country(userBean.getCountry()));
         user.setCity(new City(user.getCountry(), userBean.getCity()));
         user.setGroup(new Group(user.getCity(), userBean.getGroup()));
