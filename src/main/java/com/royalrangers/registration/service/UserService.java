@@ -7,8 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -19,24 +18,25 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     void grantAuthority(User user, AuthorityName... roles) {
-        List<Authority> authorityList = new ArrayList<>();
+        Set<Authority> authoritySet = new HashSet<>();
         Authority authority = new Authority();
         for (AuthorityName authorityName : roles) {
             authority.setName(authorityName);
-            authorityList.add(authority);
+            authoritySet.add(authority);
         }
-        user.setAuthorities(authorityList);
+        user.setAuthorities(authoritySet);
     }
 
     public User convertPojoToEntity(UserBean userBean) {
         User user = new User();
-        user.setUsername(userBean.getUsername());
-        user.setFirstname(userBean.getFirstname());
-        user.setLastname(userBean.getLastname());
+        user.setUsername(userBean.getUserName());
+        user.setFirstName(userBean.getFirstName());
+        user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
-        user.setGender(userBean.getGender());
-        user.setStatus(userBean.getStatus());
+        user.setEnabled(true);
+        user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
+        //user.setGender(userBean.getGender());
         user.setCountry(new Country(userBean.getCountry()));
         user.setCity(new City(user.getCountry(), userBean.getCity()));
         user.setGroup(new Group(user.getCity(), userBean.getGroup()));
