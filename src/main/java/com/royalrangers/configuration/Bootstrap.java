@@ -1,8 +1,6 @@
 package com.royalrangers.configuration;
 
-import com.royalrangers.model.Authority;
-import com.royalrangers.model.AuthorityName;
-import com.royalrangers.model.User;
+import com.royalrangers.model.*;
 import com.royalrangers.security.repository.AuthorityRepository;
 import com.royalrangers.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,24 +41,36 @@ public class Bootstrap {
             user.setLastName("last" + element);
             user.setEnabled(true);
             user.setLastPasswordResetDate(new Date());
+            user.setGroup(new Group(user.getCity(), "group" + element));
+            user.setPlatoon(new Platoon(user.getGroup(), "platoon" + element));
+            user.setSection(new Section(user.getPlatoon(), "section" + element));
             Authority authority = new Authority();
-            authority.setUsers(new HashSet<User>() {{ add(user); }});
+            authority.setUsers(new HashSet<User>() {{
+                add(user);
+            }});
             switch (element) {
                 case 1:
                     authority.setName(AuthorityName.ROLE_USER);
+                    user.setCountry(new Country("Ukraine"));
+                    user.setCity(new City(user.getCountry(), "Cherkasy"));
                     break;
                 case 2:
                     authority.setName(AuthorityName.ROLE_ADMIN);
+                    user.setCountry(new Country("USA"));
+                    user.setCity(new City(user.getCountry(), "Miami"));
                     break;
                 case 3:
                     authority.setName(AuthorityName.ROLE_SUPER_ADMIN);
+                    user.setCountry(new Country("Canada"));
+                    user.setCity(new City(user.getCountry(), "Montreal"));
                     break;
             }
             authorityRepository.save(authority);
-            user.setAuthorities(new HashSet<Authority>(){{ add(authority); }});
+            user.setAuthorities(new HashSet<Authority>() {{
+                add(authority);
+            }});
             users.add(user);
         });
         userRepository.save(users);
     }
-
 }
