@@ -3,7 +3,6 @@ package com.royalrangers.registration;
 import com.royalrangers.model.User;
 import com.royalrangers.registration.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +27,7 @@ public class UserRegistrationController {
         return "/registration";
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST, consumes = "Accept=application/json")
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@Valid @RequestBody UserForm userForm, BindingResult bindingResult) {
 
         userValidator.validate(userForm, bindingResult);
