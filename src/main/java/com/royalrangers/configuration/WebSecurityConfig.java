@@ -1,7 +1,7 @@
 package com.royalrangers.configuration;
 
 import com.royalrangers.security.JwtAuthenticationEntryPoint;
-import com.royalrangers.security.JwtAuthenticationTokenFilter;
+import com.royalrangers.security.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -61,7 +61,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // allow anonymous resource requests
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers("/auth/**").permitAll()
-                .antMatchers("/open/**").permitAll()
+                .antMatchers("/registration/**").permitAll()
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter

@@ -1,4 +1,4 @@
-package com.royalrangers.controller;
+package com.royalrangers.registration.controller;
 
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
@@ -9,16 +9,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class DataController {
+public class RegistrationDataController {
+
     @Autowired
     private CountryRepository countryRepository;
+
+    @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
+
+    @Autowired
+    private PlatoonRepository platoonRepository;
+
     @RequestMapping("/registration/countries")
     public Object getAllCountries() {
         return countryRepository.findAll();
     }
 
-    @Autowired
-    private CityRepository cityRepository;
     @RequestMapping("/registration/cities")
     public Object getAllCities() {
         return cityRepository.findAll();
@@ -30,8 +42,6 @@ public class DataController {
         return cities;
     }
 
-    @Autowired
-    private GroupRepository groupRepository;
     @RequestMapping("/registration/groups")
     public Object getAllGroups() {
         return groupRepository.findAll();
@@ -42,10 +52,8 @@ public class DataController {
         return groupRepository.findByCity(city_id);
     }
 
-    @Autowired
-    private PlatoonRepository platoonRepository;
     @RequestMapping("/registration/platoons")
-     public Object getAllPlatoons() {
+    public Object getAllPlatoons() {
         return platoonRepository.findAll();
     }
 
@@ -55,8 +63,6 @@ public class DataController {
         return platoons;
     }
 
-    @Autowired
-    private SectionRepository sectionRepository;
     @RequestMapping("/registration/sections")
     public Object getAllSections() {
         return sectionRepository.findAll();

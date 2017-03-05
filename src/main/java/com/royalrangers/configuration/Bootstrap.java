@@ -2,7 +2,7 @@ package com.royalrangers.configuration;
 
 import com.royalrangers.model.*;
 import com.royalrangers.security.repository.AuthorityRepository;
-import com.royalrangers.security.repository.UserRepository;
+import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

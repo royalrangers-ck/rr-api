@@ -1,4 +1,4 @@
-package com.royalrangers.registration;
+package com.royalrangers.registration.bean;
 
 import lombok.Getter;
 import lombok.Setter;

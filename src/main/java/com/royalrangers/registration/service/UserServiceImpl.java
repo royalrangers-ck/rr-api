@@ -1,7 +1,8 @@
-package com.royalrangers.registration;
+package com.royalrangers.registration.service;
 
 import com.royalrangers.model.User;
-import com.royalrangers.security.repository.UserRepository;
+import com.royalrangers.registration.bean.UserForm;
+import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 

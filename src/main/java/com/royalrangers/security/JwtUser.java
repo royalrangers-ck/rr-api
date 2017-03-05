@@ -1,7 +1,6 @@
 package com.royalrangers.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;

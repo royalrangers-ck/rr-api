@@ -2,7 +2,7 @@ package com.royalrangers.security.service;
 
 import com.royalrangers.model.User;
 import com.royalrangers.security.JwtUserFactory;
-import com.royalrangers.security.repository.UserRepository;
+import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

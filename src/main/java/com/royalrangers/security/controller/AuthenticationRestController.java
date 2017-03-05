@@ -2,8 +2,8 @@ package com.royalrangers.security.controller;
 
 import com.royalrangers.security.JwtTokenUtil;
 import com.royalrangers.security.JwtUser;
-import com.royalrangers.security.JwtAuthenticationRequest;
-import com.royalrangers.security.JwtAuthenticationResponse;
+import com.royalrangers.security.bean.JwtAuthenticationRequest;
+import com.royalrangers.security.bean.JwtAuthenticationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

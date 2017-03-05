@@ -1,9 +1,7 @@
 package com.royalrangers.registration.validators;
 
-import com.royalrangers.model.User;
-import com.royalrangers.registration.UserForm;
-import com.royalrangers.registration.UserService;
-import com.royalrangers.registration.validators.EmailValidator;
+import com.royalrangers.registration.bean.UserForm;
+import com.royalrangers.registration.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
