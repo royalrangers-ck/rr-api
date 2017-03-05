@@ -41,6 +41,9 @@ public class Bootstrap {
             user.setLastName("last" + element);
             user.setEnabled(true);
             user.setLastPasswordResetDate(new Date());
+            user.setGroup(new Group(user.getCity(), "group" + element));
+            user.setPlatoon(new Platoon(user.getGroup(), "platoon" + element));
+            user.setSection(new Section(user.getPlatoon(), "section" + element));
             Authority authority = new Authority();
             authority.setUsers(new HashSet<User>() {{
                 add(user);
@@ -50,28 +53,20 @@ public class Bootstrap {
                     authority.setName(AuthorityName.ROLE_USER);
                     user.setCountry(new Country("Ukraine"));
                     user.setCity(new City(user.getCountry(), "Cherkasy"));
-                    user.setGroup(new Group(user.getCity(), "group1"));
-                    user.setPlatoon(new Platoon(user.getGroup(), "platoon1"));
-                    user.setSection(new Section(user.getPlatoon(), "section1"));
                     break;
                 case 2:
                     authority.setName(AuthorityName.ROLE_ADMIN);
                     user.setCountry(new Country("USA"));
                     user.setCity(new City(user.getCountry(), "Miami"));
-                    user.setGroup(new Group(user.getCity(), "group2"));
-                    user.setPlatoon(new Platoon(user.getGroup(), "platoon2"));
-                    user.setSection(new Section(user.getPlatoon(), "section2"));
                     break;
                 case 3:
                     authority.setName(AuthorityName.ROLE_SUPER_ADMIN);
                     user.setCountry(new Country("Canada"));
                     user.setCity(new City(user.getCountry(), "Montreal"));
-                    user.setGroup(new Group(user.getCity(), "group3"));
-                    user.setPlatoon(new Platoon(user.getGroup(), "platoon3"));
-                    user.setSection(new Section(user.getPlatoon(), "section3"));
                     break;
             }
             authorityRepository.save(authority);
+            user.setAuthorities(new HashSet<Authority>(){{ add(authority); }});
             user.setAuthorities(new HashSet<Authority>() {{
                 add(authority);
             }});
