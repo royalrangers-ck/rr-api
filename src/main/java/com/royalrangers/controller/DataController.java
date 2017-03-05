@@ -12,19 +12,19 @@ import java.util.List;
 public class DataController {
     @Autowired
     private CountryRepository countryRepository;
-    @RequestMapping("/registration/country")
+    @RequestMapping("/registration/countries")
     public Object getAllCountries() {
         return countryRepository.findAll();
     }
 
     @Autowired
     private CityRepository cityRepository;
-    @RequestMapping("/registration/city")
+    @RequestMapping("/registration/cities")
     public Object getAllCities() {
         return cityRepository.findAll();
     }
 
-    @RequestMapping("/registration/city/byCountry")
+    @RequestMapping("/registration/city")
     public List<City> getCitiesByCountry(Long country_id) {
         List<City> cities = cityRepository.findByCountryId(country_id);
         return cities;
@@ -32,24 +32,24 @@ public class DataController {
 
     @Autowired
     private GroupRepository groupRepository;
-    @RequestMapping("/registration/group")
+    @RequestMapping("/registration/groups")
     public Object getAllGroups() {
         return groupRepository.findAll();
     }
 
-    @RequestMapping("/registration/group/byCity")
+    @RequestMapping("/registration/group")
     public List<Group> getGroupsByCity(Long city_id) {
         return groupRepository.findByCity(city_id);
     }
 
     @Autowired
     private PlatoonRepository platoonRepository;
-    @RequestMapping("/registration/platoon")
+    @RequestMapping("/registration/platoons")
      public Object getAllPlatoons() {
         return platoonRepository.findAll();
     }
 
-    @RequestMapping("/registration/platoon/byGroup")
+    @RequestMapping("/registration/platoon")
     public Object getPlatoonsByGroup(Long group_id) {
         List<Platoon> platoons = platoonRepository.findByGroup(group_id);
         return platoons;
@@ -57,12 +57,12 @@ public class DataController {
 
     @Autowired
     private SectionRepository sectionRepository;
-    @RequestMapping("/registration/section")
+    @RequestMapping("/registration/sections")
     public Object getAllSections() {
         return sectionRepository.findAll();
     }
 
-    @RequestMapping("/registration/section/byPlatoon")
+    @RequestMapping("/registration/section")
     public List<Section> getSectionsByPlatoon(Long platoon_id) {
         List<Section> sections = sectionRepository.findByPlatoon(platoon_id);
         return sections;

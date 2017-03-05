@@ -66,7 +66,6 @@ public class Bootstrap {
                     break;
             }
             authorityRepository.save(authority);
-            user.setAuthorities(new HashSet<Authority>(){{ add(authority); }});
             user.setAuthorities(new HashSet<Authority>() {{
                 add(authority);
             }});
