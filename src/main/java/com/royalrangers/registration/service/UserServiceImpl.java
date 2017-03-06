@@ -1,7 +1,7 @@
 package com.royalrangers.registration.service;
 
 import com.royalrangers.model.User;
-import com.royalrangers.registration.bean.UserForm;
+import com.royalrangers.bean.UserForm;
 import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

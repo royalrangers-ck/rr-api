@@ -1,4 +1,4 @@
-package com.royalrangers.security.repository;
+package com.royalrangers.repository;
 
 import com.royalrangers.model.Authority;
 import org.springframework.data.repository.CrudRepository;

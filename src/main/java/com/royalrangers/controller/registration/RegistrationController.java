@@ -1,7 +1,7 @@
-package com.royalrangers.registration.controller;
+package com.royalrangers.controller.registration;
 
 import com.royalrangers.model.User;
-import com.royalrangers.registration.bean.UserForm;
+import com.royalrangers.bean.UserForm;
 import com.royalrangers.registration.service.UserService;
 import com.royalrangers.registration.validators.Validator;
 import org.springframework.beans.factory.annotation.Autowired;

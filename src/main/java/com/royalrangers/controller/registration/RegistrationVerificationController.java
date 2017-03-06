@@ -1,4 +1,4 @@
-package com.royalrangers.registration.controller;
+package com.royalrangers.controller.registration;
 
 import com.royalrangers.bean.Email;
 import com.royalrangers.bean.ResultResponse;

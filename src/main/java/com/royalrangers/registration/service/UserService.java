@@ -1,7 +1,7 @@
 package com.royalrangers.registration.service;
 
+import com.royalrangers.bean.UserForm;
 import com.royalrangers.model.User;
-import com.royalrangers.registration.bean.UserForm;
 
 public interface UserService {
 

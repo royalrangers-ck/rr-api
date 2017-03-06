@@ -1,6 +1,6 @@
 package com.royalrangers.registration.validators;
 
-import com.royalrangers.registration.bean.UserForm;
+import com.royalrangers.bean.UserForm;
 import com.royalrangers.registration.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
