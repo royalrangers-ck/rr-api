@@ -17,7 +17,6 @@ public class Country {
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<City> city;
 
-    @Column(nullable = false)
     private String name;
 
     public Country() {}

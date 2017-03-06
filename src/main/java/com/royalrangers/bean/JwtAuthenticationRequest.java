@@ -1,4 +1,4 @@
-package com.royalrangers.security;
+package com.royalrangers.bean;
 
 import lombok.Getter;
 import lombok.Setter;

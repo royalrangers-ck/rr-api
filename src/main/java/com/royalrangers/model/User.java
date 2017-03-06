@@ -15,43 +15,21 @@ import java.util.Set;
 public class User {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "user_seq")
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
 
-    @Column(length = 50, unique = true)
-    @NotNull
-    @Size(min = 4, max = 50)
     private String username;
-
-    @Column(length = 100)
-    @NotNull
-    @Size(min = 4, max = 100)
     private String password;
-
-    @Column(length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
     private String firstName;
-
-    @Column(length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
     private String lastName;
-
-    @Column(length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
     private String email;
-
-    @Column
-    @NotNull
+    private String gender;
+    private String telephoneNumber;
+    private String birthDate;
     private Boolean enabled;
 
-    @Column
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
     private Date lastPasswordResetDate;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
@@ -74,7 +52,7 @@ public class User {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

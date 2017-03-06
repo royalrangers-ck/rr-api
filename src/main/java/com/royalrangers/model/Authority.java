@@ -18,11 +18,9 @@ public class Authority {
     @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
     private Long id;
 
-    @Column(length = 50)
-    @NotNull
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
-    @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authorities", fetch = FetchType.LAZY)
     private Set<User> users;
 }

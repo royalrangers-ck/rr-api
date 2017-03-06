@@ -15,14 +15,13 @@ public class Group {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<Platoon> platoons;
 
-    @Column(nullable = false)
     private String name;
 
     public Group() {}
