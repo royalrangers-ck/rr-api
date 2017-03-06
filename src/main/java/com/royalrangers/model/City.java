@@ -21,7 +21,6 @@ public class City {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    @Column(nullable = false)
     private String name;
 
     public City() {}

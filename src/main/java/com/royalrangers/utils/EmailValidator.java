@@ -1,4 +1,4 @@
-package com.royalrangers.registration.validators;
+package com.royalrangers.utils;
 
 
 import java.util.regex.Matcher;

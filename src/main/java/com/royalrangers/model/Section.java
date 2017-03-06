@@ -17,7 +17,6 @@ public class Section {
     @JoinColumn(name = "platoon_id")
     private Platoon platoon;
 
-    @Column(nullable = false)
     private String name;
 
     public Section() {}

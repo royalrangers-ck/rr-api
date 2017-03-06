@@ -1,4 +1,4 @@
-package com.royalrangers.security;
+package com.royalrangers.utils.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

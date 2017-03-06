@@ -1,4 +1,4 @@
-package com.royalrangers.security;
+package com.royalrangers.utils.security;
 
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;

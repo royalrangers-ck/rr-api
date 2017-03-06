@@ -1,47 +1,33 @@
 package com.royalrangers.controller.registration;
 
+import com.google.gson.Gson;
 import com.royalrangers.model.User;
-import com.royalrangers.bean.UserForm;
-import com.royalrangers.registration.service.UserService;
-import com.royalrangers.registration.validators.Validator;
+import com.royalrangers.bean.UserBean;
+import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-
-@Controller
+@RestController
 public class RegistrationController {
-
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private Validator userValidator;
-
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String registration(Model model) {
-        model.addAttribute("userForm", new User());
-        return "/registration";
-    }
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@Valid @RequestBody UserForm userForm, BindingResult bindingResult) {
+    public ResponseEntity<String> registration(@RequestBody String jsonUser) {
+        Gson gson = new Gson();
+        UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
 
-        userValidator.validate(userForm, bindingResult);
+        if (!userService.validate(userBean))
+            return new ResponseEntity<>("User with this email already exists", HttpStatus.CONFLICT);
 
-        if (bindingResult.hasErrors()) {
-            return "/registration";
-        }
+        User user = userService.createUserFromUserForm(userBean);
+        userService.saveUser(userBean, user);
 
-        User user = userService.createUserFromUserform(userForm);
-        userService.save(user);
-
-        return "redirect:/welcome";
+        return new ResponseEntity<>("User created successfully", HttpStatus.OK);
     }
-
 }

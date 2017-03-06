@@ -22,7 +22,6 @@ public class Group {
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Set<Platoon> platoons;
 
-    @Column(nullable = false)
     private String name;
 
     public Group() {}

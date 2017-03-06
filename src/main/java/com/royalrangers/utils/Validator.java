@@ -1,7 +1,7 @@
-package com.royalrangers.registration.validators;
+package com.royalrangers.utils;
 
 import com.royalrangers.bean.UserForm;
-import com.royalrangers.registration.service.UserService;
+import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -34,7 +34,7 @@ public class Validator {
                 errors.rejectValue("username", "Invalid.userForm.username");
             }
         }
-        if (userService.findByUsername(user.getUsername()) != null) {
+        if (userService.findByUserEmail(user.getEmail()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 

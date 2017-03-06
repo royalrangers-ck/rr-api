@@ -1,6 +1,6 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.security.JwtUser;
+import com.royalrangers.utils.security.JwtUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;

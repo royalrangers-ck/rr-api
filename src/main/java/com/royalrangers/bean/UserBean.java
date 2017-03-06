@@ -1,4 +1,4 @@
-package com.royalrangers.registration.pojo;
+package com.royalrangers.bean;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,8 +14,6 @@ public class UserBean {
     private String firstName;
     private String lastName;
     private String email;
-    private Boolean enabled;
-    private Date lastPasswordResetDate;
     private String gender;
     private String telephonNumber;
     private String birthDate;
@@ -26,7 +24,5 @@ public class UserBean {
     private String platoon;
     private String section;
 
-    public UserBean() {
-    }
 }
 

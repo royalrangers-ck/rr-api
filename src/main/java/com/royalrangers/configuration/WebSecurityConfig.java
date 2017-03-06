@@ -1,7 +1,7 @@
 package com.royalrangers.configuration;
 
-import com.royalrangers.security.JwtAuthenticationEntryPoint;
-import com.royalrangers.security.filter.JwtAuthenticationTokenFilter;
+import com.royalrangers.utils.security.JwtAuthenticationEntryPoint;
+import com.royalrangers.filter.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

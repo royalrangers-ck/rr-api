@@ -1,8 +1,9 @@
-package com.royalrangers.registration.service;
+package com.royalrangers.service;
 
 import com.royalrangers.model.*;
-import com.royalrangers.registration.pojo.UserBean;
-import com.royalrangers.security.repository.UserRepository;
+import com.royalrangers.bean.UserBean;
+import com.royalrangers.repository.AuthorityRepository;
+import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,20 +15,23 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    void grantAuthority(User user, AuthorityName... roles) {
+    @Autowired
+    private AuthorityRepository authorityRepository;
+
+    public void grantAuthority(User user, AuthorityName... roles) {
         Set<Authority> authoritySet = new HashSet<>();
-        Authority authority = new Authority();
-        for (AuthorityName authorityName : roles) {
-            authority.setName(authorityName);
+        for (AuthorityName role : roles) {
+            Authority authority = authorityRepository.findByName(role);
             authoritySet.add(authority);
         }
         user.setAuthorities(authoritySet);
     }
 
-    public User convertPojoToEntity(UserBean userBean) {
+    public User createUserFromUserForm(UserBean userBean) {
         User user = new User();
         user.setUsername(userBean.getUserName());
         user.setFirstName(userBean.getFirstName());
@@ -44,9 +48,11 @@ public class UserService {
         user.setGroup(new Group(user.getCity(), userBean.getGroup()));
         user.setPlatoon(new Platoon(user.getGroup(), userBean.getPlatoon()));
         user.setSection(new Section(user.getPlatoon(), userBean.getSection()));
-        if (userBean.getStatus() == "teacher")
+        if (Objects.equals(userBean.getStatus(), "teacher")) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
-        else grantAuthority(user, AuthorityName.ROLE_USER);
+        } else {
+            grantAuthority(user, AuthorityName.ROLE_USER);
+        }
 
         return user;
     }
@@ -56,7 +62,7 @@ public class UserService {
         return userByEmail == null;
     }
 
-    public void SaveUser(UserBean userBean, User user) {
+    public void saveUser(UserBean userBean, User user) {
         String password = passwordEncoder.encode(userBean.getPassword());
         userBean.setPassword(password);
         userRepository.save(user);

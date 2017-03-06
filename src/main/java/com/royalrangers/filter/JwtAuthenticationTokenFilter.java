@@ -1,6 +1,6 @@
-package com.royalrangers.security.filter;
+package com.royalrangers.filter;
 
-import com.royalrangers.security.JwtTokenUtil;
+import com.royalrangers.utils.security.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

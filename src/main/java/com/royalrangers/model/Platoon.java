@@ -21,7 +21,6 @@ public class Platoon {
     @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Section> sections;
 
-    @Column(nullable = false)
     private String name;
 
     public Platoon() {
