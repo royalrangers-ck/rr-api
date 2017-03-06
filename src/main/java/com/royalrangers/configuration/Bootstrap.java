@@ -90,6 +90,7 @@ public class Bootstrap {
         Authority superAdminAuthority = new Authority();
         superAdminAuthority.setName(AuthorityName.ROLE_SUPER_ADMIN);
         authorityRepository.save(superAdminAuthority);
+        authorityRepository.save(superAdminAuthority);
     }
 
 }
