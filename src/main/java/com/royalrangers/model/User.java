@@ -45,6 +45,19 @@ public class User {
     @Size(min = 4, max = 50)
     private String email;
 
+    @Column(length = 50)
+    @NotNull
+    @Size(min = 4, max = 50)
+    private String gender;
+
+    @Column(length = 50)
+    @Size(min = 4, max = 50)
+    private String telephoneNumber;
+
+    @Column(length = 50)
+    @Size(min = 4, max = 50)
+    private String birthDate;
+
     @Column
     @NotNull
     private Boolean enabled;
@@ -74,7 +87,7 @@ public class User {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

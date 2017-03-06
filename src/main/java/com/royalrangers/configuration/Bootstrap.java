@@ -26,6 +26,7 @@ public class Bootstrap {
 
     @PostConstruct
     public void init() {
+        initAuthorities();
         initUsers();
     }
 
@@ -34,43 +35,62 @@ public class Bootstrap {
         IntStream.range(1, 4).forEach(element -> {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             User user = new User();
-            user.setUsername("username" + element);
+            user.setUsername("username " + element);
             user.setEmail("user" + element + "@mail.test");
             user.setPassword(encoder.encode("password" + element));
-            user.setFirstName("first" + element);
-            user.setLastName("last" + element);
+            user.setFirstName("first " + element);
+            user.setLastName("last " + element);
+            user.setGender("gender " + element);
             user.setEnabled(true);
             user.setLastPasswordResetDate(new Date());
-            user.setGroup(new Group(user.getCity(), "group" + element));
-            user.setPlatoon(new Platoon(user.getGroup(), "platoon" + element));
-            user.setSection(new Section(user.getPlatoon(), "section" + element));
-            Authority authority = new Authority();
-            authority.setUsers(new HashSet<User>() {{
-                add(user);
-            }});
+            user.setGroup(new Group(user.getCity(), "group " + element));
+            user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
+            user.setSection(new Section(user.getPlatoon(), "section " + element));
+            Authority userAuthority = authorityRepository.findOne(1L);
+            Authority adminAuthority = authorityRepository.findOne(2L);
+            Authority superAdminAuthority = authorityRepository.findOne(3L);
             switch (element) {
                 case 1:
-                    authority.setName(AuthorityName.ROLE_USER);
+                    user.setAuthorities(new HashSet<Authority>() {{ add(userAuthority); }});
                     user.setCountry(new Country("Ukraine"));
                     user.setCity(new City(user.getCountry(), "Cherkasy"));
                     break;
                 case 2:
-                    authority.setName(AuthorityName.ROLE_ADMIN);
+                    user.setAuthorities(new HashSet<Authority>() {{
+                        add(userAuthority);
+                        add(adminAuthority);
+                    }});
                     user.setCountry(new Country("USA"));
                     user.setCity(new City(user.getCountry(), "Miami"));
                     break;
                 case 3:
-                    authority.setName(AuthorityName.ROLE_SUPER_ADMIN);
+                    user.setAuthorities(new HashSet<Authority>() {{
+                        add(userAuthority);
+                        add(adminAuthority);
+                        add(superAdminAuthority);
+                    }});
                     user.setCountry(new Country("Canada"));
                     user.setCity(new City(user.getCountry(), "Montreal"));
                     break;
             }
-            authorityRepository.save(authority);
-            user.setAuthorities(new HashSet<Authority>() {{
-                add(authority);
-            }});
             users.add(user);
         });
         userRepository.save(users);
     }
+
+    private void initAuthorities() {
+        Authority userAuthority = new Authority();
+        userAuthority.setName(AuthorityName.ROLE_USER);
+        authorityRepository.save(userAuthority);
+
+        Authority adminAuthority = new Authority();
+        adminAuthority.setName(AuthorityName.ROLE_ADMIN);
+        authorityRepository.save(adminAuthority);
+
+        Authority superAdminAuthority = new Authority();
+        superAdminAuthority.setName(AuthorityName.ROLE_SUPER_ADMIN);
+        authorityRepository.save(superAdminAuthority);
+        authorityRepository.save(superAdminAuthority);
+    }
+
 }
