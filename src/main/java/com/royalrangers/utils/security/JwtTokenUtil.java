@@ -1,4 +1,4 @@
-package com.royalrangers.security;
+package com.royalrangers.utils.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,14 +1,20 @@
-package com.royalrangers.security.repository;
+package com.royalrangers.repository;
 
 import com.royalrangers.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
+
     User findByUsername(String username);
+    User findByEmail(String email);
+
     User findByUsernameOrEmail(String username, String email);
-    List<User> findAll();
+
+    int countByEmail(String email);
+
 }

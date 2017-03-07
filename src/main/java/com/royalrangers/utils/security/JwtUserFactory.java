@@ -1,10 +1,11 @@
-package com.royalrangers.security;
+package com.royalrangers.utils.security;
 
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public final class JwtUserFactory {
@@ -16,8 +17,8 @@ public final class JwtUserFactory {
         return JwtUser.newBuilder()
                             .setId(user.getId())
                             .setUsername(user.getUsername())
-                            .setFirstname(user.getFirstname())
-                            .setLastname(user.getLastname())
+                            .setFirstname(user.getFirstName())
+                            .setLastname(user.getLastName())
                             .setEmail(user.getEmail())
                             .setPassword(user.getPassword())
                             .setAuthorities(mapToGrantedAuthorities(user.getAuthorities()))
@@ -26,7 +27,7 @@ public final class JwtUserFactory {
                             .build();
     }
 
-    private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {
+    private static List<GrantedAuthority> mapToGrantedAuthorities(Set<Authority> authorities) {
         return authorities.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getName().name()))
                 .collect(Collectors.toList());

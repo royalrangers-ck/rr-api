@@ -1,8 +1,8 @@
-package com.royalrangers.security.service;
+package com.royalrangers.service;
 
 import com.royalrangers.model.User;
-import com.royalrangers.security.JwtUserFactory;
-import com.royalrangers.security.repository.UserRepository;
+import com.royalrangers.utils.security.JwtUserFactory;
+import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-        //(value = "userDetailsService")
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
