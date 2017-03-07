@@ -3,8 +3,10 @@ package com.royalrangers.controller.registration;
 import com.royalrangers.bean.Email;
 import com.royalrangers.bean.ResultResponse;
 import com.royalrangers.repository.UserRepository;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,34 +19,18 @@ public class RegistrationVerificationController {
     private UserRepository userRepository;
 
     @PostMapping("/registration/check/email")
-    public ResultResponse checkEmail(@RequestBody Email email) {
+    public ResponseEntity checkEmail(@RequestBody Email email) {
 
-        Boolean responseStatus = false;
-        String responseMessage;
         String mail = email.getEmail();
+        ResultResponse resultResponse;
 
         log.info("Checking email: " + mail);
 
-        if (mail != null) {
-            try {
-                int count = userRepository.countByEmail(mail);
-                if (count > 0) {
-                    responseMessage = "User with this email already exists.";
-                } else {
-                    responseMessage = "User with this email not exists.";
-                }
-                responseStatus = true;
-            } catch (Exception e) {
-                responseMessage = e.getMessage();
-            }
+        if (userRepository.countByEmail(mail) != 0) {
+            resultResponse = ResultResponse.newBuilder().message("user already exist").build();
         } else {
-            responseMessage = "Invalid request";
+            resultResponse = ResultResponse.newBuilder().success().build();
         }
-        return new ResultResponse(responseStatus, responseMessage);
-    }
-
-    @PostMapping("/registration/check/username")
-    public ResultResponse checkUsername(@RequestBody Email email) {
-        return null;
+        return ResponseEntity.ok(resultResponse);
     }
 }
