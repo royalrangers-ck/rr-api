@@ -1,6 +1,7 @@
 package com.royalrangers.controller.registration;
 
 import com.google.gson.Gson;
+import com.royalrangers.bean.ResultResponse;
 import com.royalrangers.model.User;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.service.UserService;
@@ -18,16 +19,17 @@ public class RegistrationController {
     private UserService userService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity<String> registration(@RequestBody String jsonUser) {
+    public ResponseEntity registration(@RequestBody String jsonUser) {
         Gson gson = new Gson();
         UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
 
-        if (!userService.validate(userBean))
-            return new ResponseEntity<>("User with this email already exists", HttpStatus.CONFLICT);
+        if (userService.isEmailExist(userBean.getEmail())) {
+            return new ResponseEntity(new ResultResponse(false, "User with this email already exists"), HttpStatus.CONFLICT);
+        }
 
         User user = userService.createUserFromUserForm(userBean);
         userService.saveUser(userBean, user);
 
-        return new ResponseEntity<>("User created successfully", HttpStatus.OK);
+        return new ResponseEntity(new ResultResponse(true, "User created successfully"), HttpStatus.OK);
     }
 }

@@ -2,8 +2,7 @@ package com.royalrangers.controller.registration;
 
 import com.royalrangers.bean.Email;
 import com.royalrangers.bean.ResultResponse;
-import com.royalrangers.repository.UserRepository;
-
+import com.royalrangers.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationVerificationController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/registration/check/email")
     public ResponseEntity checkEmail(@RequestBody Email email) {
@@ -25,7 +24,7 @@ public class RegistrationVerificationController {
 
         log.info("Checking email: " + mail);
 
-        if (userRepository.countByEmail(mail) != 0) {
+        if (userService.isEmailExist(mail)) {
             return ResponseEntity.ok(new ResultResponse(false, "User with such an email already exists!"));
         }
 
