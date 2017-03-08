@@ -22,15 +22,14 @@ public class RegistrationVerificationController {
     public ResponseEntity checkEmail(@RequestBody Email email) {
 
         String mail = email.getEmail();
-        ResultResponse resultResponse;
 
         log.info("Checking email: " + mail);
 
         if (userRepository.countByEmail(mail) != 0) {
-            resultResponse = ResultResponse.newBuilder().message("user already exist").build();
-        } else {
-            resultResponse = ResultResponse.newBuilder().success().build();
+            return ResponseEntity.ok(new ResultResponse(false, "User with such an email already exists!"));
         }
-        return ResponseEntity.ok(resultResponse);
+
+        return ResponseEntity.ok(new ResultResponse(true));
+
     }
 }

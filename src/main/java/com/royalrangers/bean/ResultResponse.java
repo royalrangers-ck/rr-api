@@ -1,64 +1,38 @@
 package com.royalrangers.bean;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Getter;
+
 import java.io.Serializable;
 
+@Getter
 public class ResultResponse implements Serializable {
 
     private Object data = new EmptyJsonResponse();
     private boolean success = false;
 
-    private ResultResponse() {
+    public ResultResponse(boolean success, Object data) {
+        this.data = data;
+        this.success = success;
     }
 
-    public Object getData() {
-        return data;
+    public ResultResponse(boolean success, String message) {
+        this.data = new ResponseMessage(message);
+        this.success = success;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public ResultResponse(boolean success) {
+        this.success = success;
     }
 
     @JsonSerialize
     public class EmptyJsonResponse { }
 
-    public static class ResponseMessage implements Serializable{
+    @Getter
+    public class ResponseMessage implements Serializable{
         private String message;
         ResponseMessage (String message) {
             this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-    }
-
-    public static Builder newBuilder() {
-        return new ResultResponse().new Builder();
-    }
-
-    public class Builder {
-
-        private Builder() {
-        }
-
-        public Builder data(Object data) {
-            ResultResponse.this.data = data;
-            return this;
-        }
-
-        public Builder success() {
-            ResultResponse.this.success = true;
-            return this;
-        }
-
-        public Builder message(String message) {
-            ResultResponse.this.data = new ResponseMessage(message);
-            return this;
-        }
-
-        public ResultResponse build() {
-            return ResultResponse.this;
         }
     }
 }

@@ -20,6 +20,6 @@ public class UserDetailController {
 
         JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return ResponseEntity.ok(ResultResponse.newBuilder().success().data(user).build());
+        return ResponseEntity.ok(new ResultResponse(true, user));
     }
 }
