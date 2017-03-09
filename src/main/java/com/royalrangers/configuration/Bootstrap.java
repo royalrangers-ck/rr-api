@@ -35,7 +35,7 @@ public class Bootstrap {
         IntStream.range(1, 4).forEach(element -> {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             User user = new User();
-            user.setUsername("username " + element);
+            user.setUsername("username" + element);
             user.setEmail("user" + element + "@mail.test");
             user.setPassword(encoder.encode("password" + element));
             user.setFirstName("first " + element);
