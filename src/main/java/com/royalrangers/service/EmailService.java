@@ -41,7 +41,7 @@ public class EmailService {
                 MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
                 helper.setSubject("Please, comfirm your registration:");
-                helper.setFrom("khomchenkoalex79@gmail.com");
+                helper.setFrom(" no-reply@royalrangers.com");
                 helper.setTo(userBean.getEmail());
 
                 Map<String, Object> model = new HashMap<String, Object>();
