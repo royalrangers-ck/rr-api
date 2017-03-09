@@ -1,0 +1,10 @@
+<html>
+    <body>
+        <h3>Dear User, thank you for registation. Please click here:</h3>
+
+        <div>
+            Your URL  : URL}.
+        </div>
+        <span>Sent using FreeMarker Template</span>
+    </body>
+</html>

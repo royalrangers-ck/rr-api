@@ -1,0 +1,5 @@
+spring:
+    mailhost: smtp.gmail.com
+    mailport: 587
+    mailusername: khomchenkoalex79@gmail.com
+    mailpassword: dozori35

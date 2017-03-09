@@ -3,6 +3,7 @@ package com.royalrangers.controller.registration;
 import com.google.gson.Gson;
 import com.royalrangers.model.User;
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ResponseEntity<String> registration(@RequestBody String jsonUser) {
@@ -27,6 +30,8 @@ public class RegistrationController {
 
         User user = userService.createUserFromUserForm(userBean);
         userService.saveUser(userBean, user);
+
+        emailService.sendEmail(userBean);
 
         return new ResponseEntity<>("User created successfully", HttpStatus.OK);
     }
