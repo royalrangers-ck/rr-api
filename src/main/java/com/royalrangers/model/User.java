@@ -19,11 +19,10 @@ public class User {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     private Long id;
 
-    private String username;
+    private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private String email;
     private String gender;
     private String telephoneNumber;
     private String birthDate;

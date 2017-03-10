@@ -33,11 +33,10 @@ public class UserService {
 
     public User createUserFromUserForm(UserBean userBean) {
         User user = new User();
-        user.setUsername(userBean.getUserName());
+        user.setEmail(userBean.getEmail());
         user.setFirstName(userBean.getFirstName());
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
-        user.setEmail(userBean.getEmail());
         user.setEnabled(true);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());

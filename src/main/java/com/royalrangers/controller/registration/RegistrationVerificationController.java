@@ -42,9 +42,4 @@ public class RegistrationVerificationController {
         }
         return new ResultResponse(responseStatus, responseMessage);
     }
-
-    @PostMapping("/registration/check/username")
-    public ResultResponse checkUsername(@RequestBody Email email) {
-        return null;
-    }
 }
