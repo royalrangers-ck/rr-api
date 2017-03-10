@@ -9,7 +9,7 @@ import java.util.Date;
 public class JwtUser implements UserDetails {
 
     private Long id;
-    private String username; //email
+    private String username;
     private String firstname;
     private String lastname;
     private String password;
