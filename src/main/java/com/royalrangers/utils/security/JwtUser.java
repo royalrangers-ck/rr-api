@@ -9,11 +9,10 @@ import java.util.Date;
 public class JwtUser implements UserDetails {
 
     private Long id;
-    private String username;
+    private String username; //email
     private String firstname;
     private String lastname;
     private String password;
-    private String email;
     private Collection<? extends GrantedAuthority> authorities;
     private boolean enabled;
     private Date lastPasswordResetDate;
@@ -56,9 +55,7 @@ public class JwtUser implements UserDetails {
         return lastname;
     }
 
-    public String getEmail() {
-        return email;
-    }
+
 
     @JsonIgnore
     @Override
@@ -81,7 +78,7 @@ public class JwtUser implements UserDetails {
         return lastPasswordResetDate;
     }
 
-    public static Builder newBuilder() {
+    static Builder newBuilder() {
         return new JwtUser().new Builder();
     }
 
@@ -89,47 +86,44 @@ public class JwtUser implements UserDetails {
 
         private Builder() {}
 
-        public Builder setId(Long id) {
+        Builder setId(Long id) {
             JwtUser.this.id = id;
             return this;
         }
 
-        public Builder setUsername(String username) {
+        Builder setUsername(String username) {
             JwtUser.this.username = username;
             return this;
         }
-        public Builder setFirstname(String firstname) {
+        Builder setFirstname(String firstname) {
             JwtUser.this.firstname = firstname;
             return this;
         }
-        public Builder setLastname(String lastname) {
+        Builder setLastname(String lastname) {
             JwtUser.this.lastname = lastname;
             return this;
         }
-        public Builder setPassword(String password) {
+        Builder setPassword(String password) {
             JwtUser.this.password = password;
             return this;
         }
-        public Builder setEmail(String email) {
-            JwtUser.this.email = email;
-            return this;
-        }
-        public Builder setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+
+        Builder setAuthorities(Collection<? extends GrantedAuthority> authorities) {
             JwtUser.this.authorities = authorities;
             return this;
         }
 
-        public Builder setEnabled(boolean enabled) {
+        Builder setEnabled(boolean enabled) {
             JwtUser.this.enabled = enabled;
             return this;
         }
 
-        public Builder setLastPasswordResetDate(Date lastPasswordResetDate) {
+        Builder setLastPasswordResetDate(Date lastPasswordResetDate) {
             JwtUser.this.lastPasswordResetDate = lastPasswordResetDate;
             return this;
         }
 
-        public JwtUser build() {
+        JwtUser build() {
             return JwtUser.this;
         }
     }
