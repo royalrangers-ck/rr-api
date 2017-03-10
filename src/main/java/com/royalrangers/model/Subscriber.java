@@ -12,14 +12,14 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Entity
-public class Subscribe {
+public class Subscriber {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
     private String email;
 
-    public Subscribe(String email) {
+    public Subscriber(String email) {
         this.email = email;
     }
 }

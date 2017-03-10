@@ -1,11 +1,11 @@
 package com.royalrangers.repository;
 
-import com.royalrangers.model.Subscribe;
+import com.royalrangers.model.Subscriber;
 import org.springframework.data.repository.CrudRepository;
 
 import javax.transaction.Transactional;
 
 @Transactional
-public interface SubscribeRepository extends CrudRepository<Subscribe, Long> {
+public interface SubscriberRepository extends CrudRepository<Subscriber, Long> {
 
 }

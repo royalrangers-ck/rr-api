@@ -1,7 +1,7 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.model.Subscribe;
-import com.royalrangers.repository.SubscribeRepository;
+import com.royalrangers.model.Subscriber;
+import com.royalrangers.repository.SubscriberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,17 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SubscribeController {
     @Autowired
-    private SubscribeRepository subscribeRepository;
+    private SubscriberRepository subscriberRepository;
 
     @RequestMapping("/create")
-    public Subscribe create(String email) {
+    public Subscriber create(String email) {
 
-        Subscribe subscribe = null;
+        Subscriber subscriber = new Subscriber(email);
+        subscriberRepository.save(subscriber);
 
-            subscribe = new Subscribe(email);
-            subscribeRepository.save(subscribe);
-
-        return subscribe;
+        return subscriber;
     }
-
 }
