@@ -1,11 +1,8 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.model.achievements.Task;
-import com.royalrangers.service.AchievementService;
 import com.royalrangers.service.TaskService;
-import org.hibernate.type.IntegerType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +14,8 @@ public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @Autowired
-    AchievementService achievementService;
-
     @RequestMapping(value = "/tasks", method = RequestMethod.POST)
-    public void addTask(@RequestBody Map<String, Object> map
-    ){
+    public void addTask(@RequestBody Map<String, Object> map){
 
     }
 
@@ -42,7 +35,7 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/tasks/{id}", method = RequestMethod.PUT)
-    public void editTaskById(@PathVariable Long id, @RequestBody Task task){
+    public void editTaskById(@RequestBody Task task){
         taskService.editTask(task);
     }
 
