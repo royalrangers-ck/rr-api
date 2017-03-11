@@ -1,8 +1,8 @@
 package com.royalrangers.controller.registration;
 
 import com.google.gson.Gson;
-import com.royalrangers.model.User;
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.model.User;
 import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +29,8 @@ public class RegistrationController {
             return new ResponseEntity<>("User with this email already exists", HttpStatus.CONFLICT);
 
         User user = userService.createUserFromUserForm(userBean);
-        userService.saveUser(userBean, user);
-
-        emailService.sendEmail(userBean);
+        String confirmLink = userService.getConfimRegistrationLink(user);
+        emailService.sendEmail(user, "RegistrationConfirm", "EmailTemplate.ftl", confirmLink);
 
         return new ResponseEntity<>("User created successfully", HttpStatus.OK);
     }
