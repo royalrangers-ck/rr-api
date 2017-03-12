@@ -1,7 +1,9 @@
 package com.royalrangers.controller.registration;
 
+import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
+import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,50 +29,50 @@ public class RegistrationDataController {
     private SectionRepository sectionRepository;
 
     @RequestMapping("/registration/countries")
-    public Object getAllCountries() {
-        return countryRepository.findAll();
+    public ResponseResult getAllCountries() {
+        return ResponseBuilder.success(countryRepository.findAll());
     }
 
     @RequestMapping("/registration/cities")
-    public Object getAllCities() {
-        return cityRepository.findAll();
+    public ResponseResult getAllCities() {
+        return ResponseBuilder.success(cityRepository.findAll());
     }
 
     @RequestMapping("/registration/city")
-    public List<City> getCitiesByCountry(Long countryId) {
+    public ResponseResult getCitiesByCountry(Long countryId) {
         List<City> cities = cityRepository.findByCountryId(countryId);
-        return cities;
+        return ResponseBuilder.success(cities);
     }
 
     @RequestMapping("/registration/groups")
-    public Object getAllGroups() {
-        return groupRepository.findAll();
+    public ResponseResult getAllGroups() {
+        return ResponseBuilder.success(groupRepository.findAll());
     }
 
     @RequestMapping("/registration/group")
-    public List<Group> getGroupsByCity(Long cityId) {
-        return groupRepository.findByCityId(cityId);
+    public ResponseResult getGroupsByCity(Long cityId) {
+        return ResponseBuilder.success(groupRepository.findByCityId(cityId));
     }
 
     @RequestMapping("/registration/platoons")
-    public Object getAllPlatoons() {
-        return platoonRepository.findAll();
+    public ResponseResult getAllPlatoons() {
+        return ResponseBuilder.success(platoonRepository.findAll());
     }
 
     @RequestMapping("/registration/platoon")
-    public Object getPlatoonsByGroup(Long groupId) {
+    public ResponseResult getPlatoonsByGroup(Long groupId) {
         List<Platoon> platoons = platoonRepository.findByGroupId(groupId);
-        return platoons;
+        return ResponseBuilder.success(platoons);
     }
 
     @RequestMapping("/registration/sections")
-    public Object getAllSections() {
-        return sectionRepository.findAll();
+    public ResponseResult getAllSections() {
+        return ResponseBuilder.success(sectionRepository.findAll());
     }
 
     @RequestMapping("/registration/section")
-    public List<Section> getSectionsByPlatoon(Long platoonId) {
+    public ResponseResult getSectionsByPlatoon(Long platoonId) {
         List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
-        return sections;
+        return ResponseBuilder.success(sections);
     }
 }

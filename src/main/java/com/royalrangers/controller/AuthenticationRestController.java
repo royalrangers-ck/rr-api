@@ -1,5 +1,6 @@
 package com.royalrangers.controller;
 
+import com.royalrangers.utils.ResponseBuilder;
 import com.royalrangers.utils.security.JwtTokenUtil;
 import com.royalrangers.utils.security.JwtUser;
 import com.royalrangers.bean.JwtAuthenticationRequest;
@@ -57,7 +58,7 @@ public class AuthenticationRestController {
         log.info("generate token for user " + authenticationRequest.getEmail());
 
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        return ResponseEntity.ok(ResponseBuilder.success(new JwtAuthenticationResponse(token)));
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
@@ -68,9 +69,9 @@ public class AuthenticationRestController {
 
         if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
             String refreshedToken = jwtTokenUtil.refreshToken(token);
-            return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
+            return ResponseEntity.ok(ResponseBuilder.success(new JwtAuthenticationResponse(refreshedToken)));
         } else {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(ResponseBuilder.fail("Token can't be refreshed."));
         }
     }
 

@@ -1,8 +1,8 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.bean.ResultResponse;
+import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.utils.ResponseBuilder;
 import com.royalrangers.utils.security.JwtUser;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +16,11 @@ public class UserDetailController {
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("isAuthenticated()")
-    public @ResponseBody ResponseEntity getUser() {
+    public @ResponseBody
+    ResponseResult getUser() {
 
         JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        return ResponseEntity.ok(new ResultResponse(true, user));
+        return ResponseBuilder.success(user);
     }
 }

@@ -66,9 +66,5 @@ public class UserService {
         userBean.setPassword(password);
         userRepository.save(user);
     }
-
-    public User findByUserEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 }
 
