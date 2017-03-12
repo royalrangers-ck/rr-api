@@ -1,7 +1,7 @@
 package com.royalrangers.model.achievements;
 
 public enum RewardMark {
-    GOLD,
-    BRONZE,
-    SILVER
+    /*0*/ GOLD,
+    /*1*/ BRONZE,
+    /*2*/ SILVER
 }
