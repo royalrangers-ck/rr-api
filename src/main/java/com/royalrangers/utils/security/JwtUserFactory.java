@@ -16,10 +16,9 @@ public final class JwtUserFactory {
     public static JwtUser create(User user) {
         return JwtUser.newBuilder()
                             .setId(user.getId())
-                            .setUsername(user.getUsername())
+                            .setUsername(user.getEmail())
                             .setFirstname(user.getFirstName())
                             .setLastname(user.getLastName())
-                            .setEmail(user.getEmail())
                             .setPassword(user.getPassword())
                             .setAuthorities(mapToGrantedAuthorities(user.getAuthorities()))
                             .setEnabled(user.getEnabled())

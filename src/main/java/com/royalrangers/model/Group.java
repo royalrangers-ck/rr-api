@@ -1,9 +1,11 @@
 package com.royalrangers.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -12,17 +14,19 @@ import java.util.Set;
 @Table(name = "\"group\"")
 public class Group {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    private String name;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private Set<Platoon> platoons;
+
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
-
-    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    private Set<Platoon> platoons;
-
-    private String name;
 
     public Group() {}
 

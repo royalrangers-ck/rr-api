@@ -1,9 +1,11 @@
 package com.royalrangers.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -11,13 +13,15 @@ import java.util.Set;
 @Entity
 public class Country {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<City> city;
-
+    @NotNull
     private String name;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private Set<City> city;
 
     public Country() {}
 

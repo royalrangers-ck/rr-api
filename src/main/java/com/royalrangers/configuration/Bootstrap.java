@@ -35,14 +35,15 @@ public class Bootstrap {
         IntStream.range(1, 4).forEach(element -> {
             PasswordEncoder encoder = new BCryptPasswordEncoder();
             User user = new User();
-            user.setUsername("username " + element);
-            user.setEmail("user" + element + "@mail.test");
+            user.setEmail("email" + element + "@mail.test");
             user.setPassword(encoder.encode("password" + element));
             user.setFirstName("first " + element);
             user.setLastName("last " + element);
             user.setGender("gender " + element);
             user.setEnabled(true);
             user.setLastPasswordResetDate(new Date());
+            user.setCountry(new Country("Ukraine" + element));
+            user.setCity(new City(user.getCountry(), "Cherkasy" + element));
             user.setGroup(new Group(user.getCity(), "group " + element));
             user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
             user.setSection(new Section(user.getPlatoon(), "section " + element));
@@ -52,16 +53,12 @@ public class Bootstrap {
             switch (element) {
                 case 1:
                     user.setAuthorities(new HashSet<Authority>() {{ add(userAuthority); }});
-                    user.setCountry(new Country("Ukraine"));
-                    user.setCity(new City(user.getCountry(), "Cherkasy"));
                     break;
                 case 2:
                     user.setAuthorities(new HashSet<Authority>() {{
                         add(userAuthority);
                         add(adminAuthority);
                     }});
-                    user.setCountry(new Country("USA"));
-                    user.setCity(new City(user.getCountry(), "Miami"));
                     break;
                 case 3:
                     user.setAuthorities(new HashSet<Authority>() {{
@@ -69,8 +66,6 @@ public class Bootstrap {
                         add(adminAuthority);
                         add(superAdminAuthority);
                     }});
-                    user.setCountry(new Country("Canada"));
-                    user.setCity(new City(user.getCountry(), "Montreal"));
                     break;
             }
             users.add(user);

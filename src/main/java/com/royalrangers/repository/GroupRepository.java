@@ -8,6 +8,6 @@ import java.util.List;
 
 @Transactional
 public interface GroupRepository extends CrudRepository<Group, Long> {
-    List <Group> findByCity(Long city_id);
+    List<Group> findByCityId(Long city_id);
 }
 

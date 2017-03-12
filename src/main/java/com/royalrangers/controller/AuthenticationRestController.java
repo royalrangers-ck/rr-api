@@ -45,16 +45,16 @@ public class AuthenticationRestController {
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUsername(),
+                        authenticationRequest.getEmail(),
                         authenticationRequest.getPassword()
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // Reload password post-security so we can generate token
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getEmail());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
-        log.info("generate token for user " + authenticationRequest.getUsername());
+        log.info("generate token for user " + authenticationRequest.getEmail());
 
         // Return the token
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));

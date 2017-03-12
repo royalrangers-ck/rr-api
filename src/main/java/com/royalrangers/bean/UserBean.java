@@ -9,11 +9,10 @@ import java.util.Date;
 @Setter
 public class UserBean {
 
-    private String userName;
+    private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private String email;
     private String gender;
     private String telephonNumber;
     private String birthDate;
