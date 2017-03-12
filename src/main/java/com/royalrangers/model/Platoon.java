@@ -1,9 +1,11 @@
 package com.royalrangers.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -11,20 +13,21 @@ import java.util.Set;
 @Entity
 public class Platoon {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    private String name;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Section> sections;
+
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Section> sections;
-
-    private String name;
-
-    public Platoon() {
-    }
+    public Platoon() {}
 
     public Platoon(Group group, String name) {
         this.group = group;

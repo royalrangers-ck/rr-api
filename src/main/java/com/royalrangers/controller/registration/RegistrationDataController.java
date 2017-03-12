@@ -15,16 +15,16 @@ public class RegistrationDataController {
     private CountryRepository countryRepository;
 
     @Autowired
-    private SectionRepository sectionRepository;
+    private CityRepository cityRepository;
 
     @Autowired
     private GroupRepository groupRepository;
 
     @Autowired
-    private CityRepository cityRepository;
+    private PlatoonRepository platoonRepository;
 
     @Autowired
-    private PlatoonRepository platoonRepository;
+    private SectionRepository sectionRepository;
 
     @RequestMapping("/registration/countries")
     public Object getAllCountries() {
@@ -37,8 +37,8 @@ public class RegistrationDataController {
     }
 
     @RequestMapping("/registration/city")
-    public List<City> getCitiesByCountry(Long country_id) {
-        List<City> cities = cityRepository.findByCountryId(country_id);
+    public List<City> getCitiesByCountry(Long countryId) {
+        List<City> cities = cityRepository.findByCountryId(countryId);
         return cities;
     }
 
@@ -48,8 +48,8 @@ public class RegistrationDataController {
     }
 
     @RequestMapping("/registration/group")
-    public List<Group> getGroupsByCity(Long city_id) {
-        return groupRepository.findByCity(city_id);
+    public List<Group> getGroupsByCity(Long cityId) {
+        return groupRepository.findByCityId(cityId);
     }
 
     @RequestMapping("/registration/platoons")
@@ -58,8 +58,8 @@ public class RegistrationDataController {
     }
 
     @RequestMapping("/registration/platoon")
-    public Object getPlatoonsByGroup(Long group_id) {
-        List<Platoon> platoons = platoonRepository.findByGroup(group_id);
+    public Object getPlatoonsByGroup(Long groupId) {
+        List<Platoon> platoons = platoonRepository.findByGroupId(groupId);
         return platoons;
     }
 
@@ -69,8 +69,8 @@ public class RegistrationDataController {
     }
 
     @RequestMapping("/registration/section")
-    public List<Section> getSectionsByPlatoon(Long platoon_id) {
-        List<Section> sections = sectionRepository.findByPlatoon(platoon_id);
+    public List<Section> getSectionsByPlatoon(Long platoonId) {
+        List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
         return sections;
     }
 }
