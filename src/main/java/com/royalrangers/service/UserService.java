@@ -37,7 +37,7 @@ public class UserService {
         user.setFirstName(userBean.getFirstName());
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());
         user.setTelephoneNumber(userBean.getTelephonNumber());
