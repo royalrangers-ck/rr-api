@@ -9,15 +9,15 @@ import java.io.Serializable;
 @Setter
 public class JwtAuthenticationRequest implements Serializable {
 
-    private String username;
+    private String email;
     private String password;
 
     public JwtAuthenticationRequest() {
         super();
     }
 
-    public JwtAuthenticationRequest(String username, String password) {
-        this.setUsername(username);
+    public JwtAuthenticationRequest(String email, String password) {
+        this.setEmail(email);
         this.setPassword(password);
     }
 }

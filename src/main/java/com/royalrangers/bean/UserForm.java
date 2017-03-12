@@ -12,7 +12,7 @@ public class UserForm {
 
     @NotNull
     @Size(min = 4, max = 50)
-    private String username;
+    private String email;
 
     @NotNull
     @Size(min = 4, max = 50)
@@ -30,8 +30,5 @@ public class UserForm {
     @Size(min = 4, max = 100)
     private String comfirmpassword;
 
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String email;
 }
 
