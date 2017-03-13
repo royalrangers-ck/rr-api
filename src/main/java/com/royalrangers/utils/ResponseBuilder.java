@@ -14,6 +14,10 @@ public class ResponseBuilder {
         return new ResponseResult(true, data);
     }
 
+    public static ResponseResult success(String message) {
+        return new ResponseResult(true, new ResponseMessage(message));
+    }
+
     public static ResponseResult fail() {
         return new ResponseResult(false, new EmptyJsonResponse());
     }
