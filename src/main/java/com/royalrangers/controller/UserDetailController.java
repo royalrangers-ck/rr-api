@@ -1,5 +1,7 @@
 package com.royalrangers.controller;
 
+import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.utils.ResponseBuilder;
 import com.royalrangers.utils.security.JwtUser;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,9 +16,11 @@ public class UserDetailController {
 
     @RequestMapping(method = RequestMethod.GET)
     @PreAuthorize("isAuthenticated()")
-    public @ResponseBody JwtUser getUser() {
+    public @ResponseBody
+    ResponseResult getUser() {
 
         JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return user;
+
+        return ResponseBuilder.success(user);
     }
 }

@@ -57,19 +57,14 @@ public class UserService {
         return user;
     }
 
-    public Boolean validate(UserBean userBean) {
-        User userByEmail = findByUserEmail(userBean.getEmail());
-        return userByEmail == null;
+    public Boolean isEmailExist(String email) {
+        return (userRepository.findByEmail(email) != null);
     }
 
     public void saveUser(UserBean userBean, User user) {
         String password = passwordEncoder.encode(userBean.getPassword());
         userBean.setPassword(password);
         userRepository.save(user);
-    }
-
-    public User findByUserEmail(String email) {
-        return userRepository.findByEmail(email);
     }
 }
 

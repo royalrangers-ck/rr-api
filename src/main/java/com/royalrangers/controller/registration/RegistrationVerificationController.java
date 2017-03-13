@@ -1,8 +1,9 @@
 package com.royalrangers.controller.registration;
 
 import com.royalrangers.bean.Email;
-import com.royalrangers.bean.ResultResponse;
-import com.royalrangers.repository.UserRepository;
+import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.service.UserService;
+import com.royalrangers.utils.ResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,32 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationVerificationController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/registration/check/email")
-    public ResultResponse checkEmail(@RequestBody Email email) {
+    public ResponseResult checkEmail(@RequestBody Email email) {
 
-        Boolean responseStatus = false;
-        String responseMessage;
         String mail = email.getEmail();
 
         log.info("Checking email: " + mail);
 
-        if (mail != null) {
-            try {
-                int count = userRepository.countByEmail(mail);
-                if (count > 0) {
-                    responseMessage = "User with this email already exists.";
-                } else {
-                    responseMessage = "User with this email not exists.";
-                }
-                responseStatus = true;
-            } catch (Exception e) {
-                responseMessage = e.getMessage();
-            }
-        } else {
-            responseMessage = "Invalid request";
+        if (userService.isEmailExist(mail)) {
+            return ResponseBuilder.fail("User with such an email already exists!");
         }
-        return new ResultResponse(responseStatus, responseMessage);
+
+        return ResponseBuilder.success();
+
     }
 }
