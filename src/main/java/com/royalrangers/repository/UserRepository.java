@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, Long> {
 
     User findByEmail(String email);
+    User findByPassword(String password);
 
     int countByEmail(String email);
 

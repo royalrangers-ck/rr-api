@@ -1,9 +1,10 @@
 package com.royalrangers.service;
 
-import com.royalrangers.model.*;
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.model.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.UserRepository;
+import com.royalrangers.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,9 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    VerificationTokenRepository tokenRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -53,7 +57,6 @@ public class UserService {
         } else {
             grantAuthority(user, AuthorityName.ROLE_USER);
         }
-
         return user;
     }
 
@@ -61,9 +64,23 @@ public class UserService {
         return (userRepository.findByEmail(email) != null);
     }
 
-    public void saveUser(UserBean userBean, User user) {
-        String password = passwordEncoder.encode(userBean.getPassword());
-        userBean.setPassword(password);
+    public void createVerificationTokenForUser(final User user, final String token) {
+        final VerificationToken myToken = new VerificationToken(token, user);
+        tokenRepository.save(myToken);
+    }
+
+    public VerificationToken getVerificationToken(final String VerificationToken) {
+        return tokenRepository.findByToken(VerificationToken);
+    }
+
+    public String getConfimRegistrationLink(User user) {
+        final String token = UUID.randomUUID().toString();
+        String confirmLink = "http://localhost:8080/registration/confirm?token=" + token;
+        createVerificationTokenForUser(user, token);
+        return confirmLink;
+    }
+
+    public void saveUser(User user) {
         userRepository.save(user);
     }
 }

@@ -1,8 +1,9 @@
 package com.royalrangers.controller.registration;
 
 import com.google.gson.Gson;
-import com.royalrangers.model.User;
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.model.User;
+import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegistrationController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ResponseEntity registration(@RequestBody String jsonUser) {
@@ -28,7 +31,8 @@ public class RegistrationController {
         }
 
         User user = userService.createUserFromUserForm(userBean);
-        userService.saveUser(userBean, user);
+        String confirmLink = userService.getConfimRegistrationLink(user);
+        emailService.sendEmail(user, "RegistrationConfirm", "EmailTemplate.ftl", confirmLink);
 
         return new ResponseEntity(ResponseBuilder.success("User created successfully"), HttpStatus.OK);
     }

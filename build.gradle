@@ -53,6 +53,10 @@ dependencies {
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.5.1.RELEASE'
+    compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+    compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
+
     compile group: "mysql", name: "mysql-connector-java", version: "${project.mysqlConnectorVersion}"
     compile group: "junit", name: "junit", version: "${project.junitVersion}"
     compile group: "com.esotericsoftware.yamlbeans", name: "yamlbeans", version: "${project.yamlBeansVersion}"
