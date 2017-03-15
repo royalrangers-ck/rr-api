@@ -38,7 +38,7 @@ public class RegistrationController {
         }
 
         User user = verificationToken.getUser();
-        user.setEnabled(true);
+        user.setConfirmed(true);
         userService.saveUser(user);
 
         return new ResponseEntity(ResponseBuilder.success("User confirm registration successfully"), HttpStatus.OK);

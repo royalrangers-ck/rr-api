@@ -1,5 +1,6 @@
 package com.royalrangers.bean;
 
+import com.royalrangers.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +16,13 @@ public class UserBean {
     private String lastName;
     private String gender;
     private String telephonNumber;
-    private String birthDate;
-    private String status;
-    private String country;
-    private String city;
-    private String group;
-    private String platoon;
-    private String section;
+    private Date birthDate;
+    private Status status;
+    private Long countryID;
+    private Long cityID;
+    private Long groupID;
+    private Long platoonID;
+    private Long sectionID;
 
 }
 
