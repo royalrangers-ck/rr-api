@@ -15,19 +15,19 @@ import java.util.*;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    CountryRepository countryRepository;
+    private CountryRepository countryRepository;
     @Autowired
-    CityRepository cityRepository;
+    private CityRepository cityRepository;
     @Autowired
-    GroupRepository groupRepository;
+    private GroupRepository groupRepository;
     @Autowired
-    PlatoonRepository platoonRepository;
+    private PlatoonRepository platoonRepository;
     @Autowired
-    SectionRepository sectionRepository;
+    private SectionRepository sectionRepository;
     @Autowired
-    VerificationTokenRepository tokenRepository;
+    private VerificationTokenRepository tokenRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired

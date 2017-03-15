@@ -55,7 +55,7 @@ public class RegistrationController {
 
         User user = userService.createUserFromUserForm(userBean);
         String confirmLink = userService.getConfimRegistrationLink(user);
-        emailService.sendEmail(user, "RegistrationConfirm", "EmailTemplate.ftl", confirmLink);
+        emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
 
         return new ResponseEntity(ResponseBuilder.success("User created successfully"), HttpStatus.OK);
     }
