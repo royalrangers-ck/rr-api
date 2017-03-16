@@ -26,7 +26,7 @@ public class User {
     private String lastName;
     private String gender;
     private String telephoneNumber;
-    private Date birthDate;
+    private Long birthDate;
     private Boolean enabled;
     private Boolean confirmed;
     private Boolean approved;
@@ -37,23 +37,23 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
-    private Country country;
+    private Country countryID;
     
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
-    private City city;
+    private City cityID;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
-    private Group group;
+    private Group groupID;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "platoon_id")
-    private Platoon platoon;
+    private Platoon platoonID;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "section_id")
-    private Section section;
+    private Section sectionID;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(

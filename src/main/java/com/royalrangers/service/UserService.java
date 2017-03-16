@@ -57,11 +57,11 @@ public class UserService {
         user.setGender(userBean.getGender());
         user.setTelephoneNumber(userBean.getTelephonNumber());
         user.setBirthDate(userBean.getBirthDate());
-        user.setCountry(countryRepository.findOne(userBean.getCountryID()));
-        user.setCity(cityRepository.findOne(userBean.getCityID()));
-        user.setGroup(groupRepository.findOne(userBean.getGroupID()));
-        user.setPlatoon(platoonRepository.findOne(userBean.getPlatoonID()));
-        user.setSection(sectionRepository.findOne(userBean.getSectionID()));
+        user.setCountryID(countryRepository.findOne(userBean.getCountryID()));
+        user.setCityID(cityRepository.findOne(userBean.getCityID()));
+        user.setGroupID(groupRepository.findOne(userBean.getGroupID()));
+        user.setPlatoonID(platoonRepository.findOne(userBean.getPlatoonID()));
+        user.setSectionID(sectionRepository.findOne(userBean.getSectionID()));
         if (Objects.equals(userBean.getStatus(), Status.TEACHER)) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         } else {
@@ -90,9 +90,9 @@ public class UserService {
         return confirmLink;
     }
 
-    public int calculateUserAge(Date birthdate) {
+    public int calculateUserAge(Long birthdate) {
         Calendar cal = Calendar.getInstance();
-        double userAge = (cal.getTime().getTime() - birthdate.getTime()) * 3.170979E-11;
+        double userAge = (cal.getTime().getTime() - birthdate) * 3.170979E-11;
         return (int) userAge;
     }
 

@@ -16,7 +16,7 @@ public class UserBean {
     private String lastName;
     private String gender;
     private String telephonNumber;
-    private Date birthDate;
+    private Long birthDate;
     private Status status;
     private Long countryID;
     private Long cityID;
