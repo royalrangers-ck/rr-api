@@ -9,10 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Component
@@ -41,7 +38,8 @@ public class Bootstrap {
             user.setLastName("last " + element);
             user.setGender("gender " + element);
             user.setEnabled(true);
-            user.setLastPasswordResetDate(new Date());
+            user.setLastPasswordResetDate(new Date(new GregorianCalendar(2016,
+                    Calendar.FEBRUARY, 9).getTimeInMillis()));
             user.setCountry(new Country("Ukraine" + element));
             user.setCity(new City(user.getCountry(), "Cherkasy" + element));
             user.setGroup(new Group(user.getCity(), "group " + element));
