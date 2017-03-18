@@ -17,4 +17,9 @@ public class UserProfileService {
         User user = userRepository.findByEmail(email);
         return UserProfileFactory.create(user);
     }
+
+    public UserProfile getUserDetailById(Long id) {
+        User user = userRepository.findOne(id);
+        return UserProfileFactory.create(user);
+    }
 }
