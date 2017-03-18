@@ -41,19 +41,19 @@ public class User {
     
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
-    private City cityID;
+    private City city;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "group_id")
-    private Group groupID;
+    private Group group;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "platoon_id")
-    private Platoon platoonID;
+    private Platoon platoon;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "section_id")
-    private Section sectionID;
+    private Section section;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
