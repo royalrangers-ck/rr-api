@@ -1,6 +1,7 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
 import com.royalrangers.utils.ResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -34,9 +35,14 @@ public class UserProfileController {
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody ResponseResult getUserDetailById(@PathVariable("id") Long id) {
 
-        log.info("get details for user id " + id);
+        try {
+            log.info("get details for user id " + id);
+            return ResponseBuilder.success(profileService.getUserDetailById(id));
 
-        return ResponseBuilder.success(profileService.getUserDetailById(id));
+        } catch (UserRepositoryException e){
+
+            return ResponseBuilder.fail(e.getMessage());
+        }
     }
 
 
