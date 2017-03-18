@@ -9,10 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Component
@@ -41,12 +38,13 @@ public class Bootstrap {
             user.setLastName("last " + element);
             user.setGender("gender " + element);
             user.setEnabled(true);
-            user.setLastPasswordResetDate(new Date());
             user.setCountryID(new Country("Ukraine" + element));
             user.setCityID(new City(user.getCountryID(), "Cherkasy" + element));
             user.setGroupID(new Group(user.getCityID(), "group " + element));
             user.setPlatoonID(new Platoon(user.getGroupID(), "platoon " + element));
             user.setSectionID(new Section(user.getPlatoonID(), "section " + element));
+            user.setLastPasswordResetDate(new Date(new GregorianCalendar(2016,
+                    Calendar.FEBRUARY, 9).getTimeInMillis()));
             Authority userAuthority = authorityRepository.findOne(1L);
             Authority adminAuthority = authorityRepository.findOne(2L);
             Authority superAdminAuthority = authorityRepository.findOne(3L);
