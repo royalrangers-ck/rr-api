@@ -38,11 +38,11 @@ public class Bootstrap {
             user.setLastName("last " + element);
             user.setGender("gender " + element);
             user.setEnabled(true);
-            user.setCountryID(new Country("Ukraine" + element));
-            user.setCityID(new City(user.getCountryID(), "Cherkasy" + element));
-            user.setGroupID(new Group(user.getCityID(), "group " + element));
-            user.setPlatoonID(new Platoon(user.getGroupID(), "platoon " + element));
-            user.setSectionID(new Section(user.getPlatoonID(), "section " + element));
+            user.setCountry(new Country("Ukraine" + element));
+            user.setCity(new City(user.getCountry(), "Cherkasy" + element));
+            user.setGroup(new Group(user.getCity(), "group " + element));
+            user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
+            user.setSection(new Section(user.getPlatoon(), "section " + element));
             user.setLastPasswordResetDate(new Date(new GregorianCalendar(2016,
                     Calendar.FEBRUARY, 9).getTimeInMillis()));
             Authority userAuthority = authorityRepository.findOne(1L);
