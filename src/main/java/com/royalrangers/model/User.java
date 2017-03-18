@@ -1,5 +1,6 @@
 package com.royalrangers.model;
 
+import com.royalrangers.enums.UserRank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,15 +26,18 @@ public class User {
     private String lastName;
     private String gender;
     private String telephoneNumber;
-    private String birthDate;
+    private Long birthDate;
     private Boolean enabled;
+    private Boolean confirmed;
+    private Boolean approved;
+    private UserRank userRank;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
-    private Country country;
+    private Country countryID;
     
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")

@@ -1,10 +1,10 @@
 package com.royalrangers.service;
 
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.enums.Status;
+import com.royalrangers.enums.UserRank;
 import com.royalrangers.model.*;
-import com.royalrangers.repository.AuthorityRepository;
-import com.royalrangers.repository.UserRepository;
-import com.royalrangers.repository.VerificationTokenRepository;
+import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,14 +15,21 @@ import java.util.*;
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
-
+    private UserRepository userRepository;
     @Autowired
-    VerificationTokenRepository tokenRepository;
-
+    private CountryRepository countryRepository;
+    @Autowired
+    private CityRepository cityRepository;
+    @Autowired
+    private GroupRepository groupRepository;
+    @Autowired
+    private PlatoonRepository platoonRepository;
+    @Autowired
+    private SectionRepository sectionRepository;
+    @Autowired
+    private VerificationTokenRepository tokenRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private AuthorityRepository authorityRepository;
 
@@ -43,16 +50,19 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
         user.setEnabled(false);
+        user.setConfirmed(false);
+        user.setApproved(false);
+        user.setUserRank(determineUserRank(calculateUserAge(userBean.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());
         user.setTelephoneNumber(userBean.getTelephonNumber());
         user.setBirthDate(userBean.getBirthDate());
-        user.setCountry(new Country(userBean.getCountry()));
-        user.setCity(new City(user.getCountry(), userBean.getCity()));
-        user.setGroup(new Group(user.getCity(), userBean.getGroup()));
-        user.setPlatoon(new Platoon(user.getGroup(), userBean.getPlatoon()));
-        user.setSection(new Section(user.getPlatoon(), userBean.getSection()));
-        if (Objects.equals(userBean.getStatus(), "teacher")) {
+        user.setCountry(countryRepository.findOne(userBean.getCountryID()));
+        user.setCity(cityRepository.findOne(userBean.getCityID()));
+        user.setGroup(groupRepository.findOne(userBean.getGroupID()));
+        user.setPlatoon(platoonRepository.findOne(userBean.getPlatoonID()));
+        user.setSection(sectionRepository.findOne(userBean.getSectionID()));
+        if (Objects.equals(userBean.getStatus(), Status.TEACHER)) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         } else {
             grantAuthority(user, AuthorityName.ROLE_USER);
@@ -78,6 +88,27 @@ public class UserService {
         String confirmLink = "http://localhost:8080/registration/confirm?token=" + token;
         createVerificationTokenForUser(user, token);
         return confirmLink;
+    }
+
+    public int calculateUserAge(Long birthdate) {
+        Calendar cal = Calendar.getInstance();
+        double userAge = (cal.getTime().getTime() - birthdate) * 3.170979E-11;
+        return (int) userAge;
+    }
+
+    public UserRank determineUserRank(int userAge) {
+        UserRank rank = UserRank.BEGINNER;
+        if (userAge >= 5 && userAge <= 7)
+            return UserRank.BEGINNER;
+        if (userAge >= 8 && userAge <= 10)
+            return UserRank.PIONEER;
+        if (userAge >= 11 && userAge <= 13)
+            return UserRank.PATHFINDER;
+        if (userAge >= 14 && userAge <= 16)
+            return UserRank.RANGER;
+        if (userAge >= 17)
+            return UserRank.ADULT;
+        return rank;
     }
 
     public void saveUser(User user) {
