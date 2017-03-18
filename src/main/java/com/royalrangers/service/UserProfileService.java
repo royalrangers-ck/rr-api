@@ -22,7 +22,7 @@ public class UserProfileService {
 
     public UserProfile getUserDetailById(Long id) throws DataAccessException {
         if(!userRepository.exists(id)) {
-            throw new UserRepositoryException(String.format("User with id=%d not found", id));
+            throw new UserRepositoryException("Not found user with id " + id);
         }
         User user = userRepository.findOne(id);
         return UserProfileFactory.create(user);
