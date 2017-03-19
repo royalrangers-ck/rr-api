@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
-import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,27 +36,25 @@ public class EmailService {
 
     private MimeMessagePreparator getMessagePreparator(User user, String subj, String template, String message) {
 
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+        MimeMessagePreparator preparator = mimeMessage -> {
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-                MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setSubject(subj);
+            helper.setTo(user.getEmail());
 
-                helper.setSubject(subj);
-                helper.setFrom("no-reply@royalrangers.com");
-                helper.setTo(user.getEmail());
+            Map<String, Object> model = new HashMap<>();
+            model.put("email", user.getEmail());
+            model.put("message", message);
 
-                Map<String, Object> model = new HashMap<String, Object>();
-                model.put("email", user.getEmail());
-                model.put("message", message);
-
-                String text = getFreeMarkerTemplateContent(model, template);
-                helper.setText(text, true);
-            }
+            String text = getFreeMarkerTemplateContent(model, template);
+            helper.setText(text, true);
         };
+
         return preparator;
     }
 
     public String getFreeMarkerTemplateContent(Map<String, Object> model, String template) {
+
         StringBuffer content = new StringBuffer();
         try {
             content.append(FreeMarkerTemplateUtils.processTemplateIntoString(
@@ -66,6 +63,7 @@ public class EmailService {
         } catch (Exception e) {
             log.error("Exception occured while processing Emailtemplate:", e.getMessage());
         }
+
         return "";
     }
 

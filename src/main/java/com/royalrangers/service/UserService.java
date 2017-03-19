@@ -7,30 +7,44 @@ import com.royalrangers.enums.UserRank;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
+@PropertySource("classpath:emailproperties.yml")
 public class UserService {
+
+    @Value("${confirmRegistrationUrl}")
+    private String confirmRegistrationUrl;
 
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private CountryRepository countryRepository;
+
     @Autowired
     private CityRepository cityRepository;
+
     @Autowired
     private GroupRepository groupRepository;
+
     @Autowired
     private PlatoonRepository platoonRepository;
+
     @Autowired
     private SectionRepository sectionRepository;
+
     @Autowired
-    private VerificationTokenRepository tokenRepository;
+    private VerificationTokenService verificationTokenService;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private AuthorityRepository authorityRepository;
 
@@ -75,20 +89,9 @@ public class UserService {
         return (userRepository.findByEmail(email) != null);
     }
 
-    public void createVerificationTokenForUser(final User user, final String token) {
-        final VerificationToken myToken = new VerificationToken(token, user);
-        tokenRepository.save(myToken);
-    }
-
-    public VerificationToken getVerificationToken(final String VerificationToken) {
-        return tokenRepository.findByToken(VerificationToken);
-    }
-
-    public String getConfimRegistrationLink(User user) {
-        final String token = UUID.randomUUID().toString();
-        String confirmLink = "http://localhost:8080/registration/confirm?token=" + token;
-        createVerificationTokenForUser(user, token);
-        return confirmLink;
+    public String getConfirmRegistrationLink(User user) {
+        String token = verificationTokenService.generateToken(user);
+        return confirmRegistrationUrl + "/registration/confirm?token=" + token;
     }
 
     public int calculateUserAge(Long birthdate) {
