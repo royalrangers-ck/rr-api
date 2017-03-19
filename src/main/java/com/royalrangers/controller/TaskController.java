@@ -1,6 +1,6 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.model.achievements.Task;
+import com.royalrangers.model.achievement.Task;
 import com.royalrangers.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

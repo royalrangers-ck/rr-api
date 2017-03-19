@@ -1,14 +1,12 @@
-package com.royalrangers.model.achievements;
+package com.royalrangers.model.achievement;
 
-import com.royalrangers.model.User;
+import com.royalrangers.enums.achivement.RewardMark;
+import com.royalrangers.enums.achivement.RewardType;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import java.util.List;
 
 @Getter
 @Setter

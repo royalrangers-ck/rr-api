@@ -1,10 +1,10 @@
 package com.royalrangers.model;
 
+import com.royalrangers.enums.AuthorityName;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Getter
@@ -23,4 +23,5 @@ public class Authority {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authorities", fetch = FetchType.LAZY)
     private Set<User> users;
+
 }

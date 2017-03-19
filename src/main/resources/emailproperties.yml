@@ -1,5 +1,5 @@
 spring:
     mailhost: smtp.gmail.com
     mailport: 587
-    mailusername:  no-reply@royalrangers.com
-    mailpassword: 
+    mailusername: royal.rangers.test@gmail.com
+    mailpassword: RoyalRangers

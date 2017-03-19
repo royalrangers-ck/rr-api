@@ -1,13 +1,10 @@
-package com.royalrangers.model.achievements;
+package com.royalrangers.model.achievement;
 
-import com.royalrangers.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -33,7 +30,5 @@ public abstract class Achievement {
     @Column(length = 150)
     @NotNull
     private String requirements;
-
-
 
 }

@@ -1,5 +1,6 @@
 package com.royalrangers.configuration;
 
+import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.UserRepository;

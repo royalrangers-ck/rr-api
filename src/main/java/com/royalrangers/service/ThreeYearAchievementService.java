@@ -1,7 +1,7 @@
 package com.royalrangers.service;
 
 import com.royalrangers.dao.ThreeYearAchievementRepository;
-import com.royalrangers.model.achievements.ThreeYearAchievement;
+import com.royalrangers.model.achievement.ThreeYearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

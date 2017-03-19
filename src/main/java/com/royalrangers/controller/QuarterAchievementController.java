@@ -1,11 +1,10 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.model.achievements.QuarterAchievement;
+import com.royalrangers.model.achievement.QuarterAchievement;
 import com.royalrangers.service.QuarterAchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

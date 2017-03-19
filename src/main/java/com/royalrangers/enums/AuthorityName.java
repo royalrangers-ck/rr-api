@@ -1,4 +1,4 @@
-package com.royalrangers.model;
+package com.royalrangers.enums;
 
 public enum AuthorityName {
     ROLE_USER,

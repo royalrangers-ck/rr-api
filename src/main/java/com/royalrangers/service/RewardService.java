@@ -1,7 +1,7 @@
 package com.royalrangers.service;
 
 import com.royalrangers.dao.RewardRepository;
-import com.royalrangers.model.achievements.Reward;
+import com.royalrangers.model.achievement.Reward;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.model.achievements.Reward;
+import com.royalrangers.model.achievement.Reward;
 import com.royalrangers.service.RewardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

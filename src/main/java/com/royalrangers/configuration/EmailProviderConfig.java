@@ -14,6 +14,7 @@ import java.util.Properties;
 @Configuration
 @PropertySource("classpath:emailproperties.yml")
 public class EmailProviderConfig {
+
     @Value("${mailhost}")
     String mailhost;
 

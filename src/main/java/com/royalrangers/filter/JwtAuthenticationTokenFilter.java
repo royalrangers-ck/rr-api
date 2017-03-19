@@ -33,8 +33,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
         String authToken = request.getHeader(this.tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(authToken);
 
-
-
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             log.info("checking authentication for user " + username);
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -45,6 +43,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter{
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }
+
         filterChain.doFilter(request, response);
     }
 }

@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 public class City {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,4 +34,5 @@ public class City {
         this.country = country;
         this.name = name;
     }
+
 }

@@ -1,7 +1,6 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.dao.ThreeYearAchievementRepository;
-import com.royalrangers.model.achievements.ThreeYearAchievement;
+import com.royalrangers.model.achievement.ThreeYearAchievement;
 import com.royalrangers.service.ThreeYearAchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

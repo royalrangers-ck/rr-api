@@ -1,4 +1,4 @@
-package com.royalrangers.model.achievements;
+package com.royalrangers.enums.achivement;
 
 public enum RewardMark {
     /*0*/ GOLD,

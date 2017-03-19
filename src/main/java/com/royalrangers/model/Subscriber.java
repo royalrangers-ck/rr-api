@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 public class Subscriber {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -22,4 +23,5 @@ public class Subscriber {
     public Subscriber(String email) {
         this.email = email;
     }
+
 }

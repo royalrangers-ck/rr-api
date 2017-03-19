@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "\"group\"")
 public class Group {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -34,4 +35,5 @@ public class Group {
         this.city = city;
         this.name = name;
     }
+
 }

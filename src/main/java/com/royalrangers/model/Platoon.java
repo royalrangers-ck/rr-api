@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 public class Platoon {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -33,4 +34,5 @@ public class Platoon {
         this.group = group;
         this.name = name;
     }
+
 }

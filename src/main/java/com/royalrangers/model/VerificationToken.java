@@ -12,6 +12,7 @@ import java.util.Date;
 @Setter
 @Entity
 public class VerificationToken {
+
     private static final int EXPIRATION = 60 * 24;
 
     @Id
@@ -51,4 +52,5 @@ public class VerificationToken {
         cal.add(Calendar.MINUTE, expiryTimeInMinutes);
         return new Date(cal.getTime().getTime());
     }
+
 }

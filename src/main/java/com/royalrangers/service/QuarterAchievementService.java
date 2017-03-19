@@ -1,7 +1,7 @@
 package com.royalrangers.service;
 
 import com.royalrangers.dao.QuarterAchievementRepository;
-import com.royalrangers.model.achievements.QuarterAchievement;
+import com.royalrangers.model.achievement.QuarterAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

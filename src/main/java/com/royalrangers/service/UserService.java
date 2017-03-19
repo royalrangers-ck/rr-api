@@ -1,6 +1,7 @@
 package com.royalrangers.service;
 
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserRank;
 import com.royalrangers.model.*;

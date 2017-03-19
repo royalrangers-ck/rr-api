@@ -1,6 +1,6 @@
 package com.royalrangers.dao;
 
-import com.royalrangers.model.achievements.TwelveYearAchievement;
+import com.royalrangers.model.achievement.TwelveYearAchievement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

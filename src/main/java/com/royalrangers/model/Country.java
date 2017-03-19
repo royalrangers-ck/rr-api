@@ -12,6 +12,7 @@ import java.util.Set;
 @Setter
 @Entity
 public class Country {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,4 +29,5 @@ public class Country {
     public Country(String name) {
         this.name = name;
     }
+
 }

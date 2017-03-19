@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @Entity
 public class Section {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -17,6 +17,7 @@ import java.util.Calendar;
 
 @RestController
 public class RegistrationController {
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -59,4 +60,5 @@ public class RegistrationController {
 
         return new ResponseEntity(ResponseBuilder.success("User created successfully"), HttpStatus.OK);
     }
+
 }
