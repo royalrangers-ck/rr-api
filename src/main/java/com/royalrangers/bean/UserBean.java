@@ -18,11 +18,11 @@ public class UserBean {
     private String telephonNumber;
     private Long birthDate;
     private Status status;
-    private Long countryID;
-    private Long cityID;
-    private Long groupID;
-    private Long platoonID;
-    private Long sectionID;
+    private Long countryId;
+    private Long cityId;
+    private Long groupId;
+    private Long platoonId;
+    private Long sectionId;
 
 }
 

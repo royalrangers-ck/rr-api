@@ -58,11 +58,11 @@ public class UserService {
         user.setGender(userBean.getGender());
         user.setTelephoneNumber(userBean.getTelephonNumber());
         user.setBirthDate(userBean.getBirthDate());
-        user.setCountry(countryRepository.findOne(userBean.getCountryID()));
-        user.setCity(cityRepository.findOne(userBean.getCityID()));
-        user.setGroup(groupRepository.findOne(userBean.getGroupID()));
-        user.setPlatoon(platoonRepository.findOne(userBean.getPlatoonID()));
-        user.setSection(sectionRepository.findOne(userBean.getSectionID()));
+        user.setCountry(countryRepository.findOne(userBean.getCountryId()));
+        user.setCity(cityRepository.findOne(userBean.getCityId()));
+        user.setGroup(groupRepository.findOne(userBean.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(userBean.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(userBean.getSectionId()));
         if (Objects.equals(userBean.getStatus(), Status.TEACHER)) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         } else {
