@@ -33,8 +33,16 @@ git clone -b develop https://github.com/NickZaporozets/RoyalRangers.git
 
 The next command will download Gradle, all dependencies and run the application
 
+###### For Windows:
+
 ```
 gradlew.bat bootRun
+```
+
+###### For Ubuntu
+
+```
+gradlew bootRun
 ```
 
 #### Run from Intellij Idea
