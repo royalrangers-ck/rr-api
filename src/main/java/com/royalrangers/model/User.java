@@ -37,7 +37,7 @@ public class User {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "country_id")
-    private Country countryID;
+    private Country country;
     
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "city_id")
