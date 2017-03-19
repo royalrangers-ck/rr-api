@@ -7,6 +7,7 @@ import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.VerificationTokenRepository;
 import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
+import com.royalrangers.service.VerificationTokenService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,15 +21,17 @@ public class RegistrationController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private EmailService emailService;
+
     @Autowired
-    VerificationTokenRepository tokenRepository;
+    VerificationTokenService verificationTokenService;
 
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
     public ResponseEntity registrationConfirm(@RequestParam("token") String token) {
 
-        VerificationToken verificationToken = userService.getVerificationToken(token);
+        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         if (verificationToken == null) {
             return new ResponseEntity(ResponseBuilder.fail("Verification token invalid"), HttpStatus.CONFLICT);
         }
@@ -55,7 +58,7 @@ public class RegistrationController {
         }
 
         User user = userService.createUserFromUserForm(userBean);
-        String confirmLink = userService.getConfimRegistrationLink(user);
+        String confirmLink = userService.getConfirmRegistrationLink(user);
         emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
 
         return new ResponseEntity(ResponseBuilder.success("User created successfully"), HttpStatus.OK);
