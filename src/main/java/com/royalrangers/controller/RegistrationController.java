@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,7 +32,10 @@ public class RegistrationController {
     private EmailService emailService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CountryRepository countryRepository;
@@ -82,7 +87,7 @@ public class RegistrationController {
 
         User user = verificationToken.getUser();
         user.setConfirmed(true);
-        userService.saveUser(user);
+        userRepository.save(user);
 
         log.info(String.format("Verification token '%s' is confirmed", token));
         return new ResponseEntity(ResponseBuilder.success("User confirm registration successfully"), HttpStatus.OK);

@@ -3,7 +3,7 @@ package com.royalrangers.service;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
-import com.royalrangers.enums.UserRank;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,10 +67,10 @@ public class UserService {
         user.setEnabled(false);
         user.setConfirmed(false);
         user.setApproved(false);
-        user.setUserRank(determineUserRank(calculateUserAge(userBean.getBirthDate())));
+        user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());
-        user.setTelephoneNumber(userBean.getTelephonNumber());
+        user.setTelephoneNumber(userBean.getPhoneNumber());
         user.setBirthDate(userBean.getBirthDate());
         user.setCountry(countryRepository.findOne(userBean.getCountryId()));
         user.setCity(cityRepository.findOne(userBean.getCityId()));
@@ -83,6 +83,31 @@ public class UserService {
             grantAuthority(user, AuthorityName.ROLE_USER);
         }
         return user;
+    }
+
+    public static UserBean buildUserBean(User user){
+        UserBean userBean = new UserBean();
+        userBean.setId(user.getId());
+        userBean.setEmail(user.getEmail());
+        userBean.setPassword(user.getPassword());
+        userBean.setFirstName(user.getFirstName());
+        userBean.setLastName(user.getLastName());
+        userBean.setGender(user.getGender());
+        userBean.setEnabled(user.getEnabled());
+        userBean.setConfirmed(user.getConfirmed());
+        userBean.setApproved(user.getApproved());
+        userBean.setBirthDate(user.getBirthDate());
+        userBean.setPhoneNumber(user.getTelephoneNumber());
+        userBean.setConfirmed(user.getConfirmed());
+        userBean.setEnabled(user.getEnabled());
+        userBean.setApproved(user.getApproved());
+        userBean.setUserAgeGroup(user.getUserAgeGroup());
+        userBean.setCountryId(user.getCountry().getId());
+        userBean.setCityId(user.getCity().getId());
+        userBean.setGroupId(user.getGroup().getId());
+        userBean.setPlatoonId(user.getPlatoon().getId());
+        userBean.setSectionId(user.getSection().getId());
+        return  userBean;
     }
 
     public Boolean isEmailExist(String email) {
@@ -100,23 +125,34 @@ public class UserService {
         return (int) userAge;
     }
 
-    public UserRank determineUserRank(int userAge) {
-        UserRank rank = UserRank.BEGINNER;
+    public UserAgeGroup determineUserAgeGroup(int userAge) {
+        UserAgeGroup rank = UserAgeGroup.BEGINNER;
         if (userAge >= 5 && userAge <= 7)
-            return UserRank.BEGINNER;
+            return UserAgeGroup.BEGINNER;
         if (userAge >= 8 && userAge <= 10)
-            return UserRank.PIONEER;
+            return UserAgeGroup.PIONEER;
         if (userAge >= 11 && userAge <= 13)
-            return UserRank.PATHFINDER;
+            return UserAgeGroup.PATHFINDER;
         if (userAge >= 14 && userAge <= 16)
-            return UserRank.RANGER;
+            return UserAgeGroup.RANGER;
         if (userAge >= 17)
-            return UserRank.ADULT;
+            return UserAgeGroup.ADULT;
         return rank;
     }
 
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public List<User> getUsersToApproveByPlatoonID(Long platoonId){
+        return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
+
+    public List<UserBean> getUsersForApprove(Long platoonId){
+        List<User> listUsersToApprove = getUsersToApproveByPlatoonID(platoonId);
+        List<UserBean> listUsersBeanToApprove = new ArrayList<>();
+        for(User user: listUsersToApprove){
+            UserBean userBean = buildUserBean(user);
+            listUsersBeanToApprove.add(userBean);
+        }
+        return listUsersBeanToApprove;
+    }
+
 }
 

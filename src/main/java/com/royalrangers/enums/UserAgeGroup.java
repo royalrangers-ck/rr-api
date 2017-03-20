@@ -1,6 +1,6 @@
 package com.royalrangers.enums;
 
-public enum UserRank {
+public enum UserAgeGroup {
     BEGINNER,
     PIONEER,
     PATHFINDER,
