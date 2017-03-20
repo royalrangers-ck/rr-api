@@ -102,11 +102,11 @@ public class UserService {
         userBean.setEnabled(user.getEnabled());
         userBean.setApproved(user.getApproved());
         userBean.setUserAgeGroup(user.getUserAgeGroup());
-        userBean.setCountryName(user.getCountry().getName());
-        userBean.setCityName(user.getCity().getName());
-        userBean.setGroupName(user.getGroup().getName());
-        userBean.setPlatoonName(user.getPlatoon().getName());
-        userBean.setSectionName(user.getSection().getName());
+        userBean.setCountryId(user.getCountry().getId());
+        userBean.setCityId(user.getCity().getId());
+        userBean.setGroupId(user.getGroup().getId());
+        userBean.setPlatoonId(user.getPlatoon().getId());
+        userBean.setSectionId(user.getSection().getId());
         return  userBean;
     }
 
@@ -140,12 +140,12 @@ public class UserService {
         return rank;
     }
 
-    public List<User> getUsersToApproveByPlatoonID(Long id){
-        return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(id);
+    public List<User> getUsersToApproveByPlatoonID(Long platoonId){
+        return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
 
-    public List<UserBean> getListUserToApprove(Long id){
-        List<User> listUsersToApprove = getUsersToApproveByPlatoonID(id);
+    public List<UserBean> getUsersForApprove(Long platoonId){
+        List<User> listUsersToApprove = getUsersToApproveByPlatoonID(platoonId);
         List<UserBean> listUsersBeanToApprove = new ArrayList<>();
         for(User user: listUsersToApprove){
             UserBean userBean = buildUserBean(user);

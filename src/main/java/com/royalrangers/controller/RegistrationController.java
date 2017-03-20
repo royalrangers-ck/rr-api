@@ -57,7 +57,6 @@ public class RegistrationController {
     public ResponseEntity registration(@RequestBody String jsonUser) {
         Gson gson = new Gson();
         UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
-        System.out.println(userBean.getCountryId());
 
         if (userService.isEmailExist(userBean.getEmail())) {
             log.info(String.format("User with email '%s' already exists", userBean.getEmail()));
@@ -157,10 +156,10 @@ public class RegistrationController {
     }
 
     @RequestMapping(value = "/users/approve/{id}", method = RequestMethod.GET)
-    public ResponseEntity getUserToApprove(@PathVariable("id") Long id){
+    public ResponseEntity getUserToApprove(@PathVariable("id") Long platoonId){
 
         Gson gson  = new Gson();
-        String jsonList = gson.toJson(userService.getListUserToApprove(id));
+        String jsonList = gson.toJson(userService.getUsersForApprove(platoonId));
 
         return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
     }

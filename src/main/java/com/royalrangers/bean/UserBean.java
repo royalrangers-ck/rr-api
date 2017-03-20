@@ -27,11 +27,5 @@ public class UserBean {
     private Long groupId;
     private Long platoonId;
     private Long sectionId;
-    private String countryName;
-    private String cityName;
-    private String groupName;
-    private String platoonName;
-    private String sectionName;
-
 }
 
