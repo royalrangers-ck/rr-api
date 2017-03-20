@@ -1,4 +1,4 @@
-## Royal Rangers [Backend app]
+# Royal Rangers [Backend app]
 
 This application provides an API that is used by and Angular application and potentially might be used by an Android app.
 
