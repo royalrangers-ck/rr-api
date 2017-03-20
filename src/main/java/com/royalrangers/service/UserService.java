@@ -154,13 +154,5 @@ public class UserService {
         return listUsersBeanToApprove;
     }
 
-    public void setApproveToUser(ArrayList<Long> listId){
-        for(Long id: listId){
-            User user = userRepository.findOne(id);
-            user.setApproved(true);
-            user.setEnabled(true);
-            userRepository.save(user);
-        }
-    }
 }
 

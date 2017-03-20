@@ -1,7 +1,6 @@
 package com.royalrangers.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.royalrangers.bean.Email;
 import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.bean.UserBean;
@@ -153,26 +152,6 @@ public class RegistrationController {
     public ResponseResult getSectionsByPlatoon(Long platoonId) {
         List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
         return ResponseBuilder.success(sections);
-    }
-
-    @RequestMapping(value = "/users/approve/{id}", method = RequestMethod.GET)
-    public ResponseEntity getUserToApprove(@PathVariable("id") Long platoonId){
-
-        Gson gson  = new Gson();
-        String jsonList = gson.toJson(userService.getUsersForApprove(platoonId));
-
-        return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
-    }
-
-    @RequestMapping(value = "/users/approve/", method = RequestMethod.POST)
-    public ResponseEntity approveUser(@RequestBody String approvedUserIdList){
-
-        Gson gson  = new Gson();
-        Type type = new TypeToken <ArrayList<Long>>(){}.getType();
-        ArrayList<Long> listId = gson.fromJson(approvedUserIdList, type);
-        userService.setApproveToUser(listId);
-
-        return new ResponseEntity(ResponseBuilder.success("Users approved successfuly."), HttpStatus.OK);
     }
 
 }
