@@ -52,3 +52,7 @@ jwt:
     authentication:
       path: auth
       refresh: refresh
+---
+dropbox:
+    appName:
+    accessToken:
