@@ -52,3 +52,7 @@ jwt:
     authentication:
       path: auth
       refresh: refresh
+---
+dropbox:
+    appName: RoyalRanger
+    accessToken: DFoAZto0iaAAAAAAAAAACfPm4YmwBUR7cCcP9_KsZwQLyVjOMA_1NksW30T7RXLW
