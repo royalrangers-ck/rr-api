@@ -1,6 +1,7 @@
 package com.royalrangers.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.royalrangers.bean.Email;
 import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.bean.UserBean;
@@ -16,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,7 +33,10 @@ public class RegistrationController {
     private EmailService emailService;
 
     @Autowired
-    VerificationTokenService verificationTokenService;
+    private VerificationTokenService verificationTokenService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CountryRepository countryRepository;
@@ -51,6 +57,7 @@ public class RegistrationController {
     public ResponseEntity registration(@RequestBody String jsonUser) {
         Gson gson = new Gson();
         UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
+        System.out.println(userBean.getCountryId());
 
         if (userService.isEmailExist(userBean.getEmail())) {
             log.info(String.format("User with email '%s' already exists", userBean.getEmail()));
@@ -82,7 +89,7 @@ public class RegistrationController {
 
         User user = verificationToken.getUser();
         user.setConfirmed(true);
-        userService.saveUser(user);
+        userRepository.save(user);
 
         log.info(String.format("Verification token '%s' is confirmed", token));
         return new ResponseEntity(ResponseBuilder.success("User confirm registration successfully"), HttpStatus.OK);
@@ -147,6 +154,26 @@ public class RegistrationController {
     public ResponseResult getSectionsByPlatoon(Long platoonId) {
         List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
         return ResponseBuilder.success(sections);
+    }
+
+    @RequestMapping(value = "/users/approve/{id}", method = RequestMethod.GET)
+    public ResponseEntity getUserToApprove(@PathVariable("id") Long id){
+
+        Gson gson  = new Gson();
+        String jsonList = gson.toJson(userService.getListUserToApprove(id));
+
+        return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/users/approve/", method = RequestMethod.POST)
+    public ResponseEntity approveUser(@RequestBody String approvedUserIdList){
+
+        Gson gson  = new Gson();
+        Type type = new TypeToken <ArrayList<Long>>(){}.getType();
+        ArrayList<Long> listId = gson.fromJson(approvedUserIdList, type);
+        userService.setApproveToUser(listId);
+
+        return new ResponseEntity(ResponseBuilder.success("Users approved successfuly."), HttpStatus.OK);
     }
 
 }

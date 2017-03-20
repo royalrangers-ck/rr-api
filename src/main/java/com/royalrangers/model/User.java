@@ -1,12 +1,10 @@
 package com.royalrangers.model;
 
-import com.royalrangers.enums.UserRank;
+import com.royalrangers.enums.UserAgeGroup;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,7 +28,7 @@ public class User {
     private Boolean enabled;
     private Boolean confirmed;
     private Boolean approved;
-    private UserRank userRank;
+    private UserAgeGroup userAgeGroup;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
