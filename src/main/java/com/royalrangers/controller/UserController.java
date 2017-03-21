@@ -66,7 +66,7 @@ public class UserController {
         userService.updateUserByEmail(email, userUpdate);
         log.info(String.format("User %s successful updated", email));
 
-        return ResponseBuilder.success(userUpdate); //String.format("User %s successful updated", email)
+        return ResponseBuilder.success(String.format("User %s successful updated", email));
     }
 
     @PutMapping(value = "/user/{id}")
@@ -76,7 +76,7 @@ public class UserController {
         userService.updateUserById(id, userUpdate);
         log.info(String.format("User id %d successful updated", id));
 
-        return ResponseBuilder.success(userUpdate); //String.format("User %s successful updated", email)
+        return ResponseBuilder.success(String.format("User id %d successful updated", id));
     }
 
 }
