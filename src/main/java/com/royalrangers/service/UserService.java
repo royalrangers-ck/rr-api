@@ -1,6 +1,7 @@
 package com.royalrangers.service;
 
 import com.royalrangers.bean.UserBean;
+import com.royalrangers.bean.UserUpdate;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
@@ -9,6 +10,8 @@ import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -154,5 +157,95 @@ public class UserService {
         return listUsersBeanToApprove;
     }
 
+    public boolean hasRole(String role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        boolean hasRole = false;
+
+        for (GrantedAuthority authority : authorities) {
+            hasRole = authority.getAuthority().equals(role);
+            if (hasRole) {
+                break;
+            }
+        }
+        return hasRole;
+    }
+
+    public String getLoggedUserEmail() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public void updateUserByEmail(String email, UserUpdate userUpdate) {
+        if(!hasRole("ROLE_ADMIN")) {
+            shrinkProperties(userUpdate);
+        }
+        User user = userRepository.findByEmail(email);
+        updateUser(user, userUpdate);
+    }
+
+    private void shrinkProperties(UserUpdate userUpdate) {
+        userUpdate.setFirstName(null);
+        userUpdate.setLastName(null);
+        userUpdate.setGender(null);
+        userUpdate.setUserAgeGroup(null);
+        userUpdate.setGroupId(null);
+        userUpdate.setSectionId(null);
+        userUpdate.setPlatoonId(null);
+    }
+
+    public void updateUserById(Long id, UserUpdate userUpdate) {
+        User user = userRepository.findOne(id);
+        updateUser(user, userUpdate);
+    }
+
+    public void updateUser(User user, UserUpdate update) {
+
+        if (update.getFirstName() != null) {
+            user.setFirstName(update.getFirstName());
+        }
+
+        if (update.getLastName() != null) {
+            user.setLastName(update.getLastName());
+        }
+
+        if (update.getGender() != null) {
+            user.setGender(update.getGender());
+        }
+
+        if (update.getTelephoneNumber() != null) {
+            user.setTelephoneNumber(update.getTelephoneNumber());
+        }
+        if (update.getBirthDate() != null) {
+            user.setBirthDate(update.getBirthDate());
+        }
+
+        if (update.getUserAgeGroup() != null) {
+            user.setUserAgeGroup(update.getUserAgeGroup());
+        }
+
+        if (update.getCountryId() != null) {
+            Long id = update.getCountryId();
+            Country country = countryRepository.findOne(id);
+            user.setCountry(country);
+        }
+
+        if (update.getCityId() != null) {
+            user.setCity(cityRepository.findOne(update.getCityId()));
+        }
+
+        if (update.getGroupId() != null) {
+            user.setGroup(groupRepository.findOne(update.getGroupId()));
+        }
+
+        if (update.getPlatoonId() != null) {
+            user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        }
+
+        if (update.getSectionId() != null) {
+            user.setSection(sectionRepository.findOne(update.getSectionId()));
+        }
+
+        userRepository.save(user);
+    }
 }
 

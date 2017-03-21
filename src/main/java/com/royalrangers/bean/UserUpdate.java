@@ -8,18 +8,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @JsonSerialize
-public class UserProfile {
-
-    private String email;
+public class UserUpdate {
     private String firstName;
     private String lastName;
     private String gender;
     private String telephoneNumber;
     private Long birthDate;
-    private String country;
-    private String city;
-    private String group;
-    private String platoon;
-    private String section;
     private UserAgeGroup userAgeGroup;
+    private Long countryId;
+    private Long cityId;
+    private Long groupId;
+    private Long platoonId;
+    private Long sectionId;
 }
