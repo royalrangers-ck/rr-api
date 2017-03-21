@@ -2,15 +2,11 @@ package com.royalrangers.service;
 
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
-@Getter
-@Setter
 @Service
 public class DropboxService {
     @Value("${dropbox.appName}")
