@@ -1,6 +1,7 @@
 package com.royalrangers.model;
 
 import com.royalrangers.enums.UserAgeGroup;
+import com.royalrangers.enums.UserRank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,6 +30,7 @@ public class User {
     private Boolean confirmed;
     private Boolean approved;
     private UserAgeGroup userAgeGroup;
+    private UserRank userRank;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
