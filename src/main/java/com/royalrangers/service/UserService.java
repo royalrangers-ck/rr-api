@@ -1,11 +1,12 @@
 package com.royalrangers.service;
 
 import com.royalrangers.bean.UserBean;
-import com.royalrangers.bean.UserUpdate;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
-import com.royalrangers.model.*;
+import com.royalrangers.model.Authority;
+import com.royalrangers.model.Country;
+import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -73,7 +74,7 @@ public class UserService {
         user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());
-        user.setTelephoneNumber(userBean.getPhoneNumber());
+        user.setTelephoneNumber(userBean.getTelephoneNumber());
         user.setBirthDate(userBean.getBirthDate());
         user.setCountry(countryRepository.findOne(userBean.getCountryId()));
         user.setCity(cityRepository.findOne(userBean.getCityId()));
@@ -100,7 +101,7 @@ public class UserService {
         userBean.setConfirmed(user.getConfirmed());
         userBean.setApproved(user.getApproved());
         userBean.setBirthDate(user.getBirthDate());
-        userBean.setPhoneNumber(user.getTelephoneNumber());
+        userBean.setTelephoneNumber(user.getTelephoneNumber());
         userBean.setConfirmed(user.getConfirmed());
         userBean.setEnabled(user.getEnabled());
         userBean.setApproved(user.getApproved());
@@ -175,30 +176,30 @@ public class UserService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public void updateUserByEmail(String email, UserUpdate userUpdate) {
+    public void updateUserByEmail(String email, UserBean update) {
         if(!hasRole("ROLE_ADMIN")) {
-            shrinkProperties(userUpdate);
+            shrinkProperties(update);
         }
         User user = userRepository.findByEmail(email);
-        updateUser(user, userUpdate);
+        updateUser(user, update);
     }
 
-    private void shrinkProperties(UserUpdate userUpdate) {
-        userUpdate.setFirstName(null);
-        userUpdate.setLastName(null);
-        userUpdate.setGender(null);
-        userUpdate.setUserAgeGroup(null);
-        userUpdate.setGroupId(null);
-        userUpdate.setSectionId(null);
-        userUpdate.setPlatoonId(null);
+    private void shrinkProperties(UserBean update) {
+        update.setFirstName(null);
+        update.setLastName(null);
+        update.setGender(null);
+        update.setUserAgeGroup(null);
+        update.setGroupId(null);
+        update.setSectionId(null);
+        update.setPlatoonId(null);
     }
 
-    public void updateUserById(Long id, UserUpdate userUpdate) {
+    public void updateUserById(Long id, UserBean update) {
         User user = userRepository.findOne(id);
-        updateUser(user, userUpdate);
+        updateUser(user, update);
     }
 
-    public void updateUser(User user, UserUpdate update) {
+    public void updateUser(User user, UserBean update) {
 
         if (update.getFirstName() != null) {
             user.setFirstName(update.getFirstName());

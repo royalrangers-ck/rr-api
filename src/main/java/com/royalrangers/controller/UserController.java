@@ -2,7 +2,7 @@ package com.royalrangers.controller;
 
 import com.google.gson.Gson;
 import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.UserUpdate;
+import com.royalrangers.bean.UserBean;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
 import com.royalrangers.service.UserService;
@@ -59,11 +59,11 @@ public class UserController {
 
     @PutMapping(value = "/user")
     @PreAuthorize("isAuthenticated()")
-    public ResponseResult updateAuthorizedUser(@RequestBody UserUpdate userUpdate) {
+    public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
 
         String email = userService.getLoggedUserEmail();
 
-        userService.updateUserByEmail(email, userUpdate);
+        userService.updateUserByEmail(email, update);
         log.info(String.format("User %s successful updated", email));
 
         return ResponseBuilder.success(String.format("User %s successful updated", email));
@@ -71,7 +71,7 @@ public class UserController {
 
     @PutMapping(value = "/user/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdate userUpdate) {
+    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
 
         userService.updateUserById(id, userUpdate);
         log.info(String.format("User id %d successful updated", id));
