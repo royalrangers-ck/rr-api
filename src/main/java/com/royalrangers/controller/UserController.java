@@ -74,9 +74,9 @@ public class UserController {
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
 
         userService.updateUserById(id, userUpdate);
-        log.info(String.format("User id %d successful updated", id));
+        log.info(String.format("User with id %d successful updated", id));
 
-        return ResponseBuilder.success(String.format("User id %d successful updated", id));
+        return ResponseBuilder.success(String.format("User with id %d successful updated", id));
     }
 
 }
