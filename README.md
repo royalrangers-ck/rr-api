@@ -18,7 +18,7 @@ This application provides an API that is used by and Angular application and pot
 Run the next command to download the repository
 
 ```
-git clone -b develop https://github.com/NickZaporozets/RoyalRangers.git
+git clone -b develop https://github.com/royalrangers-ck/rr-api.git
 ```
 
 1. Download and install Java from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
