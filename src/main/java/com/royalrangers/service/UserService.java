@@ -4,6 +4,7 @@ import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
+import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.Country;
 import com.royalrangers.model.User;
@@ -195,6 +196,9 @@ public class UserService {
     }
 
     public void updateUserById(Long id, UserBean update) {
+        if(!userRepository.exists(id)) {
+            throw new UserRepositoryException("Not found user with id " + id);
+        }
         User user = userRepository.findOne(id);
         updateUser(user, update);
     }
@@ -224,9 +228,12 @@ public class UserService {
             user.setUserAgeGroup(update.getUserAgeGroup());
         }
 
+        if (update.getUserRank() != null) {
+            user.setUserRank(update.getUserRank());
+        }
+
         if (update.getCountryId() != null) {
-            Long id = update.getCountryId();
-            Country country = countryRepository.findOne(id);
+            Country country = countryRepository.findOne(update.getCountryId());
             user.setCountry(country);
         }
 

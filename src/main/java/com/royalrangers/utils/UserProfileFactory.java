@@ -16,6 +16,7 @@ public class UserProfileFactory {
         userProfile.setTelephoneNumber(user.getTelephoneNumber());
         userProfile.setBirthDate(user.getBirthDate());
         userProfile.setUserAgeGroup(user.getUserAgeGroup());
+        userProfile.setUserRank(user.getUserRank());
         userProfile.setCountry(user.getCountry().getName());
         userProfile.setCity(user.getCity().getName());
         userProfile.setGroup(user.getGroup().getName());

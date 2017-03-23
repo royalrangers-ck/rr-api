@@ -64,7 +64,7 @@ public class UserController {
         String email = userService.getLoggedUserEmail();
 
         userService.updateUserByEmail(email, update);
-        log.info(String.format("User %s successful updated", email));
+        log.info("Update user " + email);
 
         return ResponseBuilder.success(String.format("User %s successful updated", email));
     }
@@ -73,10 +73,16 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
 
-        userService.updateUserById(id, userUpdate);
-        log.info(String.format("User with id %d successful updated", id));
+        try {
+            userService.updateUserById(id, userUpdate);
+            log.info("Update user with id %d " + id);
 
-        return ResponseBuilder.success(String.format("User with id %d successful updated", id));
+            return ResponseBuilder.success(String.format("User with id %d successful updated", id));
+
+        } catch (UserRepositoryException e){
+
+            return ResponseBuilder.fail(e.getMessage());
+        }
     }
 
 }
