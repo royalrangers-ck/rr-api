@@ -14,7 +14,7 @@ public class QuarterAchievementController {
     @Autowired
     private QuarterAchievementService quarterAchievementService;
 
-    @RequestMapping(value = "achievements/quarterAchievements", method = RequestMethod.POST)
+    @RequestMapping(value = "/achievements/quarterAchievements", method = RequestMethod.POST)
     public Map<String, Object> addQuarterAchievement(@RequestBody QuarterAchievement quarterAchievement) {
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
@@ -31,7 +31,7 @@ public class QuarterAchievementController {
         return result;
     }
 
-    @RequestMapping(value = "achievements/quarterAchievements/{quarterAchievementId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/achievements/quarterAchievements/{quarterAchievementId}", method = RequestMethod.PUT)
     public Map<String, Object> editQuarterAchievement(@RequestBody QuarterAchievement quarterAchievement){
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
@@ -46,7 +46,7 @@ public class QuarterAchievementController {
         return result;
     }
 
-    @RequestMapping(value = "achievements/quarterAchievements/{quarterAchievementId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/achievements/quarterAchievements/{quarterAchievementId}", method = RequestMethod.DELETE)
     public Map<String, Object> deleteQuarterAchievement(@PathVariable Long quarterAchievementId){
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
@@ -62,7 +62,7 @@ public class QuarterAchievementController {
         }
         return result;
     }
-    @RequestMapping(value = "achievements/quarterAchievements/{quarterAchievementId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/achievements/quarterAchievements/{quarterAchievementId}", method = RequestMethod.GET)
     public Map<String, Object> getQuarterAchievementById(@PathVariable Long quarterAchievementId){
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
@@ -77,7 +77,7 @@ public class QuarterAchievementController {
         return result;
     }
 
-    @RequestMapping(value = "achievements/quarterAchievements", method = RequestMethod.GET)
+    @RequestMapping(value = "/achievements/quarterAchievements", method = RequestMethod.GET)
     public Map<String, Object> getAllQuarterAchievement(){
         Map<String, Object> result = new HashMap<String, Object>();
         Map<String, Object> data = new HashMap<String, Object>();
