@@ -24,7 +24,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "user")
+    @GetMapping(value = "/user")
     @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseResult getAuthorizedUserDetail() {
 
@@ -34,7 +34,7 @@ public class UserController {
         return ResponseBuilder.success(profileService.getUserDetailByEmail(username));
     }
 
-    @GetMapping(value = "user/{id}")
+    @GetMapping(value = "/user/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody ResponseResult getUserDetailById(@PathVariable("id") Long id) {
 
