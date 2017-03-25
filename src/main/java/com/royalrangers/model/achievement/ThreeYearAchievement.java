@@ -1,5 +1,6 @@
 package com.royalrangers.model.achievement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ public class ThreeYearAchievement extends Achievement{
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "threeYearAchievement")
     private List<YearAchievement> yearAchievement;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "twelveYearAchievement_id")
     private TwelveYearAchievement twelveYearAchievement;

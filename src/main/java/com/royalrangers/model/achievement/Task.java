@@ -1,5 +1,6 @@
 package com.royalrangers.model.achievement;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,15 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(length = 100)
+    private String name;
+
     @Column(length = 300)
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "quarterAchievement_id", nullable = true)
-    private QuarterAchievement quarterAchievement;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "test_id", nullable = true)
+    private Test test;
 
 }
