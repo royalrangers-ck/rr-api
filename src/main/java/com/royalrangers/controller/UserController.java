@@ -28,7 +28,7 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public @ResponseBody ResponseResult getAuthorizedUserDetail() {
 
-        String username = userService.getLoggedUserEmail();
+        String username = userService.getAuthenticatedUserEmail();
         log.info("get details for user " + username);
 
         return ResponseBuilder.success(profileService.getUserDetailByEmail(username));
@@ -61,7 +61,7 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
 
-        String email = userService.getLoggedUserEmail();
+        String email = userService.getAuthenticatedUserEmail();
 
         userService.updateUserByEmail(email, update);
         log.info("Update user " + email);

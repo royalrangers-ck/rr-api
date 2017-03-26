@@ -6,7 +6,6 @@ import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
-import com.royalrangers.model.Country;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,7 +158,7 @@ public class UserService {
         return listUsersBeanToApprove;
     }
 
-    public boolean hasRole(String role) {
+    public boolean isAuthenticatedUserHasRole(String role) {
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         boolean hasRole = false;
@@ -173,26 +172,19 @@ public class UserService {
         return hasRole;
     }
 
-    public String getLoggedUserEmail() {
+    public String getAuthenticatedUserEmail() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public void updateUserByEmail(String email, UserBean update) {
-        if(!hasRole("ROLE_ADMIN")) {
-            shrinkProperties(update);
-        }
-        User user = userRepository.findByEmail(email);
-        updateUser(user, update);
-    }
 
-    private void shrinkProperties(UserBean update) {
-        update.setFirstName(null);
-        update.setLastName(null);
-        update.setGender(null);
-        update.setUserAgeGroup(null);
-        update.setGroupId(null);
-        update.setSectionId(null);
-        update.setPlatoonId(null);
+        User user = userRepository.findByEmail(email);
+
+        if(!isAuthenticatedUserHasRole("ROLE_ADMIN")) {
+            updateUserItself(user, update);
+        } else {
+            updateUserByAdmin(user, update);
+        }
     }
 
     public void updateUserById(Long id, UserBean update) {
@@ -200,60 +192,36 @@ public class UserService {
             throw new UserRepositoryException("Not found user with id " + id);
         }
         User user = userRepository.findOne(id);
-        updateUser(user, update);
+        updateUserByAdmin(user, update);
     }
 
-    public void updateUser(User user, UserBean update) {
+    public void updateUserByAdmin(User user, UserBean update) {
 
-        if (update.getFirstName() != null) {
-            user.setFirstName(update.getFirstName());
-        }
-
-        if (update.getLastName() != null) {
-            user.setLastName(update.getLastName());
-        }
-
-        if (update.getGender() != null) {
-            user.setGender(update.getGender());
-        }
-
-        if (update.getTelephoneNumber() != null) {
-            user.setTelephoneNumber(update.getTelephoneNumber());
-        }
-        if (update.getBirthDate() != null) {
-            user.setBirthDate(update.getBirthDate());
-        }
-
-        if (update.getUserAgeGroup() != null) {
-            user.setUserAgeGroup(update.getUserAgeGroup());
-        }
-
-        if (update.getUserRank() != null) {
-            user.setUserRank(update.getUserRank());
-        }
-
-        if (update.getCountryId() != null) {
-            Country country = countryRepository.findOne(update.getCountryId());
-            user.setCountry(country);
-        }
-
-        if (update.getCityId() != null) {
-            user.setCity(cityRepository.findOne(update.getCityId()));
-        }
-
-        if (update.getGroupId() != null) {
-            user.setGroup(groupRepository.findOne(update.getGroupId()));
-        }
-
-        if (update.getPlatoonId() != null) {
-            user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
-        }
-
-        if (update.getSectionId() != null) {
-            user.setSection(sectionRepository.findOne(update.getSectionId()));
-        }
+        user.setFirstName(update.getFirstName());
+        user.setLastName(update.getLastName());
+        user.setGender(update.getGender());
+        user.setTelephoneNumber(update.getTelephoneNumber());
+        user.setBirthDate(update.getBirthDate());
+        user.setUserAgeGroup(update.getUserAgeGroup());
+        user.setUserRank(update.getUserRank());
+        user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setCity(cityRepository.findOne(update.getCityId()));
+        user.setGroup(groupRepository.findOne(update.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(update.getSectionId()));
 
         userRepository.save(user);
+    }
+
+    private void updateUserItself(User user, UserBean update) {
+        user.setTelephoneNumber(update.getTelephoneNumber());
+        user.setUserAgeGroup(update.getUserAgeGroup());
+        user.setUserRank(update.getUserRank());
+        user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setCity(cityRepository.findOne(update.getCityId()));
+        user.setGroup(groupRepository.findOne(update.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(update.getSectionId()));
     }
 }
 
