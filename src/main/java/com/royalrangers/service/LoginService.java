@@ -12,11 +12,11 @@ public class LoginService {
     private Messages messages;
 
     public ResponseResult loginInformation(User user) {
-        if (user.getConfirmed() == false) {
+        if (!user.getConfirmed()) {
             return ResponseBuilder.fail(messages.NOT_CONFIRMED.getMessage());
-        } else if (user.getConfirmed() == true && user.getApproved() == false) {
+        } else if (user.getConfirmed() && !user.getApproved()) {
             return ResponseBuilder.fail(messages.NOT_APPROVED.getMessage());
-        } else if (user.getEnabled() == false) {
+        } else if (!user.getEnabled()) {
             return ResponseBuilder.fail(messages.DENIED.getMessage());
         }
         return null;
