@@ -117,7 +117,7 @@ public class RegistrationController {
     }
 
     @RequestMapping("/registration/city")
-    public ResponseResult getCitiesByCountry(Long countryId) {
+    public ResponseResult getCitiesByCountry(@RequestParam Long countryId) {
         List<City> cities = cityRepository.findByCountryId(countryId);
         return ResponseBuilder.success(cities);
     }
@@ -128,7 +128,7 @@ public class RegistrationController {
     }
 
     @RequestMapping("/registration/group")
-    public ResponseResult getGroupsByCity(Long cityId) {
+    public ResponseResult getGroupsByCity(@RequestParam Long cityId) {
         return ResponseBuilder.success(groupRepository.findByCityId(cityId));
     }
 
@@ -138,7 +138,7 @@ public class RegistrationController {
     }
 
     @RequestMapping("/registration/platoon")
-    public ResponseResult getPlatoonsByGroup(Long groupId) {
+    public ResponseResult getPlatoonsByGroup(@RequestParam Long groupId) {
         List<Platoon> platoons = platoonRepository.findByGroupId(groupId);
         return ResponseBuilder.success(platoons);
     }
@@ -149,7 +149,7 @@ public class RegistrationController {
     }
 
     @RequestMapping("/registration/section")
-    public ResponseResult getSectionsByPlatoon(Long platoonId) {
+    public ResponseResult getSectionsByPlatoon(@RequestParam Long platoonId) {
         List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
         return ResponseBuilder.success(sections);
     }
