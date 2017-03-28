@@ -64,7 +64,7 @@ public class UserService {
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setConfirmed(false);
         user.setApproved(false);
         user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
