@@ -64,7 +64,7 @@ public class UserService {
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
-        user.setEnabled(false);
+        user.setEnabled(true);
         user.setConfirmed(false);
         user.setApproved(false);
         user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
@@ -85,7 +85,7 @@ public class UserService {
         return user;
     }
 
-    public static UserBean buildUserBean(User user){
+    public static UserBean buildUserBean(User user) {
         UserBean userBean = new UserBean();
         userBean.setId(user.getId());
         userBean.setEmail(user.getEmail());
@@ -107,7 +107,7 @@ public class UserService {
         userBean.setGroupId(user.getGroup().getId());
         userBean.setPlatoonId(user.getPlatoon().getId());
         userBean.setSectionId(user.getSection().getId());
-        return  userBean;
+        return userBean;
     }
 
     public Boolean isEmailExist(String email) {
@@ -140,22 +140,22 @@ public class UserService {
         return rank;
     }
 
-    public List<User> getUsersToApproveByPlatoonID(Long platoonId){
+    public List<User> getUsersToApproveByPlatoonID(Long platoonId) {
         return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
 
-    public List<UserBean> getUsersForApprove(Long platoonId){
+    public List<UserBean> getUsersForApprove(Long platoonId) {
         List<User> listUsersToApprove = getUsersToApproveByPlatoonID(platoonId);
         List<UserBean> listUsersBeanToApprove = new ArrayList<>();
-        for(User user: listUsersToApprove){
+        for (User user : listUsersToApprove) {
             UserBean userBean = buildUserBean(user);
             listUsersBeanToApprove.add(userBean);
         }
         return listUsersBeanToApprove;
     }
 
-    public void setApproveToUser(ArrayList<Long> listId) {
-         listId.stream().forEach(id-> {
+    public void approveUsers(List<Long> ids) {
+        ids.forEach(id -> {
             User user = userRepository.findOne(id);
             user.setApproved(true);
             user.setEnabled(true);
@@ -163,9 +163,11 @@ public class UserService {
         });
     }
 
-    public void deleteRejectedUsers(ArrayList<Long> listId) {
-        listId.stream().forEach(id-> {
-             userRepository.delete(id);
+    public void rejectUsers(List<Long> ids) {
+        ids.forEach(id -> {
+            User user = userRepository.findOne(id);
+            user.setEnabled(false);
+            userRepository.save(user);
         });
     }
 }
