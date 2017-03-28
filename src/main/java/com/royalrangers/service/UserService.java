@@ -64,13 +64,13 @@ public class UserService {
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
-        user.setEnabled(false);
+        user.setEnabled(true);
         user.setConfirmed(false);
         user.setApproved(false);
         user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());
-        user.setTelephoneNumber(userBean.getPhoneNumber());
+        user.setTelephoneNumber(userBean.getTelephoneNumber());
         user.setBirthDate(userBean.getBirthDate());
         user.setCountry(countryRepository.findOne(userBean.getCountryId()));
         user.setCity(cityRepository.findOne(userBean.getCityId()));
@@ -85,7 +85,7 @@ public class UserService {
         return user;
     }
 
-    public static UserBean buildUserBean(User user){
+    public static UserBean buildUserBean(User user) {
         UserBean userBean = new UserBean();
         userBean.setId(user.getId());
         userBean.setEmail(user.getEmail());
@@ -97,7 +97,7 @@ public class UserService {
         userBean.setConfirmed(user.getConfirmed());
         userBean.setApproved(user.getApproved());
         userBean.setBirthDate(user.getBirthDate());
-        userBean.setPhoneNumber(user.getTelephoneNumber());
+        userBean.setTelephoneNumber(user.getTelephoneNumber());
         userBean.setConfirmed(user.getConfirmed());
         userBean.setEnabled(user.getEnabled());
         userBean.setApproved(user.getApproved());
@@ -107,7 +107,7 @@ public class UserService {
         userBean.setGroupId(user.getGroup().getId());
         userBean.setPlatoonId(user.getPlatoon().getId());
         userBean.setSectionId(user.getSection().getId());
-        return  userBean;
+        return userBean;
     }
 
     public Boolean isEmailExist(String email) {
@@ -116,7 +116,7 @@ public class UserService {
 
     public String getConfirmRegistrationLink(User user) {
         String token = verificationTokenService.generateToken(user);
-        return confirmRegistrationUrl + "/registration/confirm?token=" + token;
+        return confirmRegistrationUrl + "/api/registration/confirm?token=" + token;
     }
 
     public int calculateUserAge(Long birthdate) {
@@ -140,19 +140,35 @@ public class UserService {
         return rank;
     }
 
-    public List<User> getUsersToApproveByPlatoonID(Long platoonId){
+    public List<User> getUsersToApproveByPlatoonID(Long platoonId) {
         return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
 
-    public List<UserBean> getUsersForApprove(Long platoonId){
+    public List<UserBean> getUsersForApprove(Long platoonId) {
         List<User> listUsersToApprove = getUsersToApproveByPlatoonID(platoonId);
         List<UserBean> listUsersBeanToApprove = new ArrayList<>();
-        for(User user: listUsersToApprove){
+        for (User user : listUsersToApprove) {
             UserBean userBean = buildUserBean(user);
             listUsersBeanToApprove.add(userBean);
         }
         return listUsersBeanToApprove;
     }
 
+    public void approveUsers(List<Long> ids) {
+        ids.forEach(id -> {
+            User user = userRepository.findOne(id);
+            user.setApproved(true);
+            user.setEnabled(true);
+            userRepository.save(user);
+        });
+    }
+
+    public void rejectUsers(List<Long> ids) {
+        ids.forEach(id -> {
+            User user = userRepository.findOne(id);
+            user.setEnabled(false);
+            userRepository.save(user);
+        });
+    }
 }
 

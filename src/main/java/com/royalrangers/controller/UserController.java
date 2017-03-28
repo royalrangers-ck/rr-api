@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -58,4 +59,19 @@ public class UserController {
         return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/users/approve/", method = RequestMethod.POST)
+    public ResponseEntity approveUser(@RequestBody List<Long> ids) {
+
+        userService.approveUsers(ids);
+
+        return new ResponseEntity(ResponseBuilder.success("Users approved successfully."), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/users/reject/", method = RequestMethod.POST)
+    public ResponseEntity rejectUser(@RequestBody List<Long> ids) {
+
+        userService.rejectUsers(ids);
+
+        return new ResponseEntity(ResponseBuilder.success("Users disabled."), HttpStatus.OK);
+    }
 }
