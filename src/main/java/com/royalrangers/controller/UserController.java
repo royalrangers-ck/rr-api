@@ -1,6 +1,7 @@
 package com.royalrangers.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
@@ -13,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
 import java.security.Principal;
+import java.util.ArrayList;
 
 @Slf4j
 @RestController
@@ -56,6 +59,16 @@ public class UserController {
         String jsonList = gson.toJson(userService.getUsersForApprove(platoonId));
 
         return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/users/approve/", method = RequestMethod.POST)
+    public ResponseEntity approveUser(@RequestBody String approvedUserIdList) {
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Long>>(){}.getType();
+        ArrayList<Long> listId = gson.fromJson(approvedUserIdList, type);
+        userService.setApproveToUser(listId);
+        return new ResponseEntity(ResponseBuilder.success("Users approved successfuly."), HttpStatus.OK);
     }
 
 }

@@ -70,7 +70,7 @@ public class UserService {
         user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userBean.getGender());
-        user.setTelephoneNumber(userBean.getPhoneNumber());
+        user.setTelephoneNumber(userBean.getTelephoneNumber());
         user.setBirthDate(userBean.getBirthDate());
         user.setCountry(countryRepository.findOne(userBean.getCountryId()));
         user.setCity(cityRepository.findOne(userBean.getCityId()));
@@ -97,7 +97,7 @@ public class UserService {
         userBean.setConfirmed(user.getConfirmed());
         userBean.setApproved(user.getApproved());
         userBean.setBirthDate(user.getBirthDate());
-        userBean.setPhoneNumber(user.getTelephoneNumber());
+        userBean.setTelephoneNumber(user.getTelephoneNumber());
         userBean.setConfirmed(user.getConfirmed());
         userBean.setEnabled(user.getEnabled());
         userBean.setApproved(user.getApproved());
@@ -116,7 +116,7 @@ public class UserService {
 
     public String getConfirmRegistrationLink(User user) {
         String token = verificationTokenService.generateToken(user);
-        return confirmRegistrationUrl + "/registration/confirm?token=" + token;
+        return confirmRegistrationUrl + "/api/registration/confirm?token=" + token;
     }
 
     public int calculateUserAge(Long birthdate) {
@@ -154,5 +154,13 @@ public class UserService {
         return listUsersBeanToApprove;
     }
 
+    public void setApproveToUser(ArrayList<Long> listId) {
+         listId.stream().forEach(id-> {
+            User user = userRepository.findOne(id);
+            user.setApproved(true);
+            user.setEnabled(true);
+            userRepository.save(user);
+        });
+    }
 }
 
