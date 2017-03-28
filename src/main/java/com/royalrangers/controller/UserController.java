@@ -71,4 +71,13 @@ public class UserController {
         return new ResponseEntity(ResponseBuilder.success("Users approved successfuly."), HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/users/reject/", method = RequestMethod.DELETE)
+    public ResponseEntity rejectUser(@RequestBody String rejectedUserIdList) {
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Long>>(){}.getType();
+        ArrayList<Long> listId = gson.fromJson(rejectedUserIdList, type);
+        userService.deleteRejectedUsers(listId);
+        return new ResponseEntity(ResponseBuilder.success("Users delete successfuly."), HttpStatus.OK);
+    }
 }

@@ -162,5 +162,11 @@ public class UserService {
             userRepository.save(user);
         });
     }
+
+    public void deleteRejectedUsers(ArrayList<Long> listId) {
+        listId.stream().forEach(id-> {
+             userRepository.delete(id);
+        });
+    }
 }
 
