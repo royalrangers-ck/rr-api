@@ -59,7 +59,7 @@ public class UserController {
         return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/approve/", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/approve/", method = RequestMethod.POST)
     public ResponseEntity approveUser(@RequestBody List<Long> ids) {
 
         userService.approveUsers(ids);
@@ -67,7 +67,7 @@ public class UserController {
         return new ResponseEntity(ResponseBuilder.success("Users approved successfully."), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/users/reject/", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/reject/", method = RequestMethod.POST)
     public ResponseEntity rejectUser(@RequestBody List<Long> ids) {
 
         userService.rejectUsers(ids);
