@@ -18,6 +18,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/api/user")
 public class UserController {
 
     @Autowired
@@ -26,22 +27,22 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = "/user")
+    @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public @ResponseBody ResponseResult getAuthorizedUserDetail(Principal principal) {
+    public @ResponseBody ResponseResult getAuthenticatedUserDetail(Principal principal) {
 
         String username = principal.getName();
-        log.info("get details for user " + username);
+        log.info("Get details for user " + username);
 
         return ResponseBuilder.success(profileService.getUserDetailByEmail(username));
     }
 
-    @GetMapping(value = "/user/{id}")
+    @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public @ResponseBody ResponseResult getUserDetailById(@PathVariable("id") Long id) {
 
         try {
-            log.info("get details for user id " + id);
+            log.info("Get details for user id " + id);
             return ResponseBuilder.success(profileService.getUserDetailById(id));
 
         } catch (UserRepositoryException e){
@@ -50,28 +51,28 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/user/approve/{id}", method = RequestMethod.GET)
-    public ResponseEntity getUserToApprove(@PathVariable("id") Long platoonId){
+    @GetMapping("/approve/{id}")
+    public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
 
         Gson gson  = new Gson();
         String jsonList = gson.toJson(userService.getUsersForApprove(platoonId));
 
-        return new ResponseEntity(ResponseBuilder.success(jsonList), HttpStatus.OK);
+        return ResponseBuilder.success(jsonList);
     }
 
-    @RequestMapping(value = "/user/approve/", method = RequestMethod.POST)
-    public ResponseEntity approveUser(@RequestBody List<Long> ids) {
+    @PostMapping("/approve")
+    public ResponseResult approveUser(@RequestBody List<Long> ids) {
 
         userService.approveUsers(ids);
 
-        return new ResponseEntity(ResponseBuilder.success("Users approved successfully."), HttpStatus.OK);
+        return ResponseBuilder.success("Users approved successfully.");
     }
 
-    @RequestMapping(value = "/user/reject/", method = RequestMethod.POST)
-    public ResponseEntity rejectUser(@RequestBody List<Long> ids) {
+    @PostMapping("/reject")
+    public ResponseResult rejectUser(@RequestBody List<Long> ids) {
 
         userService.rejectUsers(ids);
 
-        return new ResponseEntity(ResponseBuilder.success("Users disabled."), HttpStatus.OK);
+        return ResponseBuilder.success("Users disabled.");
     }
 }

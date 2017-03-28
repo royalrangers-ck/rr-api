@@ -1,27 +1,22 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.model.achievement.QuarterAchievement;
 import com.royalrangers.service.QuarterAchievementService;
-import com.royalrangers.service.YearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/achievements/quarter")
 public class QuarterAchievementController {
 
     @Autowired
     private QuarterAchievementService quarterAchievementService;
 
-    @Autowired
-    private YearAchievementService yearAchievementService;
 
-    @RequestMapping(value = "/achievements/quarter", method = RequestMethod.GET)
+    @GetMapping
     public ResponseResult getAllQuarterAchievement() {
         try {
             return ResponseBuilder.success(quarterAchievementService.getAllQuarterAchievement());
@@ -30,7 +25,7 @@ public class QuarterAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/quarter", method = RequestMethod.POST)
+    @PostMapping
     public ResponseResult addQuarterAchievement(@RequestBody Map<String, Object> params) {
         try {
             quarterAchievementService.addQuarterAchievement(params);
@@ -40,7 +35,7 @@ public class QuarterAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/quarter/{quarterId}", method = RequestMethod.GET)
+    @GetMapping("/{quarterId}")
     public ResponseResult getQuarterAchievementById(@PathVariable Long quarterId) {
         try {
             return ResponseBuilder.success(quarterAchievementService.getQuarterAchievementById(quarterId));
@@ -49,7 +44,7 @@ public class QuarterAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/quarter/{quarterId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{quarterId}")
     public ResponseResult deleteQuarterAchievement(@PathVariable Long quarterId) {
         try {
             quarterAchievementService.deleteQuarterAchievement(quarterId);
@@ -59,7 +54,7 @@ public class QuarterAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/quarter/{quarterId}", method = RequestMethod.PUT)
+    @PutMapping("/{quarterId}")
     public ResponseResult editQuarterAchievement(@RequestBody Map<String, Object> params, @PathVariable Long quarterId) {
         try {
             return ResponseBuilder.success(quarterAchievementService.editQuarterAchievement(params, quarterId));
@@ -67,5 +62,4 @@ public class QuarterAchievementController {
             return ResponseBuilder.fail("Failed edit QuarterAchievement");
         }
     }
-
 }

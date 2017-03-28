@@ -7,16 +7,14 @@ import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
+@RequestMapping("/api/achievements/reward")
 public class RewardController {
 
     @Autowired
     private RewardService rewardService;
 
-    @RequestMapping(value = "/achievements/reward", method = RequestMethod.GET)
+    @GetMapping
     public ResponseResult getAllReward() {
         try {
             return ResponseBuilder.success(rewardService.getAllReward());
@@ -25,7 +23,7 @@ public class RewardController {
         }
     }
 
-    @RequestMapping(value = "/achievements/reward", method = RequestMethod.POST)
+    @PostMapping
     public ResponseResult addReward(@RequestBody Reward reward) {
         try {
             rewardService.addReward(reward);
@@ -35,7 +33,7 @@ public class RewardController {
         }
     }
 
-    @RequestMapping(value = "/achievements/reward/{rewardId}", method = RequestMethod.GET)
+    @GetMapping("/{rewardId}")
     public ResponseResult getRewardById(@PathVariable Long rewardId) {
         try {
             return ResponseBuilder.success(rewardService.getRewardById(rewardId));
@@ -44,7 +42,7 @@ public class RewardController {
         }
     }
 
-    @RequestMapping(value = "/achievements/reward/{rewardId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{rewardId}")
     public ResponseResult deleteReward(@PathVariable Long rewardId) {
         try {
             rewardService.deleteReward(rewardId);
@@ -54,7 +52,7 @@ public class RewardController {
         }
     }
 
-    @RequestMapping(value = "/achievements/reward/{rewardId}", method = RequestMethod.PUT)
+    @PutMapping("/{rewardId}")
     public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId) {
         try {
             return ResponseBuilder.success(rewardService.editReward(reward, rewardId));

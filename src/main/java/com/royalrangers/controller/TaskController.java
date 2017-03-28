@@ -1,29 +1,21 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.model.achievement.QuarterAchievement;
-import com.royalrangers.model.achievement.Task;
-import com.royalrangers.service.QuarterAchievementService;
 import com.royalrangers.service.TaskService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/achievements/task")
 public class TaskController {
 
     @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
-    @Autowired
-    QuarterAchievementService quarterAchievementService;
-
-    @RequestMapping(value = "/achievements/task", method = RequestMethod.GET)
+    @GetMapping
     public ResponseResult getAllTasks() {
         try {
             return ResponseBuilder.success(taskService.getAll());
@@ -32,7 +24,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/task", method = RequestMethod.POST)
+    @PostMapping
     public ResponseResult addTask(@RequestBody Map<String, Object> params) {
         try {
             taskService.addTask(params);
@@ -42,7 +34,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/task/{taskId}", method = RequestMethod.GET)
+    @GetMapping("/{taskId}")
     public ResponseResult getTaskById(@PathVariable Long taskId) {
         try {
             return ResponseBuilder.success(taskService.getTaskById(taskId));
@@ -51,7 +43,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/task/{taskId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{taskId}")
     public ResponseResult deleteTaskById(@PathVariable Long taskId) {
         try {
             taskService.deleteTask(taskId);
@@ -61,7 +53,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/task/{taskId}", method = RequestMethod.PUT)
+    @PutMapping("/{taskId}")
     public ResponseResult editTaskById(@RequestBody Map<String, Object> params, @PathVariable Long taskId) {
         try {
             return ResponseBuilder.success(taskService.editTask(params, taskId));
@@ -69,5 +61,4 @@ public class TaskController {
             return ResponseBuilder.fail("Failed edit Task");
         }
     }
-
 }

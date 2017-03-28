@@ -1,26 +1,21 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.model.achievement.YearAchievement;
-import com.royalrangers.service.ThreeYearAchievementService;
 import com.royalrangers.service.YearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/achievements/year")
 public class YearAchievementController {
 
     @Autowired
     private YearAchievementService yearAchievementService;
 
-    @Autowired
-    private ThreeYearAchievementService threeYearAchievementService;
-
-    @RequestMapping(value = "/achievements/year", method = RequestMethod.GET)
+    @GetMapping
     public ResponseResult getAllYearAchievement() {
         try {
             return ResponseBuilder.success(yearAchievementService.getAllYearAchievement());
@@ -29,7 +24,7 @@ public class YearAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/year", method = RequestMethod.POST)
+    @PostMapping
     public ResponseResult addYearAchievement(@RequestBody Map<String, Object> params) {
         try {
             yearAchievementService.addYearAchievement(params);
@@ -39,7 +34,7 @@ public class YearAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/year/{yearId}", method = RequestMethod.GET)
+    @GetMapping("/{yearId}")
     public ResponseResult getYearAchievementById(@PathVariable Long yearId) {
         try {
             return ResponseBuilder.success(yearAchievementService.getYearAchievementById(yearId));
@@ -48,7 +43,7 @@ public class YearAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/year/{yearId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{yearId}")
     public ResponseResult deleteYearAchievement(@PathVariable Long yearId) {
         try {
             yearAchievementService.deleteYearAchievement(yearId);
@@ -58,7 +53,7 @@ public class YearAchievementController {
         }
     }
 
-    @RequestMapping(value = "/achievements/year/{yearId}", method = RequestMethod.PUT)
+    @PutMapping("/{yearId}")
     public ResponseResult editYearAchievement(@RequestBody Map<String, Object> params, @PathVariable Long yearId) {
         try {
             return ResponseBuilder.success(yearAchievementService.editYearAchievement(params, yearId));
@@ -66,5 +61,4 @@ public class YearAchievementController {
             return ResponseBuilder.fail("Failed edit yearAchievements");
         }
     }
-
 }
