@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequestMapping("/subscribe")
@@ -15,8 +17,9 @@ public class SubscribeController {
     private SubscribeService subscribeService;
 
     @PostMapping
-    public ResponseResult subscribe(@RequestBody String email) {
+    public ResponseResult subscribe(@RequestBody Map<String, Object> params) {
 
+        String email = (String) params.get("email");
         log.info("Add subscriber: " + email);
         try {
             subscribeService.add(email);
@@ -27,8 +30,9 @@ public class SubscribeController {
     }
 
     @DeleteMapping
-    public ResponseResult unsubscribe(@RequestBody String email) {
+    public ResponseResult unsubscribe(@RequestBody  Map<String, Object> params) {
 
+        String email = (String) params.get("email");
         log.info("Remove subscriber: " + email);
         try {
             subscribeService.remove(email);

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/achievements/quarter")
+@RequestMapping("/achievements/quarter")
 public class QuarterAchievementController {
 
     @Autowired

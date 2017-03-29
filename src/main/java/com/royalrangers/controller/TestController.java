@@ -9,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/achievements/test")
+@RequestMapping("/achievements/test")
 public class TestController {
 
     @Autowired
     private TestService testService;
 
     @GetMapping
-    public ResponseResult getAllTasks() {
+    public ResponseResult getAllTest() {
         try {
             return ResponseBuilder.success(testService.getAllTest());
         } catch (Exception ex) {
@@ -25,7 +25,7 @@ public class TestController {
     }
 
     @PostMapping
-    public ResponseResult addTask(@RequestBody Map<String, Object> params) {
+    public ResponseResult addTest(@RequestBody Map<String, Object> params) {
         try {
             testService.addTest(params);
             return ResponseBuilder.success("Test saved successfully");
@@ -35,7 +35,7 @@ public class TestController {
     }
 
     @GetMapping("/{testId}")
-    public ResponseResult getTaskById(@PathVariable Long testId) {
+    public ResponseResult getTestById(@PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.getTestById(testId));
         } catch (Exception ex) {
@@ -44,7 +44,7 @@ public class TestController {
     }
 
     @DeleteMapping("/{testId}")
-    public ResponseResult deleteTaskById(@PathVariable Long testId) {
+    public ResponseResult deleteTestById(@PathVariable Long testId) {
         try {
             testService.deleteTestById(testId);
             return ResponseBuilder.success("Test was successfully deleted");
@@ -54,7 +54,7 @@ public class TestController {
     }
 
     @PutMapping("/{testId}")
-    public ResponseResult editTaskById(@RequestBody Map<String, Object> params, @PathVariable Long testId) {
+    public ResponseResult editTestById(@RequestBody Map<String, Object> params, @PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.editTest(params, testId));
         } catch (Exception ex) {
