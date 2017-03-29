@@ -15,7 +15,7 @@ public class UserBean {
     private String firstName;
     private String lastName;
     private String gender;
-    private String phoneNumber;
+    private String telephoneNumber;
     private Long birthDate;
     private Status status;
     private UserAgeGroup userAgeGroup;

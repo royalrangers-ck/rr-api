@@ -12,17 +12,14 @@ import com.royalrangers.service.VerificationTokenService;
 import com.royalrangers.utils.ResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/registration")
 public class RegistrationController {
 
     @Autowired
@@ -52,14 +49,14 @@ public class RegistrationController {
     @Autowired
     private SectionRepository sectionRepository;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseEntity registration(@RequestBody String jsonUser) {
+    @PostMapping
+    public ResponseResult registration(@RequestBody String jsonUser) {
         Gson gson = new Gson();
         UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
 
         if (userService.isEmailExist(userBean.getEmail())) {
             log.info(String.format("User with email '%s' already exists", userBean.getEmail()));
-            return new ResponseEntity(ResponseBuilder.fail("User with this email already exists"), HttpStatus.CONFLICT);
+            return ResponseBuilder.fail("User with this email already exists");
         }
 
         User user = userService.createUserFromUserForm(userBean);
@@ -67,22 +64,22 @@ public class RegistrationController {
         emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
 
         log.info(String.format("User '%s' is successfully created", userBean.getEmail()));
-        return new ResponseEntity(ResponseBuilder.success("User is successfully created"), HttpStatus.OK);
+        return ResponseBuilder.success("User is successfully created");
     }
 
-    @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
-    public ResponseEntity registrationConfirm(@RequestParam("token") String token) {
+    @GetMapping("/confirm")
+    public ResponseResult registrationConfirm(@RequestParam("token") String token) {
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         if (verificationToken == null) {
             log.info(String.format("Verification token '%s' is invalid", token));
-            return new ResponseEntity(ResponseBuilder.fail("Verification token is invalid"), HttpStatus.CONFLICT);
+            return ResponseBuilder.fail("Verification token is invalid");
         }
 
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             log.info(String.format("Verification token '%s' is expired", token));
-            return new ResponseEntity(ResponseBuilder.fail("Verification token is expired"), HttpStatus.CONFLICT);
+            return ResponseBuilder.fail("Verification token is expired");
         }
 
         User user = verificationToken.getUser();
@@ -90,10 +87,10 @@ public class RegistrationController {
         userRepository.save(user);
 
         log.info(String.format("Verification token '%s' is confirmed", token));
-        return new ResponseEntity(ResponseBuilder.success("User confirm registration successfully"), HttpStatus.OK);
+        return ResponseBuilder.success("User confirm registration successfully");
     }
 
-    @PostMapping("/registration/check/email")
+    @PostMapping("/check/email")
     public ResponseResult checkEmail(@RequestBody Email email) {
 
         String mail = email.getEmail();
@@ -106,52 +103,51 @@ public class RegistrationController {
         return ResponseBuilder.success();
     }
 
-    @RequestMapping("/registration/countries")
+    @GetMapping("/countries")
     public ResponseResult getAllCountries() {
         return ResponseBuilder.success(countryRepository.findAll());
     }
 
-    @RequestMapping("/registration/cities")
+    @GetMapping("/cities")
     public ResponseResult getAllCities() {
         return ResponseBuilder.success(cityRepository.findAll());
     }
 
-    @RequestMapping("/registration/city")
-    public ResponseResult getCitiesByCountry(Long countryId) {
+    @GetMapping("/city")
+    public ResponseResult getCitiesByCountry(@RequestParam Long countryId) {
         List<City> cities = cityRepository.findByCountryId(countryId);
         return ResponseBuilder.success(cities);
     }
 
-    @RequestMapping("/registration/groups")
+    @GetMapping("/groups")
     public ResponseResult getAllGroups() {
         return ResponseBuilder.success(groupRepository.findAll());
     }
 
-    @RequestMapping("/registration/group")
-    public ResponseResult getGroupsByCity(Long cityId) {
+    @GetMapping("/group")
+    public ResponseResult getGroupsByCity(@RequestParam Long cityId) {
         return ResponseBuilder.success(groupRepository.findByCityId(cityId));
     }
 
-    @RequestMapping("/registration/platoons")
+    @GetMapping("/platoons")
     public ResponseResult getAllPlatoons() {
         return ResponseBuilder.success(platoonRepository.findAll());
     }
 
-    @RequestMapping("/registration/platoon")
-    public ResponseResult getPlatoonsByGroup(Long groupId) {
+    @GetMapping("/platoon")
+    public ResponseResult getPlatoonsByGroup(@RequestParam Long groupId) {
         List<Platoon> platoons = platoonRepository.findByGroupId(groupId);
         return ResponseBuilder.success(platoons);
     }
 
-    @RequestMapping("/registration/sections")
+    @GetMapping("/sections")
     public ResponseResult getAllSections() {
         return ResponseBuilder.success(sectionRepository.findAll());
     }
 
-    @RequestMapping("/registration/section")
-    public ResponseResult getSectionsByPlatoon(Long platoonId) {
+    @GetMapping("/section")
+    public ResponseResult getSectionsByPlatoon(@RequestParam Long platoonId) {
         List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
         return ResponseBuilder.success(sections);
     }
-
 }

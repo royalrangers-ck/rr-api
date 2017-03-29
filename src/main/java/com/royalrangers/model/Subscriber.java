@@ -20,6 +20,8 @@ public class Subscriber {
     @NotNull
     private String email;
 
+    public Subscriber(){}
+
     public Subscriber(String email) {
         this.email = email;
     }
