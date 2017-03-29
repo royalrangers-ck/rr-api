@@ -5,11 +5,15 @@ import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
-import com.royalrangers.model.*;
+import com.royalrangers.exception.UserRepositoryException;
+import com.royalrangers.model.Authority;
+import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -183,6 +187,64 @@ public class UserService {
             user.setEnabled(false);
             userRepository.save(user);
         });
+    }
+    public boolean isAuthenticatedUserHasRole(String role) {
+        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+        return authorities.stream().anyMatch(auth -> auth.getAuthority().equals(role));
+    }
+
+    public String getAuthenticatedUserEmail() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public void updateUserByEmail(String email, UserBean update) {
+
+        User user = userRepository.findByEmail(email);
+
+        if(!isAuthenticatedUserHasRole("ROLE_ADMIN")) {
+            updateUserItself(user, update);
+        } else {
+            updateUserByAdmin(user, update);
+        }
+    }
+
+    public void updateUserById(Long id, UserBean update) {
+        if(!userRepository.exists(id)) {
+            throw new UserRepositoryException("Not found user with id " + id);
+        }
+        User user = userRepository.findOne(id);
+        updateUserByAdmin(user, update);
+    }
+
+    public void updateUserByAdmin(User user, UserBean update) {
+
+        user.setFirstName(update.getFirstName());
+        user.setLastName(update.getLastName());
+        user.setGender(update.getGender());
+        user.setTelephoneNumber(update.getTelephoneNumber());
+        user.setBirthDate(update.getBirthDate());
+        user.setUserAgeGroup(update.getUserAgeGroup());
+        user.setUserRank(update.getUserRank());
+        user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setCity(cityRepository.findOne(update.getCityId()));
+        user.setGroup(groupRepository.findOne(update.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(update.getSectionId()));
+
+        userRepository.save(user);
+    }
+
+    private void updateUserItself(User user, UserBean update) {
+        user.setTelephoneNumber(update.getTelephoneNumber());
+        user.setUserAgeGroup(update.getUserAgeGroup());
+        user.setUserRank(update.getUserRank());
+        user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setCity(cityRepository.findOne(update.getCityId()));
+        user.setGroup(groupRepository.findOne(update.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(update.getSectionId()));
     }
 }
 

@@ -2,6 +2,7 @@ package com.royalrangers.controller;
 
 import com.google.gson.Gson;
 import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.UserRank;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
@@ -29,10 +30,10 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public @ResponseBody ResponseResult getAuthenticatedUserDetail(Principal principal) {
+    public @ResponseBody ResponseResult getAuthenticatedUserDetail() {
 
-        String username = principal.getName();
-        log.info("Get details for user " + username);
+        String username = userService.getAuthenticatedUserEmail();
+        log.info("get details for user " + username);
 
         return ResponseBuilder.success(profileService.getUserDetailByEmail(username));
     }
@@ -76,6 +77,34 @@ public class UserController {
     public @ResponseBody ResponseResult getUserRankList() {
         List<Enum> rankList = Arrays.asList(UserRank.values());
         return ResponseBuilder.success(rankList);
+    }
+
+    @PutMapping
+    @PreAuthorize("isAuthenticated()")
+    public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
+
+        String email = userService.getAuthenticatedUserEmail();
+
+        userService.updateUserByEmail(email, update);
+        log.info("Update user " + email);
+
+        return ResponseBuilder.success(String.format("User %s successful updated", email));
+    }
+
+    @PutMapping(value = "/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
+
+        try {
+            userService.updateUserById(id, userUpdate);
+            log.info("Update user with id %d " + id);
+
+            return ResponseBuilder.success(String.format("User with id %d successful updated", id));
+
+        } catch (UserRepositoryException e){
+
+            return ResponseBuilder.fail(e.getMessage());
+        }
     }
 
 }

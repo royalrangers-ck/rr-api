@@ -2,6 +2,7 @@ package com.royalrangers.bean;
 
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
+import com.royalrangers.enums.UserRank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class UserBean {
     private Long birthDate;
     private Status status;
     private UserAgeGroup userAgeGroup;
+    private UserRank userRank;
     private Boolean enabled;
     private Boolean confirmed;
     private Boolean approved;
