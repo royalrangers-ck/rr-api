@@ -1,11 +1,13 @@
 package com.royalrangers.model.achievement;
 
 import com.royalrangers.enums.achivement.AchievementStatus;
+import com.royalrangers.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,20 +18,20 @@ public class UserYearAchievement {
     private Long id;
 
     @Column
-    private Date createDate;
+    private Long createDate;
 
     @Column
-    private Date updateDate;
+    private Long updateDate;
 
     @Enumerated
     private AchievementStatus achievementStatus;
 
-    @Column
-    private Long userId;
+    @OneToOne
+    private User user;
 
-    @Column
-    private Long reviewerId;
+    @OneToOne
+    private User reviewer;
 
-    @Column
-    private Long yearAchievementId;
+    @OneToOne
+    private YearAchievement yearAchievement;
 }

@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/achievements/userTask")
 public class UserTaskController {
 
     @Autowired
     private UserTaskService userTaskService;
 
-    @RequestMapping(value = "/achievements/userTask", method = RequestMethod.GET)
+    @GetMapping
     public ResponseResult getAllUserTask() {
         try {
             return ResponseBuilder.success(userTaskService.getAllUserTaskAchievement());
@@ -23,7 +24,7 @@ public class UserTaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/userTask", method = RequestMethod.POST)
+    @PostMapping
     public ResponseResult addUserTaskAchievement(@RequestBody Map<String, Object> params) {
         try {
             userTaskService.addUserTaskAchievement(params);
@@ -33,7 +34,7 @@ public class UserTaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/userTask/{userAchievementId}", method = RequestMethod.GET)
+    @GetMapping("/{userAchievementId}")
     public ResponseResult getUserTaskAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userTaskService.getUserTaskAchievementById(userAchievementId));
@@ -42,7 +43,7 @@ public class UserTaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/userTask/{userAchievementId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{userAchievementId}")
     public ResponseResult deleteUserTaskAchievement(@PathVariable Long userAchievementId) {
         try {
             userTaskService.deleteUserTaskAchievement(userAchievementId);
@@ -52,10 +53,11 @@ public class UserTaskController {
         }
     }
 
-    @RequestMapping(value = "/achievements/userTask/{userAchievementId}", method = RequestMethod.PUT)
+    @PutMapping("/{userAchievementId}")
     public ResponseResult editUserTaskAchievement(@RequestBody Map<String, Object> params, @PathVariable Long userAchievementId) {
         try {
-            return ResponseBuilder.success(userTaskService.editUserTaskAchievement(params, userAchievementId));
+            userTaskService.editUserTaskAchievement(params, userAchievementId);
+            return ResponseBuilder.success("successfully editing UserTaskAchievement");
         } catch (Exception ex) {
             return ResponseBuilder.fail("Failed edit userAchievement");
         }
