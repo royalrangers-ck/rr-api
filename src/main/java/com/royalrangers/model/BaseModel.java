@@ -1,4 +1,5 @@
 package com.royalrangers.model;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,11 +17,9 @@ public abstract class BaseModel {
     private Date createDate;
 
     private Date updateDate;
-
-    public BaseModel() {}
-
-    public BaseModel(Date createDate, Date updateDate) {
-        this.createDate = createDate;
-        this.updateDate = updateDate;
+    
+    public BaseModel() {
+        this.createDate = new Date();
+        this.updateDate = new Date();
     }
 }

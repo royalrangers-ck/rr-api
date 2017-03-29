@@ -28,8 +28,7 @@ public class City extends BaseModel {
 
     public City() {}
 
-    public City(Country country, Date createDate, Date updateDate, String name) {
-        super (createDate,updateDate);
+    public City(Country country, String name) {
         this.country = country;
         this.name = name;
     }

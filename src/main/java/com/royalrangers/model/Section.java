@@ -23,8 +23,7 @@ public class Section extends BaseModel{
 
     public Section() {}
 
-    public Section(Platoon platoon, Date createDate, Date updateDate, String name) {
-        super(createDate,updateDate);
+    public Section(Platoon platoon, String name) {
         this.platoon = platoon;
         this.name = name;
     }

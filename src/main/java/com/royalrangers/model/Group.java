@@ -29,8 +29,7 @@ public class Group extends BaseModel {
 
     public Group(){}
 
-    public Group(City city, Date createDate, Date updateDate, String name) {
-        super(createDate,updateDate);
+    public Group(City city, String name) {
         this.city = city;
         this.name = name;
     }

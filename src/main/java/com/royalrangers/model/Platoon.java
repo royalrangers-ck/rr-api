@@ -28,8 +28,7 @@ public class Platoon extends BaseModel{
 
     public Platoon() {}
 
-    public Platoon(Group group, Date createDate, Date updateDate, String name) {
-        super(createDate,updateDate);
+    public Platoon(Group group, String name) {
         this.group = group;
         this.name = name;
     }

@@ -16,7 +16,7 @@ public class SubscribeService {
         if (subscriberRepository.findByEmail(email) != null) {
             throw new IllegalArgumentException("This email already exist in subscribers list");
         } else {
-            Subscriber subscriber = new Subscriber(new Date(), new Date(),email);
+            Subscriber subscriber = new Subscriber(email);
             subscriberRepository.save(subscriber);
         }
     }

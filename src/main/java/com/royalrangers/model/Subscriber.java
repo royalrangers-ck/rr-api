@@ -17,8 +17,7 @@ public class Subscriber extends BaseModel {
 
     public Subscriber(){}
 
-    public Subscriber(Date createDate, Date updateDate, String email) {
-        super(createDate,updateDate);
+    public Subscriber(String email) {
         this.email = email;
     }
 }

@@ -23,8 +23,7 @@ public class Country extends BaseModel {
 
     public Country() {}
 
-    public Country(Date createDate, Date updateDate, String name) {
-        super (createDate,updateDate);
+    public Country(String name) {
         this.name = name;
     }
 }
