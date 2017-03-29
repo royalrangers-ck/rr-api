@@ -1,4 +1,4 @@
-package com.royalrangers.dao;
+package com.royalrangers.repository;
 
 import com.royalrangers.model.achievement.ThreeYearAchievement;
 import org.springframework.data.jpa.repository.JpaRepository;

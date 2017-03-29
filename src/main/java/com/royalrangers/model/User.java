@@ -23,8 +23,8 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private String gender;
     private String telephoneNumber;
+    private String gender;
     private Long birthDate;
     private Boolean enabled;
     private Boolean confirmed;

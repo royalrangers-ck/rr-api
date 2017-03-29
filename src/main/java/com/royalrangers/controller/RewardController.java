@@ -1,96 +1,63 @@
 package com.royalrangers.controller;
 
+import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.model.achievement.Reward;
 import com.royalrangers.service.RewardService;
+import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
+@RequestMapping("/api/achievements/reward")
 public class RewardController {
 
     @Autowired
     private RewardService rewardService;
 
-    @RequestMapping(value = "/achievements/rewards", method = RequestMethod.GET)
-    public Map<String, Object> getAllReward(){
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> data = new HashMap<String, Object>();
-        try{
-            result.put("data", rewardService.getAllReward());
-            result.put("success", true);
+    @GetMapping
+    public ResponseResult getAllReward() {
+        try {
+            return ResponseBuilder.success(rewardService.getAllReward());
         } catch (Exception ex) {
-            data.put("message", "Failed get all rewards");
-            result.put("data", data);
-            result.put("success", false);
+            return ResponseBuilder.fail("Failed get all rewards");
         }
-        return result;
     }
 
-    @RequestMapping(value = "/achievements/rewards", method = RequestMethod.POST)
-    public Map<String, Object> addReward(@RequestBody Reward reward){
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> data = new HashMap<String, Object>();
-        try{
+    @PostMapping
+    public ResponseResult addReward(@RequestBody Reward reward) {
+        try {
             rewardService.addReward(reward);
-            data.put("message", "Successful addition of a reward");
-            result.put("data", data);
-            result.put("success", true);
+            return ResponseBuilder.success("Successful addition of a reward");
         } catch (Exception ex) {
-            data.put("message", "Failed add rewards");
-            result.put("data", data);
-            result.put("success", false);
+            return ResponseBuilder.fail("Failed add reward");
         }
-        return result;
     }
 
-    @RequestMapping(value = "/achievements/rewards/{rewardId}", method = RequestMethod.GET)
-    public Map<String, Object> getRewardById(@PathVariable Long rewardId){
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> data = new HashMap<String, Object>();
-        try{
-            result.put("data", rewardService.getRewardById(rewardId));
-            result.put("success", true);
+    @GetMapping("/{rewardId}")
+    public ResponseResult getRewardById(@PathVariable Long rewardId) {
+        try {
+            return ResponseBuilder.success(rewardService.getRewardById(rewardId));
         } catch (Exception ex) {
-            data.put("message", ex.getMessage());
-            result.put("data", data);
-            result.put("success", false);
+            return ResponseBuilder.fail("Failed get reward by id");
         }
-
-        return result;
     }
 
-    @RequestMapping(value = "/achievements/rewards/{rewardId}", method = RequestMethod.DELETE)
-    public Map<String, Object> deleteReward(@PathVariable Long rewardId){
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> data = new HashMap<String, Object>();
-            try{
-                rewardService.deleteReward(rewardId);
-                data.put("message", "Delete Reward was a success");
-                result.put("data", data);
-                result.put("success", true);
-            } catch (Exception ex) {
-                data.put("message", "Failed deleted Reward");
-                result.put("data", data);
-                result.put("success", false);
-            }
-        return result;
+    @DeleteMapping("/{rewardId}")
+    public ResponseResult deleteReward(@PathVariable Long rewardId) {
+        try {
+            rewardService.deleteReward(rewardId);
+            return ResponseBuilder.success("Delete Reward was a success");
+        } catch (Exception ex) {
+            return ResponseBuilder.fail("Failed deleted Reward");
+        }
     }
 
-    @RequestMapping(value = "/achievements/rewards/{rewardId}", method = RequestMethod.PUT)
-    public Map<String, Object> editReward(@RequestBody Reward reward){
-        Map<String, Object> result = new HashMap<String, Object>();
-        Map<String, Object> data = new HashMap<String, Object>();
-            try{
-                result.put("data", rewardService.editReward(reward));
-                result.put("success", true);
-            } catch (Exception ex) {
-                data.put("message", "Failed edit Reward");
-                result.put("data", data);
-                result.put("success", false);
-            }
-        return result;
+    @PutMapping("/{rewardId}")
+    public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId) {
+        try {
+            return ResponseBuilder.success(rewardService.editReward(reward, rewardId));
+        } catch (Exception ex) {
+            return ResponseBuilder.fail("Failed edit Reward");
+        }
     }
 }

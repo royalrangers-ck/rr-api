@@ -15,7 +15,7 @@ import java.io.*;
 @RestController
 public class DropboxController {
     @Autowired
-    DropboxService dropboxService;
+    private DropboxService dropboxService;
 
     @PostMapping("/upload")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) throws IOException, DbxException {
