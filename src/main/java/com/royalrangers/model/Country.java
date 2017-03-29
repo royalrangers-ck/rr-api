@@ -6,16 +6,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-public class Country {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class Country extends BaseModel {
 
     @NotNull
     private String name;
@@ -29,5 +26,4 @@ public class Country {
     public Country(String name) {
         this.name = name;
     }
-
 }
