@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/achievements/userYear")
 public class UserYearAchievementController {
 
     @Autowired
     private UserYearAchievementService userYearAchievementService;
 
-    @GetMapping
+    @RequestMapping(value = "/achievements/userYear", method = RequestMethod.GET)
     public ResponseResult getAllUserYearAchievement() {
         try {
             return ResponseBuilder.success(userYearAchievementService.getAllUserYearAchievements());
@@ -24,7 +23,7 @@ public class UserYearAchievementController {
         }
     }
 
-    @PostMapping
+    @RequestMapping(value = "/achievements/userYear", method = RequestMethod.POST)
     public ResponseResult addUserYearAchievement(@RequestBody Map<String, Object> params) {
         try {
             userYearAchievementService.addUserYearAchievement(params);
@@ -34,7 +33,7 @@ public class UserYearAchievementController {
         }
     }
 
-    @GetMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userYear/{userAchievementId}", method = RequestMethod.GET)
     public ResponseResult getUserYearAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userYearAchievementService.getUserYearAchievementById(userAchievementId));
@@ -43,7 +42,7 @@ public class UserYearAchievementController {
         }
     }
 
-    @DeleteMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userYear/{userAchievementId}", method = RequestMethod.DELETE)
     public ResponseResult deleteUserYearAchievement(@PathVariable Long userAchievementId) {
         try {
             userYearAchievementService.deleteUserYearAchievement(userAchievementId);
@@ -53,7 +52,7 @@ public class UserYearAchievementController {
         }
     }
 
-    @PutMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userYear/{userAchievementId}", method = RequestMethod.PUT)
     public ResponseResult editUserYearAchievement(@RequestBody Map<String, Object> params, @PathVariable Long userAchievementId) {
         try {
             userYearAchievementService.editUserYearAchievement(params, userAchievementId);

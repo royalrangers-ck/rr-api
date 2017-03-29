@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/api/achievements/userTest")
 public class UserTestController {
 
     @Autowired
     private UserTestService userTestService;
 
-    @GetMapping
+    @RequestMapping(value = "/achievements/userTest", method = RequestMethod.GET)
     public ResponseResult getAllUserTest() {
         try {
             return ResponseBuilder.success(userTestService.getAllUserTestAchievement());
@@ -24,7 +23,7 @@ public class UserTestController {
         }
     }
 
-    @PostMapping
+    @RequestMapping(value = "/achievements/userTest", method = RequestMethod.POST)
     public ResponseResult addUserTestAchievement(@RequestBody Map<String, Object> params) {
         try {
             userTestService.addUserTestAchievement(params);
@@ -34,7 +33,7 @@ public class UserTestController {
         }
     }
 
-    @GetMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userTest/{userAchievementId}", method = RequestMethod.GET)
     public ResponseResult getUserTestAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userTestService.getUserTestAchievementById(userAchievementId));
@@ -43,7 +42,7 @@ public class UserTestController {
         }
     }
 
-    @DeleteMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userTest/{userAchievementId}", method = RequestMethod.DELETE)
     public ResponseResult deleteUserTestAchievement(@PathVariable Long userAchievementId) {
         try {
             userTestService.deleteUserTestAchievement(userAchievementId);
@@ -53,7 +52,7 @@ public class UserTestController {
         }
     }
 
-    @PutMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userTest/{userAchievementId}", method = RequestMethod.PUT)
     public ResponseResult editUserTestAchievement(@RequestBody Map<String, Object> params, @PathVariable Long userAchievementId) {
         try {
             userTestService.editUserTestAchievement(params, userAchievementId);

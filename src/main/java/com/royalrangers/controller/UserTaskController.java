@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/achievements/userTask")
 public class UserTaskController {
 
     @Autowired
     private UserTaskService userTaskService;
 
-    @GetMapping
+    @RequestMapping(value = "/achievements/userTask", method = RequestMethod.GET)
     public ResponseResult getAllUserTask() {
         try {
             return ResponseBuilder.success(userTaskService.getAllUserTaskAchievement());
@@ -24,7 +23,7 @@ public class UserTaskController {
         }
     }
 
-    @PostMapping
+    @RequestMapping(value = "/achievements/userTask", method = RequestMethod.POST)
     public ResponseResult addUserTaskAchievement(@RequestBody Map<String, Object> params) {
         try {
             userTaskService.addUserTaskAchievement(params);
@@ -34,7 +33,7 @@ public class UserTaskController {
         }
     }
 
-    @GetMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userTask/{userAchievementId}", method = RequestMethod.GET)
     public ResponseResult getUserTaskAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userTaskService.getUserTaskAchievementById(userAchievementId));
@@ -43,7 +42,7 @@ public class UserTaskController {
         }
     }
 
-    @DeleteMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userTask/{userAchievementId}", method = RequestMethod.DELETE)
     public ResponseResult deleteUserTaskAchievement(@PathVariable Long userAchievementId) {
         try {
             userTaskService.deleteUserTaskAchievement(userAchievementId);
@@ -53,7 +52,7 @@ public class UserTaskController {
         }
     }
 
-    @PutMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userTask/{userAchievementId}", method = RequestMethod.PUT)
     public ResponseResult editUserTaskAchievement(@RequestBody Map<String, Object> params, @PathVariable Long userAchievementId) {
         try {
             userTaskService.editUserTaskAchievement(params, userAchievementId);

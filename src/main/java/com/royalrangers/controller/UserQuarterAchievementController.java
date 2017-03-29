@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/achievements/userQuarter")
 public class UserQuarterAchievementController {
 
     @Autowired
     private UserQuarterAchievementService userQuarterAchievementService;
 
-    @GetMapping
+    @RequestMapping(value = "/achievements/userQuarter", method = RequestMethod.GET)
     public ResponseResult getAllUserQuarterAchievement() {
         try {
             return ResponseBuilder.success(userQuarterAchievementService.getAllUserQuarterAchievements());
@@ -24,7 +23,7 @@ public class UserQuarterAchievementController {
         }
     }
 
-    @PostMapping
+    @RequestMapping(value = "/achievements/userQuarter", method = RequestMethod.POST)
     public ResponseResult addUserQuarterAchievement(@RequestBody Map<String, Object> params) {
         try {
             userQuarterAchievementService.addUserQuarterAchievement(params);
@@ -34,7 +33,7 @@ public class UserQuarterAchievementController {
         }
     }
 
-    @GetMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userQuarter/{userAchievementId}", method = RequestMethod.GET)
     public ResponseResult getUserQuarterAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userQuarterAchievementService.getUserQuarterAchievementById(userAchievementId));
@@ -43,7 +42,7 @@ public class UserQuarterAchievementController {
         }
     }
 
-    @DeleteMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userQuarter/{userAchievementId}", method = RequestMethod.DELETE)
     public ResponseResult deleteUserQuarterAchievement(@PathVariable Long userAchievementId) {
         try {
             userQuarterAchievementService.deleteUserQuarterAchievement(userAchievementId);
@@ -53,7 +52,7 @@ public class UserQuarterAchievementController {
         }
     }
 
-    @PutMapping("/{userAchievementId}")
+    @RequestMapping(value = "/achievements/userQuarter/{userAchievementId}", method = RequestMethod.PUT)
     public ResponseResult editUserQuarterAchievement(@RequestBody Map<String, Object> params, @PathVariable Long userAchievementId) {
         try {
             userQuarterAchievementService.editUserQuarterAchievement(params, userAchievementId);
