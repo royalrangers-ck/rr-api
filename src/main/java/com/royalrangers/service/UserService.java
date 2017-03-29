@@ -1,5 +1,6 @@
 package com.royalrangers.service;
 
+import com.royalrangers.bean.UserAchievementBean;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
@@ -114,6 +115,15 @@ public class UserService {
         return userBean;
     }
 
+    public static UserAchievementBean buildUserAchievementBean(User user){
+        UserAchievementBean userBean = new UserAchievementBean();
+        userBean.setId(user.getId());
+        userBean.setEmail(user.getEmail());
+        userBean.setFirstName(user.getFirstName());
+        userBean.setLastName(user.getLastName());
+        return  userBean;
+    }
+
     public Boolean isEmailExist(String email) {
         return (userRepository.findByEmail(email) != null);
     }
@@ -156,6 +166,10 @@ public class UserService {
             listUsersBeanToApprove.add(userBean);
         }
         return listUsersBeanToApprove;
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findOne(id);
     }
 
     public void approveUsers(List<Long> ids) {
