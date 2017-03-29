@@ -2,18 +2,18 @@ package com.royalrangers.controller;
 
 import com.google.gson.Gson;
 import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.enums.UserRank;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
@@ -62,17 +62,20 @@ public class UserController {
 
     @PostMapping("/approve")
     public ResponseResult approveUser(@RequestBody List<Long> ids) {
-
         userService.approveUsers(ids);
-
         return ResponseBuilder.success("Users approved successfully.");
     }
 
     @PostMapping("/reject")
     public ResponseResult rejectUser(@RequestBody List<Long> ids) {
-
         userService.rejectUsers(ids);
-
         return ResponseBuilder.success("Users disabled.");
     }
+
+    @GetMapping(value = "/user/rank")
+    public @ResponseBody ResponseResult getUserRankList() {
+        List<Enum> rankList = Arrays.asList(UserRank.values());
+        return ResponseBuilder.success(rankList);
+    }
+
 }
