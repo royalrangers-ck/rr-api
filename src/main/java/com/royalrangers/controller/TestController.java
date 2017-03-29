@@ -1,7 +1,6 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.service.QuarterAchievementService;
 import com.royalrangers.service.TestService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/achievements/test")
 public class TestController {
 
     @Autowired
     private TestService testService;
 
-    @Autowired
-    QuarterAchievementService quarterAchievementService;
-
-    @RequestMapping(value = "/achievements/test", method = RequestMethod.GET)
+    @GetMapping
     public ResponseResult getAllTasks() {
         try {
             return ResponseBuilder.success(testService.getAllTest());
@@ -27,7 +24,7 @@ public class TestController {
         }
     }
 
-    @RequestMapping(value = "/achievements/test", method = RequestMethod.POST)
+    @PostMapping
     public ResponseResult addTask(@RequestBody Map<String, Object> params) {
         try {
             testService.addTest(params);
@@ -37,7 +34,7 @@ public class TestController {
         }
     }
 
-    @RequestMapping(value = "/achievements/test/{testId}", method = RequestMethod.GET)
+    @GetMapping("/{testId}")
     public ResponseResult getTaskById(@PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.getTestById(testId));
@@ -46,7 +43,7 @@ public class TestController {
         }
     }
 
-    @RequestMapping(value = "/achievements/test/{testId}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{testId}")
     public ResponseResult deleteTaskById(@PathVariable Long testId) {
         try {
             testService.deleteTestById(testId);
@@ -56,7 +53,7 @@ public class TestController {
         }
     }
 
-    @RequestMapping(value = "/achievements/test/{testId}", method = RequestMethod.PUT)
+    @PutMapping("/{testId}")
     public ResponseResult editTaskById(@RequestBody Map<String, Object> params, @PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.editTest(params, testId));

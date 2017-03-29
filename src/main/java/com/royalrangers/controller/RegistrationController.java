@@ -12,8 +12,12 @@ import com.royalrangers.service.VerificationTokenService;
 import com.royalrangers.utils.ResponseBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -49,13 +53,13 @@ public class RegistrationController {
     private SectionRepository sectionRepository;
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ResponseResult registration(@RequestBody String jsonUser) {
+    public ResponseEntity registration(@RequestBody String jsonUser) {
         Gson gson = new Gson();
         UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
 
         if (userService.isEmailExist(userBean.getEmail())) {
             log.info(String.format("User with email '%s' already exists", userBean.getEmail()));
-            return ResponseBuilder.fail("User with this email already exists");
+            return new ResponseEntity(ResponseBuilder.fail("User with this email already exists"), HttpStatus.CONFLICT);
         }
 
         User user = userService.createUserFromUserForm(userBean);
@@ -63,22 +67,22 @@ public class RegistrationController {
         emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
 
         log.info(String.format("User '%s' is successfully created", userBean.getEmail()));
-        return ResponseBuilder.success("User is successfully created");
+        return new ResponseEntity(ResponseBuilder.success("User is successfully created"), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/registration/confirm", method = RequestMethod.GET)
-    public ResponseResult registrationConfirm(@RequestParam("token") String token) {
+    public ResponseEntity registrationConfirm(@RequestParam("token") String token) {
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         if (verificationToken == null) {
             log.info(String.format("Verification token '%s' is invalid", token));
-            return ResponseBuilder.fail("Verification token is invalid");
+            return new ResponseEntity(ResponseBuilder.fail("Verification token is invalid"), HttpStatus.CONFLICT);
         }
 
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
             log.info(String.format("Verification token '%s' is expired", token));
-            return ResponseBuilder.fail("Verification token is expired");
+            return new ResponseEntity(ResponseBuilder.fail("Verification token is expired"), HttpStatus.CONFLICT);
         }
 
         User user = verificationToken.getUser();
@@ -86,7 +90,7 @@ public class RegistrationController {
         userRepository.save(user);
 
         log.info(String.format("Verification token '%s' is confirmed", token));
-        return ResponseBuilder.success("User confirm registration successfully");
+        return new ResponseEntity(ResponseBuilder.success("User confirm registration successfully"), HttpStatus.OK);
     }
 
     @PostMapping("/registration/check/email")
