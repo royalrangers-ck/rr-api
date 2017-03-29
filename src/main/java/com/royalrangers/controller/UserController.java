@@ -73,7 +73,7 @@ public class UserController {
 
         return ResponseBuilder.success("Users disabled.");
     }
-    @PutMapping(value = "/user")
+    @PutMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
 
@@ -85,7 +85,7 @@ public class UserController {
         return ResponseBuilder.success(String.format("User %s successful updated", email));
     }
 
-    @PutMapping(value = "/user/{id}")
+    @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
 
