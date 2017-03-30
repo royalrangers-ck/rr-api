@@ -1,3 +1,6 @@
+server:
+  context-path: /api
+---
 spring:
     application:
         name: royal-rangers

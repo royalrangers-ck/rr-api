@@ -3,7 +3,6 @@ package com.royalrangers.controller;
 import com.google.gson.Gson;
 import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.bean.UserBean;
-import com.royalrangers.enums.UserRank;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
 import com.royalrangers.service.UserService;
@@ -13,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -73,12 +70,6 @@ public class UserController {
         return ResponseBuilder.success("Users disabled.");
     }
 
-    @GetMapping(value = "/user/rank")
-    public @ResponseBody ResponseResult getUserRankList() {
-        List<Enum> rankList = Arrays.asList(UserRank.values());
-        return ResponseBuilder.success(rankList);
-    }
-
     @PutMapping
     @PreAuthorize("isAuthenticated()")
     public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
@@ -102,9 +93,7 @@ public class UserController {
             return ResponseBuilder.success(String.format("User with id %d successful updated", id));
 
         } catch (UserRepositoryException e){
-
             return ResponseBuilder.fail(e.getMessage());
         }
     }
-
 }
