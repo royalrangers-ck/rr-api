@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/achievements/reward")
+@RequestMapping("/achievements/reward")
 public class RewardController {
 
     @Autowired

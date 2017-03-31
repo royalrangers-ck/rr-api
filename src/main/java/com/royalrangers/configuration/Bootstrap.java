@@ -40,7 +40,7 @@ public class Bootstrap {
             user.setGender("gender " + element);
             user.setEnabled(true);
             user.setCountry(new Country("Ukraine" + element));
-            user.setCity(new City(user.getCountry(), "Cherkasy" + element));
+            user.setCity(new City(user.getCountry(),"Cherkasy" + element));
             user.setGroup(new Group(user.getCity(), "group " + element));
             user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
             user.setSection(new Section(user.getPlatoon(), "section " + element));

@@ -1,13 +1,13 @@
 package com.royalrangers.bean;
 
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class Email {
-
-    @NonNull
+public class UserAchievementBean {
+    private Long id;
     private String email;
+    private String firstName;
+    private String lastName;
 }
