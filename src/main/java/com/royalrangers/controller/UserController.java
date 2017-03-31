@@ -1,6 +1,5 @@
 package com.royalrangers.controller;
 
-import com.google.gson.Gson;
 import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.exception.UserRepositoryException;
@@ -51,11 +50,8 @@ public class UserController {
 
     @GetMapping("/approve/{id}")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-
-        Gson gson  = new Gson();
-        String jsonList = gson.toJson(userService.getUsersForApprove(platoonId));
-
-        return ResponseBuilder.success(jsonList);
+        List<UserBean> usersForApprove = userService.getUsersForApprove(platoonId);
+        return ResponseBuilder.success(usersForApprove);
     }
 
     @PostMapping("/approve")

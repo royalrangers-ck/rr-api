@@ -189,6 +189,7 @@ public class UserService {
         ids.forEach(id -> {
             User user = userRepository.findOne(id);
             user.setEnabled(false);
+            user.setConfirmed(false);
             userRepository.save(user);
         });
     }
