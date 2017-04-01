@@ -1,6 +1,6 @@
 package com.royalrangers.model.achievement;
 
-import com.royalrangers.enums.achivement.AchievementStatus;
+import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.BaseModel;
 import com.royalrangers.model.User;
 import lombok.Getter;
@@ -14,13 +14,10 @@ import javax.persistence.*;
 public class UserTest extends BaseModel {
 
     @Enumerated
-    private AchievementStatus achievementStatus;
+    private AchievementState achievementState;
 
     @OneToOne
     private User user;
-
-    @OneToOne
-    private User reviewer;
 
     @OneToOne
     private Test test;
