@@ -57,4 +57,4 @@ gradlew bootRun
 
 We're using Swagger as a documenting tool.
 
-After application is started, navigate to [http://localhost:8080/api/swagger-ui.html](http://localhost:8080/api/swagger-ui.html) and you'll see a list of available APIs.
+After application is started, navigate to [http://localhost:8080/api/swagger-ui.html](http://localhost:8080/api/swagger-ui.html) and you'll see the list of available APIs.

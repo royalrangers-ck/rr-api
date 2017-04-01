@@ -16,25 +16,25 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Value("${springfox.documentation.swagger.title}")
+    @Value("${springfox.documentation.swagger.v2.title}")
     private String title;
 
-    @Value("${springfox.documentation.swagger.description}")
+    @Value("${springfox.documentation.swagger.v2.description}")
     private String description;
 
-    @Value("${springfox.documentation.swagger.termsOfServiceUrl}")
+    @Value("${springfox.documentation.swagger.v2.termsOfServiceUrl}")
     private String termsOfServiceUrl;
 
-    @Value("${springfox.documentation.swagger.license}")
+    @Value("${springfox.documentation.swagger.v2.license}")
     private String license;
 
-    @Value("${springfox.documentation.swagger.licenseUrl}")
+    @Value("${springfox.documentation.swagger.v2.licenseUrl}")
     private String licenseUrl;
 
-    @Value("${springfox.documentation.swagger.contactName}")
+    @Value("${springfox.documentation.swagger.v2.contactName}")
     private String contactName;
 
-    @Value("${springfox.documentation.swagger.contactUrl}")
+    @Value("${springfox.documentation.swagger.v2.contactUrl}")
     private String contactUrl;
 
     @Value("${springfox.documentation.swagger.contactEmail}")
