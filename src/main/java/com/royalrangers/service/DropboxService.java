@@ -4,7 +4,6 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
-import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,23 +38,26 @@ public class DropboxService {
 
     public String avatarUpload(MultipartFile file) throws IOException, DbxException {
 
-        String path = "/avatar/";
+        String prefix = "/avatar/";
         String extension = getFilenameExtension(file.getOriginalFilename());
-        String filename = UUID.randomUUID().toString() + extension;
+        String path = prefix + UUID.randomUUID().toString() + extension;
 
         InputStream in = file.getInputStream();
-        DbxClientV2 client = getClient();
+        getClient().files().uploadBuilder(path).uploadAndFinish(in);
 
-        FileMetadata metadata = client.files().uploadBuilder(path + filename).uploadAndFinish(in);
-        String sharedUrl = client.sharing().createSharedLinkWithSettings(path +filename).getUrl();
+        return getSharedLink(path);
+    }
+
+    private String getFilenameExtension (String filename) {
+        return filename.substring(filename.lastIndexOf("."));
+    }
+
+    private String getSharedLink(String path) throws DbxException {
+        String sharedUrl = getClient().sharing().createSharedLinkWithSettings(path).getUrl();
         String directUrl = sharedUrl
                 .substring(0, sharedUrl.lastIndexOf("?"))
                 .replaceAll("www.dropbox.com", "dl.dropboxusercontent.com");
 
         return directUrl;
-    }
-
-    private String getFilenameExtension (String filename) {
-        return filename.substring(filename.lastIndexOf("."));
     }
  }
