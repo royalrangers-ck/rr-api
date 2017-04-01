@@ -4,6 +4,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +13,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.UUID;
 
 @Service
 public class DropboxService {
@@ -32,4 +34,23 @@ public class DropboxService {
         FileMetadata metadata = getClient().files().uploadBuilder("/" + file.getOriginalFilename())
                 .uploadAndFinish(in);
     }
-}
+
+    public String avatarUpload(MultipartFile file) throws IOException, DbxException {
+
+        String path = "/avatar/";
+        String extension = getFilenameExtension(file.getOriginalFilename());
+        String filename = UUID.randomUUID().toString() + extension;
+
+        InputStream in = file.getInputStream();
+        DbxClientV2 client = getClient();
+
+        FileMetadata metadata = client.files().uploadBuilder(path + filename).uploadAndFinish(in);
+        SharedLinkMetadata shared = client.sharing().createSharedLinkWithSettings(path +filename);
+
+        return shared.getUrl();
+    }
+
+    private String getFilenameExtension (String filename) {
+        return filename.substring(filename.lastIndexOf("."));
+    }
+ }
