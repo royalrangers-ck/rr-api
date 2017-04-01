@@ -47,9 +47,12 @@ public class DropboxService {
         DbxClientV2 client = getClient();
 
         FileMetadata metadata = client.files().uploadBuilder(path + filename).uploadAndFinish(in);
-        SharedLinkMetadata shared = client.sharing().createSharedLinkWithSettings(path +filename);
+        String sharedUrl = client.sharing().createSharedLinkWithSettings(path +filename).getUrl();
+        String directUrl = sharedUrl
+                .substring(0, sharedUrl.lastIndexOf("?"))
+                .replaceAll("www.dropbox.com", "dl.dropboxusercontent.com");
 
-        return shared.getUrl();
+        return directUrl;
     }
 
     private String getFilenameExtension (String filename) {
