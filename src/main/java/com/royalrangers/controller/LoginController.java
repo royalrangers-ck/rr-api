@@ -7,6 +7,8 @@ import com.royalrangers.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 public class LoginController {
     @Autowired
@@ -15,7 +17,8 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestParam String email) {
+    public ResponseResult login(@RequestParam Map <String,Object> params) {
+        String email = (String) params.get("email");
         User user = userRepository.findByEmail(email);
         return loginService.loginInformation(user);
     }

@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -55,23 +56,25 @@ public class UserController {
     }
 
     @PostMapping("/approve")
-    public ResponseResult approveUser(@RequestBody List<Long> ids) {
+    public ResponseResult approveUser(@RequestBody Map<String, Object> params) {
+        List <Long> ids = (List<Long>) params.get("ids");
         userService.approveUsers(ids);
         return ResponseBuilder.success("Users approved successfully.");
     }
 
     @PostMapping("/reject")
-    public ResponseResult rejectUser(@RequestBody List<Long> ids) {
+    public ResponseResult rejectUser(@RequestBody Map <String, Object> params) {
+        List<Long> ids = (List<Long>) params.get("ids");
         userService.rejectUsers(ids);
         return ResponseBuilder.success("Users disabled.");
     }
 
     @PutMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
+    public ResponseResult updateAuthorizedUser(@RequestBody Map <String, Object> params) {
 
         String email = userService.getAuthenticatedUserEmail();
-
+        UserBean update = (UserBean) params.get("update");
         userService.updateUserByEmail(email, update);
         log.info("Update user " + email);
 

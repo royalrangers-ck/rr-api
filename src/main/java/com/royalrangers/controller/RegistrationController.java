@@ -35,8 +35,9 @@ public class RegistrationController {
     private UserRepository userRepository;
 
     @PostMapping
-    public ResponseResult registration(@RequestBody String jsonUser) {
+    public ResponseResult registration(@RequestBody Map <String, Object> params) {
         Gson gson = new Gson();
+        String jsonUser = (String) params.get("userBean");
         UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
 
         if (userService.isEmailExist(userBean.getEmail())) {
