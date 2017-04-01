@@ -61,3 +61,11 @@ springfox:
         swagger:
             v2:
                 path: /docs
+            title: Royal Rangers
+            description: API for Royal Rangers application
+            termsOfServiceUrl: http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open
+            license: Apache License Version 2.0
+            licenseUrl: https://github.com/royalrangers-ck/rr-api/blob/develop/LICENSE
+            contactName: RoyalRangers team
+            contactUrl: https://github.com/royalrangers-ck
+            contactEmail: royalrangers.ck@gmail.com

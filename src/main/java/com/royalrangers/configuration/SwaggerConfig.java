@@ -1,5 +1,6 @@
 package com.royalrangers.configuration;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -15,6 +16,30 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
+    @Value("${springfox.documentation.swagger.title}")
+    private String title;
+
+    @Value("${springfox.documentation.swagger.description}")
+    private String description;
+
+    @Value("${springfox.documentation.swagger.termsOfServiceUrl}")
+    private String termsOfServiceUrl;
+
+    @Value("${springfox.documentation.swagger.license}")
+    private String license;
+
+    @Value("${springfox.documentation.swagger.licenseUrl}")
+    private String licenseUrl;
+
+    @Value("${springfox.documentation.swagger.contactName}")
+    private String contactName;
+
+    @Value("${springfox.documentation.swagger.contactUrl}")
+    private String contactUrl;
+
+    @Value("${springfox.documentation.swagger.contactEmail}")
+    private String contactEmail;
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -28,20 +53,13 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Royal Rangers")
-                .description("API for Royal Rangers application")
-                .termsOfServiceUrl("http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open")
-                .contact(getContactInfo())
-                .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/royalrangers-ck/rr-api/blob/develop/LICENSE")
-                .version("2.0")
+                .title(title)
+                .description(description)
+                .termsOfServiceUrl(termsOfServiceUrl)
+                .contact(new Contact(contactName, contactUrl, contactEmail))
+                .license(license)
+                .licenseUrl(licenseUrl)
                 .build();
     }
 
-    private Contact getContactInfo() {
-        return new Contact(
-                "RoyalRangers team",
-                "https://github.com/royalrangers-ck",
-                "royalrangers.ck@gmail.com");
-    }
 }
