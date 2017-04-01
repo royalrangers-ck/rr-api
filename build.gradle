@@ -49,6 +49,8 @@ dependencies {
     compile 'io.jsonwebtoken:jjwt:0.7.0'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'com.dropbox.core:dropbox-core-sdk:2.1.2'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.4.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.4.0'
 
     compileOnly 'org.projectlombok:lombok'
 
