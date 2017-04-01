@@ -23,7 +23,9 @@ public class DropboxService {
     private String accessToken;
 
     public DbxClientV2 getClient() {
-    DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
+    DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
+            .withUserLocale(Locale.getDefault().toString())
+            .build();
     DbxClientV2 client = new DbxClientV2(config, accessToken);
         return client;
     }
