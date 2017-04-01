@@ -64,8 +64,8 @@ public class UserService {
 
     public User createUserFromUserForm(UserBean userBean) {
         User user = new User();
-        user.setCreateDate(new Date());
-        user.setUpdateDate(new Date());
+        user.setCreateDate(user.getCreateDate());
+        user.setUpdateDate(user.getUpdateDate());
         user.setEmail(userBean.getEmail());
         user.setFirstName(userBean.getFirstName());
         user.setLastName(userBean.getLastName());
@@ -107,9 +107,6 @@ public class UserService {
         userBean.setApproved(user.getApproved());
         userBean.setBirthDate(user.getBirthDate());
         userBean.setTelephoneNumber(user.getTelephoneNumber());
-        userBean.setConfirmed(user.getConfirmed());
-        userBean.setEnabled(user.getEnabled());
-        userBean.setApproved(user.getApproved());
         userBean.setUserAgeGroup(user.getUserAgeGroup());
         userBean.setCountryId(user.getCountry().getId());
         userBean.setCityId(user.getCity().getId());
@@ -223,7 +220,8 @@ public class UserService {
     }
 
     public void updateUserByAdmin(User user, UserBean update) {
-
+        user.setCreateDate(update.getCreateDate());
+        user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());
         user.setLastName(update.getLastName());
         user.setGender(update.getGender());
@@ -241,6 +239,8 @@ public class UserService {
     }
 
     private void updateUserItself(User user, UserBean update) {
+        user.setCreateDate(update.getCreateDate());
+        user.setUpdateDate(new Date());
         user.setTelephoneNumber(update.getTelephoneNumber());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
