@@ -13,6 +13,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -62,7 +63,8 @@ public class UserController {
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Approve users after registration (for admin)")
-    public ResponseResult approveUser(@RequestBody List<Long> ids) {
+    public ResponseResult approveUser(@RequestBody Map<String, Object> params) {
+        List<Long> ids  = (List<Long>) params.get("ids");
         userService.approveUsers(ids);
         return ResponseBuilder.success("Users successfully approved.");
     }
@@ -70,7 +72,8 @@ public class UserController {
     @PostMapping("/reject")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Reject user after registration (for admin)")
-    public ResponseResult rejectUser(@RequestBody List<Long> ids) {
+    public ResponseResult rejectUser(@RequestBody Map<String, Object> params) {
+        List<Long> ids  = (List<Long>) params.get("ids");
         userService.rejectUsers(ids);
         return ResponseBuilder.success("Users successfully rejected.");
     }
