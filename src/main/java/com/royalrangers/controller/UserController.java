@@ -6,13 +6,13 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.UserProfileService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -27,6 +27,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
+    @ApiOperation(value = "Get user info")
     public @ResponseBody ResponseResult getAuthenticatedUserDetail() {
 
         String username = userService.getAuthenticatedUserEmail();
@@ -37,6 +38,7 @@ public class UserController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get user info (for admin)")
     public @ResponseBody ResponseResult getUserDetailById(@PathVariable("id") Long id) {
 
         try {
@@ -50,31 +52,36 @@ public class UserController {
     }
 
     @GetMapping("/approve/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get users for approve (for admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
         List<UserBean> usersForApprove = userService.getUsersForApprove(platoonId);
         return ResponseBuilder.success(usersForApprove);
     }
 
     @PostMapping("/approve")
-    public ResponseResult approveUser(@RequestBody Map<String, Object> params) {
-        List <Long> ids = (List<Long>) params.get("ids");
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Approve users after registration (for admin)")
+    public ResponseResult approveUser(@RequestBody List<Long> ids) {
         userService.approveUsers(ids);
-        return ResponseBuilder.success("Users approved successfully.");
+        return ResponseBuilder.success("Users successfully approved.");
     }
 
     @PostMapping("/reject")
-    public ResponseResult rejectUser(@RequestBody Map <String, Object> params) {
-        List<Long> ids = (List<Long>) params.get("ids");
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Reject user after registration (for admin)")
+    public ResponseResult rejectUser(@RequestBody List<Long> ids) {
         userService.rejectUsers(ids);
-        return ResponseBuilder.success("Users disabled.");
+        return ResponseBuilder.success("Users successfully rejected.");
     }
 
     @PutMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseResult updateAuthorizedUser(@RequestBody Map <String, Object> params) {
+    @ApiOperation(value = "Update user")
+    public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
 
         String email = userService.getAuthenticatedUserEmail();
-        UserBean update = (UserBean) params.get("update");
+
         userService.updateUserByEmail(email, update);
         log.info("Update user " + email);
 
@@ -83,6 +90,7 @@ public class UserController {
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Update user (for admin)")
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
 
         try {

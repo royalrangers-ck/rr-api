@@ -6,11 +6,14 @@ import com.royalrangers.enums.UserRank;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
 @JsonSerialize
 public class UserProfile {
-
+    private Date createDate;
+    private Date updateDate;
     private String email;
     private String firstName;
     private String lastName;
