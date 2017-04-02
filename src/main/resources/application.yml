@@ -27,7 +27,7 @@ spring:
         test-while-idle: true
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: create
     resources:
         chain:
             cache: false
@@ -55,6 +55,7 @@ jwt:
 dropbox:
     appName: RoyalRanger
     accessToken: DFoAZto0iaAAAAAAAAAACfPm4YmwBUR7cCcP9_KsZwQLyVjOMA_1NksW30T7RXLW
+    avatarPrefix: /avatar/
 ---
 springfox:
     documentation:

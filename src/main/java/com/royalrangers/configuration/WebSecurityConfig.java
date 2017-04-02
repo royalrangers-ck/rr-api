@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration/**").permitAll()           
                 .antMatchers("/subscribe/**").permitAll()
                 .antMatchers("/public/**").permitAll()
+                .antMatchers("/avatar/**").permitAll()
 
                 // allow anonymous resource requests for Swagger
                 .antMatchers("/docs").permitAll()

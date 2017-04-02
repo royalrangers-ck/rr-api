@@ -26,6 +26,7 @@ public class User extends BaseModel {
     private Boolean approved;
     private UserAgeGroup userAgeGroup;
     private UserRank userRank;
+    private String avatarUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
