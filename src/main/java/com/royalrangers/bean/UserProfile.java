@@ -27,5 +27,5 @@ public class UserProfile {
     private String group;
     private String platoon;
     private String section;
-
+    private String avatarUrl;
 }
