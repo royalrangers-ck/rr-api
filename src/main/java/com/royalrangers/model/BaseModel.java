@@ -20,6 +20,6 @@ public abstract class BaseModel {
     
     public BaseModel() {
         this.createDate = new Date();
-        this.updateDate = new Date();
+        this.updateDate = createDate;
     }
 }
