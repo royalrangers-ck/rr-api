@@ -1,6 +1,5 @@
 package com.royalrangers.controller;
 
-import com.google.gson.Gson;
 import com.royalrangers.bean.ResponseResult;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.model.User;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -35,21 +33,18 @@ public class RegistrationController {
     private UserRepository userRepository;
 
     @PostMapping
-    public ResponseResult registration(@RequestBody Map <String, Object> params) {
-        Gson gson = new Gson();
-        String jsonUser = (String) params.get("userBean");
-        UserBean userBean = gson.fromJson(jsonUser, UserBean.class);
+    public ResponseResult registration(@RequestBody UserBean userInfo) {
 
-        if (userService.isEmailExist(userBean.getEmail())) {
-            log.info(String.format("User with email '%s' already exists", userBean.getEmail()));
+        if (userService.isEmailExist(userInfo.getEmail())) {
+            log.info(String.format("User with email '%s' already exists", userInfo.getEmail()));
             return ResponseBuilder.fail("User with this email already exists");
         }
 
-        User user = userService.createUserFromUserForm(userBean);
+        User user = userService.createUserFromUserForm(userInfo);
         String confirmLink = userService.getConfirmRegistrationLink(user);
         emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
 
-        log.info(String.format("User '%s' is successfully created", userBean.getEmail()));
+        log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
         return ResponseBuilder.success("User is successfully created");
     }
 
@@ -77,9 +72,8 @@ public class RegistrationController {
     }
 
     @PostMapping("/check/email")
-    public ResponseResult checkEmail(@RequestBody Map<String, Object> params) {
+    public ResponseResult checkEmail(@RequestBody String email) {
 
-        String email = (String) params.get("email");
         log.info(String.format("Checking email '%s'", email));
 
         if (userService.isEmailExist(email)) {

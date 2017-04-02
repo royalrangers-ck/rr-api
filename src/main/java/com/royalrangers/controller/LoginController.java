@@ -17,8 +17,7 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("/login")
-    public ResponseResult login(@RequestParam Map <String,Object> params) {
-        String email = (String) params.get("email");
+    public ResponseResult login(@RequestParam String email) {
         User user = userRepository.findByEmail(email);
         return loginService.loginInformation(user);
     }
