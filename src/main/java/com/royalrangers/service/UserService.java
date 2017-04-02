@@ -71,6 +71,7 @@ public class UserService {
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
+        user.setAvatarUrl(userBean.getAvatarUrl());
         user.setEnabled(false);
         user.setConfirmed(false);
         user.setApproved(false);
@@ -192,6 +193,7 @@ public class UserService {
             userRepository.save(user);
         });
     }
+
     public boolean isAuthenticatedUserHasRole(String role) {
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -244,6 +246,7 @@ public class UserService {
         user.setTelephoneNumber(update.getTelephoneNumber());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
+        user.setAvatarUrl(update.getAvatarUrl());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
         user.setGroup(groupRepository.findOne(update.getGroupId()));
