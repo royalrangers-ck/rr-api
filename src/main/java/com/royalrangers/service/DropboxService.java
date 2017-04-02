@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
@@ -20,6 +19,8 @@ public class DropboxService {
     private String appName;
     @Value("${dropbox.accessToken}")
     private String accessToken;
+    @Value("${dropbox.avatarPrefix}")
+    private String avatarPrefix;
 
     public DbxClientV2 getClient() {
     DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
@@ -30,22 +31,26 @@ public class DropboxService {
     }
 
     public void fileUpload(MultipartFile file) throws IOException, DbxException {
-        byte[] bytes = file.getBytes();
-        InputStream in = new ByteArrayInputStream(bytes);
+        InputStream in = file.getInputStream();
         FileMetadata metadata = getClient().files().uploadBuilder("/" + file.getOriginalFilename())
                 .uploadAndFinish(in);
     }
 
     public String avatarUpload(MultipartFile file) throws IOException, DbxException {
 
-        String prefix = "/avatar/";
         String extension = getFilenameExtension(file.getOriginalFilename());
-        String path = prefix + UUID.randomUUID().toString() + extension;
+        String path = avatarPrefix + UUID.randomUUID().toString() + extension;
 
         InputStream in = file.getInputStream();
         getClient().files().uploadBuilder(path).uploadAndFinish(in);
 
         return getSharedLink(path);
+    }
+
+    public void deleteAvatar(String avatarUrl) throws DbxException {
+        String filename = avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1);
+        String path = avatarPrefix + filename;
+        getClient().files().delete(path);
     }
 
     private String getFilenameExtension (String filename) {
