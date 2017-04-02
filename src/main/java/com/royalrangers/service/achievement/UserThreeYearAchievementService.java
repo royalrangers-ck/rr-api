@@ -22,6 +22,9 @@ public class UserThreeYearAchievementService {
     private UserThreeYearAchievementRepository userThreeYearAchievementRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -46,6 +49,8 @@ public class UserThreeYearAchievementService {
 
     public void addUserThreeYearAchievement(Map<String, Object> params) {
         UserThreeYearAchievement savedUserAchievement = new UserThreeYearAchievement();
+        savedUserAchievement.setCreateDate(new Date());
+        savedUserAchievement.setUpdateDate(new Date());
         String achievementState = (String) params.get("state");
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
