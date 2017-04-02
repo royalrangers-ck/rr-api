@@ -51,4 +51,10 @@ gradlew bootRun
 1. Open project from Intellij Idea. Download dependencies using Gradle.
 1. Right click on **Application.java** and select _**Run application**_
 
-After application is launched, go to [localhost:8080](http://localhost:8080/) and try it.
+##### After application is launched, go to [localhost:8080](http://localhost:8080/) and try it.
+
+### Documentation
+
+We're using Swagger as a documenting tool.
+
+After application is started, navigate to [http://localhost:8080/api/swagger-ui.html](http://localhost:8080/api/swagger-ui.html) and you'll see the list of available APIs.
