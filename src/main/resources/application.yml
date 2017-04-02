@@ -27,7 +27,7 @@ spring:
         test-while-idle: true
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: create
     resources:
         chain:
             cache: false
