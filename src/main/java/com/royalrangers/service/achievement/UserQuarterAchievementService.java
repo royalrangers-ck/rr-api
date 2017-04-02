@@ -22,9 +22,6 @@ public class UserQuarterAchievementService {
     private UserQuarterAchievementRepository userQuarterAchievementRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -41,8 +38,6 @@ public class UserQuarterAchievementService {
 
     public void addUserQuarterAchievement(Map<String, Object> params) {
         UserQuarterAchievement savedUserAchievement = new UserQuarterAchievement();
-        savedUserAchievement.setCreateDate(new Date());
-        savedUserAchievement.setUpdateDate(new Date());
         String achievementState = (String) params.get("state");
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));

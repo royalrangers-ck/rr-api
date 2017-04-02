@@ -22,9 +22,6 @@ public class UserTestService {
     private UserTestRepository userTestRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -41,8 +38,6 @@ public class UserTestService {
 
     public void addUserTest(Map<String, Object> params) {
         UserTest savedUserAchievement = new UserTest();
-        savedUserAchievement.setCreateDate(new Date());
-        savedUserAchievement.setUpdateDate(new Date());
         String achievementState = (String) params.get("state");
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));

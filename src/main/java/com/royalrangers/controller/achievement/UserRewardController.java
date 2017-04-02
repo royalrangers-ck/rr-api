@@ -1,0 +1,66 @@
+package com.royalrangers.controller.achievement;
+
+import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.model.achievement.UserReward;
+import com.royalrangers.service.achievement.UserRewardService;
+import com.royalrangers.utils.ResponseBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/achievements/userReward")
+public class UserRewardController {
+    @Autowired
+    private UserRewardService userRewardService;
+
+    @GetMapping
+    public ResponseResult getAllRewardsForUser(){
+        try{
+            return ResponseBuilder.success(userRewardService.getAllRewardForUser());
+        } catch (Exception ex) {
+            return ResponseBuilder.fail("Failed get all UserReward");
+        }
+    }
+
+    @PostMapping
+    public ResponseResult addUserReward(@RequestBody Map<String, Object> params){
+        try {
+            userRewardService.addUserReward(params);
+            return ResponseBuilder.success("Successfully added UserReward");
+        } catch (Exception ex){
+            return ResponseBuilder.fail("Failed add UserReward");
+        }
+    }
+
+    @GetMapping("/{userRewardId}")
+    public ResponseResult getUserRewardById(@PathVariable Long userRewardId){
+        try {
+            return ResponseBuilder.success(userRewardService.getRewardById(userRewardId));
+        } catch (Exception ex){
+            return ResponseBuilder.fail("Failed get UserReward by id");
+        }
+    }
+
+    @DeleteMapping("/{userRewardId}")
+    public ResponseResult deleteUserReward(@PathVariable Long userRewardId){
+        try {
+            userRewardService.deleteUserReward(userRewardId);
+            return ResponseBuilder.success("Successfully deleted UserReward");
+        } catch (Exception ex){
+            return ResponseBuilder.fail("Failed delete UserReward");
+        }
+    }
+
+    @PutMapping("/{userRewardId}")
+    public ResponseResult editUserReward(@RequestBody Map<String, Object> params, @PathVariable Long userRewardId){
+        try{
+            userRewardService.editUserReward(params, userRewardId);
+            return ResponseBuilder.success("Successfully edited UserReward");
+        } catch (Exception ex) {
+            return ResponseBuilder.fail("Failed edit UserReward");
+        }
+    }
+
+}
