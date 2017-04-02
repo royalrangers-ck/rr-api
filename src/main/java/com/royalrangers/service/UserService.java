@@ -241,7 +241,6 @@ public class UserService {
         user.setBirthDate(update.getBirthDate());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
-        user.setAvatarUrl(update.getAvatarUrl());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
         user.setGroup(groupRepository.findOne(update.getGroupId()));
@@ -257,7 +256,6 @@ public class UserService {
         user.setTelephoneNumber(update.getTelephoneNumber());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
-        user.setAvatarUrl(update.getAvatarUrl());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
         user.setGroup(groupRepository.findOne(update.getGroupId()));
@@ -269,7 +267,6 @@ public class UserService {
         String email = getAuthenticatedUserEmail();
         User user = userRepository.findByEmail(email);
 
-        String url = user.getAvatarUrl();
         if (user.getAvatarUrl() != null) {
             dropboxService.deleteAvatar(user.getAvatarUrl());
         }
