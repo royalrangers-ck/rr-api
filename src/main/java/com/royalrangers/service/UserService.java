@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.bean.UserAchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
@@ -9,6 +9,7 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
+import com.royalrangers.utils.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -174,6 +175,11 @@ public class UserService {
 
     public User getUserById(Long id){
         return userRepository.findOne(id);
+    }
+
+    public Long getAuthenticatedUserId(){
+        JwtUser user = (JwtUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getId();
     }
 
     public void approveUsers(List<Long> ids) {
