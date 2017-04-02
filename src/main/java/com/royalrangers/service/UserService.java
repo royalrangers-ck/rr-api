@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.bean.UserAchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
@@ -9,6 +9,7 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
+import com.royalrangers.utils.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -64,8 +65,8 @@ public class UserService {
 
     public User createUserFromUserForm(UserBean userBean) {
         User user = new User();
-        user.setCreateDate(new Date());
-        user.setUpdateDate(new Date());
+        user.setCreateDate(user.getCreateDate());
+        user.setUpdateDate(user.getUpdateDate());
         user.setEmail(userBean.getEmail());
         user.setFirstName(userBean.getFirstName());
         user.setLastName(userBean.getLastName());
@@ -108,9 +109,6 @@ public class UserService {
         userBean.setApproved(user.getApproved());
         userBean.setBirthDate(user.getBirthDate());
         userBean.setTelephoneNumber(user.getTelephoneNumber());
-        userBean.setConfirmed(user.getConfirmed());
-        userBean.setEnabled(user.getEnabled());
-        userBean.setApproved(user.getApproved());
         userBean.setUserAgeGroup(user.getUserAgeGroup());
         userBean.setCountryId(user.getCountry().getId());
         userBean.setCityId(user.getCity().getId());
@@ -177,6 +175,11 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
+    public Long getAuthenticatedUserId(){
+        JwtUser user = (JwtUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getId();
+    }
+
     public void approveUsers(List<Long> ids) {
         ids.forEach(id -> {
             User user = userRepository.findOne(id);
@@ -190,6 +193,7 @@ public class UserService {
         ids.forEach(id -> {
             User user = userRepository.findOne(id);
             user.setEnabled(false);
+            user.setConfirmed(false);
             userRepository.save(user);
         });
     }
@@ -225,7 +229,8 @@ public class UserService {
     }
 
     public void updateUserByAdmin(User user, UserBean update) {
-
+        user.setCreateDate(update.getCreateDate());
+        user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());
         user.setLastName(update.getLastName());
         user.setGender(update.getGender());
@@ -243,6 +248,8 @@ public class UserService {
     }
 
     private void updateUserItself(User user, UserBean update) {
+        user.setCreateDate(update.getCreateDate());
+        user.setUpdateDate(new Date());
         user.setTelephoneNumber(update.getTelephoneNumber());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());

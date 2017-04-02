@@ -65,6 +65,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/subscribe/**").permitAll()
                 .antMatchers("/public/**").permitAll()
                 .antMatchers("/avatar/**").permitAll()
+
+                // allow anonymous resource requests for Swagger
+                .antMatchers("/docs").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/swagger-resources").permitAll()
+                .antMatchers("/configuration/ui").permitAll()
+                .antMatchers("/configuration/security").permitAll()
+
                 .anyRequest().authenticated();
 
         // Custom JWT based security filter
