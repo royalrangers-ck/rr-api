@@ -37,8 +37,6 @@ public class UserTaskService {
 
     public void addUserTask(Map<String, Object> params) {
         UserTask userTask = new UserTask();
-        userTask.setCreateDate(new Date());
-        userTask.setUpdateDate(new Date());
         String achievementState = (String) params.get("state");
         userTask.setAchievementState(AchievementState.valueOf(achievementState));
         userTask.setUser(userService.getUserById(userService.getAuthenticatedUserId()));

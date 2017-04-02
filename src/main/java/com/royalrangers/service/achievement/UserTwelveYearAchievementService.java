@@ -41,8 +41,6 @@ public class UserTwelveYearAchievementService {
 
     public void addUserTwelveYearAchievement(Map<String, Object> params) {
         UserTwelveYearAchievement savedUserAchievement = new UserTwelveYearAchievement();
-        savedUserAchievement.setCreateDate(new Date());
-        savedUserAchievement.setUpdateDate(new Date());
         String achievementState = (String) params.get("state");
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
