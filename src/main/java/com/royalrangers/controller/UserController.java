@@ -70,8 +70,8 @@ public class UserController {
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Approve users after registration (for admin)")
-    public ResponseResult approveUser(@RequestBody Map<String, Object> params) {
-        List<Long> ids  = (List<Long>) params.get("ids");
+    public ResponseResult approveUser(@RequestBody Map<String, List<Long>> params) {
+        List<Long> ids = params.get("ids");
         userService.approveUsers(ids);
         return ResponseBuilder.success("Users successfully approved.");
     }
@@ -79,8 +79,8 @@ public class UserController {
     @PostMapping("/reject")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Reject user after registration (for admin)")
-    public ResponseResult rejectUser(@RequestBody Map<String, Object> params) {
-        List<Long> ids  = (List<Long>) params.get("ids");
+    public ResponseResult rejectUser(@RequestBody Map <String, List<Long>> params) {
+        List<Long> ids = params.get("ids");
         userService.rejectUsers(ids);
         return ResponseBuilder.success("Users successfully rejected.");
     }
