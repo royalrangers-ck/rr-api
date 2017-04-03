@@ -26,8 +26,7 @@ public class RewardController {
     }
 
     @PostMapping
-    public ResponseResult addReward(@RequestBody Map<String,Object> params){
-        Reward reward = (Reward)params.get("reward");
+    public ResponseResult addReward(@RequestBody Reward reward){
         try {
             rewardService.addReward(reward);
             return ResponseBuilder.success("Successful addition of a reward");
@@ -56,8 +55,7 @@ public class RewardController {
     }
 
     @PutMapping("/{rewardId}")
-    public ResponseResult editReward(@RequestBody Map<String,Object> params, @PathVariable Long rewardId){
-        Reward reward = (Reward)params.get("reward");
+    public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId){
         try {
             return ResponseBuilder.success(rewardService.editReward(reward, rewardId));
         } catch (Exception ex) {
