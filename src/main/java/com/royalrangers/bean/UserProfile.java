@@ -22,10 +22,10 @@ public class UserProfile {
     private Long birthDate;
     private UserAgeGroup userAgeGroup;
     private UserRank userRank;
-    private String country;
-    private String city;
-    private String group;
-    private String platoon;
-    private String section;
+    private Long countryId;
+    private Long cityId;
+    private Long groupId;
+    private Long platoonId;
+    private Long sectionId;
     private String avatarUrl;
 }
