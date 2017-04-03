@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.bean.achievement.AchievementBean;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
@@ -117,8 +117,8 @@ public class UserService {
         return userBean;
     }
 
-    public static UserAchievementBean buildUserAchievementBean(User user){
-        UserAchievementBean userBean = new UserAchievementBean();
+    public static AchievementBean buildUserAchievementBean(User user){
+        AchievementBean userBean = new AchievementBean();
         userBean.setId(user.getId());
         userBean.setEmail(user.getEmail());
         userBean.setFirstName(user.getFirstName());

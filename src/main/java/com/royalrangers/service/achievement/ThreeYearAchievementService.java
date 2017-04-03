@@ -5,6 +5,7 @@ import com.royalrangers.model.achievement.ThreeYearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,7 @@ public class ThreeYearAchievementService {
         Integer twelveYearsId = (Integer) params.get("twelveYearAchievement");
         threeYearData.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearsId.longValue()));
         threeYearData.setName((String) params.get("name"));
+        threeYearData.setUpdateDate(new Date());
         threeYearData.setDescription((String) params.get("description"));
         threeYearData.setRequirements((String) params.get("requirements"));
         threeYearData.setLogoUrl((String) params.get("logoUrl"));

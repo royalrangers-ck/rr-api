@@ -6,6 +6,7 @@ import com.royalrangers.repository.achievement.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class TestService {
     public Test editTest(Map<String, Object> params, Long testId) {
         Test test = getTestById(testId);
         Integer quarterId = (Integer) params.get("quarterAchievement");
+        test.setUpdateDate(new Date());
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
         Integer testType = (Integer) params.get("testType");
         test.setTestType(TestType.values()[testType]);

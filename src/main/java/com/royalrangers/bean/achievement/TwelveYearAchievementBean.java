@@ -9,11 +9,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserTwelveYearAchievementBean {
+public class TwelveYearAchievementBean {
     private Long id;
-    private Date createDate;
-    private Date updateDate;
     private AchievementState achievementState;
-    private UserAchievementBean user;
+    private AchievementBean user;
     private TwelveYearAchievement twelveYearAchievement;
 }

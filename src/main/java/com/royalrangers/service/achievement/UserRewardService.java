@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserRewardBean;
+import com.royalrangers.bean.achievement.RewardBean;
 import com.royalrangers.model.achievement.UserReward;
 import com.royalrangers.repository.achievement.UserRewardRepository;
 import com.royalrangers.service.UserService;
@@ -23,9 +23,9 @@ public class UserRewardService {
     @Autowired
     private RewardService rewardService;
 
-    public List<UserRewardBean> getAllRewardForUser(){
+    public List<RewardBean> getAllRewardForUser(){
         List<UserReward> userRewards = userRewardRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserRewardBean> result = new ArrayList<>();
+        List<RewardBean> result = new ArrayList<>();
         for (UserReward user : userRewards) {
             result.add(buildUserRewardBean(user));
         }
@@ -40,7 +40,7 @@ public class UserRewardService {
         userRewardRepository.saveAndFlush(savedUserReward);
     }
 
-    public UserRewardBean getRewardById(Long id){
+    public RewardBean getRewardById(Long id){
         UserReward userReward = userRewardRepository.findOne(id);
         return buildUserRewardBean(userReward);
     }
@@ -57,14 +57,12 @@ public class UserRewardService {
         userRewardRepository.saveAndFlush(savedUserReward);
     }
 
-    private UserRewardBean buildUserRewardBean(UserReward userReward){
-        UserRewardBean userRewardBean = new UserRewardBean();
-        userRewardBean.setId(userReward.getId());
-        userRewardBean.setCreateDate(userReward.getCreateDate());
-        userRewardBean.setUpdateDate(userReward.getUpdateDate());
-        userRewardBean.setUser(UserService.buildUserAchievementBean(userReward.getUser()));
-        userRewardBean.setReward(userReward.getReward());
-        return userRewardBean;
+    private RewardBean buildUserRewardBean(UserReward userReward){
+        RewardBean rewardBean = new RewardBean();
+        rewardBean.setId(userReward.getId());
+        rewardBean.setUser(UserService.buildUserAchievementBean(userReward.getUser()));
+        rewardBean.setReward(userReward.getReward());
+        return rewardBean;
     }
 
 }

@@ -5,6 +5,7 @@ import com.royalrangers.model.achievement.TwelveYearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ public class TwelveYearAchievementService {
     public TwelveYearAchievement editTwelveYearAchievement(Map<String, Object> params, Long twelveYearId) {
         TwelveYearAchievement twelveYearAchievement = getTwelveYearAchievementById(twelveYearId);
         twelveYearAchievement.setName((String) params.get("name"));
+        twelveYearAchievement.setUpdateDate(new Date());
         twelveYearAchievement.setDescription((String) params.get("description"));
         twelveYearAchievement.setLogoUrl((String) params.get("logoUrl"));
         twelveYearAchievement.setRequirements((String) params.get("requirements"));

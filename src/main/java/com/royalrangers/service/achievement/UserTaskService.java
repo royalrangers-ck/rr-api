@@ -1,9 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.bean.achievement.AchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
-import com.royalrangers.bean.achievement.UserTaskBean;
+import com.royalrangers.bean.achievement.TaskBean;
 import com.royalrangers.repository.achievement.UserTaskRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +26,9 @@ public class UserTaskService {
     @Autowired
     private TaskService taskService;
 
-    public List<UserTaskBean> getAllForUser() {
+    public List<TaskBean> getAllForUser() {
         List<UserTask> userTasks = userTaskRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserTaskBean> result = new ArrayList<>();
+        List<TaskBean> result = new ArrayList<>();
         for (UserTask item : userTasks) {
             result.add(buildUserAchievementBean(item));
         }
@@ -45,7 +45,7 @@ public class UserTaskService {
         userTaskRepository.saveAndFlush(userTask);
     }
 
-    public UserTaskBean getUserTaskById(Long id) {
+    public TaskBean getUserTaskById(Long id) {
         UserTask user = userTaskRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -64,13 +64,11 @@ public class UserTaskService {
         userTaskRepository.saveAndFlush(savedUserTask);
     }
 
-    private UserTaskBean buildUserAchievementBean(UserTask item) {
-        UserTaskBean userAchievementBean = new UserTaskBean();
+    private TaskBean buildUserAchievementBean(UserTask item) {
+        TaskBean userAchievementBean = new TaskBean();
         userAchievementBean.setId(item.getId());
-        userAchievementBean.setCreateDate(item.getCreateDate());
-        userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
         userAchievementBean.setUser(userBean);
         userAchievementBean.setTask(item.getTask());
         return userAchievementBean;

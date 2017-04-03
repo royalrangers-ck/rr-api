@@ -1,9 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.bean.achievement.AchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserQuarterAchievement;
-import com.royalrangers.bean.achievement.UserQuarterAchievementBean;
+import com.royalrangers.bean.achievement.QuarterAchievementBean;
 import com.royalrangers.repository.achievement.UserQuarterAchievementRepository;
 import com.royalrangers.repository.UserRepository;
 import com.royalrangers.service.UserService;
@@ -30,9 +30,9 @@ public class UserQuarterAchievementService {
     @Autowired
     private QuarterAchievementService quarterAchievementService;
 
-    public List<UserQuarterAchievementBean> findAllForUser() {
+    public List<QuarterAchievementBean> findAllForUser() {
         List<UserQuarterAchievement> list = userQuarterAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserQuarterAchievementBean> result = new ArrayList<>();
+        List<QuarterAchievementBean> result = new ArrayList<>();
         for (UserQuarterAchievement item : list) {
             result.add(buildUserAchievementBean(item));
         }
@@ -49,7 +49,7 @@ public class UserQuarterAchievementService {
         userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public UserQuarterAchievementBean getUserQuarterAchievementById(Long id) {
+    public QuarterAchievementBean getUserQuarterAchievementById(Long id) {
         UserQuarterAchievement user = userQuarterAchievementRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -68,13 +68,11 @@ public class UserQuarterAchievementService {
         userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    private UserQuarterAchievementBean buildUserAchievementBean(UserQuarterAchievement item) {
-        UserQuarterAchievementBean userAchievementBean = new UserQuarterAchievementBean();
+    private QuarterAchievementBean buildUserAchievementBean(UserQuarterAchievement item) {
+        QuarterAchievementBean userAchievementBean = new QuarterAchievementBean();
         userAchievementBean.setId(item.getId());
-        userAchievementBean.setCreateDate(item.getCreateDate());
-        userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
         userAchievementBean.setUser(userBean);
         userAchievementBean.setQuarterAchievement(item.getQuarterAchievement());
         return userAchievementBean;

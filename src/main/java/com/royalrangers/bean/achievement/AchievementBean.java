@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserAchievementBean {
+public class AchievementBean {
     private Long id;
     private String email;
     private String firstName;

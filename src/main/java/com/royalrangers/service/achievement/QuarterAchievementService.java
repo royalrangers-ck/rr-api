@@ -5,6 +5,7 @@ import com.royalrangers.model.achievement.QuarterAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,7 @@ public class QuarterAchievementService {
     public QuarterAchievement editQuarterAchievement(Map<String, Object> params, Long quarterId) {
         QuarterAchievement editQuarterAchievement = getQuarterAchievementById(quarterId);
         editQuarterAchievement.setName((String) params.get("name"));
+        editQuarterAchievement.setUpdateDate(new Date());
         editQuarterAchievement.setDescription((String) params.get("description"));
         editQuarterAchievement.setRequirements((String) params.get("requirements"));
         Integer yearId = (Integer) params.get("yearAchievementId");

@@ -5,6 +5,7 @@ import com.royalrangers.model.achievement.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class TaskService {
         Task editTask = getTaskById(taskId);
         Integer quarterId = (Integer) params.get("test");
         editTask.setName((String) params.get("name"));
+        editTask.setUpdateDate(new Date());
         editTask.setDescription((String) params.get("description"));
         editTask.setTest(testService.getTestById(quarterId.longValue()));
         return taskRepository.saveAndFlush(editTask);

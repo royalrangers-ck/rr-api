@@ -8,10 +8,8 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserRewardBean {
+public class RewardBean {
     private Long id;
-    private Date createDate;
-    private Date updateDate;
-    private UserAchievementBean user;
+    private AchievementBean user;
     private Reward reward;
 }
