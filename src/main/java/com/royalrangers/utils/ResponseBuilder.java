@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.royalrangers.bean.ResponseResult;
 import lombok.Getter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ResponseBuilder {
 
     public static ResponseResult success() {
@@ -16,6 +19,11 @@ public class ResponseBuilder {
 
     public static ResponseResult success(String message) {
         return new ResponseResult(true, new ResponseMessage(message));
+    }
+    public static ResponseResult success(String key, String value) {
+        Map<String, String> data = new HashMap<>();
+        data.put(key, value);
+        return new ResponseResult(true, data);
     }
 
     public static ResponseResult fail() {

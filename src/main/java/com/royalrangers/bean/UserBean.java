@@ -33,5 +33,6 @@ public class UserBean {
     private Long groupId;
     private Long platoonId;
     private Long sectionId;
+    private String avatarUrl;
 }
 

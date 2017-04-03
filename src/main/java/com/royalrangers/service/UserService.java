@@ -1,6 +1,7 @@
 package com.royalrangers.service;
 
 import com.royalrangers.bean.achievement.AchievementBean;
+import com.dropbox.core.DbxException;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
@@ -26,6 +27,9 @@ public class UserService {
 
     @Value("${confirmRegistrationUrl}")
     private String confirmRegistrationUrl;
+
+    @Autowired
+    private DropboxService dropboxService;
 
     @Autowired
     private UserRepository userRepository;
@@ -196,6 +200,7 @@ public class UserService {
             userRepository.save(user);
         });
     }
+
     public boolean isAuthenticatedUserHasRole(String role) {
         Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -256,6 +261,18 @@ public class UserService {
         user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
+    }
+
+    public void setUserAvatarUrl(String avatarUrl) throws DbxException {
+        String email = getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
+
+        if (user.getAvatarUrl() != null) {
+            dropboxService.deleteAvatar(user.getAvatarUrl());
+        }
+
+        user.setAvatarUrl(avatarUrl);
+        userRepository.save(user);
     }
 }
 
