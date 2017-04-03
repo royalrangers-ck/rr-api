@@ -1,5 +1,6 @@
 package com.royalrangers.service;
 
+import com.dropbox.core.DbxException;
 import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
@@ -26,6 +27,9 @@ public class UserService {
 
     @Value("${confirmRegistrationUrl}")
     private String confirmRegistrationUrl;
+
+    @Autowired
+    private DropboxService dropboxService;
 
     @Autowired
     private UserRepository userRepository;
@@ -72,7 +76,6 @@ public class UserService {
         user.setLastName(userBean.getLastName());
         user.setPassword(passwordEncoder.encode(userBean.getPassword()));
         user.setEmail(userBean.getEmail());
-        user.setAvatarUrl(userBean.getAvatarUrl());
         user.setEnabled(false);
         user.setConfirmed(false);
         user.setApproved(false);
@@ -253,12 +256,23 @@ public class UserService {
         user.setTelephoneNumber(update.getTelephoneNumber());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
-        user.setAvatarUrl(update.getAvatarUrl());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
         user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
+    }
+
+    public void setUserAvatarUrl(String avatarUrl) throws DbxException {
+        String email = getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
+
+        if (user.getAvatarUrl() != null) {
+            dropboxService.deleteAvatar(user.getAvatarUrl());
+        }
+
+        user.setAvatarUrl(avatarUrl);
+        userRepository.save(user);
     }
 }
 
