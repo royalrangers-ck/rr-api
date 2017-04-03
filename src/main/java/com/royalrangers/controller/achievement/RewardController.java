@@ -7,6 +7,8 @@ import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/achievements/reward")
 public class RewardController {
@@ -24,7 +26,7 @@ public class RewardController {
     }
 
     @PostMapping
-    public ResponseResult addReward(@RequestBody Reward reward) {
+    public ResponseResult addReward(@RequestBody Reward reward){
         try {
             rewardService.addReward(reward);
             return ResponseBuilder.success("Successful addition of a reward");
@@ -53,7 +55,7 @@ public class RewardController {
     }
 
     @PutMapping("/{rewardId}")
-    public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId) {
+    public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId){
         try {
             return ResponseBuilder.success(rewardService.editReward(reward, rewardId));
         } catch (Exception ex) {
