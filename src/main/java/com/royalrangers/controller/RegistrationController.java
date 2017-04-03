@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -72,8 +73,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/check/email")
-    public ResponseResult checkEmail(@RequestBody String email) {
+    public ResponseResult checkEmail(@RequestBody Map<String, Object> params) {
 
+        String email = (String)params.get("email");
         log.info(String.format("Checking email '%s'", email));
 
         if (userService.isEmailExist(email)) {
