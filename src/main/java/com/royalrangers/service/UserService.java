@@ -127,6 +127,7 @@ public class UserService {
         userBean.setEmail(user.getEmail());
         userBean.setFirstName(user.getFirstName());
         userBean.setLastName(user.getLastName());
+        userBean.setPlatoonId(user.getPlatoon().getId());
         return  userBean;
     }
 
