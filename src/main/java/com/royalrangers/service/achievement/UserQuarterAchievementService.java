@@ -56,6 +56,12 @@ public class UserQuarterAchievementService {
         return buildUserAchievementBean(user);
     }
 
+    public List<UserQuarterAchievement> getUserQuarterAchievementByAchievementId(Long achievementId) {
+        List<UserQuarterAchievement> resultList =
+                userQuarterAchievementRepository.findAllByQuarterAchievement(achievementId);
+        return resultList;
+    }
+
     public void deleteUserQuarterAchievement(Long id) {
         userQuarterAchievementRepository.delete(id);
     }

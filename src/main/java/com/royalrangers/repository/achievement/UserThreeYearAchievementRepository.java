@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface UserThreeYearAchievementRepository extends JpaRepository<UserThreeYearAchievement, Long>{
     List<UserThreeYearAchievement> findByUserId(Long id);
+    List<UserThreeYearAchievement> findAllByThreeYearAchievement(Long threeYearAchievementId);
 }
