@@ -1,7 +1,8 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.UserBean;
+import com.royalrangers.dto.user.EmailDTO;
+import com.royalrangers.dto.user.UserDTO;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.UserRepository;
@@ -34,7 +35,7 @@ public class RegistrationController {
     private UserRepository userRepository;
 
     @PostMapping
-    public ResponseResult registration(@RequestBody UserBean userInfo) {
+    public ResponseResult registration(@RequestBody UserDTO userInfo) {
 
         if (userService.isEmailExist(userInfo.getEmail())) {
             log.info(String.format("User with email '%s' already exists", userInfo.getEmail()));
@@ -72,10 +73,11 @@ public class RegistrationController {
         return ResponseBuilder.success("User confirm registration successfully");
     }
 
+    //TODO Change to GET method?
     @PostMapping("/check/email")
-    public ResponseResult checkEmail(@RequestBody Map<String, Object> params) {
+    public ResponseResult checkEmail(@RequestBody EmailDTO param) {
 
-        String email = (String)params.get("email");
+        String email = param.getEmail();
         log.info(String.format("Checking email '%s'", email));
 
         if (userService.isEmailExist(email)) {

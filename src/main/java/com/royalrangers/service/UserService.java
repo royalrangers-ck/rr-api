@@ -2,7 +2,7 @@ package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.UserAchievementBean;
-import com.royalrangers.dto.user.UserBean;
+import com.royalrangers.dto.user.UserDTO;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
@@ -67,29 +67,29 @@ public class UserService {
         user.setAuthorities(authoritySet);
     }
 
-    public User createUserFromUserForm(UserBean userBean) {
+    public User createUserFromUserForm(UserDTO userDTO) {
         User user = new User();
         user.setCreateDate(user.getCreateDate());
         user.setUpdateDate(user.getUpdateDate());
-        user.setEmail(userBean.getEmail());
-        user.setFirstName(userBean.getFirstName());
-        user.setLastName(userBean.getLastName());
-        user.setPassword(passwordEncoder.encode(userBean.getPassword()));
-        user.setEmail(userBean.getEmail());
+        user.setEmail(userDTO.getEmail());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setEmail(userDTO.getEmail());
         user.setEnabled(false);
         user.setConfirmed(false);
         user.setApproved(false);
-        user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userBean.getBirthDate())));
+        user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userDTO.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
-        user.setGender(userBean.getGender());
-        user.setTelephoneNumber(userBean.getTelephoneNumber());
-        user.setBirthDate(userBean.getBirthDate());
-        user.setCountry(countryRepository.findOne(userBean.getCountryId()));
-        user.setCity(cityRepository.findOne(userBean.getCityId()));
-        user.setGroup(groupRepository.findOne(userBean.getGroupId()));
-        user.setPlatoon(platoonRepository.findOne(userBean.getPlatoonId()));
-        user.setSection(sectionRepository.findOne(userBean.getSectionId()));
-        if (Objects.equals(userBean.getStatus(), Status.TEACHER)) {
+        user.setGender(userDTO.getGender());
+        user.setTelephoneNumber(userDTO.getTelephoneNumber());
+        user.setBirthDate(userDTO.getBirthDate());
+        user.setCountry(countryRepository.findOne(userDTO.getCountryId()));
+        user.setCity(cityRepository.findOne(userDTO.getCityId()));
+        user.setGroup(groupRepository.findOne(userDTO.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(userDTO.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(userDTO.getSectionId()));
+        if (Objects.equals(userDTO.getStatus(), Status.TEACHER)) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         } else {
             grantAuthority(user, AuthorityName.ROLE_USER);
@@ -97,28 +97,28 @@ public class UserService {
         return user;
     }
 
-    public static UserBean buildUserBean(User user) {
-        UserBean userBean = new UserBean();
-        userBean.setCreateDate(user.getCreateDate());
-        userBean.setUpdateDate(user.getUpdateDate());
-        userBean.setId(user.getId());
-        userBean.setEmail(user.getEmail());
-        userBean.setPassword(user.getPassword());
-        userBean.setFirstName(user.getFirstName());
-        userBean.setLastName(user.getLastName());
-        userBean.setGender(user.getGender());
-        userBean.setEnabled(user.getEnabled());
-        userBean.setConfirmed(user.getConfirmed());
-        userBean.setApproved(user.getApproved());
-        userBean.setBirthDate(user.getBirthDate());
-        userBean.setTelephoneNumber(user.getTelephoneNumber());
-        userBean.setUserAgeGroup(user.getUserAgeGroup());
-        userBean.setCountryId(user.getCountry().getId());
-        userBean.setCityId(user.getCity().getId());
-        userBean.setGroupId(user.getGroup().getId());
-        userBean.setPlatoonId(user.getPlatoon().getId());
-        userBean.setSectionId(user.getSection().getId());
-        return userBean;
+    public static UserDTO buildUserBean(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setCreateDate(user.getCreateDate());
+        userDTO.setUpdateDate(user.getUpdateDate());
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPassword(user.getPassword());
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setGender(user.getGender());
+        userDTO.setEnabled(user.getEnabled());
+        userDTO.setConfirmed(user.getConfirmed());
+        userDTO.setApproved(user.getApproved());
+        userDTO.setBirthDate(user.getBirthDate());
+        userDTO.setTelephoneNumber(user.getTelephoneNumber());
+        userDTO.setUserAgeGroup(user.getUserAgeGroup());
+        userDTO.setCountryId(user.getCountry().getId());
+        userDTO.setCityId(user.getCity().getId());
+        userDTO.setGroupId(user.getGroup().getId());
+        userDTO.setPlatoonId(user.getPlatoon().getId());
+        userDTO.setSectionId(user.getSection().getId());
+        return userDTO;
     }
 
     public static UserAchievementBean buildUserAchievementBean(User user){
@@ -165,12 +165,12 @@ public class UserService {
         return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
 
-    public List<UserBean> getUsersForApprove(Long platoonId) {
+    public List<UserDTO> getUsersForApprove(Long platoonId) {
         List<User> listUsersToApprove = getUsersToApproveByPlatoonID(platoonId);
-        List<UserBean> listUsersBeanToApprove = new ArrayList<>();
+        List<UserDTO> listUsersBeanToApprove = new ArrayList<>();
         for (User user : listUsersToApprove) {
-            UserBean userBean = buildUserBean(user);
-            listUsersBeanToApprove.add(userBean);
+            UserDTO userDTO = buildUserBean(user);
+            listUsersBeanToApprove.add(userDTO);
         }
         return listUsersBeanToApprove;
     }
@@ -213,7 +213,7 @@ public class UserService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public void updateUserByEmail(String email, UserBean update) {
+    public void updateUserByEmail(String email, UserDTO update) {
 
         User user = userRepository.findByEmail(email);
 
@@ -224,7 +224,7 @@ public class UserService {
         }
     }
 
-    public void updateUserById(Long id, UserBean update) {
+    public void updateUserById(Long id, UserDTO update) {
         if(!userRepository.exists(id)) {
             throw new UserRepositoryException("Not found user with id " + id);
         }
@@ -232,7 +232,7 @@ public class UserService {
         updateUserByAdmin(user, update);
     }
 
-    public void updateUserByAdmin(User user, UserBean update) {
+    public void updateUserByAdmin(User user, UserDTO update) {
         user.setCreateDate(update.getCreateDate());
         user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());
@@ -251,7 +251,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    private void updateUserItself(User user, UserBean update) {
+    private void updateUserItself(User user, UserDTO update) {
         user.setCreateDate(update.getCreateDate());
         user.setUpdateDate(new Date());
         user.setTelephoneNumber(update.getTelephoneNumber());

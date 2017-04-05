@@ -1,6 +1,7 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.EmailDTO;
 import com.royalrangers.service.SubscribeService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,12 +23,9 @@ public class SubscribeController {
 
     @PostMapping
     @ApiOperation(value = "Create subscriber")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "json", value = "Subscriber's email. Example: {\"email\": \"test@test.com\"}", paramType = "body", required = true)
-    })
-    public ResponseResult subscribe(@ApiIgnore @RequestBody Map<String, Object> params) {
+    public ResponseResult subscribe(@RequestBody EmailDTO param) {
 
-        String email = (String) params.get("email");
+        String email = param.getEmail();
         log.info("Add subscriber: " + email);
         try {
             subscribeService.add(email);
@@ -39,12 +37,9 @@ public class SubscribeController {
 
     @DeleteMapping
     @ApiOperation(value = "Delete subscriber")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "json", value = "Subscriber's email. Example: {\"email\": \"test@test.com\"}", paramType = "body", required = true)
-    })
-    public ResponseResult unsubscribe(@ApiIgnore @RequestBody  Map<String, Object> params) {
+    public ResponseResult unsubscribe(@RequestBody EmailDTO param) {
 
-        String email = (String) params.get("email");
+        String email = param.getEmail();
         log.info("Remove subscriber: " + email);
         try {
             subscribeService.remove(email);

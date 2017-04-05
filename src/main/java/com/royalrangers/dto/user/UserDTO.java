@@ -10,7 +10,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserBean {
+public class UserDTO {
 
     private Long id;
     private Date createDate;
