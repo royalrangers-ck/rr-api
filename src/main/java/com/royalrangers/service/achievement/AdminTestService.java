@@ -16,17 +16,16 @@ import java.util.List;
 public class AdminTestService {
 
     @Autowired
-    UserTestService userTestService;
-
+    private UserTestService userTestService;
     @Autowired
     private UserRepository userRepository;
 
     public ResponseResult getUsersData(String email) {
         User user = userRepository.findByEmail(email);
-        List<UserTestBean> list = userTestService.findAllForUser();
+        List<UserTestBean> list = userTestService.findAllByPlatoon(user.getPlatoon().getId());
         List<UserTestBean> result = new ArrayList<>();
         for (UserTestBean tests : list) {
-            if (tests.getAchievementState() == AchievementState.SUBMITTED && tests.getUser().getPlatoonId().equals(user.getPlatoon().getId())) {
+            if (tests.getAchievementState() == AchievementState.SUBMITTED) {
                 result.add(tests);
             }
         }
