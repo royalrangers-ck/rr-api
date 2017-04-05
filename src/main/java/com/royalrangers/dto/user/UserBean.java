@@ -1,4 +1,4 @@
-package com.royalrangers.bean;
+package com.royalrangers.dto.user;
 
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;

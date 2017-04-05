@@ -1,6 +1,6 @@
 package com.royalrangers.utils;
 
-import com.royalrangers.bean.UserProfile;
+import com.royalrangers.dto.user.UserProfile;
 import com.royalrangers.model.User;
 
 public class UserProfileFactory {

@@ -1,7 +1,7 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

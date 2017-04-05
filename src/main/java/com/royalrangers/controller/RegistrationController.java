@@ -1,7 +1,7 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.UserBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.UserBean;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.UserRepository;

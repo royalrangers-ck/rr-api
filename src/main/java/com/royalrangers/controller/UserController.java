@@ -1,8 +1,8 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.UserBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.UserBean;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserProfileService;

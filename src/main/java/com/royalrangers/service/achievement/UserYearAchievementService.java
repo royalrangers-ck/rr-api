@@ -1,9 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserYearAchievement;
-import com.royalrangers.bean.achievement.UserYearAchievementBean;
+import com.royalrangers.dto.achievement.UserYearAchievementBean;
 import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserYearAchievementRepository;
 import com.royalrangers.service.UserService;

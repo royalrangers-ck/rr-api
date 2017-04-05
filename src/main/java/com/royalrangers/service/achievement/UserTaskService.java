@@ -1,9 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
-import com.royalrangers.bean.achievement.UserTaskBean;
+import com.royalrangers.dto.achievement.UserTaskBean;
 import com.royalrangers.repository.achievement.UserTaskRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.royalrangers.bean;
+package com.royalrangers.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;

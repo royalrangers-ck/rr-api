@@ -1,4 +1,4 @@
-package com.royalrangers.bean.achievement;
+package com.royalrangers.dto.achievement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;

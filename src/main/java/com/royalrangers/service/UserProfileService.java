@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.bean.UserProfile;
+import com.royalrangers.dto.user.UserProfile;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.UserRepository;

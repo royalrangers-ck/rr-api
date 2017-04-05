@@ -1,6 +1,6 @@
 package com.royalrangers.controller.achievement;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.service.achievement.ThreeYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

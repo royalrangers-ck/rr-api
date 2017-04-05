@@ -1,8 +1,8 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.bean.achievement.UserAchievementBean;
-import com.royalrangers.bean.UserBean;
+import com.royalrangers.dto.achievement.UserAchievementBean;
+import com.royalrangers.dto.user.UserBean;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;

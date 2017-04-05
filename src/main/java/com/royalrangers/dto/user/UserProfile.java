@@ -1,4 +1,4 @@
-package com.royalrangers.bean;
+package com.royalrangers.dto.user;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.royalrangers.enums.UserAgeGroup;

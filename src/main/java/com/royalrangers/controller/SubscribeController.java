@@ -1,6 +1,6 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.service.SubscribeService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiImplicitParam;
