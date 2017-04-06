@@ -1,5 +1,6 @@
 package com.royalrangers.service.achievement;
 
+import com.royalrangers.enums.achivement.AgeCategory;
 import com.royalrangers.repository.achievement.ThreeYearAchievementRepository;
 import com.royalrangers.model.achievement.ThreeYearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class ThreeYearAchievementService {
         threeYearAchievementSaved.setName((String) params.get("name"));
         threeYearAchievementSaved.setDescription((String) params.get("description"));
         Integer id = (Integer) params.get("twelveYearAchievement");
+        String ageCategory = (String) params.get("ageCategory");
+        threeYearAchievementSaved.setAgeCategory(AgeCategory.valueOf(ageCategory));
         threeYearAchievementSaved.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(id.longValue()));
         threeYearAchievementSaved.setRequirements((String) params.get("requirements"));
         threeYearAchievementRepository.saveAndFlush(threeYearAchievementSaved);
@@ -43,8 +46,10 @@ public class ThreeYearAchievementService {
     public ThreeYearAchievement editThreeYearAchievement(Map<String, Object> params, Long threeYearId) {
         ThreeYearAchievement threeYearData = getThreeYearAchievementById(threeYearId);
         Integer twelveYearsId = (Integer) params.get("twelveYearAchievement");
+        String ageCategory = (String) params.get("twelveYearAchievement");
         threeYearData.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearsId.longValue()));
         threeYearData.setName((String) params.get("name"));
+        threeYearData.setAgeCategory(AgeCategory.valueOf(ageCategory));
         threeYearData.setUpdateDate(new Date());
         threeYearData.setDescription((String) params.get("description"));
         threeYearData.setRequirements((String) params.get("requirements"));
