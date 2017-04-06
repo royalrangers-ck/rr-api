@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.AchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.bean.achievement.TestBean;
@@ -20,9 +20,6 @@ public class UserTestService {
 
     @Autowired
     private UserTestRepository userTestRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -72,9 +69,17 @@ public class UserTestService {
         TestBean userAchievementBean = new TestBean();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setTest(item.getTest());
+        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        userAchievementBean.setId(userBean.getId());
+        userAchievementBean.setUserFirstName(userBean.getFirstName());
+        userAchievementBean.setUserLastName(userBean.getLastName());
+        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
+        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
+        userAchievementBean.setTestId(item.getTest().getId());
+        userAchievementBean.setTestName(item.getTest().getName());
+        userAchievementBean.setTestDescription(item.getTest().getDescription());
+        userAchievementBean.setTestLogoUrl(item.getTest().getLogoUrl());
+        userAchievementBean.setTestType(item.getTest().getTestType());
         return userAchievementBean;
     }
 

@@ -39,11 +39,11 @@ public class TaskService {
 
     public Task editTask(Map<String, Object> params, Long taskId) {
         Task editTask = getTaskById(taskId);
-        Integer quarterId = (Integer) params.get("test");
+        Integer testId = (Integer) params.get("test");
         editTask.setName((String) params.get("name"));
         editTask.setUpdateDate(new Date());
         editTask.setDescription((String) params.get("description"));
-        editTask.setTest(testService.getTestById(quarterId.longValue()));
+        editTask.setTest(testService.getTestById(testId.longValue()));
         return taskRepository.saveAndFlush(editTask);
     }
 }

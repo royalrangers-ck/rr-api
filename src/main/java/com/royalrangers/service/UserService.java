@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.bean.achievement.AchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.dropbox.core.DbxException;
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.AuthorityName;
@@ -121,13 +121,14 @@ public class UserService {
         return userBean;
     }
 
-    public static AchievementBean buildUserAchievementBean(User user){
-        AchievementBean userBean = new AchievementBean();
+    public static UserAchievementBean buildUserAchievementBean(User user){
+        UserAchievementBean userBean = new UserAchievementBean();
         userBean.setId(user.getId());
         userBean.setEmail(user.getEmail());
         userBean.setFirstName(user.getFirstName());
         userBean.setLastName(user.getLastName());
         userBean.setPlatoonId(user.getPlatoon().getId());
+        userBean.setUserAvatarUrl(user.getAvatarUrl());
         return  userBean;
     }
 

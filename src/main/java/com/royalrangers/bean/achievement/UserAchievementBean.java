@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AchievementBean {
+public class UserAchievementBean {
     private Long id;
     @JsonIgnore
     private String email;
@@ -14,4 +14,5 @@ public class AchievementBean {
     private String lastName;
     @JsonIgnore
     private Long platoonId;
+    private String userAvatarUrl;
 }

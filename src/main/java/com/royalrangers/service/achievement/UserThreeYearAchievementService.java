@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.AchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserThreeYearAchievement;
 import com.royalrangers.bean.achievement.ThreeYearAchievementBean;
@@ -73,9 +73,16 @@ public class UserThreeYearAchievementService {
         ThreeYearAchievementBean userAchievementBean = new ThreeYearAchievementBean();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setThreeYearAchievement(item.getThreeYearAchievement());
+        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        userAchievementBean.setUserId(userBean.getId());
+        userAchievementBean.setUserFirstName(userBean.getFirstName());
+        userAchievementBean.setUserLastName(userBean.getLastName());
+        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
+        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
+        userAchievementBean.setThreeYearAchievementId(item.getThreeYearAchievement().getId());
+        userAchievementBean.setThreeYearAchievementName(item.getThreeYearAchievement().getName());
+        userAchievementBean.setThreeYearAchievementDescription(item.getThreeYearAchievement().getDescription());
+        userAchievementBean.setThreeYearAchievementLogoUrl(item.getThreeYearAchievement().getLogoUrl());
         return userAchievementBean;
     }
 

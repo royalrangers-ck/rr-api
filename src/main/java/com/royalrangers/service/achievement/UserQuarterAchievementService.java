@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.AchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserQuarterAchievement;
 import com.royalrangers.bean.achievement.QuarterAchievementBean;
@@ -71,10 +71,17 @@ public class UserQuarterAchievementService {
     private QuarterAchievementBean buildUserAchievementBean(UserQuarterAchievement item) {
         QuarterAchievementBean userAchievementBean = new QuarterAchievementBean();
         userAchievementBean.setId(item.getId());
+        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        userAchievementBean.setId(userBean.getId());
+        userAchievementBean.setUserFirstName(userBean.getFirstName());
+        userAchievementBean.setUserLastName(userBean.getLastName());
+        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
+        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
+        userAchievementBean.setQuarterAchievementId(item.getQuarterAchievement().getId());
+        userAchievementBean.setQuarterAchievementName(item.getQuarterAchievement().getName());
+        userAchievementBean.setQuarterAchievementDescription(item.getQuarterAchievement().getDescription());
+        userAchievementBean.setQuarterAchievementLogoUrl(item.getQuarterAchievement().getLogoUrl());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setQuarterAchievement(item.getQuarterAchievement());
         return userAchievementBean;
     }
 

@@ -5,13 +5,18 @@ import com.royalrangers.model.achievement.TwelveYearAchievement;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 public class TwelveYearAchievementBean {
     private Long id;
+    private Long userId;
+    private String userFirstName;
+    private String userLastName;
+    private String userAvatarUrl;
+    private Long userPlatoonId;
     private AchievementState achievementState;
-    private AchievementBean user;
-    private TwelveYearAchievement twelveYearAchievement;
+    private Long twelveYearAchievementId;
+    private String twelveYearAchievementName;
+    private String twelveYearAchievementDescription;
+    private String twelveYearAchievementLogoUrl;
 }

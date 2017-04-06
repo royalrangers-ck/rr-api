@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.AchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
 import com.royalrangers.bean.achievement.TaskBean;
@@ -68,9 +68,15 @@ public class UserTaskService {
         TaskBean userAchievementBean = new TaskBean();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setTask(item.getTask());
+        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        userAchievementBean.setUserId(userBean.getId());
+        userAchievementBean.setUserFirstName(userBean.getFirstName());
+        userAchievementBean.setUserLastName(userBean.getLastName());
+        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
+        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
+        userAchievementBean.setTaskId(item.getTask().getId());
+        userAchievementBean.setTaskName(item.getTask().getName());
+        userAchievementBean.setTaskDescription(item.getTask().getDescription());
         return userAchievementBean;
     }
 

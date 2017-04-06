@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.AchievementBean;
+import com.royalrangers.bean.achievement.UserAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserYearAchievement;
 import com.royalrangers.bean.achievement.YearAchievementBean;
@@ -72,9 +72,16 @@ public class UserYearAchievementService {
         YearAchievementBean userAchievementBean = new YearAchievementBean();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        AchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setYearAchievement(item.getYearAchievement());
+        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
+        userAchievementBean.setUserId(userBean.getId());
+        userAchievementBean.setUserFirstName(userBean.getFirstName());
+        userAchievementBean.setUserLastName(userBean.getLastName());
+        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
+        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
+        userAchievementBean.setYearAchievementId(item.getYearAchievement().getId());
+        userAchievementBean.setYearAchievementName(item.getYearAchievement().getName());
+        userAchievementBean.setYearAchievementDescription(item.getYearAchievement().getDescription());
+        userAchievementBean.setYearAchievementLogoUrl(item.getYearAchievement().getLogoUrl());
         return userAchievementBean;
     }
 

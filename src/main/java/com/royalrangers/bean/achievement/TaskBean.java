@@ -5,13 +5,17 @@ import com.royalrangers.model.achievement.Task;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
-
 @Getter
 @Setter
 public class TaskBean {
     private Long id;
+    private Long userId;
+    private String userFirstName;
+    private String userLastName;
+    private String userAvatarUrl;
+    private Long userPlatoonId;
     private AchievementState achievementState;
-    private AchievementBean user;
-    private Task task;
+    private Long taskId;
+    private String taskName;
+    private String taskDescription;
 }
