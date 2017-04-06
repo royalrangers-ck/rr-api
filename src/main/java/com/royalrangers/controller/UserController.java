@@ -5,7 +5,6 @@ import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.*;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.DropboxService;
-import com.royalrangers.service.UserProfileService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.*;
@@ -24,9 +23,6 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserProfileService profileService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -39,7 +35,7 @@ public class UserController {
         String username = userService.getAuthenticatedUserEmail();
         log.info("Get details for user " + username);
 
-        return ResponseBuilder.success(profileService.getUserDetailByEmail(username));
+        return ResponseBuilder.success(userService.getUserDetailByEmail(username));
     }
 
     @GetMapping("{id}")
@@ -49,7 +45,7 @@ public class UserController {
 
         try {
             log.info("Get details for user id " + id);
-            return ResponseBuilder.success(profileService.getUserDetailById(id));
+            return ResponseBuilder.success(userService.getUserDetailById(id));
 
         } catch (UserRepositoryException e){
 
@@ -61,7 +57,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-        List<UserDto> usersForApprove = userService.getUsersForApprove(platoonId);
+        List<UserProfileDto> usersForApprove = userService.getUsersForApprove(platoonId);
         return ResponseBuilder.success(usersForApprove);
     }
 
@@ -130,9 +126,7 @@ public class UserController {
 
     @DeleteMapping("/avatar")
     @ApiOperation(value = "Delete avatar picture")
-    //TODO Get rid of "one-string DTOs"
-    public ResponseResult delete(@RequestBody AvatarUrlDto url) {
-        String avatarUrl = url.getAvatarUrl();
+    public ResponseResult delete(@RequestBody String avatarUrl) {
         try {
             dropboxService.deleteAvatar(avatarUrl);
             log.info("Delete avatar: " + avatarUrl);

@@ -2,10 +2,7 @@ package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.UserAchievementBean;
-import com.royalrangers.dto.user.UserDto;
-import com.royalrangers.dto.user.UserRegistrationDto;
-import com.royalrangers.dto.user.UserUpdateAdminDto;
-import com.royalrangers.dto.user.UserUpdateDto;
+import com.royalrangers.dto.user.*;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
@@ -17,7 +14,7 @@ import com.royalrangers.utils.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -72,8 +69,8 @@ public class UserService {
 
     public User createUserFromUserForm(UserRegistrationDto userDto) {
         User user = new User();
-        user.setCreateDate(user.getCreateDate());
-        user.setUpdateDate(user.getUpdateDate());
+        user.setCreateDate(new Date());
+        user.setUpdateDate(new Date());
         user.setEmail(userDto.getEmail());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -100,28 +97,24 @@ public class UserService {
         return user;
     }
 
-    public static UserDto buildUserBean(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setCreateDate(user.getCreateDate());
-        userDto.setUpdateDate(user.getUpdateDate());
-        userDto.setId(user.getId());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPassword());
-        userDto.setFirstName(user.getFirstName());
-        userDto.setLastName(user.getLastName());
-        userDto.setGender(user.getGender());
-        userDto.setEnabled(user.getEnabled());
-        userDto.setConfirmed(user.getConfirmed());
-        userDto.setApproved(user.getApproved());
-        userDto.setBirthDate(user.getBirthDate());
-        userDto.setTelephoneNumber(user.getTelephoneNumber());
-        userDto.setUserAgeGroup(user.getUserAgeGroup());
-        userDto.setCountryId(user.getCountry().getId());
-        userDto.setCityId(user.getCity().getId());
-        userDto.setGroupId(user.getGroup().getId());
-        userDto.setPlatoonId(user.getPlatoon().getId());
-        userDto.setSectionId(user.getSection().getId());
-        return userDto;
+    public static UserProfileDto buildUserProfile(User user) {
+        UserProfileDto userProfile = new UserProfileDto();
+        userProfile.setCreateDate(user.getCreateDate());
+        userProfile.setUpdateDate(user.getUpdateDate());
+        userProfile.setId(user.getId());
+        userProfile.setEmail(user.getEmail());
+        userProfile.setFirstName(user.getFirstName());
+        userProfile.setLastName(user.getLastName());
+        userProfile.setGender(user.getGender());
+        userProfile.setBirthDate(user.getBirthDate());
+        userProfile.setTelephoneNumber(user.getTelephoneNumber());
+        userProfile.setUserAgeGroup(user.getUserAgeGroup());
+        userProfile.setCountryId(user.getCountry().getId());
+        userProfile.setCityId(user.getCity().getId());
+        userProfile.setGroupId(user.getGroup().getId());
+        userProfile.setPlatoonId(user.getPlatoon().getId());
+        userProfile.setSectionId(user.getSection().getId());
+        return userProfile;
     }
 
     public static UserAchievementBean buildUserAchievementBean(User user){
@@ -168,12 +161,12 @@ public class UserService {
         return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
 
-    public List<UserDto> getUsersForApprove(Long platoonId) {
+    public List<UserProfileDto> getUsersForApprove(Long platoonId) {
         List<User> listUsersToApprove = getUsersToApproveByPlatoonID(platoonId);
-        List<UserDto> listUsersBeanToApprove = new ArrayList<>();
+        List<UserProfileDto> listUsersBeanToApprove = new ArrayList<>();
         for (User user : listUsersToApprove) {
-            UserDto userDto = buildUserBean(user);
-            listUsersBeanToApprove.add(userDto);
+            UserProfileDto userProfile = buildUserProfile(user);
+            listUsersBeanToApprove.add(userProfile);
         }
         return listUsersBeanToApprove;
     }
@@ -205,15 +198,21 @@ public class UserService {
         });
     }
 
-    public boolean isAuthenticatedUserHasRole(String role) {
-        Collection<GrantedAuthority> authorities = (Collection<GrantedAuthority>)
-                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-
-        return authorities.stream().anyMatch(auth -> auth.getAuthority().equals(role));
-    }
-
     public String getAuthenticatedUserEmail() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public UserProfileDto getUserDetailByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        return buildUserProfile(user);
+    }
+
+    public UserProfileDto getUserDetailById(Long id) throws DataAccessException {
+        if(!userRepository.exists(id)) {
+            throw new UserRepositoryException("Not found user with id " + id);
+        }
+        User user = userRepository.findOne(id);
+        return buildUserProfile(user);
     }
 
     public void updateUser(UserUpdateDto update) {
