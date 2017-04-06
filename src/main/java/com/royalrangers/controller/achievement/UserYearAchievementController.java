@@ -1,7 +1,7 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.service.achievement.UserYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class UserYearAchievementController {
     }
 
     @PostMapping
-    public ResponseResult addUserYearAchievement(@RequestBody UserAchievementRequestDTO params) {
+    public ResponseResult addUserYearAchievement(@RequestBody UserAchievementRequestDto params) {
         try {
             userYearAchievementService.addUserYearAchievement(params);
             return ResponseBuilder.success("Successfully added userYearAchievement");
@@ -53,7 +53,7 @@ public class UserYearAchievementController {
     }
 
     @PutMapping("/{userAchievementId}")
-    public ResponseResult editUserYearAchievement(@RequestBody UserAchievementRequestDTO params, @PathVariable Long userAchievementId) {
+    public ResponseResult editUserYearAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
             userYearAchievementService.editUserYearAchievement(params, userAchievementId);
             return ResponseBuilder.success("Successfully editing UserYearAchievement");

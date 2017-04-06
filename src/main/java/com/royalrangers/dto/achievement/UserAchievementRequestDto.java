@@ -5,8 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class TestRequestDTO {
+public class UserAchievementRequestDto {
 
-    private Integer testType;
-    private Integer quarterAchievementId;
+    private String state;
+    private Integer id;
 }

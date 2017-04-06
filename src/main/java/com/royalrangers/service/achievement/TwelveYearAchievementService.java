@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.AchievementRequestDTO;
+import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.repository.achievement.TwelveYearAchievementRepository;
 import com.royalrangers.model.achievement.TwelveYearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class TwelveYearAchievementService {
         return twelveYearAchievementRepository.findAll();
     }
 
-    public void addTwelveYearAchievement(AchievementRequestDTO params) {
+    public void addTwelveYearAchievement(AchievementRequestDto params) {
         TwelveYearAchievement twelveYearAchievement = new TwelveYearAchievement();
         twelveYearAchievement.setName(params.getName());
         twelveYearAchievement.setDescription(params.getDescription());
@@ -35,7 +35,7 @@ public class TwelveYearAchievementService {
         twelveYearAchievementRepository.delete(id);
     }
 
-    public TwelveYearAchievement editTwelveYearAchievement(AchievementRequestDTO params, Long twelveYearId) {
+    public TwelveYearAchievement editTwelveYearAchievement(AchievementRequestDto params, Long twelveYearId) {
         TwelveYearAchievement twelveYearAchievement = getTwelveYearAchievementById(twelveYearId);
         twelveYearAchievement.setName(params.getName());
         twelveYearAchievement.setDescription(params.getDescription());

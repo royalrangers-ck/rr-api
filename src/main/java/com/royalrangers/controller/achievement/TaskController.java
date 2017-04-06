@@ -1,7 +1,7 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.achievement.TaskRequestDTO;
+import com.royalrangers.dto.achievement.TaskRequestDto;
 import com.royalrangers.service.achievement.TaskService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public ResponseResult addTask(@RequestBody TaskRequestDTO params) {
+    public ResponseResult addTask(@RequestBody TaskRequestDto params) {
         try {
             taskService.addTask(params);
             return ResponseBuilder.success("Task saved successfully");
@@ -53,7 +53,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
-    public ResponseResult editTaskById(@RequestBody TaskRequestDTO params, @PathVariable Long taskId) {
+    public ResponseResult editTaskById(@RequestBody TaskRequestDto params, @PathVariable Long taskId) {
         try {
             return ResponseBuilder.success(taskService.editTask(params, taskId));
         } catch (Exception ex) {

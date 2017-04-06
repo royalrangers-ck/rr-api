@@ -1,7 +1,7 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementBean;
-import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.dto.achievement.UserQuarterAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserQuarterAchievement;
@@ -35,7 +35,7 @@ public class UserQuarterAchievementService {
         return result;
     }
 
-    public void addUserQuarterAchievement(UserAchievementRequestDTO params) {
+    public void addUserQuarterAchievement(UserAchievementRequestDto params) {
         UserQuarterAchievement savedUserAchievement = new UserQuarterAchievement();
         savedUserAchievement.setCreateDate(new Date());
         savedUserAchievement.setUpdateDate(new Date());
@@ -56,7 +56,7 @@ public class UserQuarterAchievementService {
         userQuarterAchievementRepository.delete(id);
     }
 
-    public void editUserQuarterAchievement(UserAchievementRequestDTO params, Long id) {
+    public void editUserQuarterAchievement(UserAchievementRequestDto params, Long id) {
         UserQuarterAchievement savedUserAchievement = userQuarterAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();

@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.AchievementRequestDTO;
+import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.repository.achievement.QuarterAchievementRepository;
 import com.royalrangers.model.achievement.QuarterAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class QuarterAchievementService {
         return quarterAchievementRepository.findAll();
     }
 
-    public void addQuarterAchievement(AchievementRequestDTO params) {
+    public void addQuarterAchievement(AchievementRequestDto params) {
         QuarterAchievement quarterAchievement = new QuarterAchievement();
         quarterAchievement.setName(params.getName());
         quarterAchievement.setDescription(params.getDescription());
@@ -39,7 +39,7 @@ public class QuarterAchievementService {
         quarterAchievementRepository.delete(quarterId);
     }
 
-    public QuarterAchievement editQuarterAchievement(AchievementRequestDTO params, Long quarterId) {
+    public QuarterAchievement editQuarterAchievement(AchievementRequestDto params, Long quarterId) {
         QuarterAchievement editQuarterAchievement = getQuarterAchievementById(quarterId);
         editQuarterAchievement.setName(params.getName());
         editQuarterAchievement.setDescription(params.getDescription());

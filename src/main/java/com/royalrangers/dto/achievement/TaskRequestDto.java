@@ -5,10 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AchievementRequestDTO {
+public class TaskRequestDto {
+
     private String name;
     private String description;
-    private String requirements;
-    private String logoUrl;
-    private Integer upLevelId;
+    private Integer testId;
 }

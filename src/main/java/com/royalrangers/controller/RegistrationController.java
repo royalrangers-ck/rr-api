@@ -1,8 +1,7 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.EmailDTO;
-import com.royalrangers.dto.user.UserDTO;
+import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.UserRepository;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -35,7 +33,7 @@ public class RegistrationController {
     private UserRepository userRepository;
 
     @PostMapping
-    public ResponseResult registration(@RequestBody UserDTO userInfo) {
+    public ResponseResult registration(@RequestBody UserRegistrationDto userInfo) {
 
         if (userService.isEmailExist(userInfo.getEmail())) {
             log.info(String.format("User with email '%s' already exists", userInfo.getEmail()));
@@ -73,11 +71,9 @@ public class RegistrationController {
         return ResponseBuilder.success("User confirm registration successfully");
     }
 
-    //TODO Change to GET method?
-    @PostMapping("/check/email")
-    public ResponseResult checkEmail(@RequestBody EmailDTO param) {
+    @GetMapping("/check")
+    public ResponseResult checkEmail(@RequestParam("email") String email) {
 
-        String email = param.getEmail();
         log.info(String.format("Checking email '%s'", email));
 
         if (userService.isEmailExist(email)) {

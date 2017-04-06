@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.AchievementRequestDTO;
+import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.repository.achievement.YearAchievementRepository;
 import com.royalrangers.model.achievement.YearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class YearAchievementService {
         return yearAchievementRepository.findAll();
     }
 
-    public void addYearAchievement(AchievementRequestDTO params) {
+    public void addYearAchievement(AchievementRequestDto params) {
         YearAchievement yearAchievementSaved = new YearAchievement();
         yearAchievementSaved.setName(params.getName());
         yearAchievementSaved.setDescription(params.getDescription());
@@ -39,7 +39,7 @@ public class YearAchievementService {
         yearAchievementRepository.delete(id);
     }
 
-    public YearAchievement editYearAchievement(AchievementRequestDTO params, Long yearId) {
+    public YearAchievement editYearAchievement(AchievementRequestDto params, Long yearId) {
         YearAchievement editYearData = getYearAchievementById(yearId);
         Integer editThreeYearId = params.getUpLevelId();
         editYearData.setName(params.getName());

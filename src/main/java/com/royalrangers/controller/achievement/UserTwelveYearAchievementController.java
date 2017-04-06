@@ -1,13 +1,11 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.service.achievement.UserTwelveYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/achievements/userTwelveYear")
@@ -26,7 +24,7 @@ public class UserTwelveYearAchievementController {
     }
 
     @PostMapping
-    public ResponseResult addUserTwelveYearAchievement(@RequestBody UserAchievementRequestDTO params) {
+    public ResponseResult addUserTwelveYearAchievement(@RequestBody UserAchievementRequestDto params) {
         try {
             userTwelveYearAchievementService.addUserTwelveYearAchievement(params);
             return ResponseBuilder.success("Successfully added userTwelveYearAchievement");
@@ -55,7 +53,7 @@ public class UserTwelveYearAchievementController {
     }
 
     @PutMapping("/{userAchievementId}")
-    public ResponseResult editUserTwelveYearAchievement(@RequestBody UserAchievementRequestDTO params, @PathVariable Long userAchievementId) {
+    public ResponseResult editUserTwelveYearAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
             userTwelveYearAchievementService.editUserTwelveYearAchievement(params, userAchievementId);
             return ResponseBuilder.success("Successfully editing UserTwelveYearAchievement");

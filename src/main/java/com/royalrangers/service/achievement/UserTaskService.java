@@ -1,7 +1,7 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementBean;
-import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
 import com.royalrangers.dto.achievement.UserTaskBean;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserTaskService {
@@ -36,7 +35,7 @@ public class UserTaskService {
         return result;
     }
 
-    public void addUserTask(UserAchievementRequestDTO params) {
+    public void addUserTask(UserAchievementRequestDto params) {
         UserTask userTask = new UserTask();
         userTask.setCreateDate(new Date());
         userTask.setUpdateDate(new Date());
@@ -57,7 +56,7 @@ public class UserTaskService {
         userTaskRepository.delete(id);
     }
 
-    public void editUserTask(UserAchievementRequestDTO params, Long id) {
+    public void editUserTask(UserAchievementRequestDto params, Long id) {
         UserTask savedUserTask = userTaskRepository.findOne(id);
         savedUserTask.setUpdateDate(new Date());
         String achievementState = params.getState();

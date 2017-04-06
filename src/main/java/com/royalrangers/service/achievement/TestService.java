@@ -1,6 +1,6 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.TestRequestDTO;
+import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.enums.achivement.TestType;
 import com.royalrangers.model.achievement.Test;
 import com.royalrangers.repository.achievement.TestRepository;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TestService {
@@ -23,7 +22,7 @@ public class TestService {
         return testRepository.findAll();
     }
 
-    public void addTest(TestRequestDTO params) {
+    public void addTest(TestRequestDto params) {
         Test test = new Test();
         Integer quarterId = params.getQuarterAchievementId();
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
@@ -40,7 +39,7 @@ public class TestService {
         testRepository.delete(testId);
     }
 
-    public Test editTest(TestRequestDTO params, Long testId) {
+    public Test editTest(TestRequestDto params, Long testId) {
         Test test = getTestById(testId);
         Integer quarterId = params.getQuarterAchievementId();
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));

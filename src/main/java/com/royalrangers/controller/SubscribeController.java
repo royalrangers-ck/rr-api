@@ -1,18 +1,13 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.EmailDTO;
+import com.royalrangers.dto.user.EmailDto;
 import com.royalrangers.service.SubscribeService;
 import com.royalrangers.utils.ResponseBuilder;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -23,7 +18,7 @@ public class SubscribeController {
 
     @PostMapping
     @ApiOperation(value = "Create subscriber")
-    public ResponseResult subscribe(@RequestBody EmailDTO param) {
+    public ResponseResult subscribe(@RequestBody EmailDto param) {
 
         String email = param.getEmail();
         log.info("Add subscriber: " + email);
@@ -37,7 +32,7 @@ public class SubscribeController {
 
     @DeleteMapping
     @ApiOperation(value = "Delete subscriber")
-    public ResponseResult unsubscribe(@RequestBody EmailDTO param) {
+    public ResponseResult unsubscribe(@RequestBody EmailDto param) {
 
         String email = param.getEmail();
         log.info("Remove subscriber: " + email);

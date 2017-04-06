@@ -1,7 +1,7 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementBean;
-import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTwelveYearAchievement;
 import com.royalrangers.dto.achievement.UserTwelveYearAchievementBean;
@@ -39,7 +39,7 @@ public class UserTwelveYearAchievementService {
         return result;
     }
 
-    public void addUserTwelveYearAchievement(UserAchievementRequestDTO params) {
+    public void addUserTwelveYearAchievement(UserAchievementRequestDto params) {
         UserTwelveYearAchievement savedUserAchievement = new UserTwelveYearAchievement();
         savedUserAchievement.setCreateDate(new Date());
         savedUserAchievement.setUpdateDate(new Date());
@@ -60,7 +60,7 @@ public class UserTwelveYearAchievementService {
         userTwelveYearAchievementRepository.delete(id);
     }
 
-    public void editUserTwelveYearAchievement(UserAchievementRequestDTO params, Long id) {
+    public void editUserTwelveYearAchievement(UserAchievementRequestDto params, Long id) {
         UserTwelveYearAchievement editUserAchievement = userTwelveYearAchievementRepository.findOne(id);
         editUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();

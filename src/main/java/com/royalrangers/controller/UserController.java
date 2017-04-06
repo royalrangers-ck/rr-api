@@ -2,9 +2,9 @@ package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.AvatarUrlDTO;
-import com.royalrangers.dto.user.IdsDTO;
-import com.royalrangers.dto.user.UserDTO;
+import com.royalrangers.dto.user.AvatarUrlDto;
+import com.royalrangers.dto.user.IdsDto;
+import com.royalrangers.dto.user.UserDto;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserProfileService;
@@ -63,14 +63,14 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-        List<UserDTO> usersForApprove = userService.getUsersForApprove(platoonId);
+        List<UserDto> usersForApprove = userService.getUsersForApprove(platoonId);
         return ResponseBuilder.success(usersForApprove);
     }
 
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Approve users after registration (for admin)")
-    public ResponseResult approveUser(@RequestBody IdsDTO param) {
+    public ResponseResult approveUser(@RequestBody IdsDto param) {
         List<Long> ids = param.getIds();
         userService.approveUsers(ids);
         return ResponseBuilder.success("Users successfully approved.");
@@ -79,7 +79,7 @@ public class UserController {
     @PostMapping("/reject")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Reject user after registration (for admin)")
-    public ResponseResult rejectUser(@RequestBody IdsDTO param) {
+    public ResponseResult rejectUser(@RequestBody IdsDto param) {
         List<Long> ids = param.getIds();
         userService.rejectUsers(ids);
         return ResponseBuilder.success("Users successfully rejected.");
@@ -87,7 +87,7 @@ public class UserController {
 
     @PutMapping
     @ApiOperation(value = "Update user")
-    public ResponseResult updateAuthorizedUser(@RequestBody UserDTO update) {
+    public ResponseResult updateAuthorizedUser(@RequestBody UserDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
 
@@ -100,7 +100,7 @@ public class UserController {
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update user (for admin)")
-    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserDTO userUpdate) {
+    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserDto userUpdate) {
 
         try {
             userService.updateUserById(id, userUpdate);
@@ -133,7 +133,7 @@ public class UserController {
     @DeleteMapping("/avatar")
     @ApiOperation(value = "Delete avatar picture")
     //TODO Get rid of "one-string DTOs"
-    public ResponseResult delete(@RequestBody AvatarUrlDTO url) {
+    public ResponseResult delete(@RequestBody AvatarUrlDto url) {
         String avatarUrl = url.getAvatarUrl();
         try {
             dropboxService.deleteAvatar(avatarUrl);

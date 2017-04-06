@@ -1,7 +1,7 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.service.achievement.UserQuarterAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ public class UserQuarterAchievementController {
     }
 
     @PostMapping
-    public ResponseResult addUserQuarterAchievement(@RequestBody UserAchievementRequestDTO params) {
+    public ResponseResult addUserQuarterAchievement(@RequestBody UserAchievementRequestDto params) {
         try {
             userQuarterAchievementService.addUserQuarterAchievement(params);
             return ResponseBuilder.success("Successfully added UserQuarterAchievement");
@@ -53,7 +53,7 @@ public class UserQuarterAchievementController {
     }
 
     @PutMapping("/{userAchievementId}")
-    public ResponseResult editUserQuarterAchievement(@RequestBody UserAchievementRequestDTO params, @PathVariable Long userAchievementId) {
+    public ResponseResult editUserQuarterAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
             userQuarterAchievementService.editUserQuarterAchievement(params, userAchievementId);
             return ResponseBuilder.success("Successfully editing UserQuarterAchievement");

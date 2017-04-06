@@ -1,13 +1,12 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.TaskRequestDTO;
+import com.royalrangers.dto.achievement.TaskRequestDto;
 import com.royalrangers.repository.achievement.TaskRepository;
 import com.royalrangers.model.achievement.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TaskService {
@@ -21,7 +20,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task addTask(TaskRequestDTO params) {
+    public Task addTask(TaskRequestDto params) {
         Task savedTask = new Task();
         savedTask.setName(params.getName());
         savedTask.setDescription(params.getDescription());
@@ -38,7 +37,7 @@ public class TaskService {
         taskRepository.delete(id);
     }
 
-    public Task editTask(TaskRequestDTO params, Long taskId) {
+    public Task editTask(TaskRequestDto params, Long taskId) {
         Task editTask = getTaskById(taskId);
         Integer testId = params.getTestId();
         editTask.setName(params.getName());
