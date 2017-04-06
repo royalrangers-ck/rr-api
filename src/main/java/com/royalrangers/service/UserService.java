@@ -4,6 +4,8 @@ import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.UserAchievementBean;
 import com.royalrangers.dto.user.UserDto;
 import com.royalrangers.dto.user.UserRegistrationDto;
+import com.royalrangers.dto.user.UserUpdateAdminDto;
+import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
@@ -214,27 +216,29 @@ public class UserService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public void updateUserByEmail(String email, UserDto update) {
+    public void updateUser(UserUpdateDto update) {
+        User user = userRepository.findByEmail(getAuthenticatedUserEmail());
 
-        User user = userRepository.findByEmail(email);
+        user.setUpdateDate(new Date());
+        user.setTelephoneNumber(update.getTelephoneNumber());
+        user.setUserAgeGroup(update.getUserAgeGroup());
+        user.setUserRank(update.getUserRank());
+        user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setCity(cityRepository.findOne(update.getCityId()));
+        user.setGroup(groupRepository.findOne(update.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(update.getSectionId()));
 
-        if(!isAuthenticatedUserHasRole("ROLE_ADMIN")) {
-            updateUserItself(user, update);
-        } else {
-            updateUserByAdmin(user, update);
-        }
+        userRepository.save(user);
     }
 
-    public void updateUserById(Long id, UserDto update) {
+    public void updateUserById(Long id, UserUpdateAdminDto update) {
         if(!userRepository.exists(id)) {
             throw new UserRepositoryException("Not found user with id " + id);
         }
-        User user = userRepository.findOne(id);
-        updateUserByAdmin(user, update);
-    }
 
-    public void updateUserByAdmin(User user, UserDto update) {
-        user.setCreateDate(update.getCreateDate());
+        User user = userRepository.findOne(id);
+
         user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());
         user.setLastName(update.getLastName());
@@ -250,19 +254,6 @@ public class UserService {
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
         userRepository.save(user);
-    }
-
-    private void updateUserItself(User user, UserDto update) {
-        user.setCreateDate(update.getCreateDate());
-        user.setUpdateDate(new Date());
-        user.setTelephoneNumber(update.getTelephoneNumber());
-        user.setUserAgeGroup(update.getUserAgeGroup());
-        user.setUserRank(update.getUserRank());
-        user.setCountry(countryRepository.findOne(update.getCountryId()));
-        user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
-        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
-        user.setSection(sectionRepository.findOne(update.getSectionId()));
     }
 
     public void setUserAvatarUrl(String avatarUrl) throws DbxException {

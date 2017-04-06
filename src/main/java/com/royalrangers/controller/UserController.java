@@ -2,9 +2,7 @@ package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.AvatarUrlDto;
-import com.royalrangers.dto.user.IdsDto;
-import com.royalrangers.dto.user.UserDto;
+import com.royalrangers.dto.user.*;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserProfileService;
@@ -87,11 +85,11 @@ public class UserController {
 
     @PutMapping
     @ApiOperation(value = "Update user")
-    public ResponseResult updateAuthorizedUser(@RequestBody UserDto update) {
+    public ResponseResult updateAuthorizedUser(@RequestBody UserUpdateDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
 
-        userService.updateUserByEmail(email, update);
+        userService.updateUser(update);
         log.info("Update user " + email);
 
         return ResponseBuilder.success(String.format("User %s successful updated", email));
@@ -100,7 +98,7 @@ public class UserController {
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update user (for admin)")
-    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserDto userUpdate) {
+    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateAdminDto userUpdate) {
 
         try {
             userService.updateUserById(id, userUpdate);
