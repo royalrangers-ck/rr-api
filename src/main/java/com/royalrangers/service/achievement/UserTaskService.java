@@ -1,6 +1,7 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
 import com.royalrangers.dto.achievement.UserTaskBean;
@@ -35,14 +36,14 @@ public class UserTaskService {
         return result;
     }
 
-    public void addUserTask(Map<String, Object> params) {
+    public void addUserTask(UserAchievementRequestDTO params) {
         UserTask userTask = new UserTask();
         userTask.setCreateDate(new Date());
         userTask.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         userTask.setAchievementState(AchievementState.valueOf(achievementState));
         userTask.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer taskId = (Integer) params.get("taskId");
+        Integer taskId = params.getId();
         userTask.setTask(taskService.getTaskById(taskId.longValue()));
         userTaskRepository.saveAndFlush(userTask);
     }
@@ -56,12 +57,12 @@ public class UserTaskService {
         userTaskRepository.delete(id);
     }
 
-    public void editUserTask(Map<String, Object> params, Long id) {
+    public void editUserTask(UserAchievementRequestDTO params, Long id) {
         UserTask savedUserTask = userTaskRepository.findOne(id);
         savedUserTask.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserTask.setAchievementState(AchievementState.valueOf(achievementState));
-        Integer taskId = (Integer) params.get("taskId");
+        Integer taskId = params.getId();
         savedUserTask.setTask(taskService.getTaskById(taskId.longValue()));
         userTaskRepository.saveAndFlush(savedUserTask);
     }

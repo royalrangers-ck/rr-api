@@ -1,12 +1,11 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.TestRequestDTO;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/achievements/test")
@@ -25,7 +24,7 @@ public class TestController {
     }
 
     @PostMapping
-    public ResponseResult addTest(@RequestBody Map<String, Object> params) {
+    public ResponseResult addTest(@RequestBody TestRequestDTO params) {
         try {
             testService.addTest(params);
             return ResponseBuilder.success("Test saved successfully");
@@ -54,7 +53,7 @@ public class TestController {
     }
 
     @PutMapping("/{testId}")
-    public ResponseResult editTestById(@RequestBody Map<String, Object> params, @PathVariable Long testId) {
+    public ResponseResult editTestById(@RequestBody TestRequestDTO params, @PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.editTest(params, testId));
         } catch (Exception ex) {

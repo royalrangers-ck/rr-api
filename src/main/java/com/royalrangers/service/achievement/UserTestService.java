@@ -1,6 +1,7 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.dto.achievement.UserTestBean;
@@ -39,14 +40,14 @@ public class UserTestService {
         return result;
     }
 
-    public void addUserTest(Map<String, Object> params) {
+    public void addUserTest(UserAchievementRequestDTO params) {
         UserTest savedUserAchievement = new UserTest();
         savedUserAchievement.setCreateDate(new Date());
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState()  ;
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer testId = (Integer) params.get("testId");
+        Integer testId = params.getId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
@@ -60,12 +61,12 @@ public class UserTestService {
         userTestRepository.delete(id);
     }
 
-    public void editUserTest(Map<String, Object> params, Long id) {
+    public void editUserTest(UserAchievementRequestDTO params, Long id) {
         UserTest savedUserAchievement = userTestRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
-        Integer testId = (Integer) params.get("testId");
+        Integer testId = params.getId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }

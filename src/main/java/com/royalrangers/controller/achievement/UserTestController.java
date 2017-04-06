@@ -1,6 +1,7 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
 import com.royalrangers.service.achievement.UserTestService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class UserTestController {
     }
 
     @PostMapping
-    public ResponseResult addUserTest(@RequestBody Map<String, Object> params) {
+    public ResponseResult addUserTest(@RequestBody UserAchievementRequestDTO params) {
         try {
             userTestService.addUserTest(params);
             return ResponseBuilder.success("Successfully added UserTestAchievement");
@@ -54,7 +55,7 @@ public class UserTestController {
     }
 
     @PutMapping("/{userTestId}")
-    public ResponseResult editUserTest(@RequestBody Map<String, Object> params, @PathVariable Long userTestId) {
+    public ResponseResult editUserTest(@RequestBody UserAchievementRequestDTO params, @PathVariable Long userTestId) {
         try {
             userTestService.editUserTest(params, userTestId);
             return ResponseBuilder.success("Successfully editing UserTest");

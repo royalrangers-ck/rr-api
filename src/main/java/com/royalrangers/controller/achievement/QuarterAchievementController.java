@@ -1,12 +1,11 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.AchievementRequestDTO;
 import com.royalrangers.service.achievement.QuarterAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/achievements/quarter")
@@ -26,7 +25,7 @@ public class QuarterAchievementController {
     }
 
     @PostMapping
-    public ResponseResult addQuarterAchievement(@RequestBody Map<String, Object> params) {
+    public ResponseResult addQuarterAchievement(@RequestBody AchievementRequestDTO params) {
         try {
             quarterAchievementService.addQuarterAchievement(params);
             return ResponseBuilder.success("Adding QuarterAchievement was a success");
@@ -55,7 +54,7 @@ public class QuarterAchievementController {
     }
 
     @PutMapping("/{quarterId}")
-    public ResponseResult editQuarterAchievement(@RequestBody Map<String, Object> params, @PathVariable Long quarterId) {
+    public ResponseResult editQuarterAchievement(@RequestBody AchievementRequestDTO params, @PathVariable Long quarterId) {
         try {
             return ResponseBuilder.success(quarterAchievementService.editQuarterAchievement(params, quarterId));
         } catch (Exception ex) {

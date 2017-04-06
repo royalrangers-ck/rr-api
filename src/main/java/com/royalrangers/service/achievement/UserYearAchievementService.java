@@ -1,10 +1,10 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementRequestDTO;
+import com.royalrangers.dto.achievement.UserYearAchievementBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserYearAchievement;
-import com.royalrangers.dto.achievement.UserYearAchievementBean;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserYearAchievementRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +13,12 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserYearAchievementService {
 
     @Autowired
     private UserYearAchievementRepository userYearAchievementRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -39,14 +35,14 @@ public class UserYearAchievementService {
         return result;
     }
 
-    public void addUserYearAchievement(Map<String, Object> params) {
+    public void addUserYearAchievement(UserAchievementRequestDTO params) {
         UserYearAchievement savedUserAchievement = new UserYearAchievement();
         savedUserAchievement.setCreateDate(new Date());
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementStatus = (String) params.get("state");
+        String achievementStatus = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementStatus));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer yearId = (Integer) params.get("yearAchievementId");
+        Integer yearId = params.getId();
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
@@ -60,12 +56,12 @@ public class UserYearAchievementService {
         userYearAchievementRepository.delete(id);
     }
 
-    public void editUserYearAchievement(Map<String, Object> params, Long id) {
+    public void editUserYearAchievement(UserAchievementRequestDTO params, Long id) {
         UserYearAchievement savedUserAchievement = userYearAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementStatus = (String) params.get("state");
+        String achievementStatus = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementStatus));
-        Integer yearId = (Integer) params.get("yearAchievementId");
+        Integer yearId = params.getId();
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
