@@ -1,7 +1,6 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.EmailDto;
 import com.royalrangers.service.SubscribeService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
@@ -18,9 +17,8 @@ public class SubscribeController {
 
     @PostMapping
     @ApiOperation(value = "Create subscriber")
-    public ResponseResult subscribe(@RequestBody EmailDto param) {
+    public ResponseResult subscribe(@RequestBody String email) {
 
-        String email = param.getEmail();
         log.info("Add subscriber: " + email);
         try {
             subscribeService.add(email);
@@ -32,9 +30,8 @@ public class SubscribeController {
 
     @DeleteMapping
     @ApiOperation(value = "Delete subscriber")
-    public ResponseResult unsubscribe(@RequestBody EmailDto param) {
+    public ResponseResult unsubscribe(@RequestBody String email) {
 
-        String email = param.getEmail();
         log.info("Remove subscriber: " + email);
         try {
             subscribeService.remove(email);
