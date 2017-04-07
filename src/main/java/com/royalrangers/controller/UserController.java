@@ -126,8 +126,9 @@ public class UserController {
 
     @DeleteMapping("/avatar")
     @ApiOperation(value = "Delete avatar picture")
-    public ResponseResult delete(@RequestBody String avatarUrl) {
+    public ResponseResult delete(@RequestBody AvatarUrlDto request ) {
         try {
+            String avatarUrl = request.getAvatarUrl();
             dropboxService.deleteAvatar(avatarUrl);
             log.info("Delete avatar: " + avatarUrl);
 

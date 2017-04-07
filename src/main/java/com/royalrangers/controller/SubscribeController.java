@@ -1,6 +1,7 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.EmailDto;
 import com.royalrangers.service.SubscribeService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
@@ -17,8 +18,9 @@ public class SubscribeController {
 
     @PostMapping
     @ApiOperation(value = "Create subscriber")
-    public ResponseResult subscribe(@RequestBody String email) {
+    public ResponseResult subscribe(@RequestBody EmailDto request) {
 
+        String email = request.getMail();
         log.info("Add subscriber: " + email);
         try {
             subscribeService.add(email);
