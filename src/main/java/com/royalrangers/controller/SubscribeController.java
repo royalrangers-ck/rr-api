@@ -32,8 +32,9 @@ public class SubscribeController {
 
     @DeleteMapping
     @ApiOperation(value = "Delete subscriber")
-    public ResponseResult unsubscribe(@RequestBody String email) {
+    public ResponseResult unsubscribe(@RequestBody EmailDto request) {
 
+        String email = request.getMail();
         log.info("Remove subscriber: " + email);
         try {
             subscribeService.remove(email);
