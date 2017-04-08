@@ -1,9 +1,7 @@
 package com.royalrangers.service.achievement;
 
-
 import com.royalrangers.bean.UserBean;
 import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.BaseModel;
 import com.royalrangers.model.User;
 import com.royalrangers.model.achievement.UserAchievement;
 import org.springframework.stereotype.Service;
