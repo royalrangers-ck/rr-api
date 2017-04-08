@@ -50,6 +50,11 @@ public class UserTaskService {
         return buildUserAchievementBean(user);
     }
 
+    public List<UserTask> getUserTasksByTaskId(Long taskId) {
+        List<UserTask> resultList = userTaskRepository.findAllByTask(taskId);
+        return resultList;
+    }
+
     public void deleteUserTask(Long id) {
         userTaskRepository.delete(id);
     }
