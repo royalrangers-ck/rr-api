@@ -18,8 +18,5 @@ public class UserYearAchievement extends UserAchievement {
     private AchievementState achievementState;
 
     @OneToOne
-    private User user;
-
-    @OneToOne
     private YearAchievement yearAchievement;
 }
