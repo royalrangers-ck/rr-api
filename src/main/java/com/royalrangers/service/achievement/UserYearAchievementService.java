@@ -56,6 +56,12 @@ public class UserYearAchievementService {
         return buildUserAchievementBean(user);
     }
 
+    public List<UserYearAchievement> getUserYearAchievementByAchievementId(Long achievementId) {
+        List<UserYearAchievement> resultList =
+                userYearAchievementRepository.findAllByYearAchievement(achievementId);
+        return resultList;
+    }
+
     public void deleteUserYearAchievement(Long id) {
         userYearAchievementRepository.delete(id);
     }

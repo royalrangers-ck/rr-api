@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class UserThreeYearAchievement extends BaseModel {
+public class UserThreeYearAchievement extends UserAchievement {
 
     @Enumerated
     private AchievementState achievementState;

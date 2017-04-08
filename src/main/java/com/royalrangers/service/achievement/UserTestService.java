@@ -61,6 +61,11 @@ public class UserTestService {
         return buildUserAchievementBean(user);
     }
 
+    public List<UserTest> getUserTestsByTestId(Long testId) {
+        List<UserTest> resultList = userTestRepository.findAllByTest(testId);
+        return resultList;
+    }
+
     public void deleteUserTest(Long id) {
         userTestRepository.delete(id);
     }

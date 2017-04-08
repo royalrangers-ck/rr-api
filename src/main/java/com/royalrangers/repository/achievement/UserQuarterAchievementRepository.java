@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface UserQuarterAchievementRepository extends JpaRepository<UserQuarterAchievement, Long>{
     List<UserQuarterAchievement> findByUserId(Long id);
+    List<UserQuarterAchievement> findAllByQuarterAchievement(Long QuarterAchievementId);
 }
