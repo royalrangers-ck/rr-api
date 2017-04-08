@@ -6,19 +6,15 @@ import com.royalrangers.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.MappedSuperclass;
 
 @Getter
 @Setter
-@Entity
-public class UserTest extends UserAchievement {
+@MappedSuperclass
+public abstract class UserAchievement extends BaseModel{
 
-    @Enumerated
     private AchievementState achievementState;
 
-    @OneToOne
     private User user;
 
-    @OneToOne
-    private Test test;
 }

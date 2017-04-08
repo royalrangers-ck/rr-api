@@ -72,6 +72,12 @@ public class UserThreeYearAchievementService {
         return userYearAchievementBean;
     }
 
+    public List<UserThreeYearAchievement> getUserThreeYearAchievementByAchievementId(Long achievementId) {
+        List<UserThreeYearAchievement> resultList =
+                userThreeYearAchievementRepository.findAllByThreeYearAchievement(achievementId);
+        return resultList;
+    }
+
     public void deleteUserThreeYearAchievement(Long id) {
         userThreeYearAchievementRepository.delete(id);
     }

@@ -6,6 +6,7 @@ import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.dto.achievement.UserTestBean;
 import com.royalrangers.repository.UserRepository;
+import com.royalrangers.bean.achievement.UserTestBean;
 import com.royalrangers.repository.achievement.UserTestRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,6 @@ public class UserTestService {
     private UserTestRepository userTestRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -39,7 +37,16 @@ public class UserTestService {
         return result;
     }
 
-    public void addUserTest(UserAchievementRequestDto params) {
+    public List<UserTestBean> findAllByPlatoon(Long id) {
+        List<UserTest> list = userTestRepository.findByUser_PlatoonId(id);
+        List<UserTestBean> result = new ArrayList<>();
+        for (UserTest item : list) {
+            result.add(buildUserAchievementBean(item));
+        }
+        return result;
+    }
+
+        public void addUserTest(UserAchievementRequestDto params) {
         UserTest savedUserAchievement = new UserTest();
         savedUserAchievement.setCreateDate(new Date());
         savedUserAchievement.setUpdateDate(new Date());
@@ -54,6 +61,11 @@ public class UserTestService {
     public UserTestBean getUserTestById(Long id) {
         UserTest user = userTestRepository.findOne(id);
         return buildUserAchievementBean(user);
+    }
+
+    public List<UserTest> getUserTestsByTestId(Long testId) {
+        List<UserTest> resultList = userTestRepository.findAllByTest(testId);
+        return resultList;
     }
 
     public void deleteUserTest(Long id) {
