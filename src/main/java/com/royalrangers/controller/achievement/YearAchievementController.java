@@ -1,12 +1,11 @@
 package com.royalrangers.controller.achievement;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.service.achievement.YearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/achievements/year")
@@ -25,7 +24,7 @@ public class YearAchievementController {
     }
 
     @PostMapping
-    public ResponseResult addYearAchievement(@RequestBody Map<String, Object> params) {
+    public ResponseResult addYearAchievement(@RequestBody AchievementRequestDto params) {
         try {
             yearAchievementService.addYearAchievement(params);
             return ResponseBuilder.success("Successful addition of a yearAchievements");
@@ -54,7 +53,7 @@ public class YearAchievementController {
     }
 
     @PutMapping("/{yearId}")
-    public ResponseResult editYearAchievement(@RequestBody Map<String, Object> params, @PathVariable Long yearId) {
+    public ResponseResult editYearAchievement(@RequestBody AchievementRequestDto params, @PathVariable Long yearId) {
         try {
             return ResponseBuilder.success(yearAchievementService.editYearAchievement(params, yearId));
         } catch (Exception ex) {

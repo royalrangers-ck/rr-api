@@ -1,4 +1,4 @@
-package com.royalrangers.bean;
+package com.royalrangers.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class PlatoonBean {
+public class PlatoonDto {
     private Long id;
     private Date createDate;
     private Date updateDate;

@@ -1,8 +1,8 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.bean.PlatoonBean;
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.PlatoonDto;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.exception.PlatoonRepositoryException;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.PlatoonService;
@@ -26,7 +26,7 @@ public class PlatoonController {
     private PlatoonService platoonService;
 
     @GetMapping("/get")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get platoon info")
     public ResponseResult getPlatoonDetail(@RequestParam Long id) {
         try {
@@ -37,13 +37,13 @@ public class PlatoonController {
     }
 
     @PostMapping("/create")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create platoon")
-    public ResponseResult creation(@RequestBody PlatoonBean platoonBean) {
+    public ResponseResult creation(@RequestBody PlatoonDto platoonDto) {
         try {
-            platoonService.createPlatoon(platoonBean);
+            platoonService.createPlatoon(platoonDto);
 
-            log.info(String.format("Platoon '%s' is successfully created", platoonBean.getName()));
+            log.info(String.format("Platoon '%s' is successfully created", platoonDto.getName()));
             return ResponseBuilder.success("Platoon is successfully created");
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
@@ -51,9 +51,9 @@ public class PlatoonController {
     }
 
     @PutMapping("/update")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update platoon")
-    public ResponseResult updatePlatoonById(@RequestParam("id") Long id, @RequestBody PlatoonBean platoonUpdate) {
+    public ResponseResult updatePlatoonById(@RequestParam("id") Long id, @RequestBody PlatoonDto platoonUpdate) {
 
         try {
             platoonService.updatePlatoon(id, platoonUpdate);
@@ -68,6 +68,7 @@ public class PlatoonController {
 
     @PostMapping("/avatar")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Upload and set platoon logo")
     public ResponseResult upload(@RequestParam("id") Long id, @RequestParam("file") MultipartFile file) {
 
         try {
@@ -85,6 +86,7 @@ public class PlatoonController {
 
     @DeleteMapping("/avatar")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Delete logo")
     public ResponseResult delete(@RequestParam("id") Long id) {
         try {
             platoonService.delPlatoonLogoUrl(id);

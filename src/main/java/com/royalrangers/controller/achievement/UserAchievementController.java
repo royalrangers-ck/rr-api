@@ -1,7 +1,7 @@
 package com.royalrangers.controller.achievement;
 
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.UserBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.UserProfileDto;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.service.achievement.*;
 import com.royalrangers.utils.ResponseBuilder;
@@ -41,7 +41,7 @@ public class UserAchievementController {
                                               @RequestParam Long taskId,
                                               @RequestParam String achievementState){
         List<UserTask> userAchievementList = userTaskService.getUserTasksByTaskId(taskId);
-        List<UserBean> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
+        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
         return ResponseBuilder.success(result);
     }
 
@@ -51,7 +51,7 @@ public class UserAchievementController {
                                               @RequestParam Long testId,
                                               @RequestParam String achievementState){
         List<UserTest> userAchievementList = userTestService.getUserTestsByTestId(testId);
-        List<UserBean> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
+        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
         return ResponseBuilder.success(result);
     }
 
@@ -61,7 +61,7 @@ public class UserAchievementController {
                                                             @RequestParam Long achievementId,
                                                             @RequestParam String achievementState){
         List<UserQuarterAchievement> userAchievementList = userQuarterAchievementService.getUserQuarterAchievementByAchievementId(achievementId);
-        List<UserBean> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
+        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
         return ResponseBuilder.success(result);
     }
 
@@ -71,7 +71,7 @@ public class UserAchievementController {
                                                          @RequestParam Long achievementId,
                                                          @RequestParam String achievementState){
         List<UserYearAchievement> userAchievementList = userYearAchievementService.getUserYearAchievementByAchievementId(achievementId);
-        List<UserBean> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
+        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
         return ResponseBuilder.success(result);
     }
 
@@ -81,7 +81,7 @@ public class UserAchievementController {
                                                               @RequestParam Long achievementId,
                                                               @RequestParam String achievementState){
         List<UserThreeYearAchievement> userAchievementList = userThreeYearAchievementService.getUserThreeYearAchievementByAchievementId(achievementId);
-        List<UserBean> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
+        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
         return ResponseBuilder.success(result);
     }
 
@@ -91,7 +91,7 @@ public class UserAchievementController {
                                                                @RequestParam Long achievementId,
                                                                @RequestParam String achievementState){
         List<UserTwelveYearAchievement> userAchievementList = userTwelveYearAchievementService.getUserTwelveYearAchievementByAchievementId(achievementId);
-        List<UserBean> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
+        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId,achievementState);
         return ResponseBuilder.success(result);
     }
 }

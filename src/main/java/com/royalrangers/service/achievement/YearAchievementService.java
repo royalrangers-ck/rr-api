@@ -1,12 +1,12 @@
 package com.royalrangers.service.achievement;
 
+import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.repository.achievement.YearAchievementRepository;
 import com.royalrangers.model.achievement.YearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class YearAchievementService {
@@ -21,13 +21,13 @@ public class YearAchievementService {
         return yearAchievementRepository.findAll();
     }
 
-    public void addYearAchievement(Map<String, Object> params) {
+    public void addYearAchievement(AchievementRequestDto params) {
         YearAchievement yearAchievementSaved = new YearAchievement();
-        yearAchievementSaved.setName((String) params.get("name"));
-        yearAchievementSaved.setDescription((String) params.get("description"));
-        Integer id = (Integer) params.get("threeYearAchievement");
+        yearAchievementSaved.setName(params.getName());
+        yearAchievementSaved.setDescription(params.getDescription());
+        Integer id = params.getUpLevelId();
         yearAchievementSaved.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(id.longValue()));
-        yearAchievementSaved.setRequirements((String) params.get("requirements"));
+        yearAchievementSaved.setRequirements(params.getRequirements());
         yearAchievementRepository.saveAndFlush(yearAchievementSaved);
     }
 
@@ -39,13 +39,13 @@ public class YearAchievementService {
         yearAchievementRepository.delete(id);
     }
 
-    public YearAchievement editYearAchievement(Map<String, Object> params, Long yearId) {
+    public YearAchievement editYearAchievement(AchievementRequestDto params, Long yearId) {
         YearAchievement editYearData = getYearAchievementById(yearId);
-        Integer editThreeYearId = (Integer) params.get("threeYearAchievement");
-        editYearData.setName((String) params.get("name"));
-        editYearData.setDescription((String) params.get("description"));
-        editYearData.setLogoUrl((String) params.get("logoUrl"));
-        editYearData.setRequirements((String) params.get("requirements"));
+        Integer editThreeYearId = params.getUpLevelId();
+        editYearData.setName(params.getName());
+        editYearData.setDescription(params.getDescription());
+        editYearData.setLogoUrl(params.getLogoUrl());
+        editYearData.setRequirements(params.getRequirements());
         editYearData.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(editThreeYearId.longValue()));
         return yearAchievementRepository.saveAndFlush(editYearData);
     }

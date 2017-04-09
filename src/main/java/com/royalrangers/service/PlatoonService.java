@@ -1,8 +1,8 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.PlatoonBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.PlatoonDto;
 import com.royalrangers.model.Platoon;
 import com.royalrangers.repository.GroupRepository;
 import com.royalrangers.repository.PlatoonRepository;
@@ -26,20 +26,20 @@ public class PlatoonService {
         return ResponseBuilder.success(platoon);
     }
 
-    public void createPlatoon(PlatoonBean platoonBean) {
+    public void createPlatoon(PlatoonDto platoonDto) {
         Platoon platoon = new Platoon();
         platoon.setCreateDate(platoon.getCreateDate());
         platoon.setUpdateDate(platoon.getUpdateDate());
-        platoon.setName(platoonBean.getName());
-        platoon.setHistory(platoonBean.getHistory());
-        platoon.setAddress(platoonBean.getAddress());
-        platoon.setGroup(groupRepository.findOne(platoonBean.getGroupId()));
-        platoon.setCity(groupRepository.findOne(platoonBean.getGroupId()).getCity().getName());
-        platoon.setMeetTime(platoonBean.getMeetTime());
+        platoon.setName(platoonDto.getName());
+        platoon.setHistory(platoonDto.getHistory());
+        platoon.setAddress(platoonDto.getAddress());
+        platoon.setGroup(groupRepository.findOne(platoonDto.getGroupId()));
+        platoon.setCity(groupRepository.findOne(platoonDto.getGroupId()).getCity().getName());
+        platoon.setMeetTime(platoonDto.getMeetTime());
         platoonRepository.save(platoon);
     }
 
-    public void updatePlatoon(Long id, PlatoonBean update) {
+    public void updatePlatoon(Long id, PlatoonDto update) {
         Platoon platoon = platoonRepository.findOne(id);
         platoon.setCreateDate(update.getCreateDate());
         platoon.setUpdateDate(new Date());

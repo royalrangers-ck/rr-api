@@ -1,9 +1,10 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
-import com.royalrangers.bean.achievement.UserTaskBean;
+import com.royalrangers.dto.achievement.UserTaskBean;
 import com.royalrangers.repository.achievement.UserTaskRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserTaskService {
@@ -35,14 +35,14 @@ public class UserTaskService {
         return result;
     }
 
-    public void addUserTask(Map<String, Object> params) {
+    public void addUserTask(UserAchievementRequestDto params) {
         UserTask userTask = new UserTask();
         userTask.setCreateDate(new Date());
         userTask.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         userTask.setAchievementState(AchievementState.valueOf(achievementState));
         userTask.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer taskId = (Integer) params.get("taskId");
+        Integer taskId = params.getId();
         userTask.setTask(taskService.getTaskById(taskId.longValue()));
         userTaskRepository.saveAndFlush(userTask);
     }
@@ -61,12 +61,12 @@ public class UserTaskService {
         userTaskRepository.delete(id);
     }
 
-    public void editUserTask(Map<String, Object> params, Long id) {
+    public void editUserTask(UserAchievementRequestDto params, Long id) {
         UserTask savedUserTask = userTaskRepository.findOne(id);
         savedUserTask.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserTask.setAchievementState(AchievementState.valueOf(achievementState));
-        Integer taskId = (Integer) params.get("taskId");
+        Integer taskId = params.getId();
         savedUserTask.setTask(taskService.getTaskById(taskId.longValue()));
         userTaskRepository.saveAndFlush(savedUserTask);
     }

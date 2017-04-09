@@ -1,17 +1,13 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.EmailDto;
 import com.royalrangers.service.SubscribeService;
 import com.royalrangers.utils.ResponseBuilder;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -22,12 +18,9 @@ public class SubscribeController {
 
     @PostMapping
     @ApiOperation(value = "Create subscriber")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "json", value = "Subscriber's email. Example: {\"email\": \"test@test.com\"}", paramType = "body", required = true)
-    })
-    public ResponseResult subscribe(@ApiIgnore @RequestBody Map<String, Object> params) {
+    public ResponseResult subscribe(@RequestBody EmailDto request) {
 
-        String email = (String) params.get("email");
+        String email = request.getMail();
         log.info("Add subscriber: " + email);
         try {
             subscribeService.add(email);
@@ -39,12 +32,9 @@ public class SubscribeController {
 
     @DeleteMapping
     @ApiOperation(value = "Delete subscriber")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "json", value = "Subscriber's email. Example: {\"email\": \"test@test.com\"}", paramType = "body", required = true)
-    })
-    public ResponseResult unsubscribe(@ApiIgnore @RequestBody  Map<String, Object> params) {
+    public ResponseResult unsubscribe(@RequestBody EmailDto request) {
 
-        String email = (String) params.get("email");
+        String email = request.getMail();
         log.info("Remove subscriber: " + email);
         try {
             subscribeService.remove(email);
