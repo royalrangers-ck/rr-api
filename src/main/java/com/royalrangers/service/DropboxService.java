@@ -21,6 +21,8 @@ public class DropboxService {
     private String accessToken;
     @Value("${dropbox.avatarPrefix}")
     private String avatarPrefix;
+    @Value("${dropbox.logoPrefix}")
+    private String logoPrefix;
 
     public DbxClientV2 getClient() {
     DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
@@ -47,9 +49,25 @@ public class DropboxService {
         return getSharedLink(path);
     }
 
+    public String logoUpload(MultipartFile file) throws IOException, DbxException {
+
+        String extension = getFilenameExtension(file.getOriginalFilename());
+        String path = logoPrefix + UUID.randomUUID().toString() + extension;
+
+        InputStream in = file.getInputStream();
+        getClient().files().uploadBuilder(path).uploadAndFinish(in);
+
+        return getSharedPlatoonLogoLink(path);
+    }
+
     public void deleteAvatar(String avatarUrl) throws DbxException {
         String filename = avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1);
         String path = avatarPrefix + filename;
+        getClient().files().delete(path);
+    }
+    public void deleteLogo(String logoUrl) throws DbxException {
+        String filename = logoUrl.substring(logoUrl.lastIndexOf("/") + 1);
+        String path = logoPrefix + filename;
         getClient().files().delete(path);
     }
 
@@ -62,6 +80,14 @@ public class DropboxService {
         String directUrl = sharedUrl
                 .substring(0, sharedUrl.lastIndexOf("?"))
                 .replaceAll("www.dropbox.com", "dl.dropboxusercontent.com");
+
+        return directUrl;
+    }
+    private String getSharedPlatoonLogoLink(String path) throws DbxException {
+        String sharedUrl = getClient().sharing().createSharedLinkWithSettings(path).getUrl();
+        String directUrl = sharedUrl
+                .substring(0, sharedUrl.lastIndexOf("?"))
+                .replaceAll("www.dropbox.com", "dl.dropboxplatooncontent.com");
 
         return directUrl;
     }

@@ -4,8 +4,10 @@ import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.PlatoonDto;
 import com.royalrangers.model.Platoon;
+import com.royalrangers.model.User;
 import com.royalrangers.repository.GroupRepository;
 import com.royalrangers.repository.PlatoonRepository;
+import com.royalrangers.repository.UserRepository;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +22,31 @@ public class PlatoonService {
     PlatoonRepository platoonRepository;
     @Autowired
     GroupRepository groupRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    UserRepository userRepository;
 
-    public ResponseResult getPlatoonData(Long id) {
-        Platoon platoon = platoonRepository.findOne(id);
-        return ResponseBuilder.success(platoon);
+    public PlatoonDto buildPlatoon(Platoon platoon) {
+        PlatoonDto platoonDto = new PlatoonDto();
+        platoonDto.setCreateDate(platoon.getCreateDate());
+        platoonDto.setUpdateDate(platoon.getUpdateDate());
+        platoonDto.setId(platoon.getId());
+        platoonDto.setName(platoon.getName());
+        platoonDto.setGroupId(platoon.getGroup().getId());
+        platoonDto.setCity(platoon.getGroup().getCity().getName());
+        platoonDto.setAddress(platoon.getAddress());
+        platoonDto.setHistory(platoon.getHistory());
+        platoonDto.setMeetTime(platoon.getMeetTime());
+        platoonDto.setLogoUrl(platoon.getLogoUrl());
+        return platoonDto;
+    }
+
+    public ResponseResult getPlatoonData() {
+        String email = userService.getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
+        Platoon platoon = platoonRepository.findOne(user.getPlatoon().getId());
+        return ResponseBuilder.success(buildPlatoon(platoon));
     }
 
     public void createPlatoon(PlatoonDto platoonDto) {
@@ -67,7 +90,7 @@ public class PlatoonService {
         Platoon platoon = platoonRepository.findOne(id);
 
         if (platoon.getLogoUrl() != null) {
-            dropboxService.deleteAvatar(platoon.getLogoUrl());
+            dropboxService.deleteLogo(platoon.getLogoUrl());
         }
 
         platoon.setLogoUrl(null);

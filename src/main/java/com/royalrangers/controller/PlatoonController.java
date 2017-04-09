@@ -25,18 +25,17 @@ public class PlatoonController {
     @Autowired
     private PlatoonService platoonService;
 
-    @GetMapping("/get")
-    @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Get platoon info")
-    public ResponseResult getPlatoonDetail(@RequestParam Long id) {
+    @GetMapping
+    @ApiOperation(value = "Get platoon info by authenticated user")
+    public ResponseResult getPlatoonDetail() {
         try {
-            return platoonService.getPlatoonData(id);
+            return platoonService.getPlatoonData();
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
 
-    @PostMapping("/create")
+    @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Create platoon")
     public ResponseResult creation(@RequestBody PlatoonDto platoonDto) {
@@ -50,7 +49,7 @@ public class PlatoonController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update platoon")
     public ResponseResult updatePlatoonById(@RequestParam("id") Long id, @RequestBody PlatoonDto platoonUpdate) {
@@ -66,13 +65,13 @@ public class PlatoonController {
         }
     }
 
-    @PostMapping("/avatar")
+    @PostMapping("/logo")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Upload and set platoon logo")
     public ResponseResult upload(@RequestParam("id") Long id, @RequestParam("file") MultipartFile file) {
 
         try {
-            String logoUrl = dropboxService.avatarUpload(file);
+            String logoUrl = dropboxService.logoUpload(file);
             log.info("Set platoon logo public URL: " + logoUrl);
 
             platoonService.setPlatoonLogoUrl(id, logoUrl);
@@ -84,7 +83,7 @@ public class PlatoonController {
         }
     }
 
-    @DeleteMapping("/avatar")
+    @DeleteMapping("/logo")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Delete logo")
     public ResponseResult delete(@RequestParam("id") Long id) {
