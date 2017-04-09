@@ -1,7 +1,7 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.achievement.UserTestBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.UserTestBean;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.UserRepository;

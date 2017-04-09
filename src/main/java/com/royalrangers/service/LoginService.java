@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.enums.Messages;
 import com.royalrangers.model.User;
 import com.royalrangers.utils.ResponseBuilder;

@@ -1,6 +1,6 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.enums.UserRank;
 import com.royalrangers.model.City;
 import com.royalrangers.model.Platoon;

@@ -1,7 +1,7 @@
 package com.royalrangers.utils;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import lombok.Getter;
 
 import java.util.HashMap;

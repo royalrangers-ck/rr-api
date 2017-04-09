@@ -1,4 +1,4 @@
-package com.royalrangers.bean;
+package com.royalrangers.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
