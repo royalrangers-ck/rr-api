@@ -16,6 +16,11 @@ public class Platoon extends BaseModel{
 
     @NotNull
     private String name;
+    private String history;
+    private String logoUrl;
+    private String address;
+    private Date meetTime;
+    private String city;
 
     @JsonIgnore
     @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -28,9 +33,19 @@ public class Platoon extends BaseModel{
 
     public Platoon() {}
 
+    public Platoon(String name, String history, String logoUrl, String address, Date meetTime, String city, Set<Section> sections, Group group) {
+        this.name = name;
+        this.history = history;
+        this.logoUrl = logoUrl;
+        this.address = address;
+        this.meetTime = meetTime;
+        this.city = city;
+        this.sections = sections;
+        this.group = group;
+    }
+
     public Platoon(Group group, String name) {
         this.group = group;
         this.name = name;
     }
-
 }
