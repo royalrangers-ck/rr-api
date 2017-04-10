@@ -79,7 +79,7 @@ public class PlatoonService {
         Platoon platoon = platoonRepository.findOne(id);
 
         if (platoon.getLogoUrl() != null) {
-            dropboxService.deleteAvatar(platoon.getLogoUrl());
+            dropboxService.deleteLogo(platoon.getLogoUrl());
         }
 
         platoon.setLogoUrl(logoUrl);
