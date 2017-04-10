@@ -1,5 +1,6 @@
 package com.royalrangers.service.achievement;
 
+import com.royalrangers.dto.achievement.RewardRequestDto;
 import com.royalrangers.dto.achievement.RewardResponseDto;
 import com.royalrangers.exception.AchievementException;
 import com.royalrangers.model.achievement.UserReward;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserRewardService {
@@ -37,9 +37,9 @@ public class UserRewardService {
         return result;
     }
 
-    public void addUserReward(Map<String, Object> params){
+    public void addUserReward(RewardRequestDto params){
         UserReward savedUserReward = new UserReward();
-        Integer rewardId = (Integer) params.get("rewardId");
+        Integer rewardId = params.getRewardId();
         if(!rewardRepository.exists(rewardId.longValue())) {
             throw new AchievementException("Not found reward with id " + rewardId);
         }
@@ -57,10 +57,10 @@ public class UserRewardService {
         userRewardRepository.delete(id);
     }
 
-    public void editUserReward(Map<String, Object> params, Long id){
+    public void editUserReward(RewardRequestDto params, Long id){
         UserReward savedUserReward = userRewardRepository.findOne(id);
         savedUserReward.setUpdateDate(new Date());
-        Integer rewardId = (Integer) params.get("rewardId");
+        Integer rewardId = params.getRewardId();
         savedUserReward.setReward(rewardService.getRewardById(rewardId.longValue()));
         userRewardRepository.saveAndFlush(savedUserReward);
     }

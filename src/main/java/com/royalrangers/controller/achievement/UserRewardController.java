@@ -1,12 +1,12 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.RewardRequestDto;
 import com.royalrangers.service.achievement.UserRewardService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/achievements/userReward")
@@ -24,7 +24,7 @@ public class UserRewardController {
     }
 
     @PostMapping
-    public ResponseResult addUserReward(@RequestBody Map<String, Object> params){
+    public ResponseResult addUserReward(@RequestBody RewardRequestDto params){
         try {
             userRewardService.addUserReward(params);
             return ResponseBuilder.success("Successfully added UserReward");
@@ -53,7 +53,7 @@ public class UserRewardController {
     }
 
     @PutMapping("/{userRewardId}")
-    public ResponseResult editUserReward(@RequestBody Map<String, Object> params, @PathVariable Long userRewardId){
+    public ResponseResult editUserReward(@RequestBody RewardRequestDto params, @PathVariable Long userRewardId){
         try{
             userRewardService.editUserReward(params, userRewardId);
             return ResponseBuilder.success("Successfully edited UserReward");
