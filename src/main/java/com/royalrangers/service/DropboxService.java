@@ -53,11 +53,10 @@ public class DropboxService {
 
         String extension = getFilenameExtension(file.getOriginalFilename());
         String path = logoPrefix + UUID.randomUUID().toString() + extension;
-
         InputStream in = file.getInputStream();
         getClient().files().uploadBuilder(path).uploadAndFinish(in);
 
-        return getSharedPlatoonLogoLink(path);
+        return getSharedLink(path);
     }
 
     public void deleteAvatar(String avatarUrl) throws DbxException {
@@ -80,14 +79,6 @@ public class DropboxService {
         String directUrl = sharedUrl
                 .substring(0, sharedUrl.lastIndexOf("?"))
                 .replaceAll("www.dropbox.com", "dl.dropboxusercontent.com");
-
-        return directUrl;
-    }
-    private String getSharedPlatoonLogoLink(String path) throws DbxException {
-        String sharedUrl = getClient().sharing().createSharedLinkWithSettings(path).getUrl();
-        String directUrl = sharedUrl
-                .substring(0, sharedUrl.lastIndexOf("?"))
-                .replaceAll("www.dropbox.com", "dl.dropboxplatooncontent.com");
 
         return directUrl;
     }
