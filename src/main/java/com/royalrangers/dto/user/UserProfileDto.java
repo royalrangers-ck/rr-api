@@ -1,6 +1,5 @@
-package com.royalrangers.bean;
+package com.royalrangers.dto.user;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.UserRank;
 import lombok.Getter;
@@ -10,8 +9,9 @@ import java.util.Date;
 
 @Getter
 @Setter
-@JsonSerialize
-public class UserProfile {
+public class UserProfileDto {
+
+    private Long id;
     private Date createDate;
     private Date updateDate;
     private String email;

@@ -1,20 +1,16 @@
-package com.royalrangers.bean.achievement;
+package com.royalrangers.dto.achievement;
 
 import com.royalrangers.enums.achivement.RewardMark;
 import com.royalrangers.enums.achivement.RewardType;
-import com.royalrangers.model.achievement.Reward;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class RewardBean {
+public class RewardResponseDto {
     private Long id;
     private Long userId;
-    private String userFirstName;
-    private String userLastName;
-    private String userAvatarUrl;
-    private Long userPlatoonId;
+    private UserAchievementDto user;
     private Long rewardId;
     private String rewardName;
     private String rewardDescription;

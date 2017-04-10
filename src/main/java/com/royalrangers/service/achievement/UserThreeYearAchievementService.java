@@ -1,9 +1,10 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementDto;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserThreeYearAchievement;
-import com.royalrangers.bean.achievement.ThreeYearAchievementBean;
+import com.royalrangers.dto.achievement.UserThreeYearResponseDto;
 import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserThreeYearAchievementRepository;
 import com.royalrangers.service.UserService;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserThreeYearAchievementService {
@@ -30,26 +30,26 @@ public class UserThreeYearAchievementService {
     @Autowired
     private ThreeYearAchievementService threeYearAchievementService;
 
-    public List<ThreeYearAchievementBean> findAllForUser() {
+    public List<UserThreeYearResponseDto> findAllForUser() {
         List<UserThreeYearAchievement> list = userThreeYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<ThreeYearAchievementBean> result = new ArrayList<>();
+        List<UserThreeYearResponseDto> result = new ArrayList<>();
         for (UserThreeYearAchievement item : list) {
             result.add(buildUserAchievementBean(item));
         }
         return result;
     }
 
-    public void addUserThreeYearAchievement(Map<String, Object> params) {
+    public void addUserThreeYearAchievement(UserAchievementRequestDto params) {
         UserThreeYearAchievement savedUserAchievement = new UserThreeYearAchievement();
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer threeYearId = (Integer) params.get("threeYearAchievementId");
+        Integer threeYearId = params.getId();
         savedUserAchievement.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(threeYearId.longValue()));
         userThreeYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public ThreeYearAchievementBean getUserThreeYearAchievementById(Long id) {
+    public UserThreeYearResponseDto getUserThreeYearAchievementById(Long id) {
         UserThreeYearAchievement user = userThreeYearAchievementRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -64,31 +64,27 @@ public class UserThreeYearAchievementService {
         userThreeYearAchievementRepository.delete(id);
     }
 
-    public void editUserThreeYearAchievement(Map<String, Object> params, Long id) {
+    public void editUserThreeYearAchievement(UserAchievementRequestDto params, Long id) {
         UserThreeYearAchievement savedUserAchievement = userThreeYearAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer threeYearId = (Integer) params.get("threeYearAchievementId");
+        Integer threeYearId = params.getId();
         savedUserAchievement.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(threeYearId.longValue()));
         userThreeYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    private ThreeYearAchievementBean buildUserAchievementBean(UserThreeYearAchievement item) {
-        ThreeYearAchievementBean userAchievementBean = new ThreeYearAchievementBean();
+    private UserThreeYearResponseDto buildUserAchievementBean(UserThreeYearAchievement item) {
+        UserThreeYearResponseDto userAchievementBean = new UserThreeYearResponseDto();
         userAchievementBean.setId(item.getId());
+        userAchievementBean.setCreateDate(item.getCreateDate());
+        userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUserId(userBean.getId());
-        userAchievementBean.setUserFirstName(userBean.getFirstName());
-        userAchievementBean.setUserLastName(userBean.getLastName());
-        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
-        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
-        userAchievementBean.setThreeYearAchievementId(item.getThreeYearAchievement().getId());
+        UserAchievementDto userBean = UserService.buildUserAchievementBean(item.getUser());
+        userAchievementBean.setUser(userBean);
         userAchievementBean.setThreeYearAchievementName(item.getThreeYearAchievement().getName());
         userAchievementBean.setThreeYearAchievementDescription(item.getThreeYearAchievement().getDescription());
-        userAchievementBean.setThreeYearAchievementLogoUrl(item.getThreeYearAchievement().getLogoUrl());
         return userAchievementBean;
     }
 

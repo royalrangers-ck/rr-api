@@ -1,13 +1,11 @@
 package com.royalrangers.controller.achievement;
 
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.model.achievement.Reward;
 import com.royalrangers.service.achievement.RewardService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/achievements/reward")

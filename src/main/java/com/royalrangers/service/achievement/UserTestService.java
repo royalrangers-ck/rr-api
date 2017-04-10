@@ -1,9 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.dto.achievement.UserTestResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTest;
-import com.royalrangers.bean.achievement.TestBean;
 import com.royalrangers.repository.achievement.UserTestRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserTestService {
@@ -26,35 +25,35 @@ public class UserTestService {
     @Autowired
     private TestService testService;
 
-    public List<TestBean> findAllForUser() {
+    public List<UserTestResponseDto> findAllForUser() {
         List<UserTest> list = userTestRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<TestBean> result = new ArrayList<>();
+        List<UserTestResponseDto> result = new ArrayList<>();
         for (UserTest item : list) {
             result.add(buildUserAchievementBean(item));
         }
         return result;
     }
 
-    public List<TestBean> findAllByPlatoon(Long id) {
+    public List<UserTestResponseDto> findAllByPlatoon(Long id) {
         List<UserTest> list = userTestRepository.findByUser_PlatoonId(id);
-        List<TestBean> result = new ArrayList<>();
+        List<UserTestResponseDto> result = new ArrayList<>();
         for (UserTest item : list) {
             result.add(buildUserAchievementBean(item));
         }
         return result;
     }
 
-    public void addUserTest(Map<String, Object> params) {
+        public void addUserTest(UserAchievementRequestDto params) {
         UserTest savedUserAchievement = new UserTest();
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState()  ;
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer testId = (Integer) params.get("testId");
+        Integer testId = params.getId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public TestBean getUserTestById(Long id) {
+    public UserTestResponseDto getUserTestById(Long id) {
         UserTest user = userTestRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -68,30 +67,25 @@ public class UserTestService {
         userTestRepository.delete(id);
     }
 
-    public void editUserTest(Map<String, Object> params, Long id) {
+    public void editUserTest(UserAchievementRequestDto params, Long id) {
         UserTest savedUserAchievement = userTestRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
-        Integer testId = (Integer) params.get("testId");
+        Integer testId = params.getId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
-    private TestBean buildUserAchievementBean(UserTest item) {
-        TestBean userAchievementBean = new TestBean();
+    private UserTestResponseDto buildUserAchievementBean(UserTest item) {
+        UserTestResponseDto userAchievementBean = new UserTestResponseDto();
         userAchievementBean.setId(item.getId());
+        userAchievementBean.setCreateDate(item.getCreateDate());
+        userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setId(userBean.getId());
-        userAchievementBean.setUserFirstName(userBean.getFirstName());
-        userAchievementBean.setUserLastName(userBean.getLastName());
-        userAchievementBean.setUserPlatoonId(userBean.getPlatoonId());
-        userAchievementBean.setUserAvatarUrl(userBean.getUserAvatarUrl());
-        userAchievementBean.setTestId(item.getTest().getId());
+        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
         userAchievementBean.setTestName(item.getTest().getName());
         userAchievementBean.setTestDescription(item.getTest().getDescription());
-        userAchievementBean.setTestLogoUrl(item.getTest().getLogoUrl());
         userAchievementBean.setTestType(item.getTest().getTestType());
         return userAchievementBean;
     }

@@ -1,24 +1,21 @@
-package com.royalrangers.bean.achievement;
+package com.royalrangers.dto.achievement;
 
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.enums.achivement.TestType;
-import com.royalrangers.model.achievement.Test;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Getter
 @Setter
-public class TestBean {
+public class UserTestResponseDto {
     private Long id;
-    private Long userId;
-    private String userFirstName;
-    private String userLastName;
-    private String userAvatarUrl;
-    private Long userPlatoonId;
+    private Date createDate;
+    private Date updateDate;
     private AchievementState achievementState;
-    private Long testId;
+    private UserAchievementDto user;
     private String testName;
     private String testDescription;
-    private String testLogoUrl;
     private TestType testType;
 }

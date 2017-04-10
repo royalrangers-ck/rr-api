@@ -1,11 +1,10 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.UserBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.*;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.DropboxService;
-import com.royalrangers.service.UserProfileService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.*;
@@ -17,15 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-    @Autowired
-    private UserProfileService profileService;
 
     @Autowired
     private UserService userService;
@@ -34,24 +29,23 @@ public class UserController {
     private DropboxService dropboxService;
 
     @GetMapping
-    @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Get user info")
-    public @ResponseBody ResponseResult getAuthenticatedUserDetail() {
+    public ResponseResult getAuthenticatedUserDetail() {
 
         String username = userService.getAuthenticatedUserEmail();
-        log.info("get details for user " + username);
+        log.info("Get details for user " + username);
 
-        return ResponseBuilder.success(profileService.getUserDetailByEmail(username));
+        return ResponseBuilder.success(userService.getUserDetailByEmail(username));
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get user info (for admin)")
-    public @ResponseBody ResponseResult getUserDetailById(@PathVariable("id") Long id) {
+    public ResponseResult getUserDetailById(@PathVariable("id") Long id) {
 
         try {
             log.info("Get details for user id " + id);
-            return ResponseBuilder.success(profileService.getUserDetailById(id));
+            return ResponseBuilder.success(userService.getUserDetailById(id));
 
         } catch (UserRepositoryException e){
 
@@ -63,15 +57,15 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-        List<UserBean> usersForApprove = userService.getUsersForApprove(platoonId);
+        List<UserProfileDto> usersForApprove = userService.getUsersForApprove(platoonId);
         return ResponseBuilder.success(usersForApprove);
     }
 
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Approve users after registration (for admin)")
-    public ResponseResult approveUser(@RequestBody Map<String, List<Long>> params) {
-        List<Long> ids = params.get("ids");
+    public ResponseResult approveUser(@RequestBody IdsDto param) {
+        List<Long> ids = param.getIds();
         userService.approveUsers(ids);
         return ResponseBuilder.success("Users successfully approved.");
     }
@@ -79,20 +73,19 @@ public class UserController {
     @PostMapping("/reject")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Reject user after registration (for admin)")
-    public ResponseResult rejectUser(@RequestBody Map <String, List<Long>> params) {
-        List<Long> ids = params.get("ids");
+    public ResponseResult rejectUser(@RequestBody IdsDto param) {
+        List<Long> ids = param.getIds();
         userService.rejectUsers(ids);
         return ResponseBuilder.success("Users successfully rejected.");
     }
 
     @PutMapping
-    @PreAuthorize("isAuthenticated()")
     @ApiOperation(value = "Update user")
-    public ResponseResult updateAuthorizedUser(@RequestBody UserBean update) {
+    public ResponseResult updateAuthorizedUser(@RequestBody UserUpdateDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
 
-        userService.updateUserByEmail(email, update);
+        userService.updateUser(update);
         log.info("Update user " + email);
 
         return ResponseBuilder.success(String.format("User %s successful updated", email));
@@ -101,7 +94,7 @@ public class UserController {
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update user (for admin)")
-    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserBean userUpdate) {
+    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateAdminDto userUpdate) {
 
         try {
             userService.updateUserById(id, userUpdate);
@@ -115,6 +108,7 @@ public class UserController {
     }
 
     @PostMapping("/avatar")
+    @ApiOperation(value = "Upload and set user avatar")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
 
         try {
@@ -131,9 +125,10 @@ public class UserController {
     }
 
     @DeleteMapping("/avatar")
-    public ResponseResult delete(@RequestBody Map<String, Object> params) {
-        String avatarUrl = (String) params.get("avatarUrl");
+    @ApiOperation(value = "Delete avatar picture")
+    public ResponseResult delete(@RequestBody AvatarUrlDto request ) {
         try {
+            String avatarUrl = request.getAvatarUrl();
             dropboxService.deleteAvatar(avatarUrl);
             log.info("Delete avatar: " + avatarUrl);
 

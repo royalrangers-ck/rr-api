@@ -1,14 +1,13 @@
 package com.royalrangers.service.achievement;
 
+import com.royalrangers.dto.achievement.ThreeYearRequestDto;
 import com.royalrangers.enums.achivement.AgeCategory;
 import com.royalrangers.repository.achievement.ThreeYearAchievementRepository;
 import com.royalrangers.model.achievement.ThreeYearAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ThreeYearAchievementService {
@@ -23,15 +22,14 @@ public class ThreeYearAchievementService {
         return threeYearAchievementRepository.findAll();
     }
 
-    public void addThreeYearAchievement(Map<String, Object> params) {
+    public void addThreeYearAchievement(ThreeYearRequestDto params) {
         ThreeYearAchievement threeYearAchievementSaved = new ThreeYearAchievement();
-        threeYearAchievementSaved.setName((String) params.get("name"));
-        threeYearAchievementSaved.setDescription((String) params.get("description"));
-        Integer id = (Integer) params.get("twelveYearAchievement");
-        String ageCategory = (String) params.get("ageCategory");
-        threeYearAchievementSaved.setAgeCategory(AgeCategory.valueOf(ageCategory));
+        threeYearAchievementSaved.setName(params.getName());
+        threeYearAchievementSaved.setDescription(params.getDescription());
+        Integer id = params.getUpLevelId();
         threeYearAchievementSaved.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(id.longValue()));
-        threeYearAchievementSaved.setRequirements((String) params.get("requirements"));
+        threeYearAchievementSaved.setRequirements(params.getRequirements());
+        threeYearAchievementSaved.setAgeCategory(AgeCategory.valueOf(params.getAgeCategory()));
         threeYearAchievementRepository.saveAndFlush(threeYearAchievementSaved);
     }
 
@@ -43,17 +41,15 @@ public class ThreeYearAchievementService {
         threeYearAchievementRepository.delete(id);
     }
 
-    public ThreeYearAchievement editThreeYearAchievement(Map<String, Object> params, Long threeYearId) {
+    public ThreeYearAchievement editThreeYearAchievement(ThreeYearRequestDto params, Long threeYearId) {
         ThreeYearAchievement threeYearData = getThreeYearAchievementById(threeYearId);
-        Integer twelveYearsId = (Integer) params.get("twelveYearAchievement");
-        String ageCategory = (String) params.get("twelveYearAchievement");
+        Integer twelveYearsId = params.getUpLevelId();
         threeYearData.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearsId.longValue()));
-        threeYearData.setName((String) params.get("name"));
-        threeYearData.setAgeCategory(AgeCategory.valueOf(ageCategory));
-        threeYearData.setUpdateDate(new Date());
-        threeYearData.setDescription((String) params.get("description"));
-        threeYearData.setRequirements((String) params.get("requirements"));
-        threeYearData.setLogoUrl((String) params.get("logoUrl"));
+        threeYearData.setName(params.getName());
+        threeYearData.setDescription(params.getDescription());
+        threeYearData.setRequirements(params.getRequirements());
+        threeYearData.setLogoUrl(params.getLogoUrl());
+        threeYearData.setAgeCategory(AgeCategory.valueOf(params.getAgeCategory()));
         return threeYearAchievementRepository.saveAndFlush(threeYearData);
     }
 }

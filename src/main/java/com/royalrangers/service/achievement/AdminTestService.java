@@ -1,7 +1,7 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.achievement.TestBean;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.UserTestResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.UserRepository;
@@ -22,9 +22,9 @@ public class AdminTestService {
 
     public ResponseResult getUsersData(String email) {
         User user = userRepository.findByEmail(email);
-        List<TestBean> list = userTestService.findAllByPlatoon(user.getPlatoon().getId());
-        List<TestBean> result = new ArrayList<>();
-        for (TestBean tests : list) {
+        List<UserTestResponseDto> list = userTestService.findAllByPlatoon(user.getPlatoon().getId());
+        List<UserTestResponseDto> result = new ArrayList<>();
+        for (UserTestResponseDto tests : list) {
             if (tests.getAchievementState() == AchievementState.SUBMITTED) {
                 result.add(tests);
             }

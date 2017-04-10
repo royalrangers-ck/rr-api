@@ -1,4 +1,4 @@
-package com.royalrangers.bean.achievement;
+package com.royalrangers.dto.achievement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserAchievementBean {
+public class UserAchievementDto {
     private Long id;
     @JsonIgnore
     private String email;

@@ -1,5 +1,6 @@
 package com.royalrangers.service.achievement;
 
+import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.repository.achievement.QuarterAchievementRepository;
 import com.royalrangers.model.achievement.QuarterAchievement;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class QuarterAchievementService {
@@ -22,12 +22,12 @@ public class QuarterAchievementService {
         return quarterAchievementRepository.findAll();
     }
 
-    public void addQuarterAchievement(Map<String, Object> params) {
+    public void addQuarterAchievement(AchievementRequestDto params) {
         QuarterAchievement quarterAchievement = new QuarterAchievement();
-        quarterAchievement.setName((String) params.get("name"));
-        quarterAchievement.setDescription((String) params.get("description"));
-        quarterAchievement.setRequirements((String) params.get("requirements"));
-        Integer yearId = (Integer) params.get("yearAchievementId");
+        quarterAchievement.setName(params.getName());
+        quarterAchievement.setDescription(params.getDescription());
+        quarterAchievement.setRequirements(params.getRequirements());
+        Integer yearId = params.getUpLevelId();
         quarterAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         quarterAchievementRepository.saveAndFlush(quarterAchievement);
     }
@@ -40,13 +40,12 @@ public class QuarterAchievementService {
         quarterAchievementRepository.delete(quarterId);
     }
 
-    public QuarterAchievement editQuarterAchievement(Map<String, Object> params, Long quarterId) {
+    public QuarterAchievement editQuarterAchievement(AchievementRequestDto params, Long quarterId) {
         QuarterAchievement editQuarterAchievement = getQuarterAchievementById(quarterId);
-        editQuarterAchievement.setName((String) params.get("name"));
-        editQuarterAchievement.setUpdateDate(new Date());
-        editQuarterAchievement.setDescription((String) params.get("description"));
-        editQuarterAchievement.setRequirements((String) params.get("requirements"));
-        Integer yearId = (Integer) params.get("yearAchievementId");
+        editQuarterAchievement.setName(params.getName());
+        editQuarterAchievement.setDescription(params.getDescription());
+        editQuarterAchievement.setRequirements(params.getRequirements());
+        Integer yearId = params.getUpLevelId();
         editQuarterAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         return quarterAchievementRepository.saveAndFlush(editQuarterAchievement);
     }
