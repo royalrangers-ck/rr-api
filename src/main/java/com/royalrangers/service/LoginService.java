@@ -1,23 +1,32 @@
 package com.royalrangers.service;
 
-import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.enums.Messages;
+import com.royalrangers.enums.ErrorMessages;
 import com.royalrangers.model.User;
-import com.royalrangers.utils.ResponseBuilder;
+import com.royalrangers.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
 
-    private Messages messages;
+    @Autowired
+    private UserRepository userRepository;
 
-    public ResponseResult loginInformation(User user) {
-        if (!user.getConfirmed()) {
-            return ResponseBuilder.fail(messages.NOT_CONFIRMED.getMessage());
-        } else if (user.getConfirmed() && !user.getApproved()) {
-            return ResponseBuilder.fail(messages.NOT_APPROVED.getMessage());
-        } else if (!user.getEnabled()) {
-            return ResponseBuilder.fail(messages.DENIED.getMessage());
+    private ErrorMessages messages;
+
+    public ErrorMessages checkLoginInformation(String email) {
+        User user;
+        try {
+            user = userRepository.findByEmail(email);
+            if (!user.getConfirmed()) {
+                return messages.NOT_CONFIRMED;
+            } else if (user.getConfirmed() && !user.getApproved()) {
+                return messages.NOT_APPROVED;
+            } else if (!user.getEnabled()) {
+                return messages.DENIED;
+            }
+        } catch (NullPointerException e) {
+            return messages.NOT_EXIST;
         }
         return null;
     }
