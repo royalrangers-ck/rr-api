@@ -1,10 +1,14 @@
 package com.royalrangers.controller;
 
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.jwt.JwtAuthenticationRequest;
+import com.royalrangers.dto.jwt.JwtAuthenticationResponse;
+import com.royalrangers.enums.Messages;
+import com.royalrangers.service.JwtUserDetailsServiceImpl;
+import com.royalrangers.service.LoginService;
 import com.royalrangers.utils.ResponseBuilder;
 import com.royalrangers.utils.security.JwtTokenUtil;
 import com.royalrangers.utils.security.JwtUser;
-import com.royalrangers.dto.jwt.JwtAuthenticationRequest;
-import com.royalrangers.dto.jwt.JwtAuthenticationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @Slf4j
-public class AuthenticationRestController {
+public class AuthenticationLoginController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -38,10 +41,17 @@ public class AuthenticationRestController {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private JwtUserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private LoginService loginService;
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+    public ResponseResult createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
+
+        Messages messages = loginService.checkLoginInformation(authenticationRequest.getEmail());
+        if (messages != null)
+            return ResponseBuilder.fail(messages.getMessage());
 
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(
@@ -58,7 +68,7 @@ public class AuthenticationRestController {
         log.info("generate token for user " + authenticationRequest.getEmail());
 
         // Return the token
-        return ResponseEntity.ok(ResponseBuilder.success(new JwtAuthenticationResponse(token)));
+        return ResponseBuilder.success(new JwtAuthenticationResponse(token));
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
@@ -74,5 +84,4 @@ public class AuthenticationRestController {
             return ResponseEntity.badRequest().body(ResponseBuilder.fail("Token can't be refreshed."));
         }
     }
-
 }
