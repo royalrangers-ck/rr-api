@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 @Getter
 @Setter
 @Entity
-public class UserReward extends BaseModel {
+public class UserReward extends UserAchievement {
 
     @OneToOne
     private User user;

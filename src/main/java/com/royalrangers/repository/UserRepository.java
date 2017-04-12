@@ -14,4 +14,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
     List<User> findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(Long id);
 
+    List<User> findByPlatoon_Id(Long id);
 }

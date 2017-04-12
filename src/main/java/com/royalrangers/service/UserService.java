@@ -220,6 +220,10 @@ public class UserService {
         User user = userRepository.findByEmail(getAuthenticatedUserEmail());
 
         user.setUpdateDate(new Date());
+        user.setFirstName(update.getFirstName());
+        user.setLastName(update.getLastName());
+        user.setGender(update.getGender());
+        user.setBirthDate(update.getBirthDate());
         user.setTelephoneNumber(update.getTelephoneNumber());
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
@@ -232,7 +236,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void updateUserById(Long id, UserUpdateAdminDto update) {
+    public void updateUserById(Long id, UserUpdateDto update) {
         if(!userRepository.exists(id)) {
             throw new UserRepositoryException("Not found user with id " + id);
         }
