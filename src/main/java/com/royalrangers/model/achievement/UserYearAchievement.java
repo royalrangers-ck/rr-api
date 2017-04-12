@@ -14,12 +14,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class UserYearAchievement extends UserAchievement {
 
-    @Enumerated
-    private AchievementState achievementState;
-
-    @OneToOne
-    private User user;
-
     @OneToOne
     private YearAchievement yearAchievement;
+
 }
