@@ -134,7 +134,7 @@ public class UserService {
 
     public String getConfirmRegistrationLink(User user) {
         String token = verificationTokenService.generateToken(user);
-        return confirmRegistrationUrl + "/api/registration/confirm?token=" + token;
+        return confirmRegistrationUrl + "/registration/confirm?token=" + token;
     }
 
     public int calculateUserAge(Long birthdate) {
