@@ -94,7 +94,7 @@ public class UserController {
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update user (for admin)")
-    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdate) {
+    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateAdminDto userUpdate) {
 
         try {
             userService.updateUserById(id, userUpdate);

@@ -8,10 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserUpdateDto {
-    private String firstName;
-    private String lastName;
-    private String gender;
-    private Long birthDate;
+
     private String telephoneNumber;
     private UserAgeGroup userAgeGroup;
     private UserRank userRank;
