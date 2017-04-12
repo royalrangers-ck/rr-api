@@ -1,8 +1,7 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.UserAchievementBean;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
-import com.royalrangers.dto.achievement.UserYearAchievementBean;
+import com.royalrangers.dto.achievement.UserYearResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserYearAchievement;
 import com.royalrangers.repository.achievement.UserYearAchievementRepository;
@@ -26,9 +25,9 @@ public class UserYearAchievementService {
     @Autowired
     private YearAchievementService yearAchievementService;
 
-    public List<UserYearAchievementBean> findAllForUser() {
+    public List<UserYearResponseDto> findAllForUser() {
         List<UserYearAchievement> list = userYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserYearAchievementBean> result = new ArrayList<>();
+        List<UserYearResponseDto> result = new ArrayList<>();
         for (UserYearAchievement item : list) {
             result.add(buildUserAchievementBean(item));
         }
@@ -37,8 +36,6 @@ public class UserYearAchievementService {
 
     public void addUserYearAchievement(UserAchievementRequestDto params) {
         UserYearAchievement savedUserAchievement = new UserYearAchievement();
-        savedUserAchievement.setCreateDate(new Date());
-        savedUserAchievement.setUpdateDate(new Date());
         String achievementStatus = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementStatus));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
@@ -47,7 +44,7 @@ public class UserYearAchievementService {
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public UserYearAchievementBean getUserYearAchievementById(Long id) {
+    public UserYearResponseDto getUserYearAchievementById(Long id) {
         UserYearAchievement user = userYearAchievementRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -65,22 +62,22 @@ public class UserYearAchievementService {
     public void editUserYearAchievement(UserAchievementRequestDto params, Long id) {
         UserYearAchievement savedUserAchievement = userYearAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementStatus = params.getState();
-        savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementStatus));
+        savedUserAchievement.setAchievementState(AchievementState.valueOf(params.getState()));
         Integer yearId = params.getId();
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    private UserYearAchievementBean buildUserAchievementBean(UserYearAchievement item) {
-        UserYearAchievementBean userAchievementBean = new UserYearAchievementBean();
+    private UserYearResponseDto buildUserAchievementBean(UserYearAchievement item) {
+        UserYearResponseDto userAchievementBean = new UserYearResponseDto();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setYearAchievement(item.getYearAchievement());
+        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+        userAchievementBean.setYearAchievementName(item.getYearAchievement().getName());
+        userAchievementBean.setYearAchievementDescription(item.getYearAchievement().getDescription());
+        userAchievementBean.setYearAchievementLogoUrl(item.getYearAchievement().getLogoUrl());
         return userAchievementBean;
     }
 

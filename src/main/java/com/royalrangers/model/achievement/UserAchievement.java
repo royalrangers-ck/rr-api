@@ -6,6 +6,7 @@ import com.royalrangers.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
@@ -14,6 +15,7 @@ import javax.persistence.OneToOne;
 @MappedSuperclass
 public abstract class UserAchievement extends BaseModel {
 
+    @Enumerated
     private AchievementState achievementState;
 
     @OneToOne

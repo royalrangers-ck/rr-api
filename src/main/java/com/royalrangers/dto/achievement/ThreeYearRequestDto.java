@@ -5,10 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AchievementRequestDto {
+public class ThreeYearRequestDto {
     private String name;
     private String description;
     private String requirements;
     private String logoUrl;
     private Integer upLevelId;
+    private String ageCategory;
 }

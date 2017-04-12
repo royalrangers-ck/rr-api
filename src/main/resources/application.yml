@@ -56,7 +56,8 @@ dropbox:
     appName: RoyalRanger
     accessToken: DFoAZto0iaAAAAAAAAAACfPm4YmwBUR7cCcP9_KsZwQLyVjOMA_1NksW30T7RXLW
     avatarPrefix: /avatar/
-    logoPrefix: /logo/
+    logoPrefix: /platoon/logo/
+    achievementLogoPrefix: /achievement/logo/
 ---
 springfox:
     documentation:

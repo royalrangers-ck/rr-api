@@ -13,12 +13,7 @@ import javax.persistence.*;
 @Entity
 public class UserTest extends UserAchievement {
 
-    @Enumerated
-    private AchievementState achievementState;
-
-    @OneToOne
-    private User user;
-
     @OneToOne
     private Test test;
+
 }

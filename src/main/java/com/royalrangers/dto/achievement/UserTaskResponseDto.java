@@ -1,7 +1,6 @@
 package com.royalrangers.dto.achievement;
 
 import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.achievement.QuarterAchievement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,11 +8,12 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserQuarterAchievementBean {
+public class UserTaskResponseDto {
     private Long id;
     private Date createDate;
     private Date updateDate;
     private AchievementState achievementState;
-    private UserAchievementBean user;
-    private QuarterAchievement quarterAchievement;
+    private UserAchievementDto user;
+    private String taskName;
+    private String taskDescription;
 }

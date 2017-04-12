@@ -1,7 +1,7 @@
 package com.royalrangers.dto.achievement;
 
 import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.achievement.ThreeYearAchievement;
+import com.royalrangers.enums.achivement.TestType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,11 +9,13 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserThreeYearAchievementBean {
+public class UserTestResponseDto {
     private Long id;
     private Date createDate;
     private Date updateDate;
     private AchievementState achievementState;
-    private UserAchievementBean user;
-    private ThreeYearAchievement threeYearAchievement;
+    private UserAchievementDto user;
+    private String testName;
+    private String testDescription;
+    private TestType testType;
 }

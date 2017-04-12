@@ -13,12 +13,6 @@ import javax.persistence.*;
 @Entity
 public class UserTask extends UserAchievement {
 
-    @Enumerated
-    private AchievementState achievementState;
-
-    @OneToOne
-    private User user;
-
     @OneToOne
     private Task task;
 

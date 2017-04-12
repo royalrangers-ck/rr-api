@@ -1,10 +1,12 @@
 package com.royalrangers.model.achievement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.royalrangers.enums.achivement.AgeCategory;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -19,5 +21,8 @@ public class ThreeYearAchievement extends Achievement{
     @ManyToOne
     @JoinColumn(name = "twelveYearAchievement_id")
     private TwelveYearAchievement twelveYearAchievement;
+
+    @NotNull
+    private AgeCategory ageCategory;
 
 }

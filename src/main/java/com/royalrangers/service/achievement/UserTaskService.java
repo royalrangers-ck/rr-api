@@ -1,10 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.UserAchievementBean;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTask;
-import com.royalrangers.dto.achievement.UserTaskBean;
+import com.royalrangers.dto.achievement.UserTaskResponseDto;
 import com.royalrangers.repository.achievement.UserTaskRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,9 @@ public class UserTaskService {
     @Autowired
     private TaskService taskService;
 
-    public List<UserTaskBean> getAllForUser() {
+    public List<UserTaskResponseDto> getAllForUser() {
         List<UserTask> userTasks = userTaskRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserTaskBean> result = new ArrayList<>();
+        List<UserTaskResponseDto> result = new ArrayList<>();
         for (UserTask item : userTasks) {
             result.add(buildUserAchievementBean(item));
         }
@@ -37,8 +36,6 @@ public class UserTaskService {
 
     public void addUserTask(UserAchievementRequestDto params) {
         UserTask userTask = new UserTask();
-        userTask.setCreateDate(new Date());
-        userTask.setUpdateDate(new Date());
         String achievementState = params.getState();
         userTask.setAchievementState(AchievementState.valueOf(achievementState));
         userTask.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
@@ -47,7 +44,7 @@ public class UserTaskService {
         userTaskRepository.saveAndFlush(userTask);
     }
 
-    public UserTaskBean getUserTaskById(Long id) {
+    public UserTaskResponseDto getUserTaskById(Long id) {
         UserTask user = userTaskRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -71,15 +68,15 @@ public class UserTaskService {
         userTaskRepository.saveAndFlush(savedUserTask);
     }
 
-    private UserTaskBean buildUserAchievementBean(UserTask item) {
-        UserTaskBean userAchievementBean = new UserTaskBean();
+    private UserTaskResponseDto buildUserAchievementBean(UserTask item) {
+        UserTaskResponseDto userAchievementBean = new UserTaskResponseDto();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setTask(item.getTask());
+        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+        userAchievementBean.setTaskName(item.getTask().getName());
+        userAchievementBean.setTaskDescription(item.getTask().getDescription());
         return userAchievementBean;
     }
 

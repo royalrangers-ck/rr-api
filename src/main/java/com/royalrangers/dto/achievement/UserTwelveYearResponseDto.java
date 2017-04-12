@@ -1,7 +1,6 @@
 package com.royalrangers.dto.achievement;
 
 import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.achievement.YearAchievement;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,11 +8,13 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class UserYearAchievementBean{
+public class UserTwelveYearResponseDto {
     private Long id;
     private Date createDate;
     private Date updateDate;
     private AchievementState achievementState;
-    private UserAchievementBean user;
-    private YearAchievement yearAchievement;
+    private UserAchievementDto user;
+    private String twelveYearAchievementName;
+    private String twelveYearAchievementDescription;
+    private String twelveYearAchievementLogoUrl;
 }

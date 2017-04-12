@@ -1,10 +1,9 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.dto.achievement.UserAchievementBean;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTwelveYearAchievement;
-import com.royalrangers.dto.achievement.UserTwelveYearAchievementBean;
+import com.royalrangers.dto.achievement.UserTwelveYearResponseDto;
 import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserTwelveYearAchievementRepository;
 import com.royalrangers.service.UserService;
@@ -30,9 +29,9 @@ public class UserTwelveYearAchievementService {
     @Autowired
     private TwelveYearAchievementService twelveYearAchievementService;
 
-    public List<UserTwelveYearAchievementBean> findAllForUser(){
+    public List<UserTwelveYearResponseDto> findAllForUser(){
         List<UserTwelveYearAchievement> list = userTwelveYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserTwelveYearAchievementBean> result = new ArrayList<>();
+        List<UserTwelveYearResponseDto> result = new ArrayList<>();
         for (UserTwelveYearAchievement item : list) {
             result.add(buildUserAchievementBean(item));
         }
@@ -41,8 +40,6 @@ public class UserTwelveYearAchievementService {
 
     public void addUserTwelveYearAchievement(UserAchievementRequestDto params) {
         UserTwelveYearAchievement savedUserAchievement = new UserTwelveYearAchievement();
-        savedUserAchievement.setCreateDate(new Date());
-        savedUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
@@ -51,7 +48,7 @@ public class UserTwelveYearAchievementService {
         userTwelveYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public UserTwelveYearAchievementBean getUserTwelveYearAchievementById(Long id) {
+    public UserTwelveYearResponseDto getUserTwelveYearAchievementById(Long id) {
         UserTwelveYearAchievement user = userTwelveYearAchievementRepository.findOne(id);
         return buildUserAchievementBean(user);
     }
@@ -76,15 +73,16 @@ public class UserTwelveYearAchievementService {
         userTwelveYearAchievementRepository.saveAndFlush(editUserAchievement);
     }
 
-    private UserTwelveYearAchievementBean buildUserAchievementBean(UserTwelveYearAchievement item) {
-        UserTwelveYearAchievementBean userAchievementBean = new UserTwelveYearAchievementBean();
+    private UserTwelveYearResponseDto buildUserAchievementBean(UserTwelveYearAchievement item) {
+        UserTwelveYearResponseDto userAchievementBean = new UserTwelveYearResponseDto();
         userAchievementBean.setId(item.getId());
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setTwelveYearAchievement(item.getTwelveYearAchievement());
+        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+        userAchievementBean.setTwelveYearAchievementName(item.getTwelveYearAchievement().getName());
+        userAchievementBean.setTwelveYearAchievementDescription(item.getTwelveYearAchievement().getDescription());
+        userAchievementBean.setTwelveYearAchievementLogoUrl(item.getTwelveYearAchievement().getLogoUrl());
         return userAchievementBean;
     }
 
