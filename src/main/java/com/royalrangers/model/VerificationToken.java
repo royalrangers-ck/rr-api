@@ -17,7 +17,7 @@ public class VerificationToken extends BaseModel {
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(targetEntity = User.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 

@@ -29,6 +29,9 @@ public class UserService {
     private String confirmRegistrationUrl;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     private DropboxService dropboxService;
 
     @Autowired
@@ -134,7 +137,7 @@ public class UserService {
 
     public String getConfirmRegistrationLink(User user) {
         String token = verificationTokenService.generateToken(user);
-        return confirmRegistrationUrl + "/registration/confirm?token=" + token;
+        return confirmRegistrationUrl + "/api/registration/confirm?token=" + token;
     }
 
     public int calculateUserAge(Long birthdate) {
@@ -187,6 +190,7 @@ public class UserService {
             user.setApproved(true);
             user.setEnabled(true);
             userRepository.save(user);
+            emailService.sendEmail(user, "Registration accepted", "approved.inline.html","");
         });
     }
 
@@ -196,6 +200,7 @@ public class UserService {
             user.setEnabled(false);
             user.setConfirmed(false);
             userRepository.save(user);
+            emailService.sendEmail(user,"Registration rejected", "rejected.inline.html", "");
         });
     }
 
