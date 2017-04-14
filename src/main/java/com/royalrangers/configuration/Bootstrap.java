@@ -5,6 +5,7 @@ import com.royalrangers.model.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,8 @@ import java.util.stream.IntStream;
 
 @Component
 public class Bootstrap {
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String ddlAuto;
 
     @Autowired
     private UserRepository userRepository;
@@ -24,8 +27,10 @@ public class Bootstrap {
 
     @PostConstruct
     public void init() {
-        initAuthorities();
-        initUsers();
+        if(ddlAuto.equals("create") || ddlAuto.equals("create-drop")) {
+            initAuthorities();
+            initUsers();
+        }
     }
 
     private void initUsers() {
