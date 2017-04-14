@@ -16,6 +16,9 @@ import java.util.stream.IntStream;
 
 @Component
 public class Bootstrap {
+    private final String DDL_AUTO_CREATE = "create";
+    private final String DDL_AUTO_CREATE_DROP = "create-drop";
+
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
 
@@ -27,7 +30,7 @@ public class Bootstrap {
 
     @PostConstruct
     public void init() {
-        if(ddlAuto.equals("create") || ddlAuto.equals("create-drop")) {
+        if(DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
             initAuthorities();
             initUsers();
         }
