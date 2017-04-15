@@ -4,7 +4,6 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTwelveYearAchievement;
 import com.royalrangers.dto.achievement.UserTwelveYearResponseDto;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserTwelveYearAchievementRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +18,6 @@ public class UserTwelveYearAchievementService {
 
     @Autowired
     private UserTwelveYearAchievementRepository userTwelveYearAchievementRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
