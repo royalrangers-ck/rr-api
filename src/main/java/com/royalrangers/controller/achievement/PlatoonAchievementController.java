@@ -2,7 +2,6 @@ package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.service.achievement.PlatoonAchievementService;
-import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,46 +15,46 @@ public class PlatoonAchievementController {
 
     @GetMapping("/medal")
     public ResponseResult getMedals() {
-        return ResponseBuilder.success(platoonAchievementService.findAllMedalRewards());
+        return platoonAchievementService.getMedalRewards();
     }
 
     @GetMapping("/star")
     public ResponseResult getStars() {
-        return ResponseBuilder.success(platoonAchievementService.findAllStarRewards());
+        return platoonAchievementService.getStarRewards();
     }
 
     @GetMapping("/lath")
     public ResponseResult getLaths() {
-        return ResponseBuilder.success(platoonAchievementService.findAllLathRewards());
+        return platoonAchievementService.getLathRewards();
     }
 
     @GetMapping("/trip")
     public ResponseResult getTrips() {
-        return ResponseBuilder.success(platoonAchievementService.findAllTripRewards());
+        return platoonAchievementService.getTripRewards();
     }
 
     @GetMapping("/camp")
     public ResponseResult getCamps() {
-        return ResponseBuilder.success(platoonAchievementService.findAllCampRewards());
+        return platoonAchievementService.getCampRewards();
     }
 
     @GetMapping("/twelve")
     public ResponseResult getTwelveYearAchievements() {
-        return ResponseBuilder.success(platoonAchievementService.findAllTwelveYearAchievements());
+        return platoonAchievementService.getTwelveYearAchievements();
     }
 
     @GetMapping("/three")
     public ResponseResult getThreeYearAchievements() {
-        return ResponseBuilder.success(platoonAchievementService.findAllThreeYearAchievements());
+        return platoonAchievementService.getThreeYearAchievements();
     }
 
     @GetMapping("/year")
     public ResponseResult getYearAchievements() {
-        return ResponseBuilder.success(platoonAchievementService.findAllYearAchievements());
+        return platoonAchievementService.getYearAchievements();
     }
 
     @GetMapping("/quarter")
     public ResponseResult getQuarterYearAchievements() {
-        return ResponseBuilder.success(platoonAchievementService.findAllQuarterYearAchievements());
+        return platoonAchievementService.getQuarterYearAchievements();
     }
 }
