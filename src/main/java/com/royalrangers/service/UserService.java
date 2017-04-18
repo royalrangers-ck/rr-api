@@ -112,11 +112,13 @@ public class UserService {
         userProfile.setBirthDate(user.getBirthDate());
         userProfile.setTelephoneNumber(user.getTelephoneNumber());
         userProfile.setUserAgeGroup(user.getUserAgeGroup());
+        userProfile.setUserRank(user.getUserRank());
         userProfile.setCountryId(user.getCountry().getId());
         userProfile.setCityId(user.getCity().getId());
         userProfile.setGroupId(user.getGroup().getId());
         userProfile.setPlatoonId(user.getPlatoon().getId());
         userProfile.setSectionId(user.getSection().getId());
+        userProfile.setAvatarUrl(user.getAvatarUrl());
         return userProfile;
     }
 
