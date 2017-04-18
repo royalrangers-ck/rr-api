@@ -3,6 +3,7 @@ package com.royalrangers.controller;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.PlatoonDto;
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.enums.ImageType;
 import com.royalrangers.exception.PlatoonRepositoryException;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.PlatoonService;
@@ -71,7 +72,7 @@ public class PlatoonController {
     public ResponseResult upload(@RequestParam("id") Long id, @RequestParam("file") MultipartFile file) {
 
         try {
-            String logoUrl = dropboxService.logoUpload(file);
+            String logoUrl = dropboxService.imageUpload(file, ImageType.PLATOON_LOGO);
             log.info("Set platoon logo public URL: " + logoUrl);
 
             platoonService.setPlatoonLogoUrl(id, logoUrl);

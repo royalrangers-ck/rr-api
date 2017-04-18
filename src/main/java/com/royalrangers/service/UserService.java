@@ -4,6 +4,7 @@ import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.UserAchievementDto;
 import com.royalrangers.dto.user.*;
 import com.royalrangers.enums.AuthorityName;
+import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.Status;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.exception.UserRepositoryException;
@@ -270,7 +271,7 @@ public class UserService {
         User user = userRepository.findByEmail(email);
 
         if (user.getAvatarUrl() != null) {
-            dropboxService.deleteAvatar(user.getAvatarUrl());
+            dropboxService.deleteImage(user.getAvatarUrl(), ImageType.USER_AVATAR);
         }
 
         user.setAvatarUrl(avatarUrl);

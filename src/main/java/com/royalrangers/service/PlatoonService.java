@@ -3,6 +3,7 @@ package com.royalrangers.service;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.PlatoonDto;
+import com.royalrangers.enums.ImageType;
 import com.royalrangers.model.Platoon;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.GroupRepository;
@@ -79,7 +80,7 @@ public class PlatoonService {
         Platoon platoon = platoonRepository.findOne(id);
 
         if (platoon.getLogoUrl() != null) {
-            dropboxService.deleteLogo(platoon.getLogoUrl());
+            dropboxService.deleteImage(platoon.getLogoUrl(), ImageType.PLATOON_LOGO);
         }
 
         platoon.setLogoUrl(logoUrl);
@@ -90,7 +91,7 @@ public class PlatoonService {
         Platoon platoon = platoonRepository.findOne(id);
 
         if (platoon.getLogoUrl() != null) {
-            dropboxService.deleteLogo(platoon.getLogoUrl());
+            dropboxService.deleteImage(platoon.getLogoUrl(), ImageType.PLATOON_LOGO);
         }
 
         platoon.setLogoUrl(null);
