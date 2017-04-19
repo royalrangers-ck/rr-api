@@ -28,21 +28,6 @@ public class PlatoonService {
     @Autowired
     UserRepository userRepository;
 
-    public PlatoonDto buildPlatoon(Platoon platoon) {
-        PlatoonDto platoonDto = new PlatoonDto();
-        platoonDto.setCreateDate(platoon.getCreateDate());
-        platoonDto.setUpdateDate(platoon.getUpdateDate());
-        platoonDto.setId(platoon.getId());
-        platoonDto.setName(platoon.getName());
-        platoonDto.setGroupId(platoon.getGroup().getId());
-        platoonDto.setCity(platoon.getGroup().getCity().getName());
-        platoonDto.setAddress(platoon.getAddress());
-        platoonDto.setHistory(platoon.getHistory());
-        platoonDto.setMeetTime(platoon.getMeetTime());
-        platoonDto.setLogoUrl(platoon.getLogoUrl());
-        return platoonDto;
-    }
-
     public Platoon getPlatoonData() {
         String email = userService.getAuthenticatedUserEmail();
         User user = userRepository.findByEmail(email);
