@@ -10,4 +10,5 @@ import java.util.List;
 public interface UserTwelveYearAchievementRepository extends JpaRepository<UserTwelveYearAchievement, Long>{
     List<UserTwelveYearAchievement> findByUserId(Long id);
     List<UserTwelveYearAchievement> findAllByTwelveYearAchievement(Long twelveYearAchievementId);
+    List<UserTwelveYearAchievement> findAllByUser_PlatoonId(Long id);
 }
