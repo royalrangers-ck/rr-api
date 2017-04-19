@@ -1,11 +1,18 @@
 package com.royalrangers.controller.achievement;
 
+import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.AchievementRequestDto;
+import com.royalrangers.enums.ImageType;
+import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.QuarterAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/achievements/quarter")
@@ -14,6 +21,8 @@ public class QuarterAchievementController {
     @Autowired
     private QuarterAchievementService quarterAchievementService;
 
+    @Autowired
+    private DropboxService dropboxService;
 
     @GetMapping
     public ResponseResult getAllQuarterAchievement() {
@@ -61,4 +70,29 @@ public class QuarterAchievementController {
             return ResponseBuilder.fail("Failed edit QuarterAchievement");
         }
     }
+
+    @PostMapping("/logo")
+    @ApiOperation(value = "Upload and set QuarterAchievement logo")
+    public ResponseResult uploadLogo(@RequestParam("quarterId") Long quarterId, @RequestParam("file") MultipartFile file) {
+        try {
+            String logoUrl = dropboxService.imageUpload(file, ImageType.QUARTER_ACHIEVEMENT_LOGO);
+            quarterAchievementService.setLogoUrl(logoUrl, quarterId);
+            return ResponseBuilder.success("LogoUrl", logoUrl);
+        } catch (IOException | DbxException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/logo")
+    @ApiOperation(value = "Delete logo")
+    public ResponseResult delete(@RequestParam("quarterId") Long quarterId) {
+        try {
+            quarterAchievementService.deleteLogo(quarterId);
+            return ResponseBuilder.success("Logo deleted.");
+
+        } catch (DbxException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
+    }
+
 }

@@ -56,8 +56,13 @@ dropbox:
     appName: RoyalRanger
     accessToken: DFoAZto0iaAAAAAAAAAACfPm4YmwBUR7cCcP9_KsZwQLyVjOMA_1NksW30T7RXLW
     avatarPrefix: /avatar/
-    logoPrefix: /platoon/logo/
-    achievementLogoPrefix: /achievement/logo/
+    platoonLogoPrefix: /platoon/logo/
+    achievementTestLogoPrefix: /achievement/test/logo/
+    achievementQuarterLogoPrefix: /achievement/quarter/logo/
+    achievementYearLogoPrefix: /achievement/year/logo/
+    achievementThreeYearLogoPrefix: /achievement/threeYear/logo/
+    achievementTwelveYearLogoPrefix: /achievement/twelveYear/logo/
+    achievementRewardLogoPrefix: /achievement/reward/logo/
 ---
 springfox:
     documentation:

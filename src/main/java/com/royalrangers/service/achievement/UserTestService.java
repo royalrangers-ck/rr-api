@@ -1,6 +1,7 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.dto.achievement.UserTestRequestDto;
 import com.royalrangers.dto.achievement.UserTestResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTest;
@@ -43,12 +44,11 @@ public class UserTestService {
         return result;
     }
 
-        public void addUserTest(UserAchievementRequestDto params) {
+        public void addUserTest(UserTestRequestDto params) {
         UserTest savedUserAchievement = new UserTest();
-        String achievementState = params.getState()  ;
-        savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
+        savedUserAchievement.setAchievementState(AchievementState.IN_PROGRESS);
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer testId = params.getId();
+        Integer testId = params.getTestId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }

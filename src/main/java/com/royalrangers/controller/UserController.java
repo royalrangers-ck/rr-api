@@ -3,6 +3,7 @@ package com.royalrangers.controller;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.*;
+import com.royalrangers.enums.ImageType;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserService;
@@ -112,7 +113,7 @@ public class UserController {
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
 
         try {
-            String avatarUrl = dropboxService.avatarUpload(file);
+            String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
             log.info("Set user avatar public URL: " +avatarUrl);
 
             userService.setUserAvatarUrl(avatarUrl);
@@ -129,7 +130,7 @@ public class UserController {
     public ResponseResult delete(@RequestBody AvatarUrlDto request ) {
         try {
             String avatarUrl = request.getAvatarUrl();
-            dropboxService.deleteAvatar(avatarUrl);
+            dropboxService.deleteImage(avatarUrl, ImageType.USER_AVATAR);
             log.info("Delete avatar: " + avatarUrl);
 
             return ResponseBuilder.success(avatarUrl + " deleted.");
