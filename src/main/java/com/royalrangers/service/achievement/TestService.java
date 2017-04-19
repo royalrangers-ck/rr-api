@@ -59,14 +59,12 @@ public class TestService {
         if (editTestLogo.getLogoUrl() != null) {
             dropboxService.deleteImage(editTestLogo.getLogoUrl(), ImageType.TEST_LOGO);
         }
-
         editTestLogo.setLogoUrl(avatarUrl);
         testRepository.saveAndFlush(editTestLogo);
     }
 
     public void deleteTestLogo(Long testId) throws DbxException {
         Test test = testRepository.findOne(testId);
-
         if (test.getLogoUrl() != null) {
             dropboxService.deleteImage(test.getLogoUrl(), ImageType.TEST_LOGO);
         }

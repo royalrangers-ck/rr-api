@@ -73,7 +73,7 @@ public class TestController {
 
     @PostMapping("/logo")
     @ApiOperation(value = "Upload and set Test logo")
-    public ResponseResult uploadTestLogo(@RequestParam("id") Long testId, @RequestParam("file") MultipartFile file){
+    public ResponseResult uploadTestLogo(@RequestParam("id") Long testId, @RequestParam("file") MultipartFile file) {
         try {
             String logoUrl = dropboxService.imageUpload(file, ImageType.TEST_LOGO);
             testService.setLogoUrl(logoUrl, testId);
@@ -89,7 +89,6 @@ public class TestController {
         try {
             testService.deleteTestLogo(testId);
             return ResponseBuilder.success("Logo deleted.");
-
         } catch (DbxException e) {
             return ResponseBuilder.fail(e.getMessage());
         }

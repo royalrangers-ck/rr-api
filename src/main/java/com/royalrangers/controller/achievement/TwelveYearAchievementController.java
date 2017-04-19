@@ -89,7 +89,6 @@ public class TwelveYearAchievementController {
         try {
             twelveYearAchievementService.deleteLogo(twelveYearAchievementId);
             return ResponseBuilder.success("Logo deleted.");
-
         } catch (DbxException e) {
             return ResponseBuilder.fail(e.getMessage());
         }

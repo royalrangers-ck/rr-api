@@ -56,14 +56,12 @@ public class TwelveYearAchievementService {
         if (editTwelveYearAchievement.getLogoUrl() != null) {
             dropboxService.deleteImage(editTwelveYearAchievement.getLogoUrl(), ImageType.TWELVE_YEAR_ACHIEVEMENT_LOGO);
         }
-
         editTwelveYearAchievement.setLogoUrl(avatarUrl);
         twelveYearAchievementRepository.saveAndFlush(editTwelveYearAchievement);
     }
 
     public void deleteLogo(Long twelveYearId) throws DbxException {
         TwelveYearAchievement twelveYearAchievement = twelveYearAchievementRepository.findOne(twelveYearId);
-
         if (twelveYearAchievement.getLogoUrl() != null) {
             dropboxService.deleteImage(twelveYearAchievement.getLogoUrl(), ImageType.TWELVE_YEAR_ACHIEVEMENT_LOGO);
         }

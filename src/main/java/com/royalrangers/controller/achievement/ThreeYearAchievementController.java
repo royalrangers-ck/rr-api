@@ -90,7 +90,6 @@ public class ThreeYearAchievementController {
         try {
             threeYearAchievementService.deleteLogo(threeYearAchievementId);
             return ResponseBuilder.success("Logo deleted.");
-
         } catch (DbxException e) {
             return ResponseBuilder.fail(e.getMessage());
         }

@@ -45,14 +45,12 @@ public class RewardService {
         if (editReward.getLogoUrl() != null) {
             dropboxService.deleteImage(editReward.getLogoUrl(), ImageType.REWARD_LOGO);
         }
-
         editReward.setLogoUrl(avatarUrl);
         rewardRepository.saveAndFlush(editReward);
     }
 
     public void deleteLogo(Long rewardId) throws DbxException {
         Reward reward = rewardRepository.findOne(rewardId);
-
         if (reward.getLogoUrl() != null) {
             dropboxService.deleteImage(reward.getLogoUrl(), ImageType.REWARD_LOGO);
         }

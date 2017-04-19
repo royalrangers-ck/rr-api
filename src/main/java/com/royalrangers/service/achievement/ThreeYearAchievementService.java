@@ -64,14 +64,12 @@ public class ThreeYearAchievementService {
         if (editThreeYearAchievement.getLogoUrl() != null) {
             dropboxService.deleteImage(editThreeYearAchievement.getLogoUrl(), ImageType.THREE_YEAR_ACHIEVEMENT_LOGO);
         }
-
         editThreeYearAchievement.setLogoUrl(avatarUrl);
         threeYearAchievementRepository.saveAndFlush(editThreeYearAchievement);
     }
 
     public void deleteLogo(Long threeYearId) throws DbxException {
         ThreeYearAchievement threeYearAchievement = threeYearAchievementRepository.findOne(threeYearId);
-
         if (threeYearAchievement.getLogoUrl() != null) {
             dropboxService.deleteImage(threeYearAchievement.getLogoUrl(), ImageType.THREE_YEAR_ACHIEVEMENT_LOGO);
         }

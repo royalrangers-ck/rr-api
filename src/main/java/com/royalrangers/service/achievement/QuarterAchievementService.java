@@ -62,14 +62,12 @@ public class QuarterAchievementService {
         if (editQuarterAchievement.getLogoUrl() != null) {
             dropboxService.deleteImage(editQuarterAchievement.getLogoUrl(), ImageType.QUARTER_ACHIEVEMENT_LOGO);
         }
-
         editQuarterAchievement.setLogoUrl(avatarUrl);
         quarterAchievementRepository.saveAndFlush(editQuarterAchievement);
     }
 
     public void deleteLogo(Long quarterId) throws DbxException {
         QuarterAchievement quarterAchievement = quarterAchievementRepository.findOne(quarterId);
-
         if (quarterAchievement.getLogoUrl() != null) {
             dropboxService.deleteImage(quarterAchievement.getLogoUrl(), ImageType.QUARTER_ACHIEVEMENT_LOGO);
         }
