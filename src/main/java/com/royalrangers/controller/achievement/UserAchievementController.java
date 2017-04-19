@@ -1,7 +1,10 @@
 package com.royalrangers.controller.achievement;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.UserProfileDto;
+import com.royalrangers.model.User;
+import com.royalrangers.model.Views;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.service.achievement.*;
 import com.royalrangers.utils.ResponseBuilder;
@@ -34,63 +37,69 @@ public class UserAchievementController {
     private UserTwelveYearAchievementService userTwelveYearAchievementService;
 
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/task")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUsersListForTask(@RequestParam Long platoonId,
                                               @RequestParam Long taskId,
                                               @RequestParam String achievementState) {
         List<UserTask> userAchievementList = userTaskService.getUserTasksByTaskId(taskId);
-        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
+        List<User> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
         return ResponseBuilder.success(result);
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/test")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUsersListForTest(@RequestParam Long platoonId,
                                               @RequestParam Long testId,
                                               @RequestParam String achievementState) {
         List<UserTest> userAchievementList = userTestService.getUserTestsByTestId(testId);
-        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
+        List<User> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
         return ResponseBuilder.success(result);
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/quarterAchievement")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUsersListForQuarterAchievement(@RequestParam Long platoonId,
                                                             @RequestParam Long achievementId,
                                                             @RequestParam String achievementState) {
         List<UserQuarterAchievement> userAchievementList = userQuarterAchievementService.getUserQuarterAchievementByAchievementId(achievementId);
-        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
+        List<User> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
         return ResponseBuilder.success(result);
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/yearAchievement")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUsersListForYearAchievement(@RequestParam Long platoonId,
                                                          @RequestParam Long achievementId,
                                                          @RequestParam String achievementState) {
         List<UserYearAchievement> userAchievementList = userYearAchievementService.getUserYearAchievementByAchievementId(achievementId);
-        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
+        List<User> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
         return ResponseBuilder.success(result);
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/threeYearAchievement")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUsersListForThreeYearAchievement(@RequestParam Long platoonId,
                                                               @RequestParam Long achievementId,
                                                               @RequestParam String achievementState) {
         List<UserThreeYearAchievement> userAchievementList = userThreeYearAchievementService.getUserThreeYearAchievementByAchievementId(achievementId);
-        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
+        List<User> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
         return ResponseBuilder.success(result);
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/twelveYearAchievement")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUsersListForTwelveYearAchievement(@RequestParam Long platoonId,
                                                                @RequestParam Long achievementId,
                                                                @RequestParam String achievementState) {
         List<UserTwelveYearAchievement> userAchievementList = userTwelveYearAchievementService.getUserTwelveYearAchievementByAchievementId(achievementId);
-        List<UserProfileDto> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
+        List<User> result = getUsersFromUserAchievements(userAchievementList, platoonId, achievementState);
         return ResponseBuilder.success(result);
     }
 }

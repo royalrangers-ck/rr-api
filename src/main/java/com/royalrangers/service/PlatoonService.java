@@ -43,11 +43,11 @@ public class PlatoonService {
         return platoonDto;
     }
 
-    public ResponseResult getPlatoonData() {
+    public Platoon getPlatoonData() {
         String email = userService.getAuthenticatedUserEmail();
         User user = userRepository.findByEmail(email);
         Platoon platoon = platoonRepository.findOne(user.getPlatoon().getId());
-        return ResponseBuilder.success(buildPlatoon(platoon));
+        return platoon;
     }
 
     public void createPlatoon(PlatoonDto platoonDto) {

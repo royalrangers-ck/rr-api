@@ -1,10 +1,12 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.*;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.exception.UserRepositoryException;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -29,6 +31,7 @@ public class UserController {
     @Autowired
     private DropboxService dropboxService;
 
+    @JsonView(Views.Profile.class)
     @GetMapping
     @ApiOperation(value = "Get user info")
     public ResponseResult getAuthenticatedUserDetail() {
@@ -36,9 +39,10 @@ public class UserController {
         String username = userService.getAuthenticatedUserEmail();
         log.info("Get details for user " + username);
 
-        return ResponseBuilder.success(userService.getUserDetailByEmail(username));
+        return ResponseBuilder.success(userService.getUserByEmail(username));
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get user info (for admin)")
@@ -46,7 +50,7 @@ public class UserController {
 
         try {
             log.info("Get details for user id " + id);
-            return ResponseBuilder.success(userService.getUserDetailById(id));
+            return ResponseBuilder.success(userService.getUserById(id));
 
         } catch (UserRepositoryException e){
 
@@ -54,12 +58,12 @@ public class UserController {
         }
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/approve/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-        List<UserProfileDto> usersForApprove = userService.getUsersForApprove(platoonId);
-        return ResponseBuilder.success(usersForApprove);
+        return ResponseBuilder.success(userService.getUsersForApprove(platoonId));
     }
 
     @PostMapping("/approve")
