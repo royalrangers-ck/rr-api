@@ -2,7 +2,6 @@ package com.royalrangers.controller.achievement;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.UserProfileDto;
 import com.royalrangers.model.User;
 import com.royalrangers.model.Views;
 import com.royalrangers.model.achievement.*;
