@@ -72,7 +72,8 @@ public class UserQuarterAchievementService {
     private UserQuarterResponseDto buildUserAchievementBean(UserQuarterAchievement item) {
         UserQuarterResponseDto userAchievementBean = new UserQuarterResponseDto();
         userAchievementBean.setId(item.getId());
-        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+//TODO
+//        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
         userAchievementBean.setQuarterAchievementName(item.getQuarterAchievement().getName());
         userAchievementBean.setQuarterAchievementDescription(item.getQuarterAchievement().getDescription());
         userAchievementBean.setQuarterAchievementLogoUrl(item.getQuarterAchievement().getLogoUrl());

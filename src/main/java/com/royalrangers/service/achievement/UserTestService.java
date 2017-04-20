@@ -83,7 +83,8 @@ public class UserTestService {
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+//TODO
+//        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
         userAchievementBean.setTestName(item.getTest().getName());
         userAchievementBean.setTestDescription(item.getTest().getDescription());
         userAchievementBean.setTestType(item.getTest().getTestType());

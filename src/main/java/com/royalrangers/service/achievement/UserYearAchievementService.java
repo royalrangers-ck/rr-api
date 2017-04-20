@@ -74,7 +74,8 @@ public class UserYearAchievementService {
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+//TODO
+//        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
         userAchievementBean.setYearAchievementName(item.getYearAchievement().getName());
         userAchievementBean.setYearAchievementDescription(item.getYearAchievement().getDescription());
         userAchievementBean.setYearAchievementLogoUrl(item.getYearAchievement().getLogoUrl());

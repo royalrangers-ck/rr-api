@@ -16,15 +16,15 @@ import java.util.Set;
 @Entity
 public class User extends BaseModel {
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.AchievementProfile.class)
     private String email;
 
     private String password;
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.AchievementProfile.class)
     private String firstName;
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.AchievementProfile.class)
     private String lastName;
 
     @JsonView(Views.Profile.class)
@@ -46,7 +46,7 @@ public class User extends BaseModel {
     @JsonView(Views.Profile.class)
     private UserRank userRank;
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.AchievementProfile.class)
     private String avatarUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -67,7 +67,7 @@ public class User extends BaseModel {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.AchievementProfile.class)
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "platoon_id")
     private Platoon platoon;

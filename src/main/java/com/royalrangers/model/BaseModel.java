@@ -12,7 +12,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseModel {
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.Common.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

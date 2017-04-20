@@ -101,16 +101,16 @@ public class UserService {
         return user;
     }
 
-    public static UserAchievementDto buildUserAchievementBean(User user){
-        UserAchievementDto userBean = new UserAchievementDto();
-        userBean.setId(user.getId());
-        userBean.setEmail(user.getEmail());
-        userBean.setFirstName(user.getFirstName());
-        userBean.setLastName(user.getLastName());
-        userBean.setPlatoonId(user.getPlatoon().getId());
-        userBean.setUserAvatarUrl(user.getAvatarUrl());
-        return  userBean;
-    }
+//    public static UserAchievementDto buildUserAchievementBean(User user){
+//        UserAchievementDto userBean = new UserAchievementDto();
+//        userBean.setId(user.getId());
+//        userBean.setEmail(user.getEmail());
+//        userBean.setFirstName(user.getFirstName());
+//        userBean.setLastName(user.getLastName());
+//        userBean.setPlatoonId(user.getPlatoon().getId());
+//        userBean.setUserAvatarUrl(user.getAvatarUrl());
+//        return  userBean;
+//    }
 
     public Boolean isEmailExist(String email) {
         return (userRepository.findByEmail(email) != null);

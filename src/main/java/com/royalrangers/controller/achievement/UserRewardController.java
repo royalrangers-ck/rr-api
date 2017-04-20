@@ -1,7 +1,9 @@
 package com.royalrangers.controller.achievement;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.RewardRequestDto;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserRewardService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ public class UserRewardController {
     @Autowired
     private UserRewardService userRewardService;
 
+    @JsonView(Views.AchievementProfile.class)
     @GetMapping
     public ResponseResult getAllRewardsForUser() {
         try {

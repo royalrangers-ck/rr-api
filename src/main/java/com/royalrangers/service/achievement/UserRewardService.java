@@ -28,13 +28,8 @@ public class UserRewardService {
     @Autowired
     private RewardRepository rewardRepository;
 
-    public List<RewardResponseDto> getAllRewardForUser(){
-        List<UserReward> userRewards = userRewardRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<RewardResponseDto> result = new ArrayList<>();
-        for (UserReward user : userRewards) {
-            result.add(buildUserRewardBean(user));
-        }
-        return result;
+    public List<UserReward> getAllRewardForUser(){
+        return userRewardRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
     public void addUserReward(RewardRequestDto params){
@@ -48,9 +43,8 @@ public class UserRewardService {
         userRewardRepository.saveAndFlush(savedUserReward);
     }
 
-    public RewardResponseDto getRewardById(Long id){
-        UserReward userReward = userRewardRepository.findOne(id);
-        return buildUserRewardBean(userReward);
+    public UserReward getRewardById(Long id){
+        return userRewardRepository.findOne(id);
     }
 
     public void deleteUserReward(Long id){
@@ -65,18 +59,18 @@ public class UserRewardService {
         userRewardRepository.saveAndFlush(savedUserReward);
     }
 
-    private RewardResponseDto buildUserRewardBean(UserReward userReward){
-        RewardResponseDto rewardResponseDto = new RewardResponseDto();
-        rewardResponseDto.setId(userReward.getId());
-        rewardResponseDto.setUserId(userReward.getUser().getId());
-        rewardResponseDto.setUser(UserService.buildUserAchievementBean(userReward.getUser()));
-        rewardResponseDto.setRewardId(userReward.getReward().getId());
-        rewardResponseDto.setRewardName(userReward.getReward().getName());
-        rewardResponseDto.setRewardDescription(userReward.getReward().getDescription());
-        rewardResponseDto.setRewardLogoUrl(userReward.getReward().getLogoUrl());
-        rewardResponseDto.setRewardMark(userReward.getReward().getRewardMark());
-        rewardResponseDto.setRewardType(userReward.getReward().getRewardType());
-        return rewardResponseDto;
-    }
+//    private RewardResponseDto buildUserRewardBean(UserReward userReward){
+//        RewardResponseDto rewardResponseDto = new RewardResponseDto();
+//        rewardResponseDto.setId(userReward.getId());
+//        rewardResponseDto.setUserId(userReward.getUser().getId());
+//        rewardResponseDto.setUser(UserService.buildUserAchievementBean(userReward.getUser()));
+//        rewardResponseDto.setRewardId(userReward.getReward().getId());
+//        rewardResponseDto.setRewardName(userReward.getReward().getName());
+//        rewardResponseDto.setRewardDescription(userReward.getReward().getDescription());
+//        rewardResponseDto.setRewardLogoUrl(userReward.getReward().getLogoUrl());
+//        rewardResponseDto.setRewardMark(userReward.getReward().getRewardMark());
+//        rewardResponseDto.setRewardType(userReward.getReward().getRewardType());
+//        return rewardResponseDto;
+//    }
 
 }

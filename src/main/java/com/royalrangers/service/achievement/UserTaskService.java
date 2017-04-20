@@ -74,7 +74,8 @@ public class UserTaskService {
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
+//TODO
+//        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
         userAchievementBean.setTaskName(item.getTask().getName());
         userAchievementBean.setTaskDescription(item.getTask().getDescription());
         return userAchievementBean;

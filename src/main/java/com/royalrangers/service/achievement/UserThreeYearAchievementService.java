@@ -81,8 +81,9 @@ public class UserThreeYearAchievementService {
         userAchievementBean.setCreateDate(item.getCreateDate());
         userAchievementBean.setUpdateDate(item.getUpdateDate());
         userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementDto userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
+//TODO
+//        UserAchievementDto userBean = UserService.buildUserAchievementBean(item.getUser());
+//        userAchievementBean.setUser(userBean);
         userAchievementBean.setThreeYearAchievementName(item.getThreeYearAchievement().getName());
         userAchievementBean.setThreeYearAchievementDescription(item.getThreeYearAchievement().getDescription());
         return userAchievementBean;
