@@ -67,7 +67,7 @@ public class User extends BaseModel {
     @JoinColumn(name = "group_id")
     private Group group;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Profile.class)
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "platoon_id")
     private Platoon platoon;
@@ -77,7 +77,6 @@ public class User extends BaseModel {
     @JoinColumn(name = "section_id")
     private Section section;
 
-//    @JsonView(Views.Profile.class)
     @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
