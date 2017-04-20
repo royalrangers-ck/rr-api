@@ -1,7 +1,9 @@
 package com.royalrangers.controller.achievement;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserQuarterAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ public class UserQuarterAchievementController {
     @Autowired
     private UserQuarterAchievementService userQuarterAchievementService;
 
+    @JsonView(Views.AchievementProfile.class)
     @GetMapping
     public ResponseResult getAllUserQuarterAchievement() {
         try {
@@ -33,6 +36,7 @@ public class UserQuarterAchievementController {
         }
     }
 
+    @JsonView(Views.AchievementProfile.class)
     @GetMapping("/{userAchievementId}")
     public ResponseResult getUserQuarterAchievementById(@PathVariable Long userAchievementId) {
         try {
