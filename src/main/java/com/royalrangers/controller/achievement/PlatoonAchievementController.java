@@ -1,7 +1,7 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.service.PlatoonService;
+import com.royalrangers.service.UserService;
 import com.royalrangers.service.achievement.PlatoonAchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ public class PlatoonAchievementController {
     PlatoonAchievementService platoonAchievementService;
 
     @Autowired
-    PlatoonService platoonService;
+    UserService userService;
 
     @GetMapping("/approved/medal")
     public ResponseResult getMedals() {
@@ -64,7 +64,7 @@ public class PlatoonAchievementController {
 
     @GetMapping("/users")
     public ResponseResult getUsers() {
-        return platoonService.getUsersByPlatoon();
+        return userService.getUsersByPlatoon();
     }
 
     @GetMapping("/inProgress/twelve")

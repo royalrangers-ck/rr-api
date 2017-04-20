@@ -1,6 +1,7 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
+import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.UserAchievementDto;
 import com.royalrangers.dto.user.*;
 import com.royalrangers.enums.AuthorityName;
@@ -11,6 +12,7 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
+import com.royalrangers.utils.ResponseBuilder;
 import com.royalrangers.utils.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -266,6 +268,17 @@ public class UserService {
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
         userRepository.save(user);
+    }
+
+    public ResponseResult getUsersByPlatoon(){
+        String email = getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
+        List<User> users = userRepository.findUsersByApprovedTrueAndPlatoon_Id(user.getPlatoon().getId());
+        List<UserProfileDto> result = new ArrayList<>();
+        for(User usr : users ){
+            result.add(buildUserProfile(usr));
+        }
+        return ResponseBuilder.success(result);
     }
 
     public void setUserAvatarUrl(String avatarUrl) throws DbxException {
