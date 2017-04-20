@@ -3,7 +3,7 @@ package com.royalrangers.service;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.PlatoonDto;
-import com.royalrangers.dto.user.UserProfileDto;
+import com.royalrangers.enums.ImageType;
 import com.royalrangers.model.Platoon;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.GroupRepository;
@@ -13,9 +13,7 @@ import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class PlatoonService {
@@ -78,22 +76,11 @@ public class PlatoonService {
         platoonRepository.save(platoon);
     }
 
-    public ResponseResult getUsersByPlatoon(){
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
-        List<User> users = userRepository.findUsersByApprovedTrueAndPlatoon_Id(user.getPlatoon().getId());
-        List<UserProfileDto> result = new ArrayList<>();
-        for(User usr : users ){
-            result.add(userService.buildUserProfile(usr));
-        }
-        return ResponseBuilder.success(result);
-    }
-
     public void setPlatoonLogoUrl(Long id, String logoUrl) throws DbxException {
         Platoon platoon = platoonRepository.findOne(id);
 
         if (platoon.getLogoUrl() != null) {
-            dropboxService.deleteLogo(platoon.getLogoUrl());
+            dropboxService.deleteImage(platoon.getLogoUrl(), ImageType.PLATOON_LOGO);
         }
 
         platoon.setLogoUrl(logoUrl);
@@ -104,7 +91,7 @@ public class PlatoonService {
         Platoon platoon = platoonRepository.findOne(id);
 
         if (platoon.getLogoUrl() != null) {
-            dropboxService.deleteLogo(platoon.getLogoUrl());
+            dropboxService.deleteImage(platoon.getLogoUrl(), ImageType.PLATOON_LOGO);
         }
 
         platoon.setLogoUrl(null);

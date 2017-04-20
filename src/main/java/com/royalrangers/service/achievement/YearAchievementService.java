@@ -1,12 +1,14 @@
 package com.royalrangers.service.achievement;
 
+import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.AchievementRequestDto;
+import com.royalrangers.enums.ImageType;
 import com.royalrangers.repository.achievement.YearAchievementRepository;
 import com.royalrangers.model.achievement.YearAchievement;
+import com.royalrangers.service.DropboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +19,9 @@ public class YearAchievementService {
 
     @Autowired
     private ThreeYearAchievementService threeYearAchievementService;
+
+    @Autowired
+    private DropboxService dropboxService;
 
     public List<YearAchievement> getAllYearAchievement() {
         return yearAchievementRepository.findAll();
@@ -50,4 +55,23 @@ public class YearAchievementService {
         editYearData.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(editThreeYearId.longValue()));
         return yearAchievementRepository.saveAndFlush(editYearData);
     }
+
+    public void setLogoUrl(String avatarUrl, Long testId) throws DbxException {
+        YearAchievement editYearAchievement = yearAchievementRepository.findOne(testId);
+        if (editYearAchievement.getLogoUrl() != null) {
+            dropboxService.deleteImage(editYearAchievement.getLogoUrl(), ImageType.YEAR_ACHIEVEMENT_LOGO);
+        }
+        editYearAchievement.setLogoUrl(avatarUrl);
+        yearAchievementRepository.saveAndFlush(editYearAchievement);
+    }
+
+    public void deleteLogo(Long testId) throws DbxException {
+        YearAchievement yearAchievement = yearAchievementRepository.findOne(testId);
+        if (yearAchievement.getLogoUrl() != null) {
+            dropboxService.deleteImage(yearAchievement.getLogoUrl(), ImageType.YEAR_ACHIEVEMENT_LOGO);
+        }
+        yearAchievement.setLogoUrl(null);
+        yearAchievementRepository.saveAndFlush(yearAchievement);
+    }
+
 }

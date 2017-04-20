@@ -15,8 +15,8 @@ public class UserRewardController {
     private UserRewardService userRewardService;
 
     @GetMapping
-    public ResponseResult getAllRewardsForUser(){
-        try{
+    public ResponseResult getAllRewardsForUser() {
+        try {
             return ResponseBuilder.success(userRewardService.getAllRewardForUser());
         } catch (Exception ex) {
             return ResponseBuilder.fail("Failed get all UserReward");
@@ -24,37 +24,37 @@ public class UserRewardController {
     }
 
     @PostMapping
-    public ResponseResult addUserReward(@RequestBody RewardRequestDto params){
+    public ResponseResult addUserReward(@RequestBody RewardRequestDto params) {
         try {
             userRewardService.addUserReward(params);
             return ResponseBuilder.success("Successfully added UserReward");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseBuilder.fail("Failed add UserReward");
         }
     }
 
     @GetMapping("/{userRewardId}")
-    public ResponseResult getUserRewardById(@PathVariable Long userRewardId){
+    public ResponseResult getUserRewardById(@PathVariable Long userRewardId) {
         try {
             return ResponseBuilder.success(userRewardService.getRewardById(userRewardId));
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseBuilder.fail("Failed get UserReward by id");
         }
     }
 
     @DeleteMapping("/{userRewardId}")
-    public ResponseResult deleteUserReward(@PathVariable Long userRewardId){
+    public ResponseResult deleteUserReward(@PathVariable Long userRewardId) {
         try {
             userRewardService.deleteUserReward(userRewardId);
             return ResponseBuilder.success("Successfully deleted UserReward");
-        } catch (Exception ex){
+        } catch (Exception ex) {
             return ResponseBuilder.fail("Failed delete UserReward");
         }
     }
 
     @PutMapping("/{userRewardId}")
-    public ResponseResult editUserReward(@RequestBody RewardRequestDto params, @PathVariable Long userRewardId){
-        try{
+    public ResponseResult editUserReward(@RequestBody RewardRequestDto params, @PathVariable Long userRewardId) {
+        try {
             userRewardService.editUserReward(params, userRewardId);
             return ResponseBuilder.success("Successfully edited UserReward");
         } catch (Exception ex) {
