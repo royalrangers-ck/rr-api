@@ -1,8 +1,8 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.dto.achievement.UserAchievementDto;
-import com.royalrangers.dto.user.*;
+import com.royalrangers.dto.user.UserRegistrationDto;
+import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.Status;
@@ -100,17 +100,6 @@ public class UserService {
         }
         return user;
     }
-
-//    public static UserAchievementDto buildUserAchievementBean(User user){
-//        UserAchievementDto userBean = new UserAchievementDto();
-//        userBean.setId(user.getId());
-//        userBean.setEmail(user.getEmail());
-//        userBean.setFirstName(user.getFirstName());
-//        userBean.setLastName(user.getLastName());
-//        userBean.setPlatoonId(user.getPlatoon().getId());
-//        userBean.setUserAvatarUrl(user.getAvatarUrl());
-//        return  userBean;
-//    }
 
     public Boolean isEmailExist(String email) {
         return (userRepository.findByEmail(email) != null);

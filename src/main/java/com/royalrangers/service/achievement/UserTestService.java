@@ -2,7 +2,6 @@ package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.dto.achievement.UserTestRequestDto;
-import com.royalrangers.dto.achievement.UserTestResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.repository.achievement.UserTestRepository;
@@ -10,7 +9,6 @@ import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,22 +24,12 @@ public class UserTestService {
     @Autowired
     private TestService testService;
 
-    public List<UserTestResponseDto> findAllForUser() {
-        List<UserTest> list = userTestRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserTestResponseDto> result = new ArrayList<>();
-        for (UserTest item : list) {
-            result.add(buildUserAchievementBean(item));
-        }
-        return result;
+    public List<UserTest> findAllForUser() {
+        return userTestRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public List<UserTestResponseDto> findAllByPlatoon(Long id) {
-        List<UserTest> list = userTestRepository.findByUser_PlatoonId(id);
-        List<UserTestResponseDto> result = new ArrayList<>();
-        for (UserTest item : list) {
-            result.add(buildUserAchievementBean(item));
-        }
-        return result;
+    public List<UserTest> findAllByPlatoon(Long id) {
+        return userTestRepository.findByUser_PlatoonId(id);
     }
 
         public void addUserTest(UserTestRequestDto params) {
@@ -53,9 +41,8 @@ public class UserTestService {
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public UserTestResponseDto getUserTestById(Long id) {
-        UserTest user = userTestRepository.findOne(id);
-        return buildUserAchievementBean(user);
+    public UserTest getUserTestById(Long id) {
+        return userTestRepository.findOne(id);
     }
 
     public List<UserTest> getUserTestsByTestId(Long testId) {
@@ -76,19 +63,4 @@ public class UserTestService {
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
-
-    private UserTestResponseDto buildUserAchievementBean(UserTest item) {
-        UserTestResponseDto userAchievementBean = new UserTestResponseDto();
-        userAchievementBean.setId(item.getId());
-        userAchievementBean.setCreateDate(item.getCreateDate());
-        userAchievementBean.setUpdateDate(item.getUpdateDate());
-        userAchievementBean.setAchievementState(item.getAchievementState());
-//TODO
-//        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
-        userAchievementBean.setTestName(item.getTest().getName());
-        userAchievementBean.setTestDescription(item.getTest().getDescription());
-        userAchievementBean.setTestType(item.getTest().getTestType());
-        return userAchievementBean;
-    }
-
 }

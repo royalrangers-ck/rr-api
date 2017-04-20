@@ -21,6 +21,7 @@ public abstract class UserAchievement extends BaseModel {
     @Enumerated
     private AchievementState achievementState;
 
+    @JsonView(Views.AchievementProfile.class)
     @OneToOne
     private User user;
 
