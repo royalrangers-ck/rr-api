@@ -17,11 +17,11 @@ import javax.persistence.OneToOne;
 @MappedSuperclass
 public abstract class UserAchievement extends BaseModel {
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @Enumerated
     private AchievementState achievementState;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.AchievementUser.class)
     @OneToOne
     private User user;
 

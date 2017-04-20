@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
 @Entity
 public class UserTask extends UserAchievement {
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @OneToOne
     private Task task;
 

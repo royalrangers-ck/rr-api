@@ -17,7 +17,7 @@ public class UserTestController {
     @Autowired
     private UserTestService userTestService;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult getAllUserTest() {
         try {
@@ -37,7 +37,7 @@ public class UserTestController {
         }
     }
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping("/{userTestId}")
     public ResponseResult getUserTestById(@PathVariable Long userTestId) {
         try {

@@ -16,15 +16,15 @@ import java.util.Set;
 @Entity
 public class User extends BaseModel {
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     private String email;
 
     private String password;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     private String firstName;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     private String lastName;
 
     @JsonView(Views.Profile.class)
@@ -46,7 +46,7 @@ public class User extends BaseModel {
     @JsonView(Views.Profile.class)
     private UserRank userRank;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     private String avatarUrl;
 
     @Temporal(TemporalType.TIMESTAMP)

@@ -16,7 +16,7 @@ public class AdminTestController {
     @Autowired
     private AdminTestService adminTestService;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.AchievementUser.class)
     @GetMapping("/achievements/userTest/submitted")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUserTestsForAdmin(@RequestParam String email) {

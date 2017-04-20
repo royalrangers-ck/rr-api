@@ -9,18 +9,17 @@ import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @Entity
 public class Reward extends Achievement {
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @Enumerated
     private RewardMark rewardMark;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @Enumerated
     private RewardType rewardType;
 

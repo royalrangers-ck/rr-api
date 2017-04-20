@@ -16,7 +16,7 @@ public class UserRewardController {
     @Autowired
     private UserRewardService userRewardService;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult getAllRewardsForUser() {
         try {

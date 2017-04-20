@@ -16,7 +16,7 @@ public class UserTaskController {
     @Autowired
     private UserTaskService userTaskService;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult getAllTaskForUser() {
         try {
@@ -36,7 +36,7 @@ public class UserTaskController {
         }
     }
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping("/{userTaskId}")
     public ResponseResult getUserTaskById(@PathVariable Long userTaskId) {
         try {

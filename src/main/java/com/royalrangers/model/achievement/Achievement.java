@@ -14,15 +14,15 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 public abstract class Achievement extends BaseModel {
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @NotNull
     private String name;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @NotNull
     private String description;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     private String logoUrl;
 
     @NotNull

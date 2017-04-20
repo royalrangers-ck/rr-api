@@ -16,7 +16,7 @@ public class UserQuarterAchievementController {
     @Autowired
     private UserQuarterAchievementService userQuarterAchievementService;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult getAllUserQuarterAchievement() {
         try {
@@ -36,7 +36,7 @@ public class UserQuarterAchievementController {
         }
     }
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping("/{userAchievementId}")
     public ResponseResult getUserQuarterAchievementById(@PathVariable Long userAchievementId) {
         try {

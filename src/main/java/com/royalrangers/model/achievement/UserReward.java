@@ -19,7 +19,7 @@ public class UserReward extends UserAchievement {
     @OneToOne
     private User user;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @OneToOne
     private Reward reward;
 

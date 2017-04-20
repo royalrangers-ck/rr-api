@@ -16,7 +16,7 @@ public class UserYearAchievementController {
     @Autowired
     private UserYearAchievementService userYearAchievementService;
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult getAllUserYearAchievement() {
         try {
@@ -36,7 +36,7 @@ public class UserYearAchievementController {
         }
     }
 
-    @JsonView(Views.AchievementProfile.class)
+    @JsonView(Views.Achievement.class)
     @GetMapping("/{userAchievementId}")
     public ResponseResult getUserYearAchievementById(@PathVariable Long userAchievementId) {
         try {
