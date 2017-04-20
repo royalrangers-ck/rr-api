@@ -117,6 +117,7 @@ public class UserService {
         userProfile.setGroupId(user.getGroup().getId());
         userProfile.setPlatoonId(user.getPlatoon().getId());
         userProfile.setSectionId(user.getSection().getId());
+        userProfile.setAvatarUrl(user.getAvatarUrl());
         return userProfile;
     }
 

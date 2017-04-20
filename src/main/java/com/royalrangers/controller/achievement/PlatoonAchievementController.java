@@ -1,6 +1,7 @@
 package com.royalrangers.controller.achievement;
 
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.service.PlatoonService;
 import com.royalrangers.service.achievement.PlatoonAchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,48 +14,101 @@ public class PlatoonAchievementController {
     @Autowired
     PlatoonAchievementService platoonAchievementService;
 
-    @GetMapping("/medal")
+    @Autowired
+    PlatoonService platoonService;
+
+    @GetMapping("/approved/medal")
     public ResponseResult getMedals() {
         return platoonAchievementService.getMedalRewards();
     }
 
-    @GetMapping("/star")
+    @GetMapping("/approved/star")
     public ResponseResult getStars() {
         return platoonAchievementService.getStarRewards();
     }
 
-    @GetMapping("/lath")
+    @GetMapping("/approved/lath")
     public ResponseResult getLaths() {
         return platoonAchievementService.getLathRewards();
     }
 
-    @GetMapping("/trip")
+    @GetMapping("/approved/trip")
     public ResponseResult getTrips() {
         return platoonAchievementService.getTripRewards();
     }
 
-    @GetMapping("/camp")
+    @GetMapping("/approved/camp")
     public ResponseResult getCamps() {
         return platoonAchievementService.getCampRewards();
     }
 
-    @GetMapping("/twelve")
+    @GetMapping("/approved/twelve")
     public ResponseResult getTwelveYearAchievements() {
         return platoonAchievementService.getTwelveYearAchievements();
     }
 
-    @GetMapping("/three")
+    @GetMapping("/approved/three")
     public ResponseResult getThreeYearAchievements() {
         return platoonAchievementService.getThreeYearAchievements();
     }
 
-    @GetMapping("/year")
+    @GetMapping("/approved/year")
     public ResponseResult getYearAchievements() {
         return platoonAchievementService.getYearAchievements();
     }
 
-    @GetMapping("/quarter")
+    @GetMapping("/approved/quarter")
     public ResponseResult getQuarterYearAchievements() {
         return platoonAchievementService.getQuarterYearAchievements();
+    }
+
+    @GetMapping("/users")
+    public ResponseResult getUsers() {
+        return platoonService.getUsersByPlatoon();
+    }
+
+    @GetMapping("/inProgress/twelve")
+    public ResponseResult getInProgressTwelveYearAchievements() {
+        return platoonAchievementService.getInProgressTwelveYearAchievements();
+    }
+
+    @GetMapping("/inProgress/three")
+    public ResponseResult getInProgressThreeYearAchievements() {
+        return platoonAchievementService.getInProgressThreeYearAchievements();
+    }
+
+    @GetMapping("/inProgress/year")
+    public ResponseResult getInProgressYearAchievements() {
+        return platoonAchievementService.getInProgressYearAchievements();
+    }
+
+    @GetMapping("/inProgress/quarter")
+    public ResponseResult getInProgressQuarterYearAchievements() {
+        return platoonAchievementService.getInProgressQuarterYearAchievements();
+    }
+
+    @GetMapping("/inProgress/star")
+    public ResponseResult getInProgressStars() {
+        return platoonAchievementService.getInProgressStarRewards();
+    }
+
+    @GetMapping("/inProgress/medal")
+    public ResponseResult getInProgressMedals() {
+        return platoonAchievementService.getInProgressMedalRewards();
+    }
+
+    @GetMapping("/inProgress/lath")
+    public ResponseResult getInProgressLaths() {
+        return platoonAchievementService.getInProgressLathRewards();
+    }
+
+    @GetMapping("/inProgress/trip")
+    public ResponseResult getInProgressTrips() {
+        return platoonAchievementService.getInProgressTripRewards();
+    }
+
+    @GetMapping("/inProgress/camp")
+    public ResponseResult getInProgressCamps() {
+        return platoonAchievementService.getInProgressCampRewards();
     }
 }
