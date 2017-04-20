@@ -1,7 +1,6 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
-import com.royalrangers.dto.achievement.UserQuarterResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserQuarterAchievement;
 import com.royalrangers.repository.achievement.UserQuarterAchievementRepository;
@@ -9,7 +8,6 @@ import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
