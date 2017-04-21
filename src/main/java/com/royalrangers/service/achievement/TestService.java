@@ -30,6 +30,10 @@ public class TestService {
 
     public void addTest(TestRequestDto params) {
         Test test = new Test();
+        test.setName(params.getName());
+        test.setShortDescription(params.getShortDescription());
+        test.setDescription(params.getDescription());
+        test.setLogoUrl(params.getLogoUrl());
         Integer quarterId = params.getQuarterAchievementId();
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
         Integer testType = params.getTestType();
@@ -47,6 +51,10 @@ public class TestService {
 
     public Test editTest(TestRequestDto params, Long testId) {
         Test test = getTestById(testId);
+        test.setName(params.getName());
+        test.setShortDescription(params.getShortDescription());
+        test.setDescription(params.getDescription());
+        test.setLogoUrl(params.getLogoUrl());
         Integer quarterId = params.getQuarterAchievementId();
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
         Integer testType = params.getTestType();

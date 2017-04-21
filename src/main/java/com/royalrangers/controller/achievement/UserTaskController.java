@@ -23,16 +23,6 @@ public class UserTaskController {
         }
     }
 
-    @PostMapping
-    public ResponseResult addUserTask(@RequestBody UserAchievementRequestDto params) {
-        try {
-            userTaskService.addUserTask(params);
-            return ResponseBuilder.success("Successfully added UserTask");
-        } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed add userTask");
-        }
-    }
-
     @GetMapping("/{userTaskId}")
     public ResponseResult getUserTaskById(@PathVariable Long userTaskId) {
         try {

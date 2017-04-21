@@ -17,6 +17,8 @@ public class Test extends BaseModel {
 
     private String name;
 
+    private String shortDescription;
+
     private String description;
 
     private String logoUrl;

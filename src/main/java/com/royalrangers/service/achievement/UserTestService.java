@@ -4,6 +4,7 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.dto.achievement.UserTestRequestDto;
 import com.royalrangers.dto.achievement.UserTestResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
+import com.royalrangers.model.achievement.Task;
 import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.repository.achievement.UserTestRepository;
 import com.royalrangers.service.UserService;
@@ -25,6 +26,9 @@ public class UserTestService {
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private UserTaskService userTaskService;
 
     public List<UserTestResponseDto> findAllForUser() {
         List<UserTest> list = userTestRepository.findByUserId(userService.getAuthenticatedUserId());
@@ -50,6 +54,10 @@ public class UserTestService {
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
         Integer testId = params.getTestId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
+            List<Task> tasks = testService.getTestById(testId.longValue()).getTaskList();
+            for (Task task : tasks) {
+                userTaskService.addTaskForUser(task);
+            }
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
