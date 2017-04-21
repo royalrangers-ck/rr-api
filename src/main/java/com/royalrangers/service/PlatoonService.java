@@ -1,7 +1,6 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.PlatoonDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.model.Platoon;
@@ -9,7 +8,6 @@ import com.royalrangers.model.User;
 import com.royalrangers.repository.GroupRepository;
 import com.royalrangers.repository.PlatoonRepository;
 import com.royalrangers.repository.UserRepository;
-import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
