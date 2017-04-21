@@ -1,10 +1,12 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.PlatoonDto;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.exception.PlatoonRepositoryException;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.PlatoonService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -26,11 +28,12 @@ public class PlatoonController {
     @Autowired
     private PlatoonService platoonService;
 
+    @JsonView(Views.Public.class)
     @GetMapping
     @ApiOperation(value = "Get platoon info by authenticated user")
     public ResponseResult getPlatoonDetail() {
         try {
-            return platoonService.getPlatoonData();
+            return ResponseBuilder.success(platoonService.getPlatoonData());
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }

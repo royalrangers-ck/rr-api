@@ -1,6 +1,7 @@
 package com.royalrangers.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,12 +15,23 @@ import java.util.Set;
 @Entity
 public class Platoon extends BaseModel{
 
+    @JsonView(Views.Profile.class)
     @NotNull
     private String name;
+
+    @JsonView(Views.Public.class)
     private String history;
+
+    @JsonView(Views.Public.class)
     private String logoUrl;
+
+    @JsonView(Views.Public.class)
     private String address;
+
+    @JsonView(Views.Public.class)
     private Date meetTime;
+
+    @JsonView(Views.Public.class)
     private String city;
 
     @JsonIgnore
