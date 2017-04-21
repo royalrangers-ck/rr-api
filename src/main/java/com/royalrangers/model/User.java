@@ -77,7 +77,7 @@ public class User extends BaseModel {
     @JoinColumn(name = "section_id")
     private Section section;
 
-    @JsonIgnore
+    @JsonView(Views.Profile.class)
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(
             name = "USER_AUTHORITY",
