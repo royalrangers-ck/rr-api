@@ -2,7 +2,6 @@ package com.royalrangers.controller.achievement;
 
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.achievement.AchievementRequestDto;
 import com.royalrangers.dto.achievement.ThreeYearRequestDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.service.DropboxService;

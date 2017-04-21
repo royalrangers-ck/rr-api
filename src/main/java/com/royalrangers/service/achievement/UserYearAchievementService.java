@@ -1,7 +1,6 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
-import com.royalrangers.dto.achievement.UserYearResponseDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserYearAchievement;
 import com.royalrangers.repository.achievement.UserYearAchievementRepository;
@@ -9,7 +8,6 @@ import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,13 +23,8 @@ public class UserYearAchievementService {
     @Autowired
     private YearAchievementService yearAchievementService;
 
-    public List<UserYearResponseDto> findAllForUser() {
-        List<UserYearAchievement> list = userYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserYearResponseDto> result = new ArrayList<>();
-        for (UserYearAchievement item : list) {
-            result.add(buildUserAchievementBean(item));
-        }
-        return result;
+    public List<UserYearAchievement> findAllForUser() {
+        return userYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
     public void addUserYearAchievement(UserAchievementRequestDto params) {
@@ -44,9 +37,8 @@ public class UserYearAchievementService {
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public UserYearResponseDto getUserYearAchievementById(Long id) {
-        UserYearAchievement user = userYearAchievementRepository.findOne(id);
-        return buildUserAchievementBean(user);
+    public UserYearAchievement getUserYearAchievementById(Long id) {
+        return userYearAchievementRepository.findOne(id);
     }
 
     public List<UserYearAchievement> getUserYearAchievementByAchievementId(Long achievementId) {
@@ -67,18 +59,4 @@ public class UserYearAchievementService {
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
-
-    private UserYearResponseDto buildUserAchievementBean(UserYearAchievement item) {
-        UserYearResponseDto userAchievementBean = new UserYearResponseDto();
-        userAchievementBean.setId(item.getId());
-        userAchievementBean.setCreateDate(item.getCreateDate());
-        userAchievementBean.setUpdateDate(item.getUpdateDate());
-        userAchievementBean.setAchievementState(item.getAchievementState());
-        userAchievementBean.setUser(UserService.buildUserAchievementBean(item.getUser()));
-        userAchievementBean.setYearAchievementName(item.getYearAchievement().getName());
-        userAchievementBean.setYearAchievementDescription(item.getYearAchievement().getDescription());
-        userAchievementBean.setYearAchievementLogoUrl(item.getYearAchievement().getLogoUrl());
-        return userAchievementBean;
-    }
-
 }

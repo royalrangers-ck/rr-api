@@ -1,5 +1,6 @@
 package com.royalrangers.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,8 @@ import java.util.Date;
 @Setter
 @MappedSuperclass
 public abstract class BaseModel {
+
+    @JsonView(Views.Common.class)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

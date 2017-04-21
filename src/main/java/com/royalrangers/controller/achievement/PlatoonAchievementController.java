@@ -1,6 +1,8 @@
 package com.royalrangers.controller.achievement;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.UserService;
 import com.royalrangers.service.achievement.PlatoonAchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,7 @@ public class PlatoonAchievementController {
     public ResponseResult getQuarterYearAchievements() {
         return platoonAchievementService.getQuarterYearAchievements();
     }
-
+    @JsonView(Views.Profile.class)
     @GetMapping("/users")
     public ResponseResult getUsers() {
         return userService.getUsersByPlatoon();
