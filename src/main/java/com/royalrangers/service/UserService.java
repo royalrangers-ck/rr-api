@@ -223,6 +223,13 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public List<User> getUsersByPlatoon() {
+        String email = getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
+        List<User> users = userRepository.findUsersByApprovedTrueAndPlatoon_Id(user.getPlatoon().getId());
+        return users;
+    }
+
     public void setUserAvatarUrl(String avatarUrl) throws DbxException {
         String email = getAuthenticatedUserEmail();
         User user = userRepository.findByEmail(email);
