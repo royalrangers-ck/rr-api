@@ -23,10 +23,9 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-@PropertySource("classpath:emailproperties.yml")
 public class UserService {
 
-    @Value("${confirmRegistrationUrl}")
+    @Value("${mail-sender.confirmRegistrationUrl}")
     private String confirmRegistrationUrl;
 
     @Autowired

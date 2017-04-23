@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Service
 public class SubscribeService {
+
     @Autowired
     private SubscriberRepository subscriberRepository;
 
