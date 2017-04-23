@@ -24,17 +24,20 @@ public class UserAchievementController {
 
     @Autowired
     private UserTaskService userTaskService;
+
     @Autowired
     private UserTestService userTestService;
+
     @Autowired
     private UserQuarterAchievementService userQuarterAchievementService;
+
     @Autowired
     private UserYearAchievementService userYearAchievementService;
+
     @Autowired
     private UserThreeYearAchievementService userThreeYearAchievementService;
     @Autowired
     private UserTwelveYearAchievementService userTwelveYearAchievementService;
-
 
     @JsonView(Views.Profile.class)
     @GetMapping("/task")

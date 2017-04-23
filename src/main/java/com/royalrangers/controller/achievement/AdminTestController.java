@@ -20,6 +20,6 @@ public class AdminTestController {
     @GetMapping("/achievements/userTest/submitted")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUserTestsForAdmin() {
-        return ResponseBuilder.success(adminTestService.getUsersData());
+        return ResponseBuilder.success(adminTestService.getSubmittedUserTests());
     }
 }

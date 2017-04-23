@@ -32,7 +32,7 @@ public class UserTestService {
         return userTestRepository.findByUser_PlatoonId(id);
     }
 
-        public void addUserTest(UserTestRequestDto params) {
+    public void addUserTest(UserTestRequestDto params) {
         UserTest savedUserAchievement = new UserTest();
         savedUserAchievement.setAchievementState(AchievementState.IN_PROGRESS);
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
@@ -46,8 +46,7 @@ public class UserTestService {
     }
 
     public List<UserTest> getUserTestsByTestId(Long testId) {
-        List<UserTest> resultList = userTestRepository.findAllByTest(testId);
-        return resultList;
+        return userTestRepository.findAllByTest(testId);
     }
 
     public void deleteUserTest(Long id) {

@@ -23,8 +23,10 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/platoon")
 public class PlatoonController {
+
     @Autowired
     private DropboxService dropboxService;
+
     @Autowired
     private PlatoonService platoonService;
 

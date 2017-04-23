@@ -16,12 +16,14 @@ public class AdminTestService {
 
     @Autowired
     private UserTestService userTestService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 
-    public List<UserTest> getUsersData() {
+    public List<UserTest> getSubmittedUserTests() {
         String email = userService.getAuthenticatedUserEmail();
         User user = userRepository.findByEmail(email);
         List<UserTest> list = userTestService.findAllByPlatoon(user.getPlatoon().getId());

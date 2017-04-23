@@ -97,5 +97,4 @@ public class PublicInformationController {
         List<Section> sections = sectionRepository.findByPlatoonId(platoonId);
         return ResponseBuilder.success(sections);
     }
-
 }

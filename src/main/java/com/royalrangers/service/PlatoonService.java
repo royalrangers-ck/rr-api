@@ -15,22 +15,26 @@ import java.util.Date;
 
 @Service
 public class PlatoonService {
+
     @Autowired
     private DropboxService dropboxService;
+
     @Autowired
-    PlatoonRepository platoonRepository;
+    private PlatoonRepository platoonRepository;
+
     @Autowired
-    GroupRepository groupRepository;
+    private GroupRepository groupRepository;
+
     @Autowired
-    UserService userService;
+    private UserService userService;
+
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     public Platoon getPlatoonData() {
         String email = userService.getAuthenticatedUserEmail();
         User user = userRepository.findByEmail(email);
-        Platoon platoon = platoonRepository.findOne(user.getPlatoon().getId());
-        return platoon;
+        return platoonRepository.findOne(user.getPlatoon().getId());
     }
 
     public void createPlatoon(PlatoonDto platoonDto) {

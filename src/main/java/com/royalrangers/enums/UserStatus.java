@@ -1,6 +1,6 @@
 package com.royalrangers.enums;
 
-public enum Status {
+public enum UserStatus {
     TEACHER,
     STUDENT
 }
