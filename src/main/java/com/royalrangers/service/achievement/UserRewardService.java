@@ -14,6 +14,7 @@ import java.util.List;
 
 @Service
 public class UserRewardService {
+
     @Autowired
     private UserRewardRepository userRewardRepository;
 

@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/platoon/achievements")
 public class PlatoonAchievementController {
-    @Autowired
-    PlatoonAchievementService platoonAchievementService;
 
     @Autowired
-    UserService userService;
+    private PlatoonAchievementService platoonAchievementService;
+
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/approved/medal")
     public ResponseResult getMedals() {

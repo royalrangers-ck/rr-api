@@ -5,7 +5,7 @@ import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.ImageType;
-import com.royalrangers.enums.Status;
+import com.royalrangers.enums.UserStatus;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
@@ -93,7 +93,7 @@ public class UserService {
         user.setGroup(groupRepository.findOne(userDto.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(userDto.getPlatoonId()));
         user.setSection(sectionRepository.findOne(userDto.getSectionId()));
-        if (Objects.equals(userDto.getStatus(), Status.TEACHER)) {
+        if (Objects.equals(userDto.getStatus(), UserStatus.TEACHER)) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         } else {
             grantAuthority(user, AuthorityName.ROLE_USER);
@@ -144,6 +144,10 @@ public class UserService {
         return user.getId();
     }
 
+    public String getAuthenticatedUserEmail() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
     public void approveUsers(List<Long> ids) {
         ids.forEach(id -> {
             User user = userRepository.findOne(id);
@@ -162,10 +166,6 @@ public class UserService {
             userRepository.save(user);
             emailService.sendEmail(user,"Registration rejected", "rejected.inline.html", "");
         });
-    }
-
-    public String getAuthenticatedUserEmail() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     public User getUserByEmail(String email) {

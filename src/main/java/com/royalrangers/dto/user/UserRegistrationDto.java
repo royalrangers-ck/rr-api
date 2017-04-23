@@ -1,6 +1,6 @@
 package com.royalrangers.dto.user;
 
-import com.royalrangers.enums.Status;
+import com.royalrangers.enums.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +20,5 @@ public class UserRegistrationDto {
     private Long groupId;
     private Long platoonId;
     private Long sectionId;
-    private Status status;
+    private UserStatus status;
 }

@@ -47,13 +47,10 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get user info (for admin)")
     public ResponseResult getUserDetailById(@PathVariable("id") Long id) {
-
         try {
             log.info("Get details for user id " + id);
             return ResponseBuilder.success(userService.getUserById(id));
-
         } catch (UserRepositoryException e){
-
             return ResponseBuilder.fail(e.getMessage());
         }
     }
@@ -100,13 +97,11 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update user (for admin)")
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdate) {
-
         try {
             userService.updateUserById(id, userUpdate);
             log.info("Update user with id %d " + id);
 
             return ResponseBuilder.success(String.format("User with id %d successful updated", id));
-
         } catch (UserRepositoryException e){
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -115,7 +110,6 @@ public class UserController {
     @PostMapping("/avatar")
     @ApiOperation(value = "Upload and set user avatar")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
-
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
             log.info("Set user avatar public URL: " +avatarUrl);
@@ -123,7 +117,6 @@ public class UserController {
             userService.setUserAvatarUrl(avatarUrl);
 
             return ResponseBuilder.success("avatarUrl", avatarUrl);
-
         } catch (IOException | DbxException e) {
             return  ResponseBuilder.fail(e.getMessage());
         }
@@ -138,7 +131,6 @@ public class UserController {
             log.info("Delete avatar: " + avatarUrl);
 
             return ResponseBuilder.success(avatarUrl + " deleted.");
-
         } catch (DbxException e) {
             return ResponseBuilder.fail(e.getMessage());
         }

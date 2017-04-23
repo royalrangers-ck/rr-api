@@ -1,6 +1,6 @@
 package com.royalrangers.service;
 
-import com.royalrangers.enums.Messages;
+import com.royalrangers.enums.LoginMessages;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +12,19 @@ public class LoginService {
     @Autowired
     private UserRepository userRepository;
 
-    private Messages messages;
-
-    public Messages checkLoginInformation(String email) {
+    public LoginMessages checkLoginInformation(String email) {
 
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            return messages.NOT_EXIST;
+            return LoginMessages.NOT_EXIST;
         } else if (!user.getConfirmed()) {
-            return messages.NOT_CONFIRMED;
+            return LoginMessages.NOT_CONFIRMED;
         } else if (user.getConfirmed() && !user.getApproved()) {
-            return messages.NOT_APPROVED;
+            return LoginMessages.NOT_APPROVED;
         } else if (!user.getEnabled()) {
-            return messages.DENIED;
+            return LoginMessages.DENIED;
         }
+
         return null;
     }
 }

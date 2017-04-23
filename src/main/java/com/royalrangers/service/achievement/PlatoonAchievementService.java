@@ -18,18 +18,25 @@ import java.util.List;
 
 @Service
 public class PlatoonAchievementService {
+
     @Autowired
     private UserTwelveYearAchievementRepository userTwelveYearAchievementRepository;
+
     @Autowired
     private UserThreeYearAchievementRepository userThreeYearAchievementRepository;
+
     @Autowired
     private UserYearAchievementRepository userYearAchievementRepository;
+
     @Autowired
     private UserQuarterAchievementRepository userQuarterAchievementRepository;
+
     @Autowired
     private UserRewardRepository userRewardRepository;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private UserService userService;
 

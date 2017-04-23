@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/subscribe")
 public class SubscribeController {
+
     @Autowired
     private SubscribeService subscribeService;
 

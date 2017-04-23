@@ -46,9 +46,7 @@ public class UserThreeYearAchievementService {
     }
 
     public List<UserThreeYearAchievement> getUserThreeYearAchievementByAchievementId(Long achievementId) {
-        List<UserThreeYearAchievement> resultList =
-                userThreeYearAchievementRepository.findAllByThreeYearAchievement(achievementId);
-        return resultList;
+        return userThreeYearAchievementRepository.findAllByThreeYearAchievement(achievementId);
     }
 
     public void deleteUserThreeYearAchievement(Long id) {

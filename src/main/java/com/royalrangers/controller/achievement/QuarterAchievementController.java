@@ -72,7 +72,7 @@ public class QuarterAchievementController {
     }
 
     @PostMapping("/logo")
-    @ApiOperation(value = "Upload and set QuarterAchievement logo")
+    @ApiOperation(value = "Upload and set quarter achievement logo")
     public ResponseResult uploadLogo(@RequestParam("quarterId") Long quarterId, @RequestParam("file") MultipartFile file) {
         try {
             String logoUrl = dropboxService.imageUpload(file, ImageType.QUARTER_ACHIEVEMENT_LOGO);
@@ -84,7 +84,7 @@ public class QuarterAchievementController {
     }
 
     @DeleteMapping("/logo")
-    @ApiOperation(value = "Delete logo")
+    @ApiOperation(value = "Delete quarter achievement logo")
     public ResponseResult delete(@RequestParam("quarterId") Long quarterId) {
         try {
             quarterAchievementService.deleteLogo(quarterId);
