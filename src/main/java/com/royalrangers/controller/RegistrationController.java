@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.UnknownHostException;
 import java.util.Calendar;
 
 @Slf4j
@@ -41,8 +42,13 @@ public class RegistrationController {
         }
 
         User user = userService.createUserFromUserForm(userInfo);
-        String confirmLink = userService.getConfirmRegistrationLink(user);
-        emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
+
+        try {
+            String confirmLink = userService.getConfirmRegistrationLink(user);
+            emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
+        } catch (UnknownHostException e){
+            log.info(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
+        }
 
         log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
         return ResponseBuilder.success("User is successfully created");

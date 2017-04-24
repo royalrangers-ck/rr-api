@@ -5,28 +5,25 @@ import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.ImageType;
-import com.royalrangers.enums.UserStatus;
 import com.royalrangers.enums.UserAgeGroup;
+import com.royalrangers.enums.UserStatus;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
 import com.royalrangers.utils.security.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.*;
 
 @Service
 public class UserService {
-
-    @Value("${mail-sender.confirmRegistrationUrl}")
-    private String confirmRegistrationUrl;
 
     @Autowired
     private EmailService emailService;
@@ -104,9 +101,13 @@ public class UserService {
         return (userRepository.findByEmail(email) != null);
     }
 
-    public String getConfirmRegistrationLink(User user) {
+    public String getConfirmRegistrationLink(User user) throws UnknownHostException {
+
         String token = verificationTokenService.generateToken(user);
-        return confirmRegistrationUrl + "/registration/confirm?token=" + token;
+        String confirmRegistrationUrl =
+                "http://" + InetAddress.getLocalHost().getHostAddress()
+                        + "/landing/#/registration/confirm?token=" + token;
+        return confirmRegistrationUrl;
     }
 
     public int calculateUserAge(Long birthdate) {
@@ -138,8 +139,8 @@ public class UserService {
         return getUsersToApproveByPlatoonID(platoonId);
     }
 
-    public Long getAuthenticatedUserId(){
-        JwtUser user = (JwtUser)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Long getAuthenticatedUserId() {
+        JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return user.getId();
     }
 
@@ -153,7 +154,7 @@ public class UserService {
             user.setApproved(true);
             user.setEnabled(true);
             userRepository.save(user);
-            emailService.sendEmail(user, "Registration accepted", "approved.inline.html","");
+            emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
         });
     }
 
@@ -163,7 +164,7 @@ public class UserService {
             user.setEnabled(false);
             user.setConfirmed(false);
             userRepository.save(user);
-            emailService.sendEmail(user,"Registration rejected", "rejected.inline.html", "");
+            emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
         });
     }
 
@@ -172,7 +173,7 @@ public class UserService {
     }
 
     public User getUserById(Long id) throws DataAccessException {
-        if(!userRepository.exists(id)) {
+        if (!userRepository.exists(id)) {
             throw new UserRepositoryException("Not found user with id " + id);
         }
         return userRepository.findOne(id);
@@ -199,7 +200,7 @@ public class UserService {
     }
 
     public void updateUserById(Long id, UserUpdateDto update) {
-        if(!userRepository.exists(id)) {
+        if (!userRepository.exists(id)) {
             throw new UserRepositoryException("Not found user with id " + id);
         }
 
