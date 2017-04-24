@@ -12,19 +12,18 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:emailproperties.yml")
 public class EmailProviderConfig {
 
-    @Value("${mailhost}")
+    @Value("${mail-sender.mailhost}")
     String mailhost;
 
-    @Value("${mailport}")
+    @Value("${mail-sender.mailport}")
     int mailport;
 
-    @Value("${mailusername}")
+    @Value("${mail-sender.mailusername}")
     String mailusername;
 
-    @Value("${mailpassword}")
+    @Value("${mail-sender.mailpassword}")
     String mailpassword;
 
     @Bean

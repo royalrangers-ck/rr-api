@@ -1,7 +1,9 @@
 package com.royalrangers.controller.achievement;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTwelveYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ public class UserTwelveYearAchievementController {
     @Autowired
     private UserTwelveYearAchievementService userTwelveYearAchievementService;
 
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult findByUserId() {
         try {
@@ -33,6 +36,7 @@ public class UserTwelveYearAchievementController {
         }
     }
 
+    @JsonView(Views.Achievement.class)
     @GetMapping("/{userAchievementId}")
     public ResponseResult getUserTwelveYearAchievementById(@PathVariable Long userAchievementId) {
         try {
@@ -61,5 +65,4 @@ public class UserTwelveYearAchievementController {
             return ResponseBuilder.fail("Failed edit userAchievement");
         }
     }
-
 }

@@ -1,6 +1,0 @@
-spring:
-    mailhost: smtp.gmail.com
-    mailport: 587
-    mailusername: royal.rangers.test@gmail.com
-    mailpassword: RoyalRangers
-    confirmRegistrationUrl: http://localhost:8080

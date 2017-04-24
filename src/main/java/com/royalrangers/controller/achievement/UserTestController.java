@@ -1,8 +1,10 @@
 package com.royalrangers.controller.achievement;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.dto.achievement.UserTestRequestDto;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTestService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ public class UserTestController {
     @Autowired
     private UserTestService userTestService;
 
+    @JsonView(Views.Achievement.class)
     @GetMapping
     public ResponseResult getAllUserTest() {
         try {
@@ -34,6 +37,7 @@ public class UserTestController {
         }
     }
 
+    @JsonView(Views.Achievement.class)
     @GetMapping("/{userTestId}")
     public ResponseResult getUserTestById(@PathVariable Long userTestId) {
         try {

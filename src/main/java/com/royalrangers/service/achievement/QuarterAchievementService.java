@@ -17,7 +17,7 @@ import java.util.List;
 public class QuarterAchievementService {
 
     @Autowired
-    public QuarterAchievementRepository quarterAchievementRepository;
+    private QuarterAchievementRepository quarterAchievementRepository;
 
     @Autowired
     private YearAchievementService yearAchievementService;

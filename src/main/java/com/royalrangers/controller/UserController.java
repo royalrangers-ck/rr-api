@@ -1,10 +1,12 @@
 package com.royalrangers.controller;
 
 import com.dropbox.core.DbxException;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.*;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.exception.UserRepositoryException;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -29,6 +31,7 @@ public class UserController {
     @Autowired
     private DropboxService dropboxService;
 
+    @JsonView(Views.Profile.class)
     @GetMapping
     @ApiOperation(value = "Get user info")
     public ResponseResult getAuthenticatedUserDetail() {
@@ -36,30 +39,28 @@ public class UserController {
         String username = userService.getAuthenticatedUserEmail();
         log.info("Get details for user " + username);
 
-        return ResponseBuilder.success(userService.getUserDetailByEmail(username));
+        return ResponseBuilder.success(userService.getUserByEmail(username));
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get user info (for admin)")
     public ResponseResult getUserDetailById(@PathVariable("id") Long id) {
-
         try {
             log.info("Get details for user id " + id);
-            return ResponseBuilder.success(userService.getUserDetailById(id));
-
+            return ResponseBuilder.success(userService.getUserById(id));
         } catch (UserRepositoryException e){
-
             return ResponseBuilder.fail(e.getMessage());
         }
     }
 
+    @JsonView(Views.Profile.class)
     @GetMapping("/approve/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-        List<UserProfileDto> usersForApprove = userService.getUsersForApprove(platoonId);
-        return ResponseBuilder.success(usersForApprove);
+        return ResponseBuilder.success(userService.getUsersForApprove(platoonId));
     }
 
     @PostMapping("/approve")
@@ -96,13 +97,11 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Update user (for admin)")
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdate) {
-
         try {
             userService.updateUserById(id, userUpdate);
             log.info("Update user with id %d " + id);
 
             return ResponseBuilder.success(String.format("User with id %d successful updated", id));
-
         } catch (UserRepositoryException e){
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -111,7 +110,6 @@ public class UserController {
     @PostMapping("/avatar")
     @ApiOperation(value = "Upload and set user avatar")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
-
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
             log.info("Set user avatar public URL: " +avatarUrl);
@@ -119,7 +117,6 @@ public class UserController {
             userService.setUserAvatarUrl(avatarUrl);
 
             return ResponseBuilder.success("avatarUrl", avatarUrl);
-
         } catch (IOException | DbxException e) {
             return  ResponseBuilder.fail(e.getMessage());
         }
@@ -134,7 +131,6 @@ public class UserController {
             log.info("Delete avatar: " + avatarUrl);
 
             return ResponseBuilder.success(avatarUrl + " deleted.");
-
         } catch (DbxException e) {
             return ResponseBuilder.fail(e.getMessage());
         }

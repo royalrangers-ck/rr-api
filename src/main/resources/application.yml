@@ -77,3 +77,10 @@ springfox:
                 contactName: RoyalRangers team
                 contactUrl: https://github.com/royalrangers-ck
                 contactEmail: royalrangers.ck@gmail.com
+---
+mail-sender:
+    mailhost: smtp.gmail.com
+    mailport: 587
+    mailusername: royal.rangers.test@gmail.com
+    mailpassword: RoyalRangers
+    confirmRegistrationUrl: http://localhost:8080
