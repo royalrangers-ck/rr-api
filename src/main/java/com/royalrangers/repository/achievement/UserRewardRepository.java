@@ -11,5 +11,4 @@ import java.util.Set;
 public interface UserRewardRepository extends JpaRepository<UserReward, Long> {
     List<UserReward> findByUserId(Long id);
     List<UserReward> findByUser_PlatoonId(Long id);
-
 }

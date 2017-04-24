@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/achievements/userReward")
 public class UserRewardController {
+
     @Autowired
     private UserRewardService userRewardService;
 

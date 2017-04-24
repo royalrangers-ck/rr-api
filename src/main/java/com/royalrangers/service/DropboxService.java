@@ -16,28 +16,38 @@ import java.util.UUID;
 
 @Service
 public class DropboxService {
+
     @Value("${dropbox.appName}")
     private String appName;
+
     @Value("${dropbox.accessToken}")
     private String accessToken;
+
     @Value("${dropbox.avatarPrefix}")
     private String avatarPrefix;
+
     @Value("${dropbox.platoonLogoPrefix}")
     private String platoonLogoPrefix;
+
     @Value("${dropbox.achievementTestLogoPrefix}")
     private String achievementTestLogoPrefix;
+
     @Value("${dropbox.achievementQuarterLogoPrefix}")
     private String achievementQuarterLogoPrefix;
+
     @Value("${dropbox.achievementYearLogoPrefix}")
     private String achievementYearLogoPrefix;
+
     @Value("${dropbox.achievementThreeYearLogoPrefix}")
     private String achievementThreeYearLogoPrefix;
+
     @Value("${dropbox.achievementTwelveYearLogoPrefix}")
     private String achievementTwelveYearLogoPrefix;
+
     @Value("${dropbox.achievementRewardLogoPrefix}")
     private String achievementRewardLogoPrefix;
 
-    public String getImagePrefix(ImageType imageType){
+    private String getImagePrefix(ImageType imageType){
         String prefix = "";
         switch (imageType){
             case USER_AVATAR: {
@@ -76,12 +86,12 @@ public class DropboxService {
         return prefix;
     };
 
-    public DbxClientV2 getClient() {
-    DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
-            .withUserLocale(Locale.getDefault().toString())
-            .build();
-    DbxClientV2 client = new DbxClientV2(config, accessToken);
-        return client;
+    private DbxClientV2 getClient() {
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
+                .withUserLocale(Locale.getDefault().toString())
+                .build();
+
+        return new DbxClientV2(config, accessToken);
     }
 
     public void fileUpload(MultipartFile file) throws IOException, DbxException {

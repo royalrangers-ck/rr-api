@@ -12,8 +12,9 @@ import java.util.List;
 
 @Service
 public class RewardService {
+
     @Autowired
-    public RewardRepository rewardRepository;
+    private RewardRepository rewardRepository;
 
     @Autowired
     private DropboxService dropboxService;

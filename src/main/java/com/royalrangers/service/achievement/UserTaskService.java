@@ -42,8 +42,7 @@ public class UserTaskService {
     }
 
     public List<UserTask> getUserTasksByTaskId(Long taskId) {
-        List<UserTask> resultList = userTaskRepository.findAllByTask(taskId);
-        return resultList;
+        return userTaskRepository.findAllByTask(taskId);
     }
 
     public void deleteUserTask(Long id) {

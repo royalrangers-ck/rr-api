@@ -42,9 +42,7 @@ public class UserYearAchievementService {
     }
 
     public List<UserYearAchievement> getUserYearAchievementByAchievementId(Long achievementId) {
-        List<UserYearAchievement> resultList =
-                userYearAchievementRepository.findAllByYearAchievement(achievementId);
-        return resultList;
+        return userYearAchievementRepository.findAllByYearAchievement(achievementId);
     }
 
     public void deleteUserYearAchievement(Long id) {

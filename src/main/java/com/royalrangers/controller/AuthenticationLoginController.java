@@ -3,7 +3,7 @@ package com.royalrangers.controller;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.jwt.JwtAuthenticationRequest;
 import com.royalrangers.dto.jwt.JwtAuthenticationResponse;
-import com.royalrangers.enums.Messages;
+import com.royalrangers.enums.LoginMessages;
 import com.royalrangers.service.JwtUserDetailsServiceImpl;
 import com.royalrangers.service.LoginService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -49,9 +49,9 @@ public class AuthenticationLoginController {
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     public ResponseResult createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
-        Messages messages = loginService.checkLoginInformation(authenticationRequest.getEmail());
-        if (messages != null)
-            return ResponseBuilder.fail(messages.getMessage());
+        LoginMessages message = loginService.checkLoginInformation(authenticationRequest.getEmail());
+        if (message != null)
+            return ResponseBuilder.fail(message.getMessage());
 
         // Perform the security
         final Authentication authentication = authenticationManager.authenticate(

@@ -3,7 +3,8 @@ package com.royalrangers.enums;
 import lombok.Getter;
 
 @Getter
-public enum Messages {
+public enum LoginMessages {
+
     NOT_EXIST("This email is not exist"),
     NOT_CONFIRMED("Your email is not confirmed"),
     NOT_APPROVED("You have not been approved by admin yet"),
@@ -11,7 +12,7 @@ public enum Messages {
 
     private String message;
 
-    Messages(String message) {
+    LoginMessages(String message) {
         this.message = message;
     }
 }

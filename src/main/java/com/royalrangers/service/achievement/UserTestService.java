@@ -69,8 +69,7 @@ public class UserTestService {
     }
 
     public List<UserTest> getUserTestsByTestId(Long testId) {
-        List<UserTest> resultList = userTestRepository.findAllByTest(testId);
-        return resultList;
+        return userTestRepository.findAllByTest(testId);
     }
 
     public void deleteUserTest(Long id) {
