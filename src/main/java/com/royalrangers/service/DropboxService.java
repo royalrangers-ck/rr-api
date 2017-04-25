@@ -94,12 +94,6 @@ public class DropboxService {
         return new DbxClientV2(config, accessToken);
     }
 
-    public void fileUpload(MultipartFile file) throws IOException, DbxException {
-        InputStream in = file.getInputStream();
-        FileMetadata metadata = getClient().files().uploadBuilder("/" + file.getOriginalFilename())
-                .uploadAndFinish(in);
-    }
-
     public String imageUpload(MultipartFile file, ImageType imageType) throws IOException, DbxException {
 
         String extension = getFilenameExtension(file.getOriginalFilename());

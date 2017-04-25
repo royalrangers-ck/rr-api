@@ -8,6 +8,7 @@ import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTestService;
 import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +26,13 @@ public class UserTestController {
         } catch (Exception ex) {
             return ResponseBuilder.fail("Failed get all UserTestAchievement");
         }
+    }
+
+    @JsonView(Views.AchievementUser.class)
+    @GetMapping("/submitted")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseResult getUserTestsForAdmin() {
+        return ResponseBuilder.success(userTestService.getUsersData());
     }
 
     @PostMapping
