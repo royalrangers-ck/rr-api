@@ -31,6 +31,10 @@ spring:
     resources:
         chain:
             cache: false
+    http:
+        multipart:
+            max-file-size: 10MB
+            max-request-size: 10MB
 ---
 spring:
     profiles: prod
@@ -83,4 +87,3 @@ mail-sender:
     mailport: 587
     mailusername: royal.rangers.test@gmail.com
     mailpassword: RoyalRangers
-    confirmRegistrationUrl: http://localhost:8080

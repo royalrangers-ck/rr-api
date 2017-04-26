@@ -13,6 +13,7 @@ import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,12 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-import static com.royalrangers.service.DropboxService.isFileSizeCorrect;
-
 @Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+    private final long FILE_MAX_SIZE = 1024*1024;
 
     @Autowired
     private UserService userService;
@@ -112,7 +113,7 @@ public class UserController {
     @PostMapping("/avatar")
     @ApiOperation(value = "Upload and set user avatar")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
-        if (!isFileSizeCorrect(file, 1024*1024))
+        if (file.getSize() >= FILE_MAX_SIZE)
             return ResponseBuilder.fail("File too large.");
 
         try {

@@ -123,10 +123,4 @@ public class DropboxService {
         return directUrl;
     }
 
-    public static Boolean isFileSizeCorrect(MultipartFile file, long maxFileSize) {
-        if (file.getSize() <= maxFileSize)
-            return true;
-        else
-            return false;
-    }
  }
