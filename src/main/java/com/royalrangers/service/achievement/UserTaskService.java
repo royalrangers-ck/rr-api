@@ -2,6 +2,7 @@ package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
+import com.royalrangers.model.achievement.Task;
 import com.royalrangers.model.achievement.UserTask;
 import com.royalrangers.repository.achievement.UserTaskRepository;
 import com.royalrangers.service.UserService;
@@ -27,13 +28,11 @@ public class UserTaskService {
         return userTaskRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserTask(UserAchievementRequestDto params) {
+    public void addTaskForUser(Task task) {
         UserTask userTask = new UserTask();
-        String achievementState = params.getState();
-        userTask.setAchievementState(AchievementState.valueOf(achievementState));
+        userTask.setAchievementState(AchievementState.IN_PROGRESS);
         userTask.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer taskId = params.getId();
-        userTask.setTask(taskService.getTaskById(taskId.longValue()));
+        userTask.setTask(task);
         userTaskRepository.saveAndFlush(userTask);
     }
 
