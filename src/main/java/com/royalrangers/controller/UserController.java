@@ -33,7 +33,7 @@ public class UserController {
 
     @JsonView(Views.Profile.class)
     @GetMapping
-    @ApiOperation(value = "Get user info")
+    @ApiOperation(value = "Get current user info")
     public ResponseResult getAuthenticatedUserDetail() {
 
         String username = userService.getAuthenticatedUserEmail();
@@ -45,7 +45,7 @@ public class UserController {
     @JsonView(Views.Profile.class)
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Get user info (for admin)")
+    @ApiOperation(value = "Get user info by user id (for admin)")
     public ResponseResult getUserDetailById(@PathVariable("id") Long id) {
         try {
             log.info("Get details for user id " + id);
@@ -58,14 +58,14 @@ public class UserController {
     @JsonView(Views.Profile.class)
     @GetMapping("/approve/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Get users for approve (for admin)")
+    @ApiOperation(value = "Get users for approve (for platoon admin)")
     public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
         return ResponseBuilder.success(userService.getUsersForApprove(platoonId));
     }
 
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Approve users after registration (for admin)")
+    @ApiOperation(value = "Approve users after registration (for platoon admin)")
     public ResponseResult approveUser(@RequestBody IdsDto param) {
         List<Long> ids = param.getIds();
         userService.approveUsers(ids);
@@ -74,7 +74,7 @@ public class UserController {
 
     @PostMapping("/reject")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Reject user after registration (for admin)")
+    @ApiOperation(value = "Reject user after registration (for platoon admin)")
     public ResponseResult rejectUser(@RequestBody IdsDto param) {
         List<Long> ids = param.getIds();
         userService.rejectUsers(ids);
@@ -82,7 +82,7 @@ public class UserController {
     }
 
     @PutMapping
-    @ApiOperation(value = "Update user")
+    @ApiOperation(value = "Update current user")
     public ResponseResult updateAuthorizedUser(@RequestBody UserUpdateDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
@@ -95,7 +95,7 @@ public class UserController {
 
     @PutMapping(value = "/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Update user (for admin)")
+    @ApiOperation(value = "Update user by user id(for admin)")
     public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdate) {
         try {
             userService.updateUserById(id, userUpdate);
@@ -108,7 +108,7 @@ public class UserController {
     }
 
     @PostMapping("/avatar")
-    @ApiOperation(value = "Upload and set user avatar")
+    @ApiOperation(value = "Upload and set avatar for current user")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
@@ -119,20 +119,6 @@ public class UserController {
             return ResponseBuilder.success("avatarUrl", avatarUrl);
         } catch (IOException | DbxException e) {
             return  ResponseBuilder.fail(e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/avatar")
-    @ApiOperation(value = "Delete avatar picture")
-    public ResponseResult delete(@RequestBody AvatarUrlDto request ) {
-        try {
-            String avatarUrl = request.getAvatarUrl();
-            dropboxService.deleteImage(avatarUrl, ImageType.USER_AVATAR);
-            log.info("Delete avatar: " + avatarUrl);
-
-            return ResponseBuilder.success(avatarUrl + " deleted.");
-        } catch (DbxException e) {
-            return ResponseBuilder.fail(e.getMessage());
         }
     }
 }
