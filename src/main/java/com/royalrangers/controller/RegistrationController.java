@@ -81,7 +81,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/check")
-    @ApiOperation(value = "Check if the user with such email already exists")
+    @ApiOperation(value = "Check is user with such email already exists")
     public ResponseResult checkEmail(@RequestParam("email") String email) {
 
         log.info(String.format("Checking email '%s'", email));
