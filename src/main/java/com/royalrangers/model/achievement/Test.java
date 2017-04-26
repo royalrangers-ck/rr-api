@@ -20,6 +20,9 @@ public class Test extends BaseModel {
     private String name;
 
     @JsonView(Views.Achievement.class)
+    private String shortDescription;
+
+    @JsonView(Views.Achievement.class)
     private String description;
 
     @JsonView(Views.Achievement.class)
