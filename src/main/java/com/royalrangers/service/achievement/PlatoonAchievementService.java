@@ -35,7 +35,7 @@ public class PlatoonAchievementService {
     @Autowired
     private UserService userService;
 
-    public List<PlatoonAchievementDto> getTwelveYearAchievements() {
+    public List<PlatoonAchievementDto> getApprovedTwelveYearAchievements() {
         List<PlatoonAchievementDto> result = new ArrayList<>();
         for (UserTwelveYearAchievement item : findApprovedTwelveYearAchievementsByPlatoon()) {
             result.add(buildUserAchievement(item));
@@ -45,11 +45,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserTwelveYearAchievement> findApprovedTwelveYearAchievementsByPlatoon() {
-
         return userTwelveYearAchievementRepository.findAllByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED);
     }
 
-    public List<PlatoonAchievementDto> getThreeYearAchievements() {
+    public List<PlatoonAchievementDto> getApprovedThreeYearAchievements() {
         List<PlatoonAchievementDto> result = new ArrayList<>();
         for (UserThreeYearAchievement item : findApprovedThreeYearAchievementsByPlatoon()) {
             result.add(buildUserAchievement(item));
@@ -59,11 +58,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserThreeYearAchievement> findApprovedThreeYearAchievementsByPlatoon() {
-
         return userThreeYearAchievementRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED);
     }
 
-    public List<PlatoonAchievementDto> getYearAchievements() {
+    public List<PlatoonAchievementDto> getApprovedYearAchievements() {
         List<PlatoonAchievementDto> result = new ArrayList<>();
         for (UserYearAchievement item : findApprovedYearAchievementsByPlatoon()) {
             result.add(buildUserAchievement(item));
@@ -73,11 +71,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserYearAchievement> findApprovedYearAchievementsByPlatoon() {
-
         return userYearAchievementRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED);
     }
 
-    public List<PlatoonAchievementDto> getQuarterAchievements() {
+    public List<PlatoonAchievementDto> getApprovedQuarterAchievements() {
         List<PlatoonAchievementDto> result = new ArrayList<>();
         for (UserQuarterAchievement item : findApprovedQuarterAchievementsByPlatoon()) {
             result.add(buildUserAchievement(item));
@@ -87,16 +84,14 @@ public class PlatoonAchievementService {
     }
 
     public List<UserQuarterAchievement> findApprovedQuarterAchievementsByPlatoon() {
-
         return userQuarterAchievementRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED);
     }
 
     public List<UserReward> findApprovedMedalRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED, RewardType.MEDAL);
     }
 
-    public List<PlatoonRewardDto> getMedalRewards() {
+    public List<PlatoonRewardDto> getApprovedMedalRewards() {
         List<PlatoonRewardDto> rewards = new ArrayList<>();
         for (UserReward item : findApprovedMedalRewardsByPlatoon()) {
             rewards.add(buildUserReward(item));
@@ -106,11 +101,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findApprovedLathRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED, RewardType.LATH);
     }
 
-    public List<PlatoonRewardDto> getLathRewards() {
+    public List<PlatoonRewardDto> getApprovedLathRewards() {
         List<PlatoonRewardDto> rewards = new ArrayList<>();
         for (UserReward item : findApprovedLathRewardsByPlatoon()) {
             rewards.add(buildUserReward(item));
@@ -120,11 +114,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findApprovedStarRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED, RewardType.STAR);
     }
 
-    public List<PlatoonRewardDto> getStarRewards() {
+    public List<PlatoonRewardDto> getApprovedStarRewards() {
         List<PlatoonRewardDto> rewards = new ArrayList<>();
         for (UserReward item : findApprovedStarRewardsByPlatoon()) {
             rewards.add(buildUserReward(item));
@@ -134,11 +127,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findApprovedTripRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED, RewardType.TRIP);
     }
 
-    public List<PlatoonRewardDto> getTripRewards() {
+    public List<PlatoonRewardDto> getApprovedTripRewards() {
         List<PlatoonRewardDto> rewards = new ArrayList<>();
         for (UserReward item : findApprovedTripRewardsByPlatoon()) {
             rewards.add(buildUserReward(item));
@@ -148,11 +140,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findApprovedCampRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.APPROVED, RewardType.CAMP);
     }
 
-    public List<PlatoonRewardDto> getCampRewards() {
+    public List<PlatoonRewardDto> getApprovedCampRewards() {
         List<PlatoonRewardDto> rewards = new ArrayList<>();
         for (UserReward item : findApprovedCampRewardsByPlatoon()) {
             rewards.add(buildUserReward(item));
@@ -246,7 +237,6 @@ public class PlatoonAchievementService {
     }
 
     public List<UserTwelveYearAchievement> findInProgressTwelveYearAchievements() {
-
         return userTwelveYearAchievementRepository.findAllByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS);
     }
 
@@ -260,7 +250,6 @@ public class PlatoonAchievementService {
     }
 
     public List<UserThreeYearAchievement> findInProgressThreeYearAchievements() {
-
         return userThreeYearAchievementRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS);
     }
 
@@ -274,11 +263,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserYearAchievement> findInProgressYearAchievements() {
-
         return userYearAchievementRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS);
     }
 
-    public List<PlatoonAchievementDto> getInProgressQuarterYearAchievements() {
+    public List<PlatoonAchievementDto> getInProgressQuarterAchievements() {
         List<PlatoonAchievementDto> result = new ArrayList<>();
         for (UserQuarterAchievement item : findInProgressQuarterAchievements()) {
             result.add(buildUserAchievement(item));
@@ -288,12 +276,10 @@ public class PlatoonAchievementService {
     }
 
     public List<UserQuarterAchievement> findInProgressQuarterAchievements() {
-
         return userQuarterAchievementRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS);
     }
 
     public List<UserReward> findInProgressMedalRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS, RewardType.MEDAL);
     }
 
@@ -307,7 +293,6 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findInProgressLathRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS, RewardType.LATH);
     }
 
@@ -321,7 +306,6 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findInProgressStarRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS, RewardType.STAR);
     }
 
@@ -335,7 +319,6 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findInProgressTripRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS, RewardType.TRIP);
     }
 
@@ -349,7 +332,6 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findInProgressCampRewardsByPlatoon() {
-
         return userRewardRepository.findByUserPlatoonIdAndAchievementStateAndReward_RewardType(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.IN_PROGRESS, RewardType.CAMP);
     }
 

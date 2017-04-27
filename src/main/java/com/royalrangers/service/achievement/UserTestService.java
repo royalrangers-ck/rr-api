@@ -49,7 +49,7 @@ public class UserTestService {
         return userTestRepository.findOne(id);
     }
 
-    public List<UserTest> getSubmittedUsersTestsbyPlatoon() {
+    public List<UserTest> getSubmittedUsersTestsByPlatoon() {
         return userTestRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.SUBMITTED);
     }
 

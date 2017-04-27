@@ -36,6 +36,7 @@ public class UserAchievementController {
 
     @Autowired
     private UserThreeYearAchievementService userThreeYearAchievementService;
+
     @Autowired
     private UserTwelveYearAchievementService userTwelveYearAchievementService;
 
