@@ -4,10 +4,8 @@ import com.dropbox.core.DbxException;
 import com.royalrangers.dto.PlatoonDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.model.Platoon;
-import com.royalrangers.model.User;
 import com.royalrangers.repository.GroupRepository;
 import com.royalrangers.repository.PlatoonRepository;
-import com.royalrangers.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,13 +26,8 @@ public class PlatoonService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public Platoon getPlatoonData() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
-        return platoonRepository.findOne(user.getPlatoon().getId());
+        return platoonRepository.findOne(userService.getAuthenticatedUser().getPlatoon().getId());
     }
 
     public void createPlatoon(PlatoonDto platoonDto) {

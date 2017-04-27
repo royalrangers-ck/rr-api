@@ -62,8 +62,8 @@ public class PlatoonAchievementController {
     }
 
     @GetMapping("/approved/quarter")
-    public ResponseResult getQuarterYearAchievements() {
-        return ResponseBuilder.success(platoonAchievementService.getQuarterYearAchievements());
+    public ResponseResult getQuarterAchievements() {
+        return ResponseBuilder.success(platoonAchievementService.getQuarterAchievements());
     }
 
     @JsonView(Views.Profile.class)

@@ -32,7 +32,7 @@ public class UserTestController {
     @GetMapping("/submitted")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUserTestsForAdmin() {
-        return ResponseBuilder.success(userTestService.getUsersData());
+        return ResponseBuilder.success(userTestService.getSubmittedUsersTestsbyPlatoon());
     }
 
     @PostMapping

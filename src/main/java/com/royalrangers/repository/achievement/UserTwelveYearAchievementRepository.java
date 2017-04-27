@@ -1,5 +1,6 @@
 package com.royalrangers.repository.achievement;
 
+import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserTwelveYearAchievement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -10,5 +11,5 @@ import java.util.List;
 public interface UserTwelveYearAchievementRepository extends JpaRepository<UserTwelveYearAchievement, Long>{
     List<UserTwelveYearAchievement> findByUserId(Long id);
     List<UserTwelveYearAchievement> findAllByTwelveYearAchievement(Long twelveYearAchievementId);
-    List<UserTwelveYearAchievement> findAllByUser_PlatoonId(Long id);
+    List<UserTwelveYearAchievement> findAllByUserPlatoonIdAndAchievementState(Long id, AchievementState state);
 }
