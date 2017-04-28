@@ -49,8 +49,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserTwelveYearAchievement> findAllTwelveYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserTwelveYearAchievement> list = userTwelveYearAchievementRepository.findAllByUser_PlatoonId(user.getPlatoon().getId());
         List<UserTwelveYearAchievement> result = new ArrayList<>();
         for (UserTwelveYearAchievement item : list) {
@@ -70,8 +69,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserThreeYearAchievement> findAllThreeYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserThreeYearAchievement> list = userThreeYearAchievementRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         List<UserThreeYearAchievement> result = new ArrayList<>();
         for (UserThreeYearAchievement item : list) {
@@ -91,8 +89,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserYearAchievement> findAllYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserYearAchievement> list = userYearAchievementRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         List<UserYearAchievement> result = new ArrayList<>();
         for (UserYearAchievement item : list) {
@@ -112,8 +109,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserQuarterAchievement> findAllQuarterYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserQuarterAchievement> list = userQuarterAchievementRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         List<UserQuarterAchievement> result = new ArrayList<>();
         for (UserQuarterAchievement item : list) {
@@ -125,8 +121,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllMedalRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -146,8 +141,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllLathRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -167,8 +161,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllStarRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -188,8 +181,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllTripRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -209,8 +201,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllCampRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -283,8 +274,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserTwelveYearAchievement> findAllInProgressTwelveYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserTwelveYearAchievement> list = userTwelveYearAchievementRepository.findAllByUser_PlatoonId(user.getPlatoon().getId());
         List<UserTwelveYearAchievement> result = new ArrayList<>();
         for (UserTwelveYearAchievement item : list) {
@@ -304,8 +294,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserThreeYearAchievement> findAllInProgressThreeYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserThreeYearAchievement> list = userThreeYearAchievementRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         List<UserThreeYearAchievement> result = new ArrayList<>();
         for (UserThreeYearAchievement item : list) {
@@ -325,8 +314,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserYearAchievement> findAllInProgressYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserYearAchievement> list = userYearAchievementRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         List<UserYearAchievement> result = new ArrayList<>();
         for (UserYearAchievement item : list) {
@@ -346,8 +334,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserQuarterAchievement> findAllInProgressQuarterYearAchievements() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserQuarterAchievement> list = userQuarterAchievementRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         List<UserQuarterAchievement> result = new ArrayList<>();
         for (UserQuarterAchievement item : list) {
@@ -359,8 +346,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllInProgressMedalRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -380,8 +366,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllInProgressLathRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -401,8 +386,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllInProgressStarRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -422,8 +406,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllInProgressTripRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {
@@ -443,8 +426,7 @@ public class PlatoonAchievementService {
     }
 
     public List<UserReward> findAllInProgressCampRewards() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserReward> rewards = new ArrayList<>();
         List<UserReward> list = userRewardRepository.findByUser_PlatoonId(user.getPlatoon().getId());
         for (UserReward item : list) {

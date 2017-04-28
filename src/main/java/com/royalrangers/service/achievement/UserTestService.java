@@ -64,8 +64,7 @@ public class UserTestService {
     }
 
     public List<UserTest> getUsersData() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
+        User user = userService.getAuthenticatedUser();
         List<UserTest> list = userTestService.findAllByPlatoon(user.getPlatoon().getId());
         List<UserTest> result = new ArrayList<>();
         for (UserTest tests : list) {
