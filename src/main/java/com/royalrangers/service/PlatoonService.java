@@ -32,7 +32,8 @@ public class PlatoonService {
     private UserRepository userRepository;
 
     public Platoon getPlatoonData() {
-        User user = userService.getAuthenticatedUser();
+        String email = userService.getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
         return platoonRepository.findOne(user.getPlatoon().getId());
     }
 
