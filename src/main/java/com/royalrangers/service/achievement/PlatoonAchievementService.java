@@ -157,25 +157,25 @@ public class PlatoonAchievementService {
 
         platoonRewardDto.setRewardId(item.getId());
         platoonRewardDto.setRewardType(item.getReward().getRewardType());
-        if (item.getReward().getRewardType().equals(RewardType.MEDAL) && item.getAchievementState().equals(AchievementState.APPROVED)) {
+        if (RewardType.MEDAL.equals(item.getReward().getRewardType()) && AchievementState.APPROVED.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findApprovedMedalRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.MEDAL) && item.getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+        } else if (RewardType.MEDAL.equals(item.getReward().getRewardType()) && AchievementState.IN_PROGRESS.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findInProgressMedalRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.LATH) && item.getAchievementState().equals(AchievementState.APPROVED)) {
+        } else if (RewardType.LATH.equals(item.getReward().getRewardType()) && AchievementState.APPROVED.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findApprovedLathRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.LATH) && item.getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+        } else if (RewardType.LATH.equals(item.getReward().getRewardType()) && AchievementState.IN_PROGRESS.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findInProgressLathRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.STAR) && item.getAchievementState().equals(AchievementState.APPROVED)) {
+        } else if (RewardType.STAR.equals(item.getReward().getRewardType()) && AchievementState.APPROVED.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findApprovedStarRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.STAR) && item.getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+        } else if (RewardType.STAR.equals(item.getReward().getRewardType()) && AchievementState.IN_PROGRESS.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findInProgressStarRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.CAMP) && item.getAchievementState().equals(AchievementState.APPROVED)) {
+        } else if (RewardType.CAMP.equals(item.getReward().getRewardType()) && AchievementState.APPROVED.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findApprovedCampRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.CAMP) && item.getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+        } else if (RewardType.CAMP.equals(item.getReward().getRewardType()) && AchievementState.IN_PROGRESS.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findInProgressCampRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.TRIP) && item.getAchievementState().equals(AchievementState.APPROVED)) {
+        } else if (RewardType.TRIP.equals(item.getReward().getRewardType()) && AchievementState.APPROVED.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findApprovedTripRewardsByPlatoon().size());
-        } else if (item.getReward().getRewardType().equals(RewardType.TRIP) && item.getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+        } else if (RewardType.TRIP.equals(item.getReward().getRewardType()) && AchievementState.IN_PROGRESS.equals(item.getAchievementState())) {
             platoonRewardDto.setCount(findInProgressTripRewardsByPlatoon().size());
         }
 
@@ -187,9 +187,9 @@ public class PlatoonAchievementService {
         if (item instanceof UserTwelveYearAchievement) {
             platoonAchievementDto.setAchievementId(((UserTwelveYearAchievement) item).getId());
             platoonAchievementDto.setAchievementType(AchievementType.TWELWE_YEAR);
-            if (((UserTwelveYearAchievement) item).getAchievementState().equals(AchievementState.APPROVED)) {
+            if (AchievementState.APPROVED.equals(((UserTwelveYearAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findApprovedTwelveYearAchievementsByPlatoon().size());
-            } else if (((UserTwelveYearAchievement) item).getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+            } else if (AchievementState.IN_PROGRESS.equals(((UserTwelveYearAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findInProgressTwelveYearAchievements().size());
             }
 
@@ -197,9 +197,9 @@ public class PlatoonAchievementService {
             platoonAchievementDto.setAchievementId(((UserQuarterAchievement) item).getId());
             platoonAchievementDto.setAchievementType(AchievementType.QUARTER);
             platoonAchievementDto.setCount(findApprovedQuarterAchievementsByPlatoon().size());
-            if (((UserQuarterAchievement) item).getAchievementState().equals(AchievementState.APPROVED)) {
+            if (AchievementState.APPROVED.equals(((UserQuarterAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findApprovedQuarterAchievementsByPlatoon().size());
-            } else if (((UserQuarterAchievement) item).getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+            } else if (AchievementState.IN_PROGRESS.equals(((UserQuarterAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findInProgressQuarterAchievements().size());
             }
 
@@ -207,9 +207,9 @@ public class PlatoonAchievementService {
             platoonAchievementDto.setAchievementId(((UserYearAchievement) item).getId());
             platoonAchievementDto.setAchievementType(AchievementType.YEAR);
             platoonAchievementDto.setCount(findApprovedYearAchievementsByPlatoon().size());
-            if (((UserYearAchievement) item).getAchievementState().equals(AchievementState.APPROVED)) {
+            if (AchievementState.APPROVED.equals(((UserYearAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findApprovedYearAchievementsByPlatoon().size());
-            } else if (((UserYearAchievement) item).getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+            } else if (AchievementState.IN_PROGRESS.equals(((UserYearAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findInProgressYearAchievements().size());
             }
 
@@ -217,9 +217,9 @@ public class PlatoonAchievementService {
             platoonAchievementDto.setAchievementId(((UserThreeYearAchievement) item).getId());
             platoonAchievementDto.setAchievementType(AchievementType.THREE_YEAR);
             platoonAchievementDto.setCount(findApprovedThreeYearAchievementsByPlatoon().size());
-            if (((UserThreeYearAchievement) item).getAchievementState().equals(AchievementState.APPROVED)) {
+            if (AchievementState.APPROVED.equals(((UserThreeYearAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findApprovedThreeYearAchievementsByPlatoon().size());
-            } else if (((UserThreeYearAchievement) item).getAchievementState().equals(AchievementState.IN_PROGRESS)) {
+            } else if (AchievementState.IN_PROGRESS.equals(((UserThreeYearAchievement) item).getAchievementState())) {
                 platoonAchievementDto.setCount(findInProgressThreeYearAchievements().size());
             }
         }

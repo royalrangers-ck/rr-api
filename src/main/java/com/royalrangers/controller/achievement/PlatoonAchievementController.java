@@ -6,11 +6,13 @@ import com.royalrangers.model.Views;
 import com.royalrangers.service.UserService;
 import com.royalrangers.service.achievement.PlatoonAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/platoon/achievements")
 public class PlatoonAchievementController {
@@ -26,7 +28,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedStarRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get star rewards");
+            log.debug("Failed get all approved star rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved star rewards for current platoon");
         }
     }
 
@@ -35,7 +38,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedMedalRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get medal rewards");
+            log.debug("Failed get all approved medal rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved medal rewards for current platoon");
         }
     }
 
@@ -44,7 +48,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedLathRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get lath rewards");
+            log.debug("Failed get all approved lath rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved lath rewards for current platoon");
         }
     }
 
@@ -53,7 +58,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedTripRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get trip rewards");
+            log.debug("Failed get all approved trip rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved trip rewards for current platoon");
         }
     }
 
@@ -62,7 +68,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedCampRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get camp rewards");
+            log.debug("Failed get all approved camp rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved camp rewards for current platoon");
         }
     }
 
@@ -71,7 +78,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedTwelveYearAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get twelve year achievements");
+            log.debug("Failed get all approved twelve year achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved twelve year achievements for current platoon");
         }
     }
 
@@ -80,7 +88,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedThreeYearAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get three year achievements");
+            log.debug("Failed get all approved three year achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved three year achievements for current platoon");
         }
     }
 
@@ -89,7 +98,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedYearAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get year achievements");
+            log.debug("Failed get all approved year achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved year achievements for current platoon");
         }
     }
 
@@ -98,7 +108,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedQuarterAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get quarter achievements");
+            log.debug("Failed get all approved quarter achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all approved quarter achievements for current platoon");
         }
     }
 
@@ -108,7 +119,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(userService.getUsersByPlatoon());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get users for platoon");
+            log.debug("Failed all get users for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all users for current platoon");
         }
     }
 
@@ -117,7 +129,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressTwelveYearAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get twelve year achievements");
+            log.debug("Failed get all in progress twelve year achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress twelve year achievements for current platoon");
         }
     }
 
@@ -126,7 +139,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressThreeYearAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get three year achievements");
+            log.debug("Failed get all in progress three year achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress three year achievements for current platoon");
         }
     }
 
@@ -135,7 +149,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressYearAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get year achievements");
+            log.debug("Failed get all in progress year achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress year achievements for current platoon");
         }
     }
 
@@ -144,7 +159,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressQuarterAchievements());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get quarter achievements");
+            log.debug("Failed get all in progress quarter achievements for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress quarter achievements for current platoon");
         }
     }
 
@@ -153,7 +169,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressStarRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get star rewards");
+            log.debug("Failed get all in progress star rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress star rewards for current platoon");
         }
     }
 
@@ -162,7 +179,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressMedalRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get medal rewards");
+            log.debug("Failed get all in progress medal rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress medal rewards for current platoon");
         }
     }
 
@@ -171,7 +189,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressLathRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get lath rewards");
+            log.debug("Failed get all in progress lath rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress lath rewards for current platoon");
         }
     }
 
@@ -180,7 +199,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressTripRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get trip rewards");
+            log.debug("Failed get all in progress  trip rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress trip rewards for current platoon");
         }
     }
 
@@ -189,7 +209,8 @@ public class PlatoonAchievementController {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressCampRewards());
         } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed get camp rewards");
+            log.debug("Failed get camp all in progress rewards for current platoon", ex);
+            return ResponseBuilder.fail("Failed get all in progress camp rewards for current platoon");
         }
     }
 }
