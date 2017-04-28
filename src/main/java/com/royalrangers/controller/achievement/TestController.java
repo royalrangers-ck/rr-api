@@ -8,12 +8,14 @@ import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/test")
 public class TestController {
@@ -29,6 +31,7 @@ public class TestController {
         try {
             return ResponseBuilder.success(testService.getAllTest());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get Tests");
         }
     }
@@ -39,6 +42,7 @@ public class TestController {
             testService.addTest(params);
             return ResponseBuilder.success("Test saved successfully");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed adding Test");
         }
     }
@@ -48,6 +52,7 @@ public class TestController {
         try {
             return ResponseBuilder.success(testService.getTestById(testId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get Test by id");
         }
     }
@@ -58,6 +63,7 @@ public class TestController {
             testService.deleteTestById(testId);
             return ResponseBuilder.success("Test was successfully deleted");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete Test");
         }
     }
@@ -67,6 +73,7 @@ public class TestController {
         try {
             return ResponseBuilder.success(testService.editTest(params, testId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit Task");
         }
     }

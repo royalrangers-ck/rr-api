@@ -8,12 +8,14 @@ import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.RewardService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/reward")
 public class RewardController {
@@ -29,6 +31,7 @@ public class RewardController {
         try {
             return ResponseBuilder.success(rewardService.getAllReward());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all rewards");
         }
     }
@@ -39,6 +42,7 @@ public class RewardController {
             rewardService.addReward(reward);
             return ResponseBuilder.success("Successful addition of a reward");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add reward");
         }
     }
@@ -48,6 +52,7 @@ public class RewardController {
         try {
             return ResponseBuilder.success(rewardService.getRewardById(rewardId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get reward by id");
         }
     }
@@ -58,6 +63,7 @@ public class RewardController {
             rewardService.deleteReward(rewardId);
             return ResponseBuilder.success("Delete Reward was a success");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed deleted Reward");
         }
     }
@@ -67,6 +73,7 @@ public class RewardController {
         try {
             return ResponseBuilder.success(rewardService.editReward(reward, rewardId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit Reward");
         }
     }

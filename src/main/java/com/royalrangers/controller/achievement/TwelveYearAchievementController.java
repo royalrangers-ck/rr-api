@@ -8,12 +8,14 @@ import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.TwelveYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/twelveYear")
 public class TwelveYearAchievementController {
@@ -29,6 +31,7 @@ public class TwelveYearAchievementController {
         try {
             return ResponseBuilder.success(twelveYearAchievementService.getAllTwelveYearAchievement());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get TwelveYearAchievement");
         }
     }
@@ -39,6 +42,7 @@ public class TwelveYearAchievementController {
             twelveYearAchievementService.addTwelveYearAchievement(params);
             return ResponseBuilder.success("Successful addition of a TwelveYearAchievement");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add TwelveYearAchievement");
         }
     }
@@ -48,6 +52,7 @@ public class TwelveYearAchievementController {
         try {
             return ResponseBuilder.success(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get TwelveYearAchievement by id");
         }
     }
@@ -58,6 +63,7 @@ public class TwelveYearAchievementController {
             twelveYearAchievementService.deleteTwelveYearAchievement(twelveYearId);
             return ResponseBuilder.success("Successful delete TwelveYearAchievement");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete TwelveYearAchievement");
         }
     }
@@ -67,6 +73,7 @@ public class TwelveYearAchievementController {
         try {
             return ResponseBuilder.success(twelveYearAchievementService.editTwelveYearAchievement(params, twelveYearId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete TwelveYearAchievement");
         }
     }

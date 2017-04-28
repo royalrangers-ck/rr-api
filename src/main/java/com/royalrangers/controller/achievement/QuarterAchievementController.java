@@ -8,12 +8,14 @@ import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.QuarterAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/quarter")
 public class QuarterAchievementController {
@@ -29,6 +31,7 @@ public class QuarterAchievementController {
         try {
             return ResponseBuilder.success(quarterAchievementService.getAllQuarterAchievement());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed added QuarterAchievement");
         }
     }
@@ -39,6 +42,7 @@ public class QuarterAchievementController {
             quarterAchievementService.addQuarterAchievement(params);
             return ResponseBuilder.success("Adding QuarterAchievement was a success");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed added QuarterAchievement");
         }
     }
@@ -48,6 +52,7 @@ public class QuarterAchievementController {
         try {
             return ResponseBuilder.success(quarterAchievementService.getQuarterAchievementById(quarterId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get QuarterAchievement by id");
         }
     }
@@ -58,6 +63,7 @@ public class QuarterAchievementController {
             quarterAchievementService.deleteQuarterAchievement(quarterId);
             return ResponseBuilder.success("Delete QuarterAchievement was a success");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed deleted QuarterAchievement");
         }
     }
@@ -67,6 +73,7 @@ public class QuarterAchievementController {
         try {
             return ResponseBuilder.success(quarterAchievementService.editQuarterAchievement(params, quarterId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit QuarterAchievement");
         }
     }
