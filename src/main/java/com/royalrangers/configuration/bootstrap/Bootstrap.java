@@ -1,10 +1,17 @@
-package com.royalrangers.configuration;
+package com.royalrangers.configuration.bootstrap;
 
+import com.royalrangers.dto.achievement.AchievementRequestDto;
+import com.royalrangers.dto.achievement.TaskRequestDto;
+import com.royalrangers.dto.achievement.TestRequestDto;
+import com.royalrangers.dto.achievement.ThreeYearRequestDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.CountryRepository;
 import com.royalrangers.repository.UserRepository;
+import com.royalrangers.repository.achievement.RewardRepository;
+import com.royalrangers.repository.achievement.TestRepository;
+import com.royalrangers.service.achievement.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @Slf4j
 @Component
@@ -39,6 +47,37 @@ public class Bootstrap {
     @Autowired
     private AuthorityRepository authorityRepository;
 
+    @Autowired
+    private RewardRepository rewardRepository;
+
+    @Autowired
+    private TwelveYearAchievementService twelveYearAchievementService;
+
+    @Autowired
+    private ThreeYearAchievementService threeYearAchievementService;
+
+    @Autowired
+    private YearAchievementService yearAchievementService;
+
+    @Autowired
+    private QuarterAchievementService quarterAchievementService;
+
+    @Autowired
+    private TestRepository testRepository;
+
+    public AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
+
+    TestBootstrap testBootstrap = new TestBootstrap();
+
+    @Autowired
+    private TestService testService;
+
+    @Autowired
+    private TaskService taskService;
+
+    TaskBootstrap taskBootstrap = new TaskBootstrap();
+
+
     @PostConstruct
     public void init() {
         if(DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
@@ -49,6 +88,8 @@ public class Bootstrap {
             } catch (IOException e){
                 log.error("Error in loading file " + e.getMessage());
             }
+            initTwelveYear();
+            initReward();
         }
     }
 
@@ -122,5 +163,50 @@ public class Bootstrap {
         countryRepository.save(country);
 
     }
+
+    private void initReward(){
+        Stream.of(achievementBootstrap.createReward()).forEach(element->{
+            rewardRepository.save(element);
+            rewardRepository.flush();
+        });
+    };
+
+    private void initTwelveYear(){
+        twelveYearAchievementService.addTwelveYearAchievement(achievementBootstrap.createTwelveYear());
+        initThreeYear();
+    }
+    private void initThreeYear(){
+        for (ThreeYearRequestDto element : achievementBootstrap.createThreeYear()) {
+            threeYearAchievementService.addThreeYearAchievement(element);
+        }
+        initYear();
+    }
+
+    private void initYear(){
+        for (AchievementRequestDto element : achievementBootstrap.createYear()) {
+            yearAchievementService.addYearAchievement(element);
+        }
+        initQuarter();
+    }
+
+    private void initQuarter(){
+        for (AchievementRequestDto test : achievementBootstrap.createQuarter()) {
+            quarterAchievementService.addQuarterAchievement(test);
+        }
+        initTest();
+    }
+
+    public void initTest(){
+        for (TestRequestDto test : testBootstrap.createTest()) {
+            testService.addTest(test);
+        }
+        initTask();
+    }
+
+    public void initTask(){
+        for (TaskRequestDto element : taskBootstrap.createTask()) {
+            taskService.addTask(element);
+        }
+    };
 
 }
