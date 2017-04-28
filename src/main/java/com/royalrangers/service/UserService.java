@@ -228,13 +228,15 @@ public class UserService {
     }
 
     public List<User> getUsersByPlatoon() {
-        User user = getAuthenticatedUser();
+        String email = getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
         List<User> users = userRepository.findUsersByApprovedTrueAndPlatoon_Id(user.getPlatoon().getId());
         return users;
     }
 
     public void setUserAvatarUrl(String avatarUrl) throws DbxException {
-        User user = getAuthenticatedUser();
+        String email = getAuthenticatedUserEmail();
+        User user = userRepository.findByEmail(email);
 
         if (user.getAvatarUrl() != null) {
             dropboxService.deleteImage(user.getAvatarUrl(), ImageType.USER_AVATAR);
@@ -244,8 +246,5 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getAuthenticatedUser(){
-        return userRepository.findByEmail(getAuthenticatedUserEmail());
-    }
 }
 
