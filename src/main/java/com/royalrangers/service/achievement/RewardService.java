@@ -8,6 +8,7 @@ import com.royalrangers.service.DropboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,7 +38,13 @@ public class RewardService {
 
     public Reward editReward(Reward reward, Long rewardId) {
         Reward editReward = getRewardById(rewardId);
-        editReward = reward;
+        editReward.setName(reward.getName());
+        editReward.setDescription(reward.getDescription());
+        editReward.setLogoUrl(reward.getLogoUrl());
+        editReward.setUpdateDate(new Date());
+        editReward.setRewardMark(reward.getRewardMark());
+        editReward.setRewardType(reward.getRewardType());
+        editReward.setRequirements(reward.getRequirements());
         return rewardRepository.saveAndFlush(editReward);
     }
 
