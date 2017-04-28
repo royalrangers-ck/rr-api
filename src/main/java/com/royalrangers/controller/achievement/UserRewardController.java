@@ -6,10 +6,11 @@ import com.royalrangers.dto.achievement.RewardRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserRewardService;
 import com.royalrangers.utils.ResponseBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/achievements/userReward")
 public class UserRewardController {
@@ -23,6 +24,7 @@ public class UserRewardController {
         try {
             return ResponseBuilder.success(userRewardService.getAllRewardForUser());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all UserReward");
         }
     }
@@ -33,6 +35,7 @@ public class UserRewardController {
             userRewardService.addUserReward(params);
             return ResponseBuilder.success("Successfully added UserReward");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add UserReward");
         }
     }
@@ -42,6 +45,7 @@ public class UserRewardController {
         try {
             return ResponseBuilder.success(userRewardService.getRewardById(userRewardId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get UserReward by id");
         }
     }
@@ -52,6 +56,7 @@ public class UserRewardController {
             userRewardService.deleteUserReward(userRewardId);
             return ResponseBuilder.success("Successfully deleted UserReward");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete UserReward");
         }
     }
@@ -62,6 +67,7 @@ public class UserRewardController {
             userRewardService.editUserReward(params, userRewardId);
             return ResponseBuilder.success("Successfully edited UserReward");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit UserReward");
         }
     }

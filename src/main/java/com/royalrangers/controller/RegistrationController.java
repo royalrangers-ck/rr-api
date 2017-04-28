@@ -47,7 +47,7 @@ public class RegistrationController {
             String confirmLink = userService.getConfirmRegistrationLink(user);
             emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
         } catch (UnknownHostException e){
-            log.info(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
+            log.error(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
         }
 
         log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));

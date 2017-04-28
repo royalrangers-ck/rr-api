@@ -6,9 +6,11 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserThreeYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/userThreeYear")
 public class UserThreeYearAchievementController {
@@ -22,6 +24,7 @@ public class UserThreeYearAchievementController {
         try {
             return ResponseBuilder.success(userThreeYearAchievementService.findAllForUser());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all UserThreeYearAchievement");
         }
     }
@@ -32,6 +35,7 @@ public class UserThreeYearAchievementController {
             userThreeYearAchievementService.addUserThreeYearAchievement(params);
             return ResponseBuilder.success("Successfully added userThreeYearAchievement");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add userThreeYearAchievement");
         }
     }
@@ -42,6 +46,7 @@ public class UserThreeYearAchievementController {
         try {
             return ResponseBuilder.success(userThreeYearAchievementService.getUserThreeYearAchievementById(userAchievementId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get userAchievement by id");
         }
     }
@@ -52,6 +57,7 @@ public class UserThreeYearAchievementController {
             userThreeYearAchievementService.deleteUserThreeYearAchievement(userAchievementId);
             return ResponseBuilder.success("UserAchievement was success delete");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete userAchievement");
         }
     }
@@ -62,6 +68,7 @@ public class UserThreeYearAchievementController {
             userThreeYearAchievementService.editUserThreeYearAchievement(params, userAchievementId);
             return ResponseBuilder.success("Successfully editing UserThreeYearAchievement");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit userAchievement");
         }
     }

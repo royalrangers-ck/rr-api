@@ -12,6 +12,7 @@ import com.royalrangers.model.Authority;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
 import com.royalrangers.utils.security.JwtUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,6 +23,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -58,7 +60,7 @@ public class UserService {
     @Autowired
     private AuthorityRepository authorityRepository;
 
-    public void grantAuthority(User user, AuthorityName... roles) {
+    private void grantAuthority(User user, AuthorityName... roles) {
         Set<Authority> authoritySet = new HashSet<>();
         for (AuthorityName role : roles) {
             Authority authority = authorityRepository.findByName(role);
@@ -110,13 +112,13 @@ public class UserService {
         return confirmRegistrationUrl;
     }
 
-    public int calculateUserAge(Long birthdate) {
+    private int calculateUserAge(Long birthdate) {
         Calendar cal = Calendar.getInstance();
         double userAge = (cal.getTime().getTime() - birthdate) * 3.170979E-11;
         return (int) userAge;
     }
 
-    public UserAgeGroup determineUserAgeGroup(int userAge) {
+    private UserAgeGroup determineUserAgeGroup(int userAge) {
         UserAgeGroup rank = UserAgeGroup.BEGINNER;
         if (userAge >= 5 && userAge <= 7)
             return UserAgeGroup.BEGINNER;
@@ -155,6 +157,7 @@ public class UserService {
             user.setEnabled(true);
             userRepository.save(user);
             emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
+            log.info("User %s approved.", user.getEmail());
         });
     }
 
@@ -165,6 +168,7 @@ public class UserService {
             user.setConfirmed(false);
             userRepository.save(user);
             emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
+            log.info("User %s rejected.", user.getEmail());
         });
     }
 
