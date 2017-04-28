@@ -80,12 +80,12 @@ public class Bootstrap {
 
     @PostConstruct
     public void init() {
-        if(DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
+        if (DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
             initAuthorities();
             initUsers();
             try {
                 initCountry("Україна", UKRAINE_CITIES);
-            } catch (IOException e){
+            } catch (IOException e) {
                 log.error("Error in loading file " + e.getMessage());
             }
             initTwelveYear();
@@ -107,7 +107,7 @@ public class Bootstrap {
             user.setConfirmed(true);
             user.setApproved(true);
             user.setCountry(new Country("Ukraine" + element));
-            user.setCity(new City(user.getCountry(),"Cherkasy" + element));
+            user.setCity(new City(user.getCountry(), "Cherkasy" + element));
             user.setGroup(new Group(user.getCity(), "group " + element));
             user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
             user.setSection(new Section(user.getPlatoon(), "section " + element));
@@ -118,7 +118,9 @@ public class Bootstrap {
             Authority superAdminAuthority = authorityRepository.findOne(3L);
             switch (element) {
                 case 1:
-                    user.setAuthorities(new HashSet<Authority>() {{ add(userAuthority); }});
+                    user.setAuthorities(new HashSet<Authority>() {{
+                        add(userAuthority);
+                    }});
                     break;
                 case 2:
                     user.setAuthorities(new HashSet<Authority>() {{
@@ -154,59 +156,64 @@ public class Bootstrap {
         authorityRepository.save(superAdminAuthority);
     }
 
-    private void initCountry(String countryName, String path) throws IOException{
+    private void initCountry(String countryName, String path) throws IOException {
         Country country = new Country(countryName);
-        Set <City> citySet = new HashSet<>();
+        Set<City> citySet = new HashSet<>();
         Files.lines(Paths.get(path), StandardCharsets.UTF_8)
-                .forEach(element -> citySet.add(new City(country,element)));
+                .forEach(element -> citySet.add(new City(country, element)));
         country.setCity(citySet);
         countryRepository.save(country);
 
     }
 
-    private void initReward(){
-        Stream.of(achievementBootstrap.createReward()).forEach(element->{
+    private void initReward() {
+        Stream.of(achievementBootstrap.createReward()).forEach(element -> {
             rewardRepository.save(element);
             rewardRepository.flush();
         });
-    };
+    }
 
-    private void initTwelveYear(){
+    ;
+
+    private void initTwelveYear() {
         twelveYearAchievementService.addTwelveYearAchievement(achievementBootstrap.createTwelveYear());
         initThreeYear();
     }
-    private void initThreeYear(){
+
+    private void initThreeYear() {
         for (ThreeYearRequestDto element : achievementBootstrap.createThreeYear()) {
             threeYearAchievementService.addThreeYearAchievement(element);
         }
         initYear();
     }
 
-    private void initYear(){
+    private void initYear() {
         for (AchievementRequestDto element : achievementBootstrap.createYear()) {
             yearAchievementService.addYearAchievement(element);
         }
         initQuarter();
     }
 
-    private void initQuarter(){
+    private void initQuarter() {
         for (AchievementRequestDto test : achievementBootstrap.createQuarter()) {
             quarterAchievementService.addQuarterAchievement(test);
         }
         initTest();
     }
 
-    public void initTest(){
+    public void initTest() {
         for (TestRequestDto test : testBootstrap.createTest()) {
             testService.addTest(test);
         }
         initTask();
     }
 
-    public void initTask(){
+    public void initTask() {
         for (TaskRequestDto element : taskBootstrap.createTask()) {
             taskService.addTask(element);
         }
-    };
+    }
+
+    ;
 
 }
