@@ -24,8 +24,4 @@ public abstract class Achievement extends BaseModel {
 
     @JsonView(Views.Achievement.class)
     private String logoUrl;
-
-    @NotNull
-    private String requirements;
-
 }

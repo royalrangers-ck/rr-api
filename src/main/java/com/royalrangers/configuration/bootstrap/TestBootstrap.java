@@ -31,8 +31,9 @@ public class TestBootstrap {
                                     "Ти дізнаєшся про способи охорони природи."
                     );
                     testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType(1);
+                    testRequestDto.setTestType("BLUE");
                     testRequestDto.setQuarterAchievementId(1);
+                    break;
                 }
                 case 2: {
                     testRequestDto.setName("Догляд заСобакою");
@@ -48,8 +49,9 @@ public class TestBootstrap {
                                     "Ти зможеш розповісти про виховання та дресирування собаки."
                     );
                     testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType(1);
+                    testRequestDto.setTestType("BLUE");
                     testRequestDto.setQuarterAchievementId(1);
+                    break;
                 }
                 case 3: {
                     testRequestDto.setName("Лешинг");
@@ -59,7 +61,9 @@ public class TestBootstrap {
                             "Ти вивчиш квадратний, діагональний, круговий, паралельний та безперервний лешинг. Ти навчишся робити туристичні меблі." +
                                     "Діти зможуть правильно виконати квадратне кріплення.");
                     testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType(5);
+                    testRequestDto.setTestType("RED");
+                    testRequestDto.setQuarterAchievementId(1);
+                    break;
                 }
                 case 4: {
                     testRequestDto.setName("Приготування їжї");
@@ -74,8 +78,9 @@ public class TestBootstrap {
                                     "Ти навчишся випікати кекси на багатті" +
                                     "Ти навчишся готувати в фользі");
                     testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType(5);
+                    testRequestDto.setTestType("RED");
                     testRequestDto.setQuarterAchievementId(1);
+                    break;
                 }
                 case 5: {
                     testRequestDto.setName("Розведення багаття");
@@ -94,8 +99,9 @@ public class TestBootstrap {
                                     "Ти навчишся виконувати всі правила безпеки." +
                                     "Ти зможеш показати, як правильно гасити багаття.");
                     testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType(5);
+                    testRequestDto.setTestType("RED");
                     testRequestDto.setQuarterAchievementId(1);
+                    break;
                 }
             }
             tests.add(testRequestDto);

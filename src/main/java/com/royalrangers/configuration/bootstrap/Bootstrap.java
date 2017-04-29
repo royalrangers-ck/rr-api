@@ -6,6 +6,7 @@ import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.dto.achievement.ThreeYearRequestDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.model.*;
+import com.royalrangers.model.achievement.Reward;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.CountryRepository;
 import com.royalrangers.repository.UserRepository;
@@ -76,6 +77,11 @@ public class Bootstrap {
     private TaskService taskService;
 
     TaskBootstrap taskBootstrap = new TaskBootstrap();
+
+    @Autowired
+    private RewardService rewardService;
+
+    RewardBootstrap rewardBootstrap = new RewardBootstrap();
 
 
     @PostConstruct
@@ -163,17 +169,13 @@ public class Bootstrap {
                 .forEach(element -> citySet.add(new City(country, element)));
         country.setCity(citySet);
         countryRepository.save(country);
-
     }
 
     private void initReward() {
-        Stream.of(achievementBootstrap.createReward()).forEach(element -> {
-            rewardRepository.save(element);
-            rewardRepository.flush();
+        Stream.of(rewardBootstrap.createReward().toArray()).forEach(element -> {
+            rewardService.addReward((Reward) element);
         });
     }
-
-    ;
 
     private void initTwelveYear() {
         twelveYearAchievementService.addTwelveYearAchievement(achievementBootstrap.createTwelveYear());
@@ -181,39 +183,37 @@ public class Bootstrap {
     }
 
     private void initThreeYear() {
-        for (ThreeYearRequestDto element : achievementBootstrap.createThreeYear()) {
-            threeYearAchievementService.addThreeYearAchievement(element);
-        }
+        Stream.of(achievementBootstrap.createThreeYear().toArray()).forEach(element -> {
+            threeYearAchievementService.addThreeYearAchievement((ThreeYearRequestDto) element);
+        });
         initYear();
     }
 
     private void initYear() {
-        for (AchievementRequestDto element : achievementBootstrap.createYear()) {
-            yearAchievementService.addYearAchievement(element);
-        }
+        Stream.of(achievementBootstrap.createYear().toArray()).forEach(element -> {
+            yearAchievementService.addYearAchievement((AchievementRequestDto) element);
+        });
         initQuarter();
     }
 
     private void initQuarter() {
-        for (AchievementRequestDto test : achievementBootstrap.createQuarter()) {
-            quarterAchievementService.addQuarterAchievement(test);
-        }
+        Stream.of(achievementBootstrap.createQuarter().toArray()).forEach(element -> {
+            quarterAchievementService.addQuarterAchievement((AchievementRequestDto) element);
+        });
         initTest();
     }
 
     public void initTest() {
-        for (TestRequestDto test : testBootstrap.createTest()) {
-            testService.addTest(test);
-        }
+        Stream.of(testBootstrap.createTest().toArray()).forEach(element -> {
+            testService.addTest((TestRequestDto) element);
+        });
         initTask();
     }
 
     public void initTask() {
-        for (TaskRequestDto element : taskBootstrap.createTask()) {
-            taskService.addTask(element);
-        }
+        Stream.of(taskBootstrap.createTask().toArray()).forEach(element -> {
+            taskService.addTask((TaskRequestDto) element);
+        });
     }
-
-    ;
 
 }

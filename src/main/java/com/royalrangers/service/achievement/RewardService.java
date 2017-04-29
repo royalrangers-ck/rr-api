@@ -44,7 +44,6 @@ public class RewardService {
         editReward.setUpdateDate(new Date());
         editReward.setRewardMark(reward.getRewardMark());
         editReward.setRewardType(reward.getRewardType());
-        editReward.setRequirements(reward.getRequirements());
         return rewardRepository.saveAndFlush(editReward);
     }
 

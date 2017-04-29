@@ -30,7 +30,6 @@ public class TwelveYearAchievementService {
         twelveYearAchievement.setName(params.getName());
         twelveYearAchievement.setDescription(params.getDescription());
         twelveYearAchievement.setLogoUrl(params.getLogoUrl());
-        twelveYearAchievement.setRequirements(params.getRequirements());
         twelveYearAchievementRepository.saveAndFlush(twelveYearAchievement);
     }
 
@@ -47,7 +46,6 @@ public class TwelveYearAchievementService {
         twelveYearAchievement.setName(params.getName());
         twelveYearAchievement.setDescription(params.getDescription());
         twelveYearAchievement.setLogoUrl(params.getLogoUrl());
-        twelveYearAchievement.setRequirements(params.getRequirements());
         return twelveYearAchievementRepository.saveAndFlush(twelveYearAchievement);
     }
 
