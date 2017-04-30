@@ -35,7 +35,11 @@ public class UserTestController {
     @GetMapping("/submitted")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseResult getUserTestsForAdmin() {
-        return ResponseBuilder.success(userTestService.getUsersData());
+        try {
+            return ResponseBuilder.success(userTestService.getSubmittedUsersTestsByPlatoon());
+        } catch (Exception ex) {
+            return ResponseBuilder.fail("Failed get UserTestAchievement for admin");
+        }
     }
 
     @PostMapping

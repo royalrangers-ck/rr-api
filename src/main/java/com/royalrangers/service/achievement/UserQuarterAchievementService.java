@@ -42,9 +42,7 @@ public class UserQuarterAchievementService {
     }
 
     public List<UserQuarterAchievement> getUserQuarterAchievementByAchievementId(Long achievementId) {
-        List<UserQuarterAchievement> resultList =
-                userQuarterAchievementRepository.findAllByQuarterAchievement(achievementId);
-        return resultList;
+        return userQuarterAchievementRepository.findAllByQuarterAchievement(achievementId);
     }
 
     public void deleteUserQuarterAchievement(Long id) {

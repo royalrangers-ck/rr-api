@@ -3,7 +3,6 @@ package com.royalrangers.service.achievement;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserThreeYearAchievement;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserThreeYearAchievementRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,6 @@ public class UserThreeYearAchievementService {
 
     @Autowired
     private UserThreeYearAchievementRepository userThreeYearAchievementRepository;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
