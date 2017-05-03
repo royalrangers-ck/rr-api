@@ -57,7 +57,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/confirm")
-    @ApiOperation(value = "Confirm user email")
+    @ApiOperation(value = "Confirm user email by given token")
     public ResponseResult registrationConfirm(@RequestParam("token") String token) {
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);

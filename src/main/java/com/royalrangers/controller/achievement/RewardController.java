@@ -27,7 +27,7 @@ public class RewardController {
     private DropboxService dropboxService;
 
     @GetMapping
-    @ApiOperation(value = "Get all rewards")
+    @ApiOperation(value = "Get list of all rewards")
     public ResponseResult getAllReward() {
         try {
             return ResponseBuilder.success(rewardService.getAllReward());
@@ -50,7 +50,7 @@ public class RewardController {
     }
 
     @GetMapping("/{rewardId}")
-    @ApiOperation(value = "Get reward by id")
+    @ApiOperation(value = "Get reward info")
     public ResponseResult getRewardById(@PathVariable Long rewardId) {
         try {
             return ResponseBuilder.success(rewardService.getRewardById(rewardId));
@@ -61,7 +61,7 @@ public class RewardController {
     }
 
     @DeleteMapping("/{rewardId}")
-    @ApiOperation(value = "Delete reward by id")
+    @ApiOperation(value = "Delete reward")
     public ResponseResult deleteReward(@PathVariable Long rewardId) {
         try {
             rewardService.deleteReward(rewardId);
@@ -73,7 +73,7 @@ public class RewardController {
     }
 
     @PutMapping("/{rewardId}")
-    @ApiOperation(value = "Update reward by id")
+    @ApiOperation(value = "Update reward")
     public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId) {
         try {
             return ResponseBuilder.success(rewardService.editReward(reward, rewardId));

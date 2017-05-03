@@ -24,8 +24,8 @@ public class PlatoonAchievementController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "Get all platoon approved star rewards")
     @GetMapping("/approved/star")
+    @ApiOperation(value = "Get list of all platoon approved star rewards")
     public ResponseResult getApprovedStarRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedStarRewards());
@@ -35,8 +35,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved medal rewards")
     @GetMapping("/approved/medal")
+    @ApiOperation(value = "Get all platoon approved medal rewards")
     public ResponseResult getApprovedMedalRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedMedalRewards());
@@ -46,8 +46,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved lath rewards")
     @GetMapping("/approved/lath")
+    @ApiOperation(value = "Get all platoon approved lath rewards")
     public ResponseResult getApprovedLathRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedLathRewards());
@@ -57,8 +57,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved trip rewards")
     @GetMapping("/approved/trip")
+    @ApiOperation(value = "Get all platoon approved trip rewards")
     public ResponseResult getApprovedTripRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedTripRewards());
@@ -68,8 +68,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved camp rewards")
     @GetMapping("/approved/camp")
+    @ApiOperation(value = "Get all platoon approved camp rewards")
     public ResponseResult getApprovedCampRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedCampRewards());
@@ -79,8 +79,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved twelve year achievements")
     @GetMapping("/approved/twelve")
+    @ApiOperation(value = "Get all platoon approved twelve-year achievements")
     public ResponseResult getApprovedTwelveYearAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedTwelveYearAchievements());
@@ -90,8 +90,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved three year achievements")
     @GetMapping("/approved/three")
+    @ApiOperation(value = "Get all platoon approved three-year achievements")
     public ResponseResult getApprovedThreeYearAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedThreeYearAchievements());
@@ -101,8 +101,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved year achievements")
     @GetMapping("/approved/year")
+    @ApiOperation(value = "Get all platoon approved year achievements")
     public ResponseResult getApprovedYearAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedYearAchievements());
@@ -112,8 +112,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon approved quarter year achievements")
     @GetMapping("/approved/quarter")
+    @ApiOperation(value = "Get all platoon approved quarter-year achievements")
     public ResponseResult getApprovedQuarterAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getApprovedQuarterAchievements());
@@ -123,9 +123,10 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon users")
+
     @JsonView(Views.Profile.class)
     @GetMapping("/users")
+    @ApiOperation(value = "Get all platoon users")
     public ResponseResult getUsers() {
         try {
             return ResponseBuilder.success(userService.getUsersByPlatoon());
@@ -135,8 +136,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon in progress twelve year achievements")
     @GetMapping("/inProgress/twelve")
+    @ApiOperation(value = "Get all platoon in progress twelve-year achievements")
     public ResponseResult getInProgressTwelveYearAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressTwelveYearAchievements());
@@ -146,8 +147,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon three year achievements that are in progress")
     @GetMapping("/inProgress/three")
+    @ApiOperation(value = "Get all platoon three-year achievements that are in progress")
     public ResponseResult getInProgressThreeYearAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressThreeYearAchievements());
@@ -157,8 +158,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon year achievements that are in progress")
     @GetMapping("/inProgress/year")
+    @ApiOperation(value = "Get all platoon year achievements that are in progress")
     public ResponseResult getInProgressYearAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressYearAchievements());
@@ -168,8 +169,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon quarter year achievements that are in progress")
     @GetMapping("/inProgress/quarter")
+    @ApiOperation(value = "Get all platoon quarter-year achievements that are in progress")
     public ResponseResult getInProgressQuarterAchievements() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressQuarterAchievements());
@@ -179,8 +180,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon star rewards that are in progress")
     @GetMapping("/inProgress/star")
+    @ApiOperation(value = "Get all platoon star rewards that are in progress")
     public ResponseResult getInProgressStarRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressStarRewards());
@@ -190,8 +191,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon medal rewards that are in progress")
     @GetMapping("/inProgress/medal")
+    @ApiOperation(value = "Get all platoon medal rewards that are in progress")
     public ResponseResult getInProgressMedalRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressMedalRewards());
@@ -201,8 +202,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon lath rewards that are in progress")
     @GetMapping("/inProgress/lath")
+    @ApiOperation(value = "Get all platoon lath rewards that are in progress")
     public ResponseResult getInProgressLathRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressLathRewards());
@@ -212,8 +213,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon trip rewards that are in progress")
     @GetMapping("/inProgress/trip")
+    @ApiOperation(value = "Get all platoon trip rewards that are in progress")
     public ResponseResult getInProgressTripRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressTripRewards());
@@ -223,8 +224,8 @@ public class PlatoonAchievementController {
         }
     }
 
-    @ApiOperation(value = "Get all platoon camp rewards that are in progress")
     @GetMapping("/inProgress/camp")
+    @ApiOperation(value = "Get all platoon camp rewards that are in progress")
     public ResponseResult getInProgressCampRewards() {
         try {
             return ResponseBuilder.success(platoonAchievementService.getInProgressCampRewards());

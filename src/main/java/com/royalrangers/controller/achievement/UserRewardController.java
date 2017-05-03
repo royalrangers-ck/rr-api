@@ -6,6 +6,7 @@ import com.royalrangers.dto.achievement.RewardRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserRewardService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class UserRewardController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping
+    @ApiOperation(value = "Get a list of rewards for current user")
     public ResponseResult getAllRewardsForUser() {
         try {
             return ResponseBuilder.success(userRewardService.getAllRewardForUser());
@@ -30,6 +32,7 @@ public class UserRewardController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add the reward for current user")
     public ResponseResult addUserReward(@RequestBody RewardRequestDto params) {
         try {
             userRewardService.addUserReward(params);
@@ -41,6 +44,7 @@ public class UserRewardController {
     }
 
     @GetMapping("/{userRewardId}")
+    @ApiOperation(value = "Get user reward info")
     public ResponseResult getUserRewardById(@PathVariable Long userRewardId) {
         try {
             return ResponseBuilder.success(userRewardService.getRewardById(userRewardId));
@@ -51,6 +55,7 @@ public class UserRewardController {
     }
 
     @DeleteMapping("/{userRewardId}")
+    @ApiOperation(value = "Delete user reward")
     public ResponseResult deleteUserReward(@PathVariable Long userRewardId) {
         try {
             userRewardService.deleteUserReward(userRewardId);
@@ -62,6 +67,7 @@ public class UserRewardController {
     }
 
     @PutMapping("/{userRewardId}")
+    @ApiOperation(value = "Update user reward")
     public ResponseResult editUserReward(@RequestBody RewardRequestDto params, @PathVariable Long userRewardId) {
         try {
             userRewardService.editUserReward(params, userRewardId);

@@ -7,6 +7,7 @@ import com.royalrangers.model.Views;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.service.achievement.*;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,7 @@ public class UserAchievementController {
     @JsonView(Views.Profile.class)
     @GetMapping("/task")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of platoon members performing the task")
     public ResponseResult getUsersListForTask(@RequestParam Long platoonId,
                                               @RequestParam Long taskId,
                                               @RequestParam String achievementState) {
@@ -54,6 +56,7 @@ public class UserAchievementController {
     @JsonView(Views.Profile.class)
     @GetMapping("/test")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of platoon members performing the test")
     public ResponseResult getUsersListForTest(@RequestParam Long platoonId,
                                               @RequestParam Long testId,
                                               @RequestParam String achievementState) {
@@ -65,6 +68,7 @@ public class UserAchievementController {
     @JsonView(Views.Profile.class)
     @GetMapping("/quarterAchievement")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of platoon members who have the quarter-year achievement with given state")
     public ResponseResult getUsersListForQuarterAchievement(@RequestParam Long platoonId,
                                                             @RequestParam Long achievementId,
                                                             @RequestParam String achievementState) {
@@ -76,6 +80,7 @@ public class UserAchievementController {
     @JsonView(Views.Profile.class)
     @GetMapping("/yearAchievement")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of platoon members who have the year achievement with a given state")
     public ResponseResult getUsersListForYearAchievement(@RequestParam Long platoonId,
                                                          @RequestParam Long achievementId,
                                                          @RequestParam String achievementState) {
@@ -87,6 +92,7 @@ public class UserAchievementController {
     @JsonView(Views.Profile.class)
     @GetMapping("/threeYearAchievement")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of platoon members who have the three-year achievement with a given state")
     public ResponseResult getUsersListForThreeYearAchievement(@RequestParam Long platoonId,
                                                               @RequestParam Long achievementId,
                                                               @RequestParam String achievementState) {
@@ -98,6 +104,7 @@ public class UserAchievementController {
     @JsonView(Views.Profile.class)
     @GetMapping("/twelveYearAchievement")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of platoon members who have the twelve-year achievement with a given state")
     public ResponseResult getUsersListForTwelveYearAchievement(@RequestParam Long platoonId,
                                                                @RequestParam Long achievementId,
                                                                @RequestParam String achievementState) {

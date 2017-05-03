@@ -27,7 +27,7 @@ public class TestController {
     private DropboxService dropboxService;
 
     @GetMapping
-    @ApiOperation(value = "Get all tests")
+    @ApiOperation(value = "Get list of all tests")
     public ResponseResult getAllTest() {
         try {
             return ResponseBuilder.success(testService.getAllTest());
@@ -50,7 +50,7 @@ public class TestController {
     }
 
     @GetMapping("/{testId}")
-    @ApiOperation(value = "Get test by id")
+    @ApiOperation(value = "Get test info")
     public ResponseResult getTestById(@PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.getTestById(testId));
@@ -61,7 +61,7 @@ public class TestController {
     }
 
     @DeleteMapping("/{testId}")
-    @ApiOperation(value = "Delete test by id")
+    @ApiOperation(value = "Delete test")
     public ResponseResult deleteTestById(@PathVariable Long testId) {
         try {
             testService.deleteTestById(testId);
@@ -73,7 +73,7 @@ public class TestController {
     }
 
     @PutMapping("/{testId}")
-    @ApiOperation(value = "Update test by id")
+    @ApiOperation(value = "Update test")
     public ResponseResult editTestById(@RequestBody TestRequestDto params, @PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.editTest(params, testId));
