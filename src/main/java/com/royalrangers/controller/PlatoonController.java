@@ -32,7 +32,7 @@ public class PlatoonController {
 
     @JsonView(Views.Public.class)
     @GetMapping
-    @ApiOperation(value = "Get platoon info by authenticated user")
+    @ApiOperation(value = "Get platoon info for current user")
     public ResponseResult getPlatoonDetail() {
         try {
             return ResponseBuilder.success(platoonService.getPlatoonData());
@@ -43,7 +43,7 @@ public class PlatoonController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Create platoon")
+    @ApiOperation(value = "Add platoon")
     public ResponseResult creation(@RequestBody PlatoonDto platoonDto) {
         try {
             platoonService.createPlatoon(platoonDto);
@@ -89,7 +89,7 @@ public class PlatoonController {
 
     @DeleteMapping("/logo")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Delete logo")
+    @ApiOperation(value = "Delete platoon logo")
     public ResponseResult delete(@RequestParam("id") Long id) {
         try {
             platoonService.delPlatoonLogoUrl(id);

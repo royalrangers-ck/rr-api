@@ -45,7 +45,7 @@ public class UserQuarterAchievementController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping("/{userAchievementId}")
-    @ApiOperation(value = "Get user quarter-year achievement info")
+    @ApiOperation(value = "Get quarter-year achievement info")
     public ResponseResult getUserQuarterAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userQuarterAchievementService.getUserQuarterAchievementById(userAchievementId));
@@ -56,7 +56,7 @@ public class UserQuarterAchievementController {
     }
 
     @DeleteMapping("/{userAchievementId}")
-    @ApiOperation(value = "Delete user quarter-year achievement")
+    @ApiOperation(value = "Delete current user quarter-year achievement")
     public ResponseResult deleteUserQuarterAchievement(@PathVariable Long userAchievementId) {
         try {
             userQuarterAchievementService.deleteUserQuarterAchievement(userAchievementId);
@@ -68,7 +68,7 @@ public class UserQuarterAchievementController {
     }
 
     @PutMapping("/{userAchievementId}")
-    @ApiOperation(value = "Update user quarter-year achievement")
+    @ApiOperation(value = "Update current user quarter-year achievement")
     public ResponseResult editUserQuarterAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
             userQuarterAchievementService.editUserQuarterAchievement(params, userAchievementId);
