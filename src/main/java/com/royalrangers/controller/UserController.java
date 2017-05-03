@@ -45,10 +45,10 @@ public class UserController {
     }
 
     @JsonView(Views.Profile.class)
-    @GetMapping("{id}")
+    @GetMapping("{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Get user info by user id (for admin)")
-    public ResponseResult getUserDetailById(@PathVariable("id") Long id) {
+    @ApiOperation(value = "Get user info (for admin)")
+    public ResponseResult getUserDetailById(@PathVariable("userId") Long id) {
         try {
             log.info("Get details for user id " + id);
             return ResponseBuilder.success(userService.getUserById(id));
@@ -58,11 +58,11 @@ public class UserController {
     }
 
     @JsonView(Views.Profile.class)
-    @GetMapping("/approve/{id}")
+    @GetMapping("/approve/{platoonId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for platoon admin)")
-    public ResponseResult getUserToApprove(@PathVariable("id") Long platoonId){
-        return ResponseBuilder.success(userService.getUsersForApprove(platoonId));
+    public ResponseResult getUserToApprove(@PathVariable("platoonId") Long id){
+        return ResponseBuilder.success(userService.getUsersForApprove(id));
     }
 
     @PostMapping("/approve")
@@ -95,10 +95,10 @@ public class UserController {
         return ResponseBuilder.success(String.format("User %s successful updated", email));
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Update user by user id(for admin)")
-    public ResponseResult updateUserById(@PathVariable("id") Long id, @RequestBody UserUpdateDto userUpdate) {
+    @ApiOperation(value = "Update user (for admin)")
+    public ResponseResult updateUserById(@PathVariable("userId") Long id, @RequestBody UserUpdateDto userUpdate) {
         try {
             userService.updateUserById(id, userUpdate);
             log.info("Update user with id %d " + id);
