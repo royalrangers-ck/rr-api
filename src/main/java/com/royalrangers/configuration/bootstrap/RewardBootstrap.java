@@ -129,6 +129,60 @@ public class RewardBootstrap {
             }
             rewards.add(medal);
         });
+        IntStream.range(1, 7).forEach(element -> {
+            Reward star = new Reward();
+            switch (element) {
+                case 1: {
+                    star.setName("Star gold 1");
+                    star.setDescription(" ");
+                    star.setLogoUrl(null);
+                    star.setRewardType(RewardType.STAR);
+                    star.setRewardMark(RewardMark.GOLD);
+                    break;
+                }
+                case 2: {
+                    star.setName("Star gold 2");
+                    star.setDescription("");
+                    star.setLogoUrl(null);
+                    star.setRewardType(RewardType.STAR);
+                    star.setRewardMark(RewardMark.GOLD);
+                    break;
+                }
+                case 3: {
+                    star.setName("Star silver 1");
+                    star.setDescription(" ");
+                    star.setLogoUrl(null);
+                    star.setRewardType(RewardType.STAR);
+                    star.setRewardMark(RewardMark.SILVER);
+                    break;
+                }
+                case 4: {
+                    star.setName("Star silver 2");
+                    star.setDescription(" ");
+                    star.setLogoUrl(null);
+                    star.setRewardType(RewardType.STAR);
+                    star.setRewardMark(RewardMark.SILVER);
+                    break;
+                }
+                case 5: {
+                    star.setName("Star bronze 1");
+                    star.setDescription(" ");
+                    star.setLogoUrl(null);
+                    star.setRewardType(RewardType.STAR);
+                    star.setRewardMark(RewardMark.BRONZE);
+                    break;
+                }
+                case 6: {
+                    star.setName("Star bronze 2");
+                    star.setDescription(" ");
+                    star.setLogoUrl(null);
+                    star.setRewardType(RewardType.STAR);
+                    star.setRewardMark(RewardMark.BRONZE);
+                    break;
+                }
+            }
+            rewards.add(star);
+        });
         IntStream.range(1, 25).forEach(element -> {
             Reward ribbon = new Reward();
             switch (element) {
@@ -318,6 +372,150 @@ public class RewardBootstrap {
                 }
                 case 24: {
                     ribbon.setName("Trail of the Saber Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 25: {
+                    ribbon.setName("Special Service Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 26: {
+                    ribbon.setName("Continuous Learning Skills Training Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 27: {
+                    ribbon.setName("Continuous Learning Training Workshop Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 28: {
+                    ribbon.setName("Highest Advancement Ribbon earned as a Ranger");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 29: {
+                    ribbon.setName("Junior Leaders Service Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 30: {
+                    ribbon.setName("Expedition Rangers Achievement Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 31: {
+                    ribbon.setName("Historical Gold Medal of Achievement Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 32: {
+                    ribbon.setName("Adventure Rangers Achievement Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 33: {
+                    ribbon.setName("Discovery Rangers Achievement Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 34: {
+                    ribbon.setName("Ranger Kids Achievement Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 35: {
+                    ribbon.setName("Sky Blue Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 36: {
+                    ribbon.setName("Platinum Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 37: {
+                    ribbon.setName("Yellow Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 38: {
+                    ribbon.setName("Green Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 39: {
+                    ribbon.setName("Brown Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 40: {
+                    ribbon.setName("Red Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 41: {
+                    ribbon.setName("Blue Merit Ribbon");
+                    ribbon.setDescription(" ");
+                    ribbon.setLogoUrl(null);
+                    ribbon.setRewardMark(RewardMark.DEFAULT);
+                    ribbon.setRewardType(RewardType.LATH);
+                    break;
+                }
+                case 42: {
+                    ribbon.setName("Orange Merit Ribbon");
                     ribbon.setDescription(" ");
                     ribbon.setLogoUrl(null);
                     ribbon.setRewardMark(RewardMark.DEFAULT);

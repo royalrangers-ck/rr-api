@@ -1,24 +1,28 @@
 package com.royalrangers.configuration.bootstrap;
 
 import com.royalrangers.dto.achievement.TestRequestDto;
+import com.royalrangers.enums.achivement.TestType;
 import com.royalrangers.model.achievement.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 public class TestBootstrap {
 
-    public List<TestRequestDto> createTest() {
-        List<TestRequestDto> tests = new ArrayList<>();
-        for (int element = 1; element < 6; element++) {
+    public Map<String, Object> createTest() {
+        List<Test> tests = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        IntStream.range(1, 6).forEach(element -> {
             Test test = new Test();
-            TestRequestDto testRequestDto = new TestRequestDto();
             switch (element) {
                 case 1: {
-                    testRequestDto.setName("Дика природа");
-                    testRequestDto.setShortDescription("Синій тест майстерності. Ти дізнаєшся багато нового про дику природу та зможеш\n"
+                    test.setName("Дика природа");
+                    test.setShortDescription("Синій тест майстерності. Ти дізнаєшся багато нового про дику природу та зможеш\n"
                             + "здійснити невеликий похід зі своєю ланкою.");
-                    testRequestDto.setDescription(
+                    test.setDescription(
                             "Ти дізнаєшся що таке охорона природи." +
                                     "Ти дізнаєшся наскільки важливою була дика природа для виживання людини протягом усієї історії." +
                                     "Ти дізнаєшся чому так важливо зберігати природу." +
@@ -30,15 +34,15 @@ public class TestBootstrap {
                                     "Ти дізнаєшся, чому охорона й збереження природи є корисними для нас самих." +
                                     "Ти дізнаєшся про способи охорони природи."
                     );
-                    testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType("BLUE");
-                    testRequestDto.setQuarterAchievementId(1);
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.BLUE);
+                    test.setQuarterAchievement(null);
                     break;
                 }
                 case 2: {
-                    testRequestDto.setName("Догляд заСобакою");
-                    testRequestDto.setShortDescription("Ти дізнаєшся багато нового про собаку та догляд про неї.");
-                    testRequestDto.setDescription(
+                    test.setName("Догляд заСобакою");
+                    test.setShortDescription("Ти дізнаєшся багато нового про собаку та догляд про неї.");
+                    test.setDescription(
                             "Ти зможеш назвати частини тіла собаки й підписати на малюнку." +
                                     "Ти зможеш обговорити користь собак для людей." +
                                     "Ти зможеш розпізнати деякі з основних відмінностей між деякими групами собак." +
@@ -48,27 +52,27 @@ public class TestBootstrap {
                                     "Ти зможеш пояснити, що значить доглядати за собакою: годувати, забезпечувати водою, грумінг, фізичні вправи й купання." +
                                     "Ти зможеш розповісти про виховання та дресирування собаки."
                     );
-                    testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType("BLUE");
-                    testRequestDto.setQuarterAchievementId(1);
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.BLUE);
+                    test.setQuarterAchievement(null);
                     break;
                 }
                 case 3: {
-                    testRequestDto.setName("Лешинг");
-                    testRequestDto.setShortDescription("Червоний тест майстерності. Для його виконання, тобі потрібно закінчити тест Робота з " +
+                    test.setName("Лешинг");
+                    test.setShortDescription("Червоний тест майстерності. Для його виконання, тобі потрібно закінчити тест Робота з " +
                             "Мотузкою. Ти навчишся робити багато корисних в поході речей за допомогою лешингу.");
-                    testRequestDto.setDescription(
+                    test.setDescription(
                             "Ти вивчиш квадратний, діагональний, круговий, паралельний та безперервний лешинг. Ти навчишся робити туристичні меблі." +
                                     "Діти зможуть правильно виконати квадратне кріплення.");
-                    testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType("RED");
-                    testRequestDto.setQuarterAchievementId(1);
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.RED);
+                    test.setQuarterAchievement(null);
                     break;
                 }
                 case 4: {
-                    testRequestDto.setName("Приготування їжї");
-                    testRequestDto.setShortDescription("Червоний тест майстерності. Цей Тест Майстерності є обов’язковим для отримання Золотої Медалі Досягнень. Ти навчишся складати меню для походу та готувати їжу у фользі.");
-                    testRequestDto.setDescription(
+                    test.setName("Приготування їжї");
+                    test.setShortDescription("Червоний тест майстерності. Цей Тест Майстерності є обов’язковим для отримання Золотої Медалі Досягнень. Ти навчишся складати меню для походу та готувати їжу у фользі.");
+                    test.setDescription(
                             "Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. знаються про харчову піраміду. Діти дізнаються про харчову піраміду. 1. Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. 1. Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. Діти почнуть планувати меню для походу на 6 дітей. Ти дізнаєшся про харчові піраміду" +
                                     "Ти дізнаєшся про розмір рекомендованої порції на одну людину" +
                                     "Ти навчишся планувати меню для походу" +
@@ -77,15 +81,15 @@ public class TestBootstrap {
                                     "Діти навчаться обладнувати місце для миття посуду способом «помий і двічі сполосни». Ти навчишся обладнувати місце для миття рук\n" +
                                     "Ти навчишся випікати кекси на багатті" +
                                     "Ти навчишся готувати в фользі");
-                    testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType("RED");
-                    testRequestDto.setQuarterAchievementId(1);
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.RED);
+                    test.setQuarterAchievement(null);
                     break;
                 }
                 case 5: {
-                    testRequestDto.setName("Розведення багаття");
-                    testRequestDto.setShortDescription("Червоний тест майстерності. Ти навчишся розпалювати багаття 6 видів.");
-                    testRequestDto.setDescription(
+                    test.setName("Розведення багаття");
+                    test.setShortDescription("Червоний тест майстерності. Ти навчишся розпалювати багаття 6 видів.");
+                    test.setDescription(
                             "Ти зможеш назвати правила техніки безпеки при розпалюванні багаття." +
                                     "Ти знатимеш про 4 види трута, хмиз та дрова." +
                                     "Ти зможеш показати, як складається багаття Тіпі." +
@@ -98,15 +102,15 @@ public class TestBootstrap {
                                     "Ти зможеш показати, як складається канавне багаття." +
                                     "Ти навчишся виконувати всі правила безпеки." +
                                     "Ти зможеш показати, як правильно гасити багаття.");
-                    testRequestDto.setLogoUrl(null);
-                    testRequestDto.setTestType("RED");
-                    testRequestDto.setQuarterAchievementId(1);
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.RED);
+                    test.setQuarterAchievement(null);
                     break;
                 }
             }
-            tests.add(testRequestDto);
-        }
-        ;
-        return tests;
+            tests.add(test);
+        });
+        map.put("testForQuarter1", tests);
+        return map;
     }
 }

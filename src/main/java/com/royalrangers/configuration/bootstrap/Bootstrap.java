@@ -1,17 +1,13 @@
 package com.royalrangers.configuration.bootstrap;
 
-import com.royalrangers.dto.achievement.AchievementRequestDto;
-import com.royalrangers.dto.achievement.TaskRequestDto;
-import com.royalrangers.dto.achievement.TestRequestDto;
-import com.royalrangers.dto.achievement.ThreeYearRequestDto;
 import com.royalrangers.enums.AuthorityName;
+import com.royalrangers.enums.achivement.AgeCategory;
 import com.royalrangers.model.*;
-import com.royalrangers.model.achievement.Reward;
+import com.royalrangers.model.achievement.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.CountryRepository;
 import com.royalrangers.repository.UserRepository;
-import com.royalrangers.repository.achievement.RewardRepository;
-import com.royalrangers.repository.achievement.TestRepository;
+import com.royalrangers.repository.achievement.*;
 import com.royalrangers.service.achievement.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,22 +45,19 @@ public class Bootstrap {
     private AuthorityRepository authorityRepository;
 
     @Autowired
-    private RewardRepository rewardRepository;
-
-    @Autowired
     private TwelveYearAchievementService twelveYearAchievementService;
 
     @Autowired
-    private ThreeYearAchievementService threeYearAchievementService;
+    private ThreeYearAchievementRepository threeYearAchievementRepository;
 
     @Autowired
-    private YearAchievementService yearAchievementService;
+    private YearAchievementRepository yearAchievementRepository;
+
+    @Autowired
+    private QuarterAchievementRepository quarterAchievementRepository;
 
     @Autowired
     private QuarterAchievementService quarterAchievementService;
-
-    @Autowired
-    private TestRepository testRepository;
 
     public AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
 
@@ -74,7 +67,7 @@ public class Bootstrap {
     private TestService testService;
 
     @Autowired
-    private TaskService taskService;
+    private TestRepository testRepository;
 
     TaskBootstrap taskBootstrap = new TaskBootstrap();
 
@@ -82,6 +75,9 @@ public class Bootstrap {
     private RewardService rewardService;
 
     RewardBootstrap rewardBootstrap = new RewardBootstrap();
+
+    @Autowired
+    private TaskRepository taskRepository;
 
 
     @PostConstruct
@@ -92,7 +88,7 @@ public class Bootstrap {
             try {
                 initCountry("Україна", UKRAINE_CITIES);
             } catch (IOException e) {
-                log.error("Error in loading file " + e.getMessage());
+                log.error("Error in loading file " + e.getMessage(), e);
             }
             initTwelveYear();
             initReward();
@@ -183,36 +179,82 @@ public class Bootstrap {
     }
 
     private void initThreeYear() {
-        Stream.of(achievementBootstrap.createThreeYear().toArray()).forEach(element -> {
-            threeYearAchievementService.addThreeYearAchievement((ThreeYearRequestDto) element);
+        Stream.of(twelveYearAchievementService.getAllTwelveYearAchievement().toArray()).forEach(twelveYearId -> {
+            TwelveYearAchievement twelveYearAchievement = (TwelveYearAchievement) twelveYearId;
+            Stream.of(achievementBootstrap.createThreeYear().toArray()).forEach(element -> {
+                ThreeYearAchievement threeYearAchievement = (ThreeYearAchievement) element;
+                threeYearAchievement.setTwelveYearAchievement(twelveYearAchievement);
+                threeYearAchievementRepository.saveAndFlush(threeYearAchievement);
+            });
         });
         initYear();
     }
 
     private void initYear() {
-        Stream.of(achievementBootstrap.createYear().toArray()).forEach(element -> {
-            yearAchievementService.addYearAchievement((AchievementRequestDto) element);
+        Stream.of(threeYearAchievementRepository.findAll().toArray()).forEach(threeYearAchievements -> {
+            ThreeYearAchievement threeYearAchievement = (ThreeYearAchievement) threeYearAchievements;
+            AgeCategory ageCategory = threeYearAchievement.getAgeCategory();
+            Map<String, Object> map = achievementBootstrap.createYear();
+            List<YearAchievement> yearList = null;
+            if (map.containsKey("for_" + ageCategory.toString().toLowerCase())) {
+                yearList = (List<YearAchievement>) map.get("for_" + ageCategory.toString().toLowerCase());
+                Stream.of(yearList.toArray()).forEach(yearAchievement -> {
+                    YearAchievement editYearAchievement = (YearAchievement) yearAchievement;
+                    editYearAchievement.setThreeYearAchievement(threeYearAchievementRepository.findOne(threeYearAchievement.getId()));
+                    yearAchievementRepository.saveAndFlush(editYearAchievement);
+                });
+            }
         });
         initQuarter();
     }
 
     private void initQuarter() {
-        Stream.of(achievementBootstrap.createQuarter().toArray()).forEach(element -> {
-            quarterAchievementService.addQuarterAchievement((AchievementRequestDto) element);
+        Stream.of(yearAchievementRepository.findAll().toArray()).forEach(year -> {
+            YearAchievement yearAchievement = (YearAchievement) year;
+            Map<String, Object> map = achievementBootstrap.createQuarter();
+            List<QuarterAchievement> quarterAchievementList;
+            if (map.containsKey("forYear" + yearAchievement.getId())) {
+                quarterAchievementList = (List<QuarterAchievement>) map.get("forYear" + yearAchievement.getId());
+                Stream.of(quarterAchievementList.toArray()).forEach(quarter -> {
+                    QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
+                    quarterAchievement.setYearAchievement(yearAchievement);
+                    quarterAchievementRepository.saveAndFlush(quarterAchievement);
+                });
+            }
         });
         initTest();
     }
 
     public void initTest() {
-        Stream.of(testBootstrap.createTest().toArray()).forEach(element -> {
-            testService.addTest((TestRequestDto) element);
+        IntStream.range(1, quarterAchievementService.getAllQuarterAchievement().size()).forEach(quarterId -> {
+            QuarterAchievement quarterAchievement = quarterAchievementService.getQuarterAchievementById((long) quarterId);
+            Map<String, Object> mapTest = testBootstrap.createTest();
+            List<Test> tests = null;
+            if (mapTest.containsKey("testForQuarter" + quarterId)) {
+                tests = (List<Test>) mapTest.get("testForQuarter" + quarterId);
+                Stream.of(tests.toArray()).forEach(testElement -> {
+                    Test test = (Test) testElement;
+                    test.setQuarterAchievement(quarterAchievement);
+                    testRepository.saveAndFlush(test);
+                });
+            }
         });
         initTask();
     }
 
     public void initTask() {
-        Stream.of(taskBootstrap.createTask().toArray()).forEach(element -> {
-            taskService.addTask((TaskRequestDto) element);
+        IntStream.range(1, testService.getAllTest().size()).forEach(testId -> {
+            Test test = testService.getTestById((long) testId);
+            Map<String, Object> map = taskBootstrap.createTask();
+            List<Task> list = null;
+            if (map.containsKey("listForTest" + testId)) {
+                list = (List<Task>) map.get("listForTest" + testId);
+                Stream.of(list.toArray()).forEach(item -> {
+                    Task task = (Task) item;
+                    task.setTest(test);
+                    taskRepository.saveAndFlush(task);
+                });
+            }
         });
     }
 
