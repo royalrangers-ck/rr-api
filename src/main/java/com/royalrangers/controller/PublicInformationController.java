@@ -58,7 +58,7 @@ public class PublicInformationController {
 
     @JsonView(Views.Public.class)
     @GetMapping("/city")
-    @ApiOperation(value = "Get a list of cites for given country")
+    @ApiOperation(value = "Get a list of cities for given country")
     public ResponseResult getCitiesByCountry(@RequestParam Long countryId) {
         List<City> cities = cityRepository.findByCountryId(countryId);
         return ResponseBuilder.success(cities);
