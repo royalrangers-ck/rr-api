@@ -27,6 +27,7 @@ public class TestController {
     private DropboxService dropboxService;
 
     @GetMapping
+    @ApiOperation(value = "Get all tests")
     public ResponseResult getAllTest() {
         try {
             return ResponseBuilder.success(testService.getAllTest());
@@ -37,6 +38,7 @@ public class TestController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add test")
     public ResponseResult addTest(@RequestBody TestRequestDto params) {
         try {
             testService.addTest(params);
@@ -48,6 +50,7 @@ public class TestController {
     }
 
     @GetMapping("/{testId}")
+    @ApiOperation(value = "Get test by id")
     public ResponseResult getTestById(@PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.getTestById(testId));
@@ -58,6 +61,7 @@ public class TestController {
     }
 
     @DeleteMapping("/{testId}")
+    @ApiOperation(value = "Delete test by id")
     public ResponseResult deleteTestById(@PathVariable Long testId) {
         try {
             testService.deleteTestById(testId);
@@ -69,6 +73,7 @@ public class TestController {
     }
 
     @PutMapping("/{testId}")
+    @ApiOperation(value = "Update test by id")
     public ResponseResult editTestById(@RequestBody TestRequestDto params, @PathVariable Long testId) {
         try {
             return ResponseBuilder.success(testService.editTest(params, testId));
@@ -79,7 +84,7 @@ public class TestController {
     }
 
     @PostMapping("/logo")
-    @ApiOperation(value = "Upload and set Test logo")
+    @ApiOperation(value = "Upload and set test logo")
     public ResponseResult uploadTestLogo(@RequestParam("id") Long testId, @RequestParam("file") MultipartFile file) {
         try {
             String logoUrl = dropboxService.imageUpload(file, ImageType.TEST_LOGO);
@@ -91,7 +96,7 @@ public class TestController {
     }
 
     @DeleteMapping("/logo")
-    @ApiOperation(value = "Delete logo")
+    @ApiOperation(value = "Delete test logo")
     public ResponseResult delete(@RequestParam("id") Long testId) {
         try {
             testService.deleteTestLogo(testId);
