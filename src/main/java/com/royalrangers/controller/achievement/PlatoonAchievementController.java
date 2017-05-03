@@ -24,6 +24,7 @@ public class PlatoonAchievementController {
     @Autowired
     private UserService userService;
 
+    @ApiOperation(value = "Get all platoon approved star rewards")
     @GetMapping("/approved/star")
     public ResponseResult getApprovedStarRewards() {
         try {
@@ -34,6 +35,7 @@ public class PlatoonAchievementController {
         }
     }
 
+    @ApiOperation(value = "Get all platoon approved medal rewards")
     @GetMapping("/approved/medal")
     public ResponseResult getApprovedMedalRewards() {
         try {
