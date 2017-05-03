@@ -6,9 +6,11 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTaskService;
 import com.royalrangers.utils.ResponseBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/userTask")
 public class UserTaskController {
@@ -22,17 +24,8 @@ public class UserTaskController {
         try {
             return ResponseBuilder.success(userTaskService.getAllForUser());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all UserTask for current user");
-        }
-    }
-
-    @PostMapping
-    public ResponseResult addUserTask(@RequestBody UserAchievementRequestDto params) {
-        try {
-            userTaskService.addUserTask(params);
-            return ResponseBuilder.success("Successfully added UserTask");
-        } catch (Exception ex) {
-            return ResponseBuilder.fail("Failed add userTask");
         }
     }
 
@@ -42,6 +35,7 @@ public class UserTaskController {
         try {
             return ResponseBuilder.success(userTaskService.getUserTaskById(userTaskId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get userTask by id");
         }
     }
@@ -52,6 +46,7 @@ public class UserTaskController {
             userTaskService.deleteUserTask(userTaskId);
             return ResponseBuilder.success("UserTask was success delete");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete userTask");
         }
     }
@@ -62,6 +57,7 @@ public class UserTaskController {
             userTaskService.editUserTask(params, userTaskId);
             return ResponseBuilder.success("Successfully editing UserTask");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit userTask");
         }
     }

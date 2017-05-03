@@ -6,9 +6,11 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/userYear")
 public class UserYearAchievementController {
@@ -22,6 +24,7 @@ public class UserYearAchievementController {
         try {
             return ResponseBuilder.success(userYearAchievementService.findAllForUser());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all user achievement");
         }
     }
@@ -32,6 +35,7 @@ public class UserYearAchievementController {
             userYearAchievementService.addUserYearAchievement(params);
             return ResponseBuilder.success("Successfully added userYearAchievement");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add userAchievement");
         }
     }
@@ -42,6 +46,7 @@ public class UserYearAchievementController {
         try {
             return ResponseBuilder.success(userYearAchievementService.getUserYearAchievementById(userAchievementId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get userAchievement by id");
         }
     }
@@ -52,6 +57,7 @@ public class UserYearAchievementController {
             userYearAchievementService.deleteUserYearAchievement(userAchievementId);
             return ResponseBuilder.success("UserAchievement was success delete");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete userAchievement");
         }
     }
@@ -62,6 +68,7 @@ public class UserYearAchievementController {
             userYearAchievementService.editUserYearAchievement(params, userAchievementId);
             return ResponseBuilder.success("Successfully editing UserYearAchievement");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit userAchievement");
         }
     }

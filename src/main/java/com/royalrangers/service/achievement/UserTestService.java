@@ -3,15 +3,13 @@ package com.royalrangers.service.achievement;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.dto.achievement.UserTestRequestDto;
 import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.User;
+import com.royalrangers.model.achievement.Task;
 import com.royalrangers.model.achievement.UserTest;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserTestRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,18 +26,10 @@ public class UserTestService {
     private TestService testService;
 
     @Autowired
-    private UserTestService userTestService;
-
-    @Autowired
-    private UserRepository userRepository;
-
+    private UserTaskService userTaskService;
 
     public List<UserTest> findAllForUser() {
         return userTestRepository.findByUserId(userService.getAuthenticatedUserId());
-    }
-
-    public List<UserTest> findAllByPlatoon(Long id) {
-        return userTestRepository.findByUser_PlatoonId(id);
     }
 
     public void addUserTest(UserTestRequestDto params) {
@@ -48,6 +38,10 @@ public class UserTestService {
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
         Integer testId = params.getTestId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
+            List<Task> tasks = testService.getTestById(testId.longValue()).getTaskList();
+            for (Task task : tasks) {
+                userTaskService.addTaskForUser(task);
+            }
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
@@ -55,17 +49,8 @@ public class UserTestService {
         return userTestRepository.findOne(id);
     }
 
-    public List<UserTest> getUsersData() {
-        String email = userService.getAuthenticatedUserEmail();
-        User user = userRepository.findByEmail(email);
-        List<UserTest> list = userTestService.findAllByPlatoon(user.getPlatoon().getId());
-        List<UserTest> result = new ArrayList<>();
-        for (UserTest tests : list) {
-            if (tests.getAchievementState() == AchievementState.SUBMITTED) {
-                result.add(tests);
-            }
-        }
-        return result;
+    public List<UserTest> getSubmittedUsersTestsByPlatoon() {
+        return userTestRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.SUBMITTED);
     }
 
     public List<UserTest> getUserTestsByTestId(Long testId) {

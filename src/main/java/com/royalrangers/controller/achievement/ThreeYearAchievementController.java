@@ -8,12 +8,14 @@ import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.ThreeYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/threeYear")
 public class ThreeYearAchievementController {
@@ -29,6 +31,7 @@ public class ThreeYearAchievementController {
         try {
             return ResponseBuilder.success(threeYearAchievementService.getAllThreeYearAchievement());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all threeYearAchievements");
         }
     }
@@ -39,6 +42,7 @@ public class ThreeYearAchievementController {
             threeYearAchievementService.addThreeYearAchievement(params);
             return ResponseBuilder.success("Successful addition of a threeYearAchievements");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add threeYearAchievements");
         }
     }
@@ -48,6 +52,7 @@ public class ThreeYearAchievementController {
         try {
             return ResponseBuilder.success(threeYearAchievementService.getThreeYearAchievementById(threeYearId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get threeYearAchievements by id");
         }
     }
@@ -58,6 +63,7 @@ public class ThreeYearAchievementController {
             threeYearAchievementService.deleteThreeYearAchievement(threeYearId);
             return ResponseBuilder.success("Successful delete threeYearAchievements");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete threeYearAchievements");
         }
     }
@@ -67,6 +73,7 @@ public class ThreeYearAchievementController {
         try {
             return ResponseBuilder.success(threeYearAchievementService.editThreeYearAchievement(params, threeYearId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit threeYearAchievements");
         }
     }

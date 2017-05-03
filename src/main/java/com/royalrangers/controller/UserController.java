@@ -25,6 +25,8 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    private final long FILE_MAX_SIZE = 1024*1024;
+
     @Autowired
     private UserService userService;
 
@@ -110,6 +112,9 @@ public class UserController {
     @PostMapping("/avatar")
     @ApiOperation(value = "Upload and set avatar for current user")
     public ResponseResult upload(@RequestParam("file") MultipartFile file) {
+        if (file.getSize() >= FILE_MAX_SIZE)
+            return ResponseBuilder.fail("File too large.");
+
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
             log.info("Set user avatar public URL: " +avatarUrl);

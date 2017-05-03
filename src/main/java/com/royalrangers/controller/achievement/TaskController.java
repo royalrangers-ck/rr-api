@@ -4,9 +4,11 @@ import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.TaskRequestDto;
 import com.royalrangers.service.achievement.TaskService;
 import com.royalrangers.utils.ResponseBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/task")
 public class TaskController {
@@ -19,6 +21,7 @@ public class TaskController {
         try {
             return ResponseBuilder.success(taskService.getAll());
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get tasks");
         }
     }
@@ -29,6 +32,7 @@ public class TaskController {
             taskService.addTask(params);
             return ResponseBuilder.success("Task saved successfully");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed adding task");
         }
     }
@@ -38,6 +42,7 @@ public class TaskController {
         try {
             return ResponseBuilder.success(taskService.getTaskById(taskId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get Task by id");
         }
     }
@@ -48,6 +53,7 @@ public class TaskController {
             taskService.deleteTask(taskId);
             return ResponseBuilder.success("Task was successfully deleted");
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed delete Task");
         }
     }
@@ -57,6 +63,7 @@ public class TaskController {
         try {
             return ResponseBuilder.success(taskService.editTask(params, taskId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit Task");
         }
     }
