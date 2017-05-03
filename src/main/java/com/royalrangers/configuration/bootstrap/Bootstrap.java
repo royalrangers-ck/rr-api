@@ -203,6 +203,13 @@ public class Bootstrap {
                     editYearAchievement.setThreeYearAchievement(threeYearAchievementRepository.findOne(threeYearAchievement.getId()));
                     yearAchievementRepository.saveAndFlush(editYearAchievement);
                 });
+            } else {
+                yearList = (List<YearAchievement>) map.get("for_beginners");
+                Stream.of(yearList.toArray()).forEach(yearAchievement -> {
+                    YearAchievement editYearAchievement = (YearAchievement) yearAchievement;
+                    editYearAchievement.setThreeYearAchievement(threeYearAchievementRepository.findOne(threeYearAchievement.getId()));
+                    yearAchievementRepository.saveAndFlush(editYearAchievement);
+                });
             }
         });
         initQuarter();
@@ -215,6 +222,13 @@ public class Bootstrap {
             List<QuarterAchievement> quarterAchievementList;
             if (map.containsKey("forYear" + yearAchievement.getId())) {
                 quarterAchievementList = (List<QuarterAchievement>) map.get("forYear" + yearAchievement.getId());
+                Stream.of(quarterAchievementList.toArray()).forEach(quarter -> {
+                    QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
+                    quarterAchievement.setYearAchievement(yearAchievement);
+                    quarterAchievementRepository.saveAndFlush(quarterAchievement);
+                });
+            } else {
+                quarterAchievementList = (List<QuarterAchievement>) map.get("forYear1");
                 Stream.of(quarterAchievementList.toArray()).forEach(quarter -> {
                     QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
                     quarterAchievement.setYearAchievement(yearAchievement);
@@ -237,6 +251,13 @@ public class Bootstrap {
                     test.setQuarterAchievement(quarterAchievement);
                     testRepository.saveAndFlush(test);
                 });
+            } else {
+                tests = (List<Test>) mapTest.get("testForQuarter1");
+                Stream.of(tests.toArray()).forEach(testElement -> {
+                    Test test = (Test) testElement;
+                    test.setQuarterAchievement(quarterAchievement);
+                    testRepository.saveAndFlush(test);
+                });
             }
         });
         initTask();
@@ -249,6 +270,13 @@ public class Bootstrap {
             List<Task> list = null;
             if (map.containsKey("listForTest" + testId)) {
                 list = (List<Task>) map.get("listForTest" + testId);
+                Stream.of(list.toArray()).forEach(item -> {
+                    Task task = (Task) item;
+                    task.setTest(test);
+                    taskRepository.saveAndFlush(task);
+                });
+            } else {
+                list = (List<Task>) map.get("listForTest1");
                 Stream.of(list.toArray()).forEach(item -> {
                     Task task = (Task) item;
                     task.setTest(test);
