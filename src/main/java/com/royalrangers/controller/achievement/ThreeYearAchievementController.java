@@ -27,6 +27,7 @@ public class ThreeYearAchievementController {
     private DropboxService dropboxService;
 
     @GetMapping
+    @ApiOperation(value = "Get list of all three-year achievements")
     public ResponseResult getAllThreeYearAchievement() {
         try {
             return ResponseBuilder.success(threeYearAchievementService.getAllThreeYearAchievement());
@@ -37,6 +38,7 @@ public class ThreeYearAchievementController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add three-year achievement related to twelve-year achievement")
     public ResponseResult addThreeYearAchievement(@RequestBody ThreeYearRequestDto params) {
         try {
             threeYearAchievementService.addThreeYearAchievement(params);
@@ -48,6 +50,7 @@ public class ThreeYearAchievementController {
     }
 
     @GetMapping("/{threeYearId}")
+    @ApiOperation(value = "Get three-year achievement")
     public ResponseResult getThreeYearAchievementById(@PathVariable Long threeYearId) {
         try {
             return ResponseBuilder.success(threeYearAchievementService.getThreeYearAchievementById(threeYearId));
@@ -58,6 +61,7 @@ public class ThreeYearAchievementController {
     }
 
     @DeleteMapping("/{threeYearId}")
+    @ApiOperation(value = "Delete three-year achievement")
     public ResponseResult deleteThreeYearAchievement(@PathVariable Long threeYearId) {
         try {
             threeYearAchievementService.deleteThreeYearAchievement(threeYearId);
@@ -69,6 +73,7 @@ public class ThreeYearAchievementController {
     }
 
     @PutMapping("/{threeYearId}")
+    @ApiOperation(value = "Update the three-year achievement")
     public ResponseResult editThreeYearAchievement(@RequestBody ThreeYearRequestDto params, @PathVariable Long threeYearId) {
         try {
             return ResponseBuilder.success(threeYearAchievementService.editThreeYearAchievement(params, threeYearId));
@@ -79,7 +84,7 @@ public class ThreeYearAchievementController {
     }
 
     @PostMapping("/logo")
-    @ApiOperation(value = "Upload and set ThreeYearAchievement logo")
+    @ApiOperation(value = "Upload and set three-year achievement logo")
     public ResponseResult uploadLogo(@RequestParam("threeYearAchievementId") Long threeYearAchievementId, @RequestParam("file") MultipartFile file) {
         try {
             String logoUrl = dropboxService.imageUpload(file, ImageType.THREE_YEAR_ACHIEVEMENT_LOGO);
@@ -91,7 +96,7 @@ public class ThreeYearAchievementController {
     }
 
     @DeleteMapping("/logo")
-    @ApiOperation(value = "Delete logo")
+    @ApiOperation(value = "Delete three-year achievement logo")
     public ResponseResult delete(@RequestParam("threeYearAchievementId") Long threeYearAchievementId) {
         try {
             threeYearAchievementService.deleteLogo(threeYearAchievementId);
