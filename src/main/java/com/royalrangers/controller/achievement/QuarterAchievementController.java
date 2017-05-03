@@ -27,6 +27,7 @@ public class QuarterAchievementController {
     private DropboxService dropboxService;
 
     @GetMapping
+    @ApiOperation(value = "Get all quarter achievements")
     public ResponseResult getAllQuarterAchievement() {
         try {
             return ResponseBuilder.success(quarterAchievementService.getAllQuarterAchievement());
@@ -36,6 +37,7 @@ public class QuarterAchievementController {
         }
     }
 
+    @ApiOperation(value = "Add quarter achievement related to year achievement (upLevelId)")
     @PostMapping
     public ResponseResult addQuarterAchievement(@RequestBody AchievementRequestDto params) {
         try {
@@ -48,6 +50,7 @@ public class QuarterAchievementController {
     }
 
     @GetMapping("/{quarterId}")
+    @ApiOperation(value = "Get quarter achievement by id")
     public ResponseResult getQuarterAchievementById(@PathVariable Long quarterId) {
         try {
             return ResponseBuilder.success(quarterAchievementService.getQuarterAchievementById(quarterId));
@@ -58,6 +61,7 @@ public class QuarterAchievementController {
     }
 
     @DeleteMapping("/{quarterId}")
+    @ApiOperation(value = "Delete quarter achievement by id")
     public ResponseResult deleteQuarterAchievement(@PathVariable Long quarterId) {
         try {
             quarterAchievementService.deleteQuarterAchievement(quarterId);
@@ -69,6 +73,7 @@ public class QuarterAchievementController {
     }
 
     @PutMapping("/{quarterId}")
+    @ApiOperation(value = "Update quarter achievement by id")
     public ResponseResult editQuarterAchievement(@RequestBody AchievementRequestDto params, @PathVariable Long quarterId) {
         try {
             return ResponseBuilder.success(quarterAchievementService.editQuarterAchievement(params, quarterId));
