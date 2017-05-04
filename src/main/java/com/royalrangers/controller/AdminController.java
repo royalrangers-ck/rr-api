@@ -1,12 +1,14 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.model.*;
-import com.royalrangers.repository.CityRepository;
+import com.royalrangers.dto.structure.CityDto;
+import com.royalrangers.dto.structure.GroupDto;
+import com.royalrangers.dto.structure.SectionDto;
+import com.royalrangers.model.Country;
 import com.royalrangers.repository.CountryRepository;
-import com.royalrangers.repository.PlatoonRepository;
-import com.royalrangers.repository.SectionRepository;
+import com.royalrangers.service.StructureService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
-
 @Slf4j
 @RestController
 @RequestMapping("/admin")
@@ -24,67 +24,55 @@ import java.util.Set;
 public class AdminController {
 
     @Autowired
+    private StructureService structureService;
+
+    @Autowired
     private CountryRepository countryRepository;
 
-    @Autowired
-    private CityRepository cityRepository;
-
-    @Autowired
-    private PlatoonRepository platoonRepository;
-
-    @Autowired
-    private SectionRepository sectionRepository;
-
     @PostMapping("/country")
-    public ResponseResult createCountry(@RequestBody String countryName){
+    @ApiOperation(value = "Add country")
+    public ResponseResult addCountry(@RequestBody String countryName) {
         try {
             countryRepository.save(new Country(countryName));
-        } catch (Exception e){
+        } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new country");
         }
         return ResponseBuilder.success("Country %s successfully created.", countryName);
     }
 
     @PostMapping("/city")
-    public ResponseResult createCity(@RequestBody Long countryId, @RequestBody String cityName){
+    @ApiOperation(value = "Add city")
+    public ResponseResult addCity(@RequestBody CityDto cityDto) {
         try {
-            Country country = countryRepository.findOne(countryId);
-            City city = new City(country, cityName);
-            Set<City> citySet = country.getCity();
-            if (citySet.add(city))
-                country.setCity(citySet);
-            else return ResponseBuilder.fail("City with this name already exist.");
-            countryRepository.save(country);
-        } catch (Exception e){
+            if (!structureService.createCity(cityDto))
+                return ResponseBuilder.fail("City with this name already exist.");
+        } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new city");
         }
-        return ResponseBuilder.success("City %s successfully created.", cityName);
+        return ResponseBuilder.success("City %s successfully created.", cityDto.getName());
     }
 
     @PostMapping("/group")
-    public ResponseResult createGroup(@RequestBody Long cityId, @RequestBody String groupName){
+    @ApiOperation(value = "Add group")
+    public ResponseResult addGroup(@RequestBody GroupDto groupDto) {
         try {
-            City city = cityRepository.findOne(cityId);
-            Group group = new Group(city,groupName);
-            Set<Group> groupsSet = city.getGroups();
-            if (groupsSet.add(group))
-                city.setGroups(groupsSet);
-            else return ResponseBuilder.fail("Group with this name already exist.");
-            cityRepository.save(city);
-        } catch (Exception e){
+            if (!structureService.createGroup(groupDto))
+                return ResponseBuilder.fail("Group with this name already exist.");
+        } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new group.");
         }
-        return ResponseBuilder.success("Group %s successfully created.", groupName);
+        return ResponseBuilder.success("Group %s successfully created.", groupDto.getName());
     }
 
     @PostMapping("/section")
-    public ResponseResult createSection(@RequestBody Long platoonId, String sectionName){
-        try{
-            Platoon platoon = platoonRepository.findOne(platoonId);
-            sectionRepository.save(new Section(platoon, sectionName));
-        } catch (Exception e){
+    @ApiOperation(value = "Add section")
+    public ResponseResult addSection(@RequestBody SectionDto sectionDto) {
+        try {
+            if (!structureService.createSection(sectionDto))
+                return ResponseBuilder.fail("Section with this name already exist.");
+        } catch (Exception e) {
             return ResponseBuilder.fail("Error creating %s section");
         }
-        return ResponseBuilder.success("Section %s successfully created.", sectionName);
+        return ResponseBuilder.success("Section %s successfully created.", sectionDto.getName());
     }
 }

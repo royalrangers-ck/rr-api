@@ -19,6 +19,12 @@ public class Group extends BaseModel {
     @NotNull
     private String name;
 
+    @JsonView(Views.Public.class)
+    private String history;
+
+    @JsonView(Views.Public.class)
+    private String address;
+
     @JsonIgnore
     @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     private Set<Platoon> platoons;
