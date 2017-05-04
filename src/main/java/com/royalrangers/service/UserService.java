@@ -9,6 +9,7 @@ import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.UserStatus;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
+import com.royalrangers.model.TempUser;
 import com.royalrangers.model.User;
 import com.royalrangers.repository.*;
 import com.royalrangers.utils.security.JwtUser;
@@ -59,6 +60,9 @@ public class UserService {
 
     @Autowired
     private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private TempUserRepository tempUserRepository;
 
     private void grantAuthority(User user, AuthorityName... roles) {
         Set<Authority> authoritySet = new HashSet<>();
@@ -187,8 +191,76 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    public void updateUser(UserUpdateDto update) {
+    private TempUser getTempUser() {
+
         User user = userRepository.findByEmail(getAuthenticatedUserEmail());
+        TempUser tempUser = new TempUser();
+
+        tempUser.setUser(user);
+        tempUser.setCreateDate(user.getCreateDate());
+        tempUser.setUpdateDate(user.getUpdateDate());
+        tempUser.setFirstName(user.getFirstName());
+        tempUser.setLastName(user.getLastName());
+        tempUser.setGender(user.getGender());
+        tempUser.setTelephoneNumber(user.getTelephoneNumber());
+        tempUser.setBirthDate(user.getBirthDate());
+        tempUser.setUserAgeGroup(user.getUserAgeGroup());
+        tempUser.setUserRank(user.getUserRank());
+        tempUser.setCountry(user.getCountry());
+        tempUser.setCity(user.getCity());
+        tempUser.setGroup(user.getGroup());
+        tempUser.setPlatoon(user.getPlatoon());
+        tempUser.setSection(user.getSection());
+
+        tempUserRepository.save(tempUser);
+        return tempUser;
+    }
+
+    private User getUserFromTempUser(TempUser tempUser) {
+
+        User user = getAuthenticatedUser();
+
+        user.setCreateDate(tempUser.getCreateDate());
+        user.setUpdateDate(tempUser.getUpdateDate());
+        user.setFirstName(tempUser.getFirstName());
+        user.setLastName(tempUser.getLastName());
+        user.setGender(tempUser.getGender());
+        user.setBirthDate(tempUser.getBirthDate());
+        user.setTelephoneNumber(tempUser.getTelephoneNumber());
+        user.setUserAgeGroup(tempUser.getUserAgeGroup());
+        user.setUserRank(tempUser.getUserRank());
+        user.setCountry(tempUser.getCountry());
+        user.setCity(tempUser.getCity());
+        user.setGroup(tempUser.getGroup());
+        user.setPlatoon(tempUser.getPlatoon());
+        user.setSection(tempUser.getSection());
+
+        return user;
+    }
+
+    public void updateTempUser(UserUpdateDto update) {
+        TempUser user = getTempUser();
+
+        user.setUpdateDate(new Date());
+        user.setFirstName(update.getFirstName());
+        user.setLastName(update.getLastName());
+        user.setGender(update.getGender());
+        user.setBirthDate(update.getBirthDate());
+        user.setTelephoneNumber(update.getTelephoneNumber());
+        user.setUserAgeGroup(update.getUserAgeGroup());
+        user.setUserRank(update.getUserRank());
+        user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setCity(cityRepository.findOne(update.getCityId()));
+        user.setGroup(groupRepository.findOne(update.getGroupId()));
+        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+        user.setSection(sectionRepository.findOne(update.getSectionId()));
+
+        tempUserRepository.save(user);
+    }
+
+    public void updateUser(UserUpdateDto update) {
+        TempUser tempUser = tempUserRepository.findByUserId(getAuthenticatedUserId());
+        User user = getUserFromTempUser(tempUser);
 
         user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());
@@ -205,6 +277,7 @@ public class UserService {
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
         userRepository.save(user);
+        tempUserRepository.delete(tempUser);
     }
 
     public void updateUserById(Long id, UserUpdateDto update) {

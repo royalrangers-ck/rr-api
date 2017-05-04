@@ -83,8 +83,21 @@ public class UserController {
         return ResponseBuilder.success("Users successfully rejected.");
     }
 
-    @PutMapping
-    @ApiOperation(value = "Update current user")
+    @PutMapping("/update/temp")
+    @ApiOperation(value = "Update temp user")
+    public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
+
+        String email = userService.getAuthenticatedUserEmail();
+
+        userService.updateTempUser(update);
+        log.info("Update temp_user " + email);
+
+        return ResponseBuilder.success(String.format("User %s successful updated", email));
+    }
+
+    @PutMapping("/update")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Update user (for admin)")
     public ResponseResult updateAuthorizedUser(@RequestBody UserUpdateDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
