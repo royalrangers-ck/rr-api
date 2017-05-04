@@ -4,6 +4,7 @@ import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.TaskRequestDto;
 import com.royalrangers.service.achievement.TaskService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ public class TaskController {
     private TaskService taskService;
 
     @GetMapping
+    @ApiOperation(value = "Get list of all tasks")
     public ResponseResult getAllTasks() {
         try {
             return ResponseBuilder.success(taskService.getAll());
@@ -27,6 +29,7 @@ public class TaskController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add task")
     public ResponseResult addTask(@RequestBody TaskRequestDto params) {
         try {
             taskService.addTask(params);
@@ -38,6 +41,7 @@ public class TaskController {
     }
 
     @GetMapping("/{taskId}")
+    @ApiOperation(value = "Get task info")
     public ResponseResult getTaskById(@PathVariable Long taskId) {
         try {
             return ResponseBuilder.success(taskService.getTaskById(taskId));
@@ -48,6 +52,7 @@ public class TaskController {
     }
 
     @DeleteMapping("/{taskId}")
+    @ApiOperation(value = "Delete task")
     public ResponseResult deleteTaskById(@PathVariable Long taskId) {
         try {
             taskService.deleteTask(taskId);
@@ -59,6 +64,7 @@ public class TaskController {
     }
 
     @PutMapping("/{taskId}")
+    @ApiOperation(value = "Update task")
     public ResponseResult editTaskById(@RequestBody TaskRequestDto params, @PathVariable Long taskId) {
         try {
             return ResponseBuilder.success(taskService.editTask(params, taskId));

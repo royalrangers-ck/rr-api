@@ -36,8 +36,7 @@ public class TestService {
         test.setLogoUrl(params.getLogoUrl());
         Integer quarterId = params.getQuarterAchievementId();
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
-        Integer testType = params.getTestType();
-        test.setTestType(TestType.values()[testType]);
+        test.setTestType(TestType.valueOf(params.getTestType()));
         testRepository.saveAndFlush(test);
     }
 
@@ -57,8 +56,7 @@ public class TestService {
         test.setLogoUrl(params.getLogoUrl());
         Integer quarterId = params.getQuarterAchievementId();
         test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
-        Integer testType = params.getTestType();
-        test.setTestType(TestType.values()[testType]);
+        test.setTestType(TestType.valueOf(params.getTestType()));
         return testRepository.saveAndFlush(test);
     }
 

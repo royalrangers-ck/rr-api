@@ -27,6 +27,7 @@ public class RewardController {
     private DropboxService dropboxService;
 
     @GetMapping
+    @ApiOperation(value = "Get list of all rewards")
     public ResponseResult getAllReward() {
         try {
             return ResponseBuilder.success(rewardService.getAllReward());
@@ -37,6 +38,7 @@ public class RewardController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add reward")
     public ResponseResult addReward(@RequestBody Reward reward) {
         try {
             rewardService.addReward(reward);
@@ -48,6 +50,7 @@ public class RewardController {
     }
 
     @GetMapping("/{rewardId}")
+    @ApiOperation(value = "Get reward info")
     public ResponseResult getRewardById(@PathVariable Long rewardId) {
         try {
             return ResponseBuilder.success(rewardService.getRewardById(rewardId));
@@ -58,6 +61,7 @@ public class RewardController {
     }
 
     @DeleteMapping("/{rewardId}")
+    @ApiOperation(value = "Delete reward")
     public ResponseResult deleteReward(@PathVariable Long rewardId) {
         try {
             rewardService.deleteReward(rewardId);
@@ -69,6 +73,7 @@ public class RewardController {
     }
 
     @PutMapping("/{rewardId}")
+    @ApiOperation(value = "Update reward")
     public ResponseResult editReward(@RequestBody Reward reward, @PathVariable Long rewardId) {
         try {
             return ResponseBuilder.success(rewardService.editReward(reward, rewardId));
@@ -79,7 +84,7 @@ public class RewardController {
     }
 
     @PostMapping("/logo")
-    @ApiOperation(value = "Upload and set Reward logo")
+    @ApiOperation(value = "Upload and set reward logo")
     public ResponseResult uploadLogo(@RequestParam("rewardId") Long rewardId, @RequestParam("file") MultipartFile file) {
         try {
             String logoUrl = dropboxService.imageUpload(file, ImageType.REWARD_LOGO);
@@ -91,7 +96,7 @@ public class RewardController {
     }
 
     @DeleteMapping("/logo")
-    @ApiOperation(value = "Delete logo")
+    @ApiOperation(value = "Delete reward logo")
     public ResponseResult delete(@RequestParam("rewardId") Long rewardId) {
         try {
             rewardService.deleteLogo(rewardId);

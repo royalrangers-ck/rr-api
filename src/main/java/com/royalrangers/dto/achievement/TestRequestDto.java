@@ -10,6 +10,6 @@ public class TestRequestDto {
     private String shortDescription;
     private String description;
     private String logoUrl;
-    private Integer testType;
+    private String testType;
     private Integer quarterAchievementId;
 }

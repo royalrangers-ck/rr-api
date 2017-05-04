@@ -18,7 +18,7 @@ public class SubscribeController {
     private SubscribeService subscribeService;
 
     @PostMapping
-    @ApiOperation(value = "Create subscriber")
+    @ApiOperation(value = "Add email to subscribers list")
     public ResponseResult subscribe(@RequestBody EmailDto request) {
 
         String email = request.getMail();
@@ -32,7 +32,7 @@ public class SubscribeController {
     }
 
     @DeleteMapping
-    @ApiOperation(value = "Delete subscriber")
+    @ApiOperation(value = "Remove email from subscribers list")
     public ResponseResult unsubscribe(@RequestBody EmailDto request) {
 
         String email = request.getMail();

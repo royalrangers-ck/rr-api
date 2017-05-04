@@ -33,7 +33,6 @@ public class QuarterAchievementService {
         QuarterAchievement quarterAchievement = new QuarterAchievement();
         quarterAchievement.setName(params.getName());
         quarterAchievement.setDescription(params.getDescription());
-        quarterAchievement.setRequirements(params.getRequirements());
         Integer yearId = params.getUpLevelId();
         quarterAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         quarterAchievementRepository.saveAndFlush(quarterAchievement);
@@ -51,7 +50,6 @@ public class QuarterAchievementService {
         QuarterAchievement editQuarterAchievement = getQuarterAchievementById(quarterId);
         editQuarterAchievement.setName(params.getName());
         editQuarterAchievement.setDescription(params.getDescription());
-        editQuarterAchievement.setRequirements(params.getRequirements());
         Integer yearId = params.getUpLevelId();
         editQuarterAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         return quarterAchievementRepository.saveAndFlush(editQuarterAchievement);

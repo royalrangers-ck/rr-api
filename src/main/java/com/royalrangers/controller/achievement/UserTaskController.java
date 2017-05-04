@@ -6,6 +6,7 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTaskService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class UserTaskController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping
+    @ApiOperation(value = "Get a list of tasks for current user")
     public ResponseResult getAllTaskForUser() {
         try {
             return ResponseBuilder.success(userTaskService.getAllForUser());
@@ -31,6 +33,7 @@ public class UserTaskController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping("/{userTaskId}")
+    @ApiOperation(value = "Get user task info")
     public ResponseResult getUserTaskById(@PathVariable Long userTaskId) {
         try {
             return ResponseBuilder.success(userTaskService.getUserTaskById(userTaskId));
@@ -41,6 +44,7 @@ public class UserTaskController {
     }
 
     @DeleteMapping("/{userTaskId}")
+    @ApiOperation(value = "Delete user task")
     public ResponseResult deleteUserTask(@PathVariable Long userTaskId) {
         try {
             userTaskService.deleteUserTask(userTaskId);
@@ -52,6 +56,7 @@ public class UserTaskController {
     }
 
     @PutMapping("/{userTaskId}")
+    @ApiOperation(value = "Update user task")
     public ResponseResult editUserTask(@RequestBody UserAchievementRequestDto params, @PathVariable Long userTaskId) {
         try {
             userTaskService.editUserTask(params, userTaskId);

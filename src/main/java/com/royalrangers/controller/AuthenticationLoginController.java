@@ -9,6 +9,7 @@ import com.royalrangers.service.LoginService;
 import com.royalrangers.utils.ResponseBuilder;
 import com.royalrangers.utils.security.JwtTokenUtil;
 import com.royalrangers.utils.security.JwtUser;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,6 +48,7 @@ public class AuthenticationLoginController {
     private LoginService loginService;
 
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
+    @ApiOperation(value = "Authenticate user and get a token")
     public ResponseResult createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
 
         LoginMessages message = loginService.checkLoginInformation(authenticationRequest.getEmail());
@@ -72,6 +74,7 @@ public class AuthenticationLoginController {
     }
 
     @RequestMapping(value = "/refresh", method = RequestMethod.GET)
+    @ApiOperation(value = "Refresh token using old one in header")
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String token = request.getHeader(tokenHeader);
         String username = jwtTokenUtil.getUsernameFromToken(token);

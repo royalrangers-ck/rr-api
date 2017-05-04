@@ -7,6 +7,7 @@ import com.royalrangers.dto.achievement.UserTestRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTestService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,6 +23,7 @@ public class UserTestController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping
+    @ApiOperation(value = "Get a list of tests for current user")
     public ResponseResult getAllUserTest() {
         try {
             return ResponseBuilder.success(userTestService.findAllForUser());
@@ -34,6 +36,7 @@ public class UserTestController {
     @JsonView(Views.AchievementUser.class)
     @GetMapping("/submitted")
     @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get a list of submitted tests performed by platoon members (for platoon admin)")
     public ResponseResult getUserTestsForAdmin() {
         try {
             return ResponseBuilder.success(userTestService.getSubmittedUsersTestsByPlatoon());
@@ -43,6 +46,7 @@ public class UserTestController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add test for current user")
     public ResponseResult addUserTest(@RequestBody UserTestRequestDto params) {
         try {
             userTestService.addUserTest(params);
@@ -55,6 +59,7 @@ public class UserTestController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping("/{userTestId}")
+    @ApiOperation(value = "Get user test info")
     public ResponseResult getUserTestById(@PathVariable Long userTestId) {
         try {
             return ResponseBuilder.success(userTestService.getUserTestById(userTestId));
@@ -65,6 +70,7 @@ public class UserTestController {
     }
 
     @DeleteMapping("/{userTestId}")
+    @ApiOperation(value = "Delete user test")
     public ResponseResult deleteUserTest(@PathVariable Long userTestId) {
         try {
             userTestService.deleteUserTest(userTestId);
@@ -76,6 +82,7 @@ public class UserTestController {
     }
 
     @PutMapping("/{userTestId}")
+    @ApiOperation(value = "Update user test")
     public ResponseResult editUserTest(@RequestBody UserAchievementRequestDto params, @PathVariable Long userTestId) {
         try {
             userTestService.editUserTest(params, userTestId);

@@ -8,8 +8,7 @@ import lombok.Setter;
 public class ThreeYearRequestDto {
     private String name;
     private String description;
-    private String requirements;
     private String logoUrl;
-    private Integer upLevelId;
     private String ageCategory;
+    private Integer upLevelId;
 }

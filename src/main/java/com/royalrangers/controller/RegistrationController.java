@@ -9,6 +9,7 @@ import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.service.VerificationTokenService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,7 @@ public class RegistrationController {
     private UserRepository userRepository;
 
     @PostMapping
+    @ApiOperation(value = "Add user to database")
     public ResponseResult registration(@RequestBody UserRegistrationDto userInfo) {
 
         if (userService.isEmailExist(userInfo.getEmail())) {
@@ -55,6 +57,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/confirm")
+    @ApiOperation(value = "Confirm user email by given token")
     public ResponseResult registrationConfirm(@RequestParam("token") String token) {
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
@@ -78,6 +81,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/check")
+    @ApiOperation(value = "Check is user with such email already exists")
     public ResponseResult checkEmail(@RequestParam("email") String email) {
 
         log.info(String.format("Checking email '%s'", email));

@@ -34,7 +34,6 @@ public class ThreeYearAchievementService {
         threeYearAchievementSaved.setDescription(params.getDescription());
         Integer id = params.getUpLevelId();
         threeYearAchievementSaved.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(id.longValue()));
-        threeYearAchievementSaved.setRequirements(params.getRequirements());
         threeYearAchievementSaved.setAgeCategory(AgeCategory.valueOf(params.getAgeCategory()));
         threeYearAchievementRepository.saveAndFlush(threeYearAchievementSaved);
     }
@@ -53,7 +52,6 @@ public class ThreeYearAchievementService {
         threeYearData.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearsId.longValue()));
         threeYearData.setName(params.getName());
         threeYearData.setDescription(params.getDescription());
-        threeYearData.setRequirements(params.getRequirements());
         threeYearData.setLogoUrl(params.getLogoUrl());
         threeYearData.setAgeCategory(AgeCategory.valueOf(params.getAgeCategory()));
         return threeYearAchievementRepository.saveAndFlush(threeYearData);

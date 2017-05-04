@@ -6,6 +6,7 @@ import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserTwelveYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,7 @@ public class UserTwelveYearAchievementController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping
+    @ApiOperation(value = "Get a list of twelve-year achievements for current user")
     public ResponseResult findByUserId() {
         try {
             return ResponseBuilder.success(userTwelveYearAchievementService.findAllForUser());
@@ -30,6 +32,7 @@ public class UserTwelveYearAchievementController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Add the twelve-year achievement for current user")
     public ResponseResult addUserTwelveYearAchievement(@RequestBody UserAchievementRequestDto params) {
         try {
             userTwelveYearAchievementService.addUserTwelveYearAchievement(params);
@@ -42,6 +45,7 @@ public class UserTwelveYearAchievementController {
 
     @JsonView(Views.Achievement.class)
     @GetMapping("/{userAchievementId}")
+    @ApiOperation(value = "Get twelve-year achievement info")
     public ResponseResult getUserTwelveYearAchievementById(@PathVariable Long userAchievementId) {
         try {
             return ResponseBuilder.success(userTwelveYearAchievementService.getUserTwelveYearAchievementById(userAchievementId));
@@ -52,6 +56,7 @@ public class UserTwelveYearAchievementController {
     }
 
     @DeleteMapping("/{userAchievementId}")
+    @ApiOperation(value = "Delete current user twelve-year achievement")
     public ResponseResult deleteUserTwelveYearAchievement(@PathVariable Long userAchievementId) {
         try {
             userTwelveYearAchievementService.delete(userAchievementId);
@@ -63,6 +68,7 @@ public class UserTwelveYearAchievementController {
     }
 
     @PutMapping("/{userAchievementId}")
+    @ApiOperation(value = "Update current user twelve-year achievement")
     public ResponseResult editUserTwelveYearAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
             userTwelveYearAchievementService.editUserTwelveYearAchievement(params, userAchievementId);
