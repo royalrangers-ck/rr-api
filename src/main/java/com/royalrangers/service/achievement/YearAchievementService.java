@@ -33,7 +33,6 @@ public class YearAchievementService {
         yearAchievementSaved.setDescription(params.getDescription());
         Integer id = params.getUpLevelId();
         yearAchievementSaved.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(id.longValue()));
-        yearAchievementSaved.setRequirements(params.getRequirements());
         yearAchievementRepository.saveAndFlush(yearAchievementSaved);
     }
 
@@ -51,7 +50,6 @@ public class YearAchievementService {
         editYearData.setName(params.getName());
         editYearData.setDescription(params.getDescription());
         editYearData.setLogoUrl(params.getLogoUrl());
-        editYearData.setRequirements(params.getRequirements());
         editYearData.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(editThreeYearId.longValue()));
         return yearAchievementRepository.saveAndFlush(editYearData);
     }

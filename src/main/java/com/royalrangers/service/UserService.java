@@ -244,5 +244,6 @@ public class UserService {
         user.setAvatarUrl(avatarUrl);
         userRepository.save(user);
     }
+
 }
 

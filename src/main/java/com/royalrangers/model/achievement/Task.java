@@ -18,6 +18,7 @@ public class Task extends BaseModel {
     private String name;
 
     @JsonView(Views.Achievement.class)
+    @Column(length = 1000)
     private String description;
 
     @JsonIgnore

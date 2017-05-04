@@ -8,7 +8,6 @@ import lombok.Setter;
 public class AchievementRequestDto {
     private String name;
     private String description;
-    private String requirements;
     private String logoUrl;
     private Integer upLevelId;
 }
