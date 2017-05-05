@@ -84,7 +84,7 @@ public class UserController {
     }
 
     @PutMapping("/update/temp")
-    @ApiOperation(value = "Update temp user")
+    @ApiOperation(value = "Update user data (for users)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
@@ -92,12 +92,12 @@ public class UserController {
         userService.updateTempUser(update);
         log.info("Update temp_user " + email);
 
-        return ResponseBuilder.success(String.format("User %s successful updated", email));
+        return ResponseBuilder.success(String.format("User %s successfully updated", email));
     }
 
     @PutMapping("/update")
     @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Update user (for admin)")
+    @ApiOperation(value = "Update user data (for admin)")
     public ResponseResult updateAuthorizedUser(@RequestBody UserUpdateDto update) {
 
         String email = userService.getAuthenticatedUserEmail();
@@ -105,7 +105,7 @@ public class UserController {
         userService.updateUser(update);
         log.info("Update user " + email);
 
-        return ResponseBuilder.success(String.format("User %s successful updated", email));
+        return ResponseBuilder.success(String.format("User %s successfully updated", email));
     }
 
     @PutMapping(value = "/{userId}")
@@ -116,7 +116,7 @@ public class UserController {
             userService.updateUserById(id, userUpdate);
             log.info("Update user with id %d " + id);
 
-            return ResponseBuilder.success(String.format("User with id %d successful updated", id));
+            return ResponseBuilder.success(String.format("User with id %d successfully updated", id));
         } catch (UserRepositoryException e){
             return ResponseBuilder.fail(e.getMessage());
         }
