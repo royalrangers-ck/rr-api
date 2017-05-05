@@ -2,6 +2,7 @@ package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.structure.CityDto;
+import com.royalrangers.dto.structure.CountryDto;
 import com.royalrangers.dto.structure.GroupDto;
 import com.royalrangers.dto.structure.SectionDto;
 import com.royalrangers.model.Country;
@@ -31,13 +32,13 @@ public class AdminController {
 
     @PostMapping("/country")
     @ApiOperation(value = "Add country")
-    public ResponseResult addCountry(@RequestBody String countryName) {
+    public ResponseResult addCountry(@RequestBody CountryDto countryDto) {
         try {
-            countryRepository.save(new Country(countryName));
+            countryRepository.save(new Country(countryDto.getName()));
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new country");
         }
-        return ResponseBuilder.success("Country %s successfully created.", countryName);
+        return ResponseBuilder.success("Country %s successfully created.", countryDto.getName());
     }
 
     @PostMapping("/city")
