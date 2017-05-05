@@ -192,8 +192,7 @@ public class UserService {
     }
 
     private TempUser getTempUser() {
-
-        User user = userRepository.findByEmail(getAuthenticatedUserEmail());
+        User user = getAuthenticatedUser();
         TempUser tempUser = new TempUser();
 
         tempUser.setUser(user);
@@ -217,7 +216,6 @@ public class UserService {
     }
 
     private User getUserFromTempUser(TempUser tempUser) {
-
         User user = getAuthenticatedUser();
 
         user.setCreateDate(tempUser.getCreateDate());
