@@ -1,10 +1,7 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.dto.structure.CityDto;
-import com.royalrangers.dto.structure.GroupDto;
-import com.royalrangers.dto.structure.PlatoonDto;
-import com.royalrangers.dto.structure.SectionDto;
+import com.royalrangers.dto.structure.*;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
@@ -118,6 +115,8 @@ public class StructureService {
 
     public boolean createCity(CityDto cityDto){
         Country country = countryRepository.findOne(cityDto.getCountryId());
+        if(cityRepository.findByNameAndCountryId(cityDto.getName(), cityDto.getCountryId()) != null)
+            return false;
         City city = new City(country, cityDto.getName());
         Set<City> citySet = country.getCity();
         city.setCreateDate(cityDto.getCreateDate());
@@ -126,6 +125,13 @@ public class StructureService {
             return false;
         country.setCity(citySet);
         countryRepository.save(country);
+        return true;
+    }
+
+    public boolean createCountry(CountryDto countryDto){
+        if (countryRepository.findByName(countryDto.getName()) != null)
+            return false;
+        countryRepository.save(new Country(countryDto.getName()));
         return true;
     }
 }

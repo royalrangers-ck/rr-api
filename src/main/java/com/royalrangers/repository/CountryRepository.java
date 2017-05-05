@@ -8,4 +8,5 @@ import javax.transaction.Transactional;
 @Transactional
 public interface CountryRepository extends CrudRepository<Country, Long> {
 
+    Country findByName(String countryName);
 }

@@ -5,8 +5,6 @@ import com.royalrangers.dto.structure.CityDto;
 import com.royalrangers.dto.structure.CountryDto;
 import com.royalrangers.dto.structure.GroupDto;
 import com.royalrangers.dto.structure.SectionDto;
-import com.royalrangers.model.Country;
-import com.royalrangers.repository.CountryRepository;
 import com.royalrangers.service.StructureService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
@@ -27,14 +25,12 @@ public class AdminController {
     @Autowired
     private StructureService structureService;
 
-    @Autowired
-    private CountryRepository countryRepository;
-
     @PostMapping("/country")
     @ApiOperation(value = "Add country")
     public ResponseResult addCountry(@RequestBody CountryDto countryDto) {
         try {
-            countryRepository.save(new Country(countryDto.getName()));
+            if (!structureService.createCountry(countryDto))
+                return ResponseBuilder.fail("Country with this name already exist.");
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new country");
         }

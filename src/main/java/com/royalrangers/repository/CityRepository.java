@@ -8,5 +8,6 @@ import java.util.List;
 
 @Transactional
 public interface CityRepository extends CrudRepository<City, Long> {
-    List<City> findByCountryId(Long country_id);
+    List<City> findByCountryId(Long countryId);
+    City findByNameAndCountryId(String cityName, Long countryId);
 }
