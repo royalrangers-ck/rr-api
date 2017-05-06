@@ -1,21 +1,28 @@
 package com.royalrangers.service;
 
 import com.dropbox.core.DbxException;
-import com.royalrangers.dto.PlatoonDto;
+import com.royalrangers.dto.structure.*;
 import com.royalrangers.enums.ImageType;
-import com.royalrangers.model.Platoon;
-import com.royalrangers.repository.GroupRepository;
-import com.royalrangers.repository.PlatoonRepository;
+import com.royalrangers.model.*;
+import com.royalrangers.repository.*;
+import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Set;
 
 @Service
-public class PlatoonService {
+public class StructureService {
 
     @Autowired
     private DropboxService dropboxService;
+
+    @Autowired
+    private CountryRepository countryRepository;
+
+    @Autowired
+    private CityRepository cityRepository;
 
     @Autowired
     private PlatoonRepository platoonRepository;
@@ -76,5 +83,55 @@ public class PlatoonService {
 
         platoon.setLogoUrl(null);
         platoonRepository.save(platoon);
+    }
+
+    public boolean createGroup(GroupDto groupDto){
+        City city = cityRepository.findOne(groupDto.getCityId());
+        Group group = new Group(city,groupDto.getName());
+        Set<Group> groupsSet = city.getGroups();
+        group.setCreateDate(groupDto.getCreateDate());
+        group.setUpdateDate(groupDto.getUpdateDate());
+        group.setHistory(groupDto.getHistory());
+        group.setAddress(groupDto.getAddress());
+        if (!groupsSet.add(group))
+            return false;
+        city.setGroups(groupsSet);
+        cityRepository.save(city);
+        return true;
+    }
+
+    public boolean createSection(SectionDto sectionDto){
+        Platoon platoon = platoonRepository.findOne(sectionDto.getPlatoonId());
+        Section section = new Section(platoon,sectionDto.getName());
+        Set<Section> sectionSet = platoon.getSections();
+        section.setCreateDate(sectionDto.getCreateDate());
+        section.setUpdateDate(sectionDto.getUpdateDate());
+        if (!sectionSet.add(section))
+            return false;
+        platoon.setSections(sectionSet);
+        platoonRepository.save(platoon);
+        return  true;
+    }
+
+    public boolean createCity(CityDto cityDto){
+        Country country = countryRepository.findOne(cityDto.getCountryId());
+        if(cityRepository.findByNameAndCountryId(cityDto.getName(), cityDto.getCountryId()) != null)
+            return false;
+        City city = new City(country, cityDto.getName());
+        Set<City> citySet = country.getCity();
+        city.setCreateDate(cityDto.getCreateDate());
+        city.setUpdateDate(cityDto.getUpdateDate());
+        if (!citySet.add(city))
+            return false;
+        country.setCity(citySet);
+        countryRepository.save(country);
+        return true;
+    }
+
+    public boolean createCountry(CountryDto countryDto){
+        if (countryRepository.findByName(countryDto.getName()) != null)
+            return false;
+        countryRepository.save(new Country(countryDto.getName()));
+        return true;
     }
 }
