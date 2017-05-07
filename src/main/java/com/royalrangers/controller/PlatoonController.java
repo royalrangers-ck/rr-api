@@ -62,7 +62,7 @@ public class PlatoonController {
         try {
             structureService.updatePlatoon(id, platoonUpdate);
             log.info("Update platoon with id %d " + id);
-            return ResponseBuilder.success(String.format("Platoon with id %d successful updated", id));
+            return ResponseBuilder.success(String.format("Platoon with id %d successfully updated", id));
 
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
