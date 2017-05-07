@@ -65,6 +65,14 @@ public class UserController {
         return ResponseBuilder.success(userService.getUsersForApprove(id));
     }
 
+    @JsonView(Views.Profile.class)
+    @GetMapping("/approve/super")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @ApiOperation(value = "Get users for approve (for super admin)")
+    public ResponseResult getUsersToApprove(){
+        return ResponseBuilder.success(userService.getUsersForApproveForSuperAdmin());
+    }
+
     @PostMapping("/approve")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Approve users after registration (for platoon admin)")
@@ -74,12 +82,28 @@ public class UserController {
         return ResponseBuilder.success("Users successfully approved.");
     }
 
+    @PostMapping("/approve/super")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @ApiOperation(value = "Approve users after registration (for super admin)")
+    public ResponseResult approveUsers() {
+        userService.superApproveUsers();
+        return ResponseBuilder.success("Users successfully approved.");
+    }
+
     @PostMapping("/reject")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Reject user after registration (for platoon admin)")
     public ResponseResult rejectUser(@RequestBody IdsDto param) {
         List<Long> ids = param.getIds();
         userService.rejectUsers(ids);
+        return ResponseBuilder.success("Users successfully rejected.");
+    }
+
+    @PostMapping("/reject/super")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @ApiOperation(value = "Reject users after registration (for super admin)")
+    public ResponseResult rejectUsers() {
+        userService.superRejectUsers();
         return ResponseBuilder.success("Users successfully rejected.");
     }
 
