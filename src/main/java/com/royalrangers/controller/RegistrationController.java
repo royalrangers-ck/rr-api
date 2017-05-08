@@ -49,7 +49,7 @@ public class RegistrationController {
             String confirmLink = userService.getConfirmRegistrationLink(user);
             emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
         } catch (UnknownHostException e){
-            log.error(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
+           log.error(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
         }
 
         log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
@@ -72,9 +72,7 @@ public class RegistrationController {
             return ResponseBuilder.fail("Verification token is expired");
         }
 
-        User user = verificationToken.getUser();
-        user.setConfirmed(true);
-        userRepository.save(user);
+        userService.confirmUser(verificationToken);
 
         log.info(String.format("Verification token '%s' is confirmed", token));
         return ResponseBuilder.success("User confirm registration successfully");

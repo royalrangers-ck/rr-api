@@ -11,6 +11,7 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.TempUser;
 import com.royalrangers.model.User;
+import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.*;
 import com.royalrangers.utils.security.JwtUser;
 import lombok.extern.slf4j.Slf4j;
@@ -316,5 +317,25 @@ public class UserService {
         userRepository.save(user);
     }
 
-}
+    public void confirmUser(VerificationToken verificationToken){
+        User user = verificationToken.getUser();
+        user.setConfirmed(true);
+        emailService.sendEmail(getPlatoonAdmin(user),"New user needs approve", "newuserforapprove.inline.html", "");
+        userRepository.save(user);
+    }
+
+    private User getPlatoonAdmin(User user){
+        Long platoonId = user.getPlatoon().getId();
+        List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
+        Optional<User> admin = usersByPlatoon.stream()
+                .filter(element -> user.getAuthorities()
+                        .contains(AuthorityName.ROLE_ADMIN))
+                .findFirst();
+        if(!admin.isPresent())
+            throw new UserRepositoryException("Admin not found in platoon " + platoonId);
+
+        return admin.get();
+        }
+    }
+
 
