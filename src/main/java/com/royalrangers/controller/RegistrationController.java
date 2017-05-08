@@ -90,4 +90,27 @@ public class RegistrationController {
 
         return ResponseBuilder.success();
     }
+
+    @PostMapping("/confirmation")
+    public ResponseResult resendConfirmationLink(@RequestParam("email") String email){
+        if (!userService.isEmailExist(email)){
+            return ResponseBuilder.fail("User with such an email is not exist.");
+        }
+        User user = userRepository.findByEmail(email);
+        if(!user.getConfirmed()){
+            return ResponseBuilder.fail("User with such an email already confirmed.");
+        }
+        if(user.getRejected()){
+            return ResponseBuilder.fail("User with such an email was been rejected.");
+        }
+
+        try {
+            String confirmLink = userService.getConfirmRegistrationLink(user);
+            emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
+        } catch (UnknownHostException e){
+            log.error(String.format("Error in confirmation URL for '%s'"), email);
+        }
+        return ResponseBuilder.success("Confirmation email successfully resending.");
+    }
+
 }

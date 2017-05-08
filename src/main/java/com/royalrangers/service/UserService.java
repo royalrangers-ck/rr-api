@@ -164,6 +164,7 @@ public class UserService {
             User user = userRepository.findOne(id);
             user.setApproved(true);
             user.setEnabled(true);
+            user.setRejected(false);
             userRepository.save(user);
             emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
             log.info("User %s approved.", user.getEmail());
@@ -175,6 +176,7 @@ public class UserService {
             User user = userRepository.findOne(id);
             user.setEnabled(false);
             user.setConfirmed(false);
+            user.setRejected(true);
             userRepository.save(user);
             emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
             log.info("User %s rejected.", user.getEmail());

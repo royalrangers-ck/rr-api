@@ -20,6 +20,7 @@ public class User extends BaseUser {
     private Boolean enabled;
     private Boolean confirmed;
     private Boolean approved;
+    private Boolean rejected;
 
     @JsonView(Views.Achievement.class)
     private String avatarUrl;
