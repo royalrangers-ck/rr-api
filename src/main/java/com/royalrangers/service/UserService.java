@@ -346,25 +346,41 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void confirmUser(VerificationToken verificationToken){
+    public void confirmUser(VerificationToken verificationToken) {
         User user = verificationToken.getUser();
         user.setConfirmed(true);
-        emailService.sendEmail(getPlatoonAdmin(user),"New user needs approve", "newuserforapprove.inline.html", "");
+        emailService.sendEmail(getPlatoonAdmin(user), "New user needs approve", "newuserforapprove.inline.html", "");
         userRepository.save(user);
     }
 
-    private User getPlatoonAdmin(User user){
+    private User getPlatoonAdmin(User user) {
         Long platoonId = user.getPlatoon().getId();
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
                 .filter(element -> user.getAuthorities()
                         .contains(AuthorityName.ROLE_ADMIN))
                 .findFirst();
-        if(!admin.isPresent())
+        if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);
 
         return admin.get();
-        }
     }
+
+    public void resendConfirmation(String email) throws UserRepositoryException, UnknownHostException {
+        User user = userRepository.findByEmail(email);
+        if (!isEmailExist(email)) {
+            throw new UserRepositoryException("User with such an email is not exist.");
+        }
+        if (!user.getConfirmed()) {
+            throw new UserRepositoryException("User with such an email already confirmed.");
+        }
+        if (user.getRejected()) {
+            throw new UserRepositoryException("User with such an email was been rejected.");
+        }
+
+        emailService.sendEmail(user, "RegistrationConfirm",
+                "submit.email.inline.html", getConfirmRegistrationLink(user));
+    }
+}
 
 
