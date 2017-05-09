@@ -146,6 +146,10 @@ public class UserService {
         return getUsersToApproveByPlatoonID(platoonId);
     }
 
+    public List<User> getUsersForApproveForSuperAdmin() {
+        return userRepository.findAllByConfirmedTrueAndApprovedFalse();
+    }
+
     public Long getAuthenticatedUserId() {
         JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return user.getId();
@@ -181,6 +185,29 @@ public class UserService {
             emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
             log.info("User %s rejected.", user.getEmail());
         });
+    }
+
+
+    public void superApproveUsers() {
+        List<User> users = getUsersForApproveForSuperAdmin();
+        for (User user : users) {
+            user.setApproved(true);
+            user.setEnabled(true);
+            userRepository.save(user);
+            emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
+            log.info("User %s approved.", user.getEmail());
+        }
+    }
+
+    public void superRejectUsers() {
+        List<User> users = getUsersForApproveForSuperAdmin();
+        for (User user : users) {
+            user.setEnabled(false);
+            user.setConfirmed(false);
+            userRepository.save(user);
+            emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
+            log.info("User %s rejected.", user.getEmail());
+        }
     }
 
     public User getUserByEmail(String email) {
