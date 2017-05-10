@@ -369,13 +369,13 @@ public class UserService {
     public void resendConfirmation(String email) throws UserRepositoryException, UnknownHostException {
         User user = userRepository.findByEmail(email);
         if (!isEmailExist(email)) {
-            throw new UserRepositoryException("User with such an email is not exist.");
+            throw new UserRepositoryException("User with this email is not exist.");
         }
         if (!user.getConfirmed()) {
-            throw new UserRepositoryException("User with such an email already confirmed.");
+            throw new UserRepositoryException("User with this email already confirmed.");
         }
         if (user.getRejected()) {
-            throw new UserRepositoryException("User with such an email was been rejected.");
+            throw new UserRepositoryException("User with this email has been rejected.");
         }
 
         emailService.sendEmail(user, "RegistrationConfirm",
