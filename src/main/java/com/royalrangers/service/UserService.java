@@ -11,6 +11,7 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.TempUser;
 import com.royalrangers.model.User;
+import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.*;
 import com.royalrangers.utils.security.JwtUser;
 import lombok.extern.slf4j.Slf4j;
@@ -167,6 +168,7 @@ public class UserService {
             User user = userRepository.findOne(id);
             user.setApproved(true);
             user.setEnabled(true);
+            user.setRejected(false);
             userRepository.save(user);
             emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
             log.info("User %s approved.", user.getEmail());
@@ -178,6 +180,7 @@ public class UserService {
             User user = userRepository.findOne(id);
             user.setEnabled(false);
             user.setConfirmed(false);
+            user.setRejected(true);
             userRepository.save(user);
             emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
             log.info("User %s rejected.", user.getEmail());
@@ -343,5 +346,41 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void confirmUser(VerificationToken verificationToken) {
+        User user = verificationToken.getUser();
+        user.setConfirmed(true);
+        emailService.sendEmail(getPlatoonAdmin(user), "New user needs approve", "newuserforapprove.inline.html", "");
+        userRepository.save(user);
+    }
+
+    private User getPlatoonAdmin(User user) {
+        Long platoonId = user.getPlatoon().getId();
+        List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
+        Optional<User> admin = usersByPlatoon.stream()
+                .filter(element -> user.getAuthorities()
+                        .contains(AuthorityName.ROLE_ADMIN))
+                .findFirst();
+        if (!admin.isPresent())
+            throw new UserRepositoryException("Admin not found in platoon " + platoonId);
+
+        return admin.get();
+    }
+
+    public void resendConfirmation(String email) throws UserRepositoryException, UnknownHostException {
+        User user = userRepository.findByEmail(email);
+        if (!isEmailExist(email)) {
+            throw new UserRepositoryException("User with this email is not exist.");
+        }
+        if (!user.getConfirmed()) {
+            throw new UserRepositoryException("User with this email already confirmed.");
+        }
+        if (user.getRejected()) {
+            throw new UserRepositoryException("User with this email has been rejected.");
+        }
+
+        emailService.sendEmail(user, "RegistrationConfirm",
+                "submit.email.inline.html", getConfirmRegistrationLink(user));
+    }
 }
+
 

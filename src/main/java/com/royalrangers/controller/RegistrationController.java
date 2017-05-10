@@ -2,6 +2,7 @@ package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.UserRegistrationDto;
+import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
 import com.royalrangers.repository.UserRepository;
@@ -31,8 +32,6 @@ public class RegistrationController {
     @Autowired
     private VerificationTokenService verificationTokenService;
 
-    @Autowired
-    private UserRepository userRepository;
 
     @PostMapping
     @ApiOperation(value = "Add user to database")
@@ -49,7 +48,7 @@ public class RegistrationController {
             String confirmLink = userService.getConfirmRegistrationLink(user);
             emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
         } catch (UnknownHostException e){
-            log.error(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
+           log.error(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
         }
 
         log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
@@ -72,9 +71,7 @@ public class RegistrationController {
             return ResponseBuilder.fail("Verification token is expired");
         }
 
-        User user = verificationToken.getUser();
-        user.setConfirmed(true);
-        userRepository.save(user);
+        userService.confirmUser(verificationToken);
 
         log.info(String.format("Verification token '%s' is confirmed", token));
         return ResponseBuilder.success("User confirm registration successfully");
@@ -92,4 +89,18 @@ public class RegistrationController {
 
         return ResponseBuilder.success();
     }
+
+    @PostMapping("/resend/confirmation")
+    public ResponseResult resendConfirmationLink(@RequestParam("email") String email) {
+        try {
+            userService.resendConfirmation(email);
+        } catch (UserRepositoryException ex) {
+            return ResponseBuilder.fail(ex.getMessage());
+        } catch (UnknownHostException e) {
+            log.error(String.format("Error in confirmation URL for '%s'"), email);
+            return ResponseBuilder.fail("Error in confirmation URL");
+        }
+        return ResponseBuilder.success("Confirmation email successfully resending.");
+    }
+
 }

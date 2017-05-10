@@ -34,7 +34,7 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new country");
         }
-        return ResponseBuilder.success("Country %s successfully created.", countryDto.getName());
+        return ResponseBuilder.success("Country '%s' successfully created.", countryDto.getName());
     }
 
     @PostMapping("/city")
@@ -46,7 +46,7 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new city");
         }
-        return ResponseBuilder.success("City %s successfully created.", cityDto.getName());
+        return ResponseBuilder.success("City '%s' successfully created.", cityDto.getName());
     }
 
     @PostMapping("/group")
@@ -58,7 +58,7 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new group.");
         }
-        return ResponseBuilder.success("Group %s successfully created.", groupDto.getName());
+        return ResponseBuilder.success("Group '%s' successfully created.", groupDto.getName());
     }
 
     @PostMapping("/section")
@@ -68,8 +68,8 @@ public class AdminController {
             if (!structureService.createSection(sectionDto))
                 return ResponseBuilder.fail("Section with this name already exist.");
         } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating %s section");
+            return ResponseBuilder.fail("Error creating  section");
         }
-        return ResponseBuilder.success("Section %s successfully created.", sectionDto.getName());
+        return ResponseBuilder.success("Section '%s' successfully created.", sectionDto.getName());
     }
 }
