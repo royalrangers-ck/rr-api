@@ -5,7 +5,6 @@ import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.service.VerificationTokenService;
@@ -91,6 +90,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/resend/confirmation")
+    @ApiOperation(value = "Resend confirmation email")
     public ResponseResult resendConfirmationLink(@RequestParam("email") String email) {
         try {
             userService.resendConfirmation(email);

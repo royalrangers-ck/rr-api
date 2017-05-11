@@ -39,9 +39,7 @@ public class UserTestService {
         Integer testId = params.getTestId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
             List<Task> tasks = testService.getTestById(testId.longValue()).getTaskList();
-            for (Task task : tasks) {
-                userTaskService.addTaskForUser(task);
-            }
+            tasks.forEach(task -> userTaskService.addTaskForUser(task));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
