@@ -43,6 +43,8 @@ public class EmailService {
             helper.setTo(user.getEmail());
 
             Map<String, Object> model = new HashMap<>();
+            model.put("firstName", user.getFirstName());
+            model.put("lastName", user.getLastName());
             model.put("email", user.getEmail());
             model.put("message", message);
 
