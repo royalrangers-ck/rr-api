@@ -19,10 +19,10 @@ import java.util.Map;
 public class EmailService {
 
     @Autowired
-    JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
     @Autowired
-    Configuration freeMarkerConfiguration;
+    private Configuration freeMarkerConfiguration;
 
     public void sendEmail(User user, String subj, String template, String message) {
 
@@ -36,7 +36,7 @@ public class EmailService {
 
     private MimeMessagePreparator getMessagePreparator(User user, String subj, String template, String message) {
 
-        MimeMessagePreparator preparator = mimeMessage -> {
+        return mimeMessage -> {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 
             helper.setSubject(subj);
@@ -49,8 +49,6 @@ public class EmailService {
             String text = getFreeMarkerTemplateContent(model, template);
             helper.setText(text, true);
         };
-
-        return preparator;
     }
 
     public String getFreeMarkerTemplateContent(Map<String, Object> model, String template) {
@@ -61,7 +59,7 @@ public class EmailService {
                     freeMarkerConfiguration.getTemplate(template), model));
             return content.toString();
         } catch (Exception e) {
-            log.error("Exception occured while processing Emailtemplate:", e.getMessage());
+            log.error("Exception occurred while processing Email template:", e.getMessage());
         }
 
         return "";

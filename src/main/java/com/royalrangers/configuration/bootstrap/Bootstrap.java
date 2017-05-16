@@ -108,6 +108,7 @@ public class Bootstrap {
             user.setEnabled(true);
             user.setConfirmed(true);
             user.setApproved(true);
+            user.setRejected(false);
             user.setCountry(new Country("Ukraine" + element));
             user.setCity(new City(user.getCountry(), "Cherkasy" + element));
             user.setGroup(new Group(user.getCity(), "group " + element));
