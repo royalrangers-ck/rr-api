@@ -28,6 +28,9 @@ public abstract class BaseUser extends BaseModel {
     @JsonView(Views.Profile.class)
     private Long birthDate;
 
+    @JsonView(Views.Achievement.class)
+    private String email;
+
     @JsonView(Views.Profile.class)
     private UserAgeGroup userAgeGroup;
 
