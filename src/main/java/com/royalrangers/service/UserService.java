@@ -96,6 +96,7 @@ public class UserService {
         user.setGroup(groupRepository.findOne(userDto.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(userDto.getPlatoonId()));
         user.setSection(sectionRepository.findOne(userDto.getSectionId()));
+        user.setUserRank(userDto.getUserRank());
         if (Objects.equals(userDto.getStatus(), UserStatus.TEACHER)) {
             grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
         } else {

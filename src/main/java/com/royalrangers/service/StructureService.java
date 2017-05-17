@@ -5,7 +5,6 @@ import com.royalrangers.dto.structure.*;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
-import com.royalrangers.utils.ResponseBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,8 +88,6 @@ public class StructureService {
         City city = cityRepository.findOne(groupDto.getCityId());
         Group group = new Group(city,groupDto.getName());
         Set<Group> groupsSet = city.getGroups();
-        group.setCreateDate(groupDto.getCreateDate());
-        group.setUpdateDate(groupDto.getUpdateDate());
         group.setHistory(groupDto.getHistory());
         group.setAddress(groupDto.getAddress());
         if (!groupsSet.add(group))
@@ -104,8 +101,6 @@ public class StructureService {
         Platoon platoon = platoonRepository.findOne(sectionDto.getPlatoonId());
         Section section = new Section(platoon,sectionDto.getName());
         Set<Section> sectionSet = platoon.getSections();
-        section.setCreateDate(sectionDto.getCreateDate());
-        section.setUpdateDate(sectionDto.getUpdateDate());
         if (!sectionSet.add(section))
             return false;
         platoon.setSections(sectionSet);
@@ -119,8 +114,6 @@ public class StructureService {
             return false;
         City city = new City(country, cityDto.getName());
         Set<City> citySet = country.getCity();
-        city.setCreateDate(cityDto.getCreateDate());
-        city.setUpdateDate(cityDto.getUpdateDate());
         if (!citySet.add(city))
             return false;
         country.setCity(citySet);

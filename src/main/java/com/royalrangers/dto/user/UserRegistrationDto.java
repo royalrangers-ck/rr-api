@@ -1,5 +1,6 @@
 package com.royalrangers.dto.user;
 
+import com.royalrangers.enums.UserRank;
 import com.royalrangers.enums.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,4 +22,5 @@ public class UserRegistrationDto {
     private Long platoonId;
     private Long sectionId;
     private UserStatus status;
+    private UserRank userRank;
 }
