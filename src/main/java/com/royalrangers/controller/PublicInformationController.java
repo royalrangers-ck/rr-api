@@ -73,7 +73,7 @@ public class PublicInformationController {
 
     @JsonView(Views.Public.class)
     @GetMapping("/city")
-    @ApiOperation(value = "Get a list of cities for given regions")
+    @ApiOperation(value = "Get a list of cities for given region")
     public ResponseResult getCitiesByRegion(@RequestParam Long regionId) {
         return ResponseBuilder.success(cityRepository.findByRegionId(regionId));
     }
@@ -94,7 +94,7 @@ public class PublicInformationController {
     }
 
     @JsonView(Views.Public.class)
-    @GetMapping("/")
+    @GetMapping("/sections")
     @ApiOperation(value = "Get a list of sections")
     public ResponseResult getAllSections() {
         return ResponseBuilder.success(sectionRepository.findAll());
