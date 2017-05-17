@@ -35,27 +35,27 @@ public abstract class BaseUser extends BaseModel {
     private UserRank userRank;
 
     @JsonView(Views.Profile.class)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "country_id")
     private Country country;
 
     @JsonView(Views.Profile.class)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "city_id")
     private City city;
 
     @JsonView(Views.Profile.class)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "group_id")
     private Group group;
 
     @JsonView(Views.Profile.class)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "platoon_id")
     private Platoon platoon;
 
     @JsonView(Views.Profile.class)
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "section_id")
     private Section section;
 }
