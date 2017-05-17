@@ -2,6 +2,7 @@ package com.royalrangers.model.achievement;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.TestType;
 import com.royalrangers.model.BaseModel;
 import com.royalrangers.model.Views;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
@@ -32,6 +34,12 @@ public class Test extends BaseModel {
     @JsonView(Views.Achievement.class)
     @Enumerated
     private TestType testType;
+
+    @JsonView(Views.Achievement.class)
+    @ElementCollection(targetClass = UserAgeGroup.class)
+    @Column(name = "age_category", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Collection<UserAgeGroup> userAgeGroups;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "test")
     private List<Task> taskList;

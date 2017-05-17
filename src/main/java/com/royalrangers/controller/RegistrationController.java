@@ -47,7 +47,7 @@ public class RegistrationController {
             String confirmLink = userService.getConfirmRegistrationLink(user);
             emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
         } catch (UnknownHostException e){
-           log.error(String.format("Error in confirmation URL for '%s'"), userInfo.getEmail());
+           log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
         }
 
         log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
@@ -90,13 +90,14 @@ public class RegistrationController {
     }
 
     @PostMapping("/resend/confirmation")
+    @ApiOperation(value = "Resend confirmation email")
     public ResponseResult resendConfirmationLink(@RequestParam("email") String email) {
         try {
             userService.resendConfirmation(email);
         } catch (UserRepositoryException ex) {
             return ResponseBuilder.fail(ex.getMessage());
         } catch (UnknownHostException e) {
-            log.error(String.format("Error in confirmation URL for '%s'"), email);
+            log.error("Error in confirmation URL for '%s'", email);
             return ResponseBuilder.fail("Error in confirmation URL");
         }
         return ResponseBuilder.success("Confirmation email successfully resending.");

@@ -2,16 +2,18 @@ package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
 import com.royalrangers.dto.achievement.UserTestRequestDto;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.Task;
+import com.royalrangers.model.achievement.Test;
 import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.repository.achievement.UserTestRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class UserTestService {
@@ -28,6 +30,9 @@ public class UserTestService {
     @Autowired
     private UserTaskService userTaskService;
 
+    @Autowired
+    private UserQuarterAchievementService userQuarterAchievementService;
+
     public List<UserTest> findAllForUser() {
         return userTestRepository.findByUserId(userService.getAuthenticatedUserId());
     }
@@ -39,9 +44,7 @@ public class UserTestService {
         Integer testId = params.getTestId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
             List<Task> tasks = testService.getTestById(testId.longValue()).getTaskList();
-            for (Task task : tasks) {
-                userTaskService.addTaskForUser(task);
-            }
+            tasks.forEach(task -> userTaskService.addTaskForUser(task));
         userTestRepository.saveAndFlush(savedUserAchievement);
     }
 
@@ -66,8 +69,27 @@ public class UserTestService {
         savedUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
-        Integer testId = params.getId();
-        savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
+        Stream.of(UserAgeGroup.values()).forEach(ageGroups -> {
+            updateQuarterAchievements(UserAgeGroup.valueOf(ageGroups.toString()));
+        });
     }
+
+    public void updateQuarterAchievements(UserAgeGroup userAgeGroup) {
+        List<UserTest> userTestListForBeginner = userTestRepository.findByAchievementStateAndTest_UserAgeGroupsContains(AchievementState.APPROVED, new ArrayList<>(Arrays.asList(userAgeGroup)));
+        if (userTestListForBeginner.size() == 1 || userTestListForBeginner.size() == 5 || userTestListForBeginner.size() == 9 || userTestListForBeginner.size() == 13 ||
+                userTestListForBeginner.size() == 17 || userTestListForBeginner.size() == 21 || userTestListForBeginner.size() == 25 || userTestListForBeginner.size() == 29 ||
+                userTestListForBeginner.size() == 33 || userTestListForBeginner.size() == 37 || userTestListForBeginner.size() == 41 || userTestListForBeginner.size() == 45) {
+            userQuarterAchievementService.addUserQuarterAchievement(userAgeGroup);
+        }
+        if (userTestListForBeginner.size() == 4 || userTestListForBeginner.size() == 8 ||
+                userTestListForBeginner.size() == 12 || userTestListForBeginner.size() == 16 ||
+                userTestListForBeginner.size() == 20 || userTestListForBeginner.size() == 24 ||
+                userTestListForBeginner.size() == 28 || userTestListForBeginner.size() == 32 ||
+                userTestListForBeginner.size() == 36 || userTestListForBeginner.size() == 40 ||
+                userTestListForBeginner.size() == 44 || userTestListForBeginner.size() == 48) {
+            userQuarterAchievementService.autoEditQuarterAchievement(AchievementState.APPROVED, userAgeGroup);
+        }
+    }
+
 }

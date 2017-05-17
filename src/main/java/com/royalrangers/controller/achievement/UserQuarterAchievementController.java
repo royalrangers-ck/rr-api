@@ -31,18 +31,6 @@ public class UserQuarterAchievementController {
         }
     }
 
-    @PostMapping
-    @ApiOperation(value = "Add the quarter-year achievement for current user")
-    public ResponseResult addUserQuarterAchievement(@RequestBody UserAchievementRequestDto params) {
-        try {
-            userQuarterAchievementService.addUserQuarterAchievement(params);
-            return ResponseBuilder.success("Successfully added UserQuarterAchievement");
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return ResponseBuilder.fail("Failed add UserQuarterAchievement");
-        }
-    }
-
     @JsonView(Views.Achievement.class)
     @GetMapping("/{userAchievementId}")
     @ApiOperation(value = "Get quarter-year achievement info")

@@ -6,5 +6,8 @@ public enum TestType {
     /*2*/ GREEN,
     /*3*/ YELLOW,
     /*4*/ LIGHTBLUE,
-    /*5*/ RED
+    /*5*/ RED,
+    /*6*/ ORANGE,
+    /*7*/ BROWN,
+    /*8*/ PLATINUM
 }
