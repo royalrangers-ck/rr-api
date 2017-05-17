@@ -1,7 +1,7 @@
 package com.royalrangers.configuration.bootstrap;
 
 import com.royalrangers.enums.AuthorityName;
-import com.royalrangers.enums.achivement.AgeCategory;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.model.*;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.repository.AuthorityRepository;
@@ -56,9 +56,8 @@ public class Bootstrap {
     @Autowired
     private QuarterAchievementRepository quarterAchievementRepository;
 
-    @Autowired
-    private QuarterAchievementService quarterAchievementService;
-
+    public YearAchievementBootstrap yearAchievementBootstrap = new YearAchievementBootstrap();
+    public QuarterAchievementBootstrap quarterAchievementBootstrap = new QuarterAchievementBootstrap();
     public AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
 
     TestBootstrap testBootstrap = new TestBootstrap();
@@ -192,74 +191,63 @@ public class Bootstrap {
     }
 
     private void initYear() {
+        Stream.of(yearAchievementBootstrap.createYear().toArray()).forEach(yearAchievements -> {
+            YearAchievement yearAchievement = (YearAchievement) yearAchievements;
+            yearAchievementRepository.saveAndFlush(yearAchievement);
+        });
         Stream.of(threeYearAchievementRepository.findAll().toArray()).forEach(threeYearAchievements -> {
             ThreeYearAchievement threeYearAchievement = (ThreeYearAchievement) threeYearAchievements;
-            AgeCategory ageCategory = threeYearAchievement.getAgeCategory();
-            Map<String, Object> map = achievementBootstrap.createYear();
-            List<YearAchievement> yearList = null;
-            if (map.containsKey("for_" + ageCategory.toString().toLowerCase())) {
-                yearList = (List<YearAchievement>) map.get("for_" + ageCategory.toString().toLowerCase());
-                Stream.of(yearList.toArray()).forEach(yearAchievement -> {
-                    YearAchievement editYearAchievement = (YearAchievement) yearAchievement;
-                    editYearAchievement.setThreeYearAchievement(threeYearAchievementRepository.findOne(threeYearAchievement.getId()));
-                    yearAchievementRepository.saveAndFlush(editYearAchievement);
-                });
-            } else {
-                yearList = (List<YearAchievement>) map.get("for_beginners");
-                Stream.of(yearList.toArray()).forEach(yearAchievement -> {
-                    YearAchievement editYearAchievement = (YearAchievement) yearAchievement;
-                    editYearAchievement.setThreeYearAchievement(threeYearAchievementRepository.findOne(threeYearAchievement.getId()));
-                    yearAchievementRepository.saveAndFlush(editYearAchievement);
-                });
-            }
+            List<YearAchievement> yearAchievementList = yearAchievementRepository.findByUserAgeGroup(threeYearAchievement.getUserAgeGroup());
+            Stream.of(yearAchievementList.toArray()).forEach(year -> {
+                YearAchievement yearAchievement = (YearAchievement) year;
+                yearAchievement.setThreeYearAchievement(threeYearAchievement);
+                yearAchievementRepository.saveAndFlush(yearAchievement);
+            });
         });
         initQuarter();
     }
 
     private void initQuarter() {
-        Stream.of(yearAchievementRepository.findAll().toArray()).forEach(year -> {
-            YearAchievement yearAchievement = (YearAchievement) year;
-            Map<String, Object> map = achievementBootstrap.createQuarter();
-            List<QuarterAchievement> quarterAchievementList;
-            if (map.containsKey("forYear" + yearAchievement.getId())) {
-                quarterAchievementList = (List<QuarterAchievement>) map.get("forYear" + yearAchievement.getId());
-                Stream.of(quarterAchievementList.toArray()).forEach(quarter -> {
-                    QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
-                    quarterAchievement.setYearAchievement(yearAchievement);
-                    quarterAchievementRepository.saveAndFlush(quarterAchievement);
-                });
-            } else {
-                quarterAchievementList = (List<QuarterAchievement>) map.get("forYear1");
-                Stream.of(quarterAchievementList.toArray()).forEach(quarter -> {
-                    QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
-                    quarterAchievement.setYearAchievement(yearAchievement);
-                    quarterAchievementRepository.saveAndFlush(quarterAchievement);
-                });
-            }
+        Stream.of(quarterAchievementBootstrap.createQuarter().toArray()).forEach(quarter -> {
+            QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
+            quarterAchievementRepository.saveAndFlush(quarterAchievement);
+        });
+        Stream.of(UserAgeGroup.values()).forEach(ageGroup -> {
+            List<YearAchievement> yearAchievementList = yearAchievementRepository.findByUserAgeGroup(ageGroup);
+            IntStream.range(1, 4).forEach(index -> {
+                List<QuarterAchievement> quarterAchievementList = quarterAchievementRepository.findByUserAgeGroup(ageGroup);
+                if (yearAchievementList.size() != 0 && quarterAchievementList.size() != 0) {
+                    YearAchievement yearAchievement = yearAchievementList.get(index - 1);
+                    List<QuarterAchievement> subList = null;
+                    switch (index) {
+                        case 1: {
+                            subList = quarterAchievementList.subList(0, 4);
+                            break;
+                        }
+                        case 2: {
+                            subList = quarterAchievementList.subList(4, 8);
+                            break;
+                        }
+                        case 3: {
+                            subList = quarterAchievementList.subList(8, 12);
+                            break;
+                        }
+                    }
+                    Stream.of(subList.toArray()).forEach(quarterAchievement -> {
+                        QuarterAchievement savedQuarterAchievement = (QuarterAchievement) quarterAchievement;
+                        savedQuarterAchievement.setYearAchievement(yearAchievement);
+                        quarterAchievementRepository.saveAndFlush(savedQuarterAchievement);
+                    });
+                }
+            });
         });
         initTest();
     }
 
     public void initTest() {
-        IntStream.range(1, quarterAchievementService.getAllQuarterAchievement().size()).forEach(quarterId -> {
-            QuarterAchievement quarterAchievement = quarterAchievementService.getQuarterAchievementById((long) quarterId);
-            Map<String, Object> mapTest = testBootstrap.createTest();
-            List<Test> tests = null;
-            if (mapTest.containsKey("testForQuarter" + quarterId)) {
-                tests = (List<Test>) mapTest.get("testForQuarter" + quarterId);
-                Stream.of(tests.toArray()).forEach(testElement -> {
-                    Test test = (Test) testElement;
-                    test.setQuarterAchievement(quarterAchievement);
-                    testRepository.saveAndFlush(test);
-                });
-            } else {
-                tests = (List<Test>) mapTest.get("testForQuarter1");
-                Stream.of(tests.toArray()).forEach(testElement -> {
-                    Test test = (Test) testElement;
-                    test.setQuarterAchievement(quarterAchievement);
-                    testRepository.saveAndFlush(test);
-                });
-            }
+        Stream.of(testBootstrap.createTest().toArray()).forEach(test -> {
+            Test savedTest = (Test) test;
+            testRepository.saveAndFlush(savedTest);
         });
         initTask();
     }
@@ -267,22 +255,17 @@ public class Bootstrap {
     public void initTask() {
         IntStream.range(1, testService.getAllTest().size()).forEach(testId -> {
             Test test = testService.getTestById((long) testId);
-            Map<String, Object> map = taskBootstrap.createTask();
-            List<Task> list = null;
-            if (map.containsKey("listForTest" + testId)) {
-                list = (List<Task>) map.get("listForTest" + testId);
-                Stream.of(list.toArray()).forEach(item -> {
-                    Task task = (Task) item;
-                    task.setTest(test);
-                    taskRepository.saveAndFlush(task);
-                });
-            } else {
-                list = (List<Task>) map.get("listForTest1");
-                Stream.of(list.toArray()).forEach(item -> {
-                    Task task = (Task) item;
-                    task.setTest(test);
-                    taskRepository.saveAndFlush(task);
-                });
+            Map<Integer, Object> map = taskBootstrap.createTask();
+            List<Task> list = (List<Task>) map.get(testId);
+            while (testId <= map.size()) {
+                if (list.size() != 0) {
+                    Stream.of(list.toArray()).forEach(item -> {
+                        Task task = (Task) item;
+                        task.setTest(test);
+                        taskRepository.saveAndFlush(task);
+                    });
+                    return;
+                }
             }
         });
     }

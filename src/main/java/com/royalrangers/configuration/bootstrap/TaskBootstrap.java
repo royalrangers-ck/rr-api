@@ -1,10 +1,6 @@
 package com.royalrangers.configuration.bootstrap;
 
-import com.royalrangers.dto.achievement.TaskRequestDto;
 import com.royalrangers.model.achievement.Task;
-import com.royalrangers.repository.achievement.TestRepository;
-import com.royalrangers.service.achievement.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +10,8 @@ import java.util.stream.IntStream;
 
 public class TaskBootstrap {
 
-    public Map<String, Object> createTask() {
-        Map<String, Object> map = new HashMap<>();
+    public Map<Integer, Object> createTask() {
+        Map<Integer, Object> map = new HashMap<>();
         List<Task> tasksForTest1 = new ArrayList<>();
         List<Task> tasksForTest2 = new ArrayList<>();
         List<Task> tasksForTest3 = new ArrayList<>();
@@ -201,9 +197,9 @@ public class TaskBootstrap {
             }
             tasksForTest3.add(task);
         });
-        map.put("listForTest1", tasksForTest1);
-        map.put("listForTest2", tasksForTest2);
-        map.put("listForTest3", tasksForTest3);
+        map.put(1, tasksForTest1);
+        map.put(2, tasksForTest2);
+        map.put(3, tasksForTest3);
         return map;
     }
 
