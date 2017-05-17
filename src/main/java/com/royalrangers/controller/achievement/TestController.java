@@ -2,8 +2,10 @@ package com.royalrangers.controller.achievement;
 
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.achievement.TestAgeGroupDto;
 import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.enums.ImageType;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -57,6 +59,18 @@ public class TestController {
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get Test by id");
+        }
+    }
+
+
+    @GetMapping("/group/{userAgeGroup}")
+    @ApiOperation(value = "Get list of all tests for age groups")
+    public ResponseResult getTestsByUserAgeGroup(@PathVariable String userAgeGroup) {
+        try {
+            return ResponseBuilder.success(testService.getAllTestByUserAgeGroup(UserAgeGroup.valueOf(userAgeGroup.toUpperCase())));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseBuilder.fail("Failed get all Test by UserAgeGroup");
         }
     }
 

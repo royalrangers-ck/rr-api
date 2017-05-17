@@ -3,6 +3,7 @@ package com.royalrangers.service.achievement;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.enums.ImageType;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.TestType;
 import com.royalrangers.model.achievement.Test;
 import com.royalrangers.repository.achievement.TestRepository;
@@ -10,6 +11,8 @@ import com.royalrangers.service.DropboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -19,13 +22,14 @@ public class TestService {
     private TestRepository testRepository;
 
     @Autowired
-    private QuarterAchievementService quarterAchievementService;
-
-    @Autowired
     private DropboxService dropboxService;
 
     public List<Test> getAllTest() {
         return testRepository.findAll();
+    }
+
+    public List<Test> getAllTestByUserAgeGroup(UserAgeGroup userAgeGroup) {
+        return testRepository.findByUserAgeGroupsContains(new ArrayList<>(Arrays.asList(userAgeGroup)));
     }
 
     public void addTest(TestRequestDto params) {
@@ -34,8 +38,6 @@ public class TestService {
         test.setShortDescription(params.getShortDescription());
         test.setDescription(params.getDescription());
         test.setLogoUrl(params.getLogoUrl());
-        Integer quarterId = params.getQuarterAchievementId();
-        test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
         test.setTestType(TestType.valueOf(params.getTestType()));
         testRepository.saveAndFlush(test);
     }
@@ -54,8 +56,6 @@ public class TestService {
         test.setShortDescription(params.getShortDescription());
         test.setDescription(params.getDescription());
         test.setLogoUrl(params.getLogoUrl());
-        Integer quarterId = params.getQuarterAchievementId();
-        test.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
         test.setTestType(TestType.valueOf(params.getTestType()));
         return testRepository.saveAndFlush(test);
     }

@@ -1,5 +1,6 @@
 package com.royalrangers.repository.achievement;
 
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.achievement.UserQuarterAchievement;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,4 +13,6 @@ public interface UserQuarterAchievementRepository extends JpaRepository<UserQuar
     List<UserQuarterAchievement> findByUserId(Long id);
     List<UserQuarterAchievement> findAllByQuarterAchievement(Long QuarterAchievementId);
     List<UserQuarterAchievement> findByUserPlatoonIdAndAchievementState(Long id, AchievementState state);
+
+    public List<UserQuarterAchievement> findByUserAgeGroup(UserAgeGroup userAgeGroup);
 }
