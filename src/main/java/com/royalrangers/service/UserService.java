@@ -6,7 +6,6 @@ import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.UserAgeGroup;
-import com.royalrangers.enums.UserStatus;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.TempUser;
@@ -24,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
+
+import static com.royalrangers.enums.AuthorityName.*;
 
 @Slf4j
 @Service
@@ -65,16 +66,22 @@ public class UserService {
     @Autowired
     private TempUserRepository tempUserRepository;
 
-    private void grantAuthority(User user, AuthorityName... roles) {
+    private void grantAuthority(User user, AuthorityName authorityName) {
         Set<Authority> authoritySet = new HashSet<>();
-        for (AuthorityName role : roles) {
-            Authority authority = authorityRepository.findByName(role);
-            authoritySet.add(authority);
+
+        switch (authorityName) {
+            case ROLE_SUPER_ADMIN:
+                authoritySet.add(authorityRepository.findByName(ROLE_SUPER_ADMIN));
+            case ROLE_ADMIN:
+                authoritySet.add(authorityRepository.findByName(ROLE_ADMIN));
+            case ROLE_USER:
+                authoritySet.add(authorityRepository.findByName(ROLE_USER));
         }
+
         user.setAuthorities(authoritySet);
     }
 
-    public User createUserFromUserForm(UserRegistrationDto userDto) {
+    public User createUser(UserRegistrationDto userDto) {
         User user = new User();
         user.setCreateDate(new Date());
         user.setUpdateDate(new Date());
@@ -96,11 +103,8 @@ public class UserService {
         user.setGroup(groupRepository.findOne(userDto.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(userDto.getPlatoonId()));
         user.setSection(sectionRepository.findOne(userDto.getSectionId()));
-        if (Objects.equals(userDto.getStatus(), UserStatus.TEACHER)) {
-            grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
-        } else {
-            grantAuthority(user, AuthorityName.ROLE_USER);
-        }
+        grantAuthority(user, userDto.getAuthorityName());
+
         return user;
     }
 
@@ -358,7 +362,7 @@ public class UserService {
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
                 .filter(element -> user.getAuthorities()
-                        .contains(AuthorityName.ROLE_ADMIN))
+                        .contains(ROLE_ADMIN))
                 .findFirst();
         if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);

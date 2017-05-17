@@ -5,7 +5,6 @@ import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.service.VerificationTokenService;
@@ -42,7 +41,7 @@ public class RegistrationController {
             return ResponseBuilder.fail("User with this email already exists");
         }
 
-        User user = userService.createUserFromUserForm(userInfo);
+        User user = userService.createUser(userInfo);
 
         try {
             String confirmLink = userService.getConfirmRegistrationLink(user);
