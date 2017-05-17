@@ -245,8 +245,8 @@ public class UserService {
         tempUser.setUserAgeGroup(user.getUserAgeGroup());
         tempUser.setUserRank(user.getUserRank());
         tempUser.setCountry(user.getCountry());
+        tempUser.setRegion(user.getRegion());
         tempUser.setCity(user.getCity());
-        tempUser.setGroup(user.getGroup());
         tempUser.setPlatoon(user.getPlatoon());
         tempUser.setSection(user.getSection());
 
@@ -267,8 +267,8 @@ public class UserService {
         user.setUserAgeGroup(tempUser.getUserAgeGroup());
         user.setUserRank(tempUser.getUserRank());
         user.setCountry(tempUser.getCountry());
+        user.setRegion(tempUser.getRegion());
         user.setCity(tempUser.getCity());
-        user.setGroup(tempUser.getGroup());
         user.setPlatoon(tempUser.getPlatoon());
         user.setSection(tempUser.getSection());
 
@@ -287,8 +287,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -308,8 +308,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -333,8 +333,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -367,7 +367,7 @@ public class UserService {
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
                 .filter(element -> user.getAuthorities()
-                        .contains(AuthorityName.ROLE_ADMIN))
+                        .contains(ROLE_ADMIN))
                 .findFirst();
         if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);

@@ -1,6 +1,7 @@
 package com.royalrangers.dto.user;
 
-import com.royalrangers.enums.UserStatus;
+import com.royalrangers.enums.AuthorityName;
+import com.royalrangers.enums.UserRank;
 import lombok.Getter;
 import lombok.Setter;
 
