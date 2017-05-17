@@ -9,13 +9,11 @@ import java.util.Date;
 @Setter
 public class PlatoonDto {
     private Long id;
-    private Date createDate;
-    private Date updateDate;
-    private String name;
-    private Long groupId;
+    private Integer name;
+    private Long cityId;
     private String history;
     private String logoUrl;
     private String address;
     private Date meetTime;
-    private String city;
+//    private String city;
 }

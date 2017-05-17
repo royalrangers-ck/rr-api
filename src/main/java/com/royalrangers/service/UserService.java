@@ -43,10 +43,10 @@ public class UserService {
     private CountryRepository countryRepository;
 
     @Autowired
-    private CityRepository cityRepository;
+    private RegionRepository regionRepository;
 
     @Autowired
-    private GroupRepository groupRepository;
+    private CityRepository cityRepository;
 
     @Autowired
     private PlatoonRepository platoonRepository;
@@ -99,10 +99,14 @@ public class UserService {
         user.setTelephoneNumber(userDto.getTelephoneNumber());
         user.setBirthDate(userDto.getBirthDate());
         user.setCountry(countryRepository.findOne(userDto.getCountryId()));
+        user.setRegion(regionRepository.findOne(userDto.getRegionId()));
         user.setCity(cityRepository.findOne(userDto.getCityId()));
-        user.setGroup(groupRepository.findOne(userDto.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(userDto.getPlatoonId()));
-        user.setSection(sectionRepository.findOne(userDto.getSectionId()));
+
+        if (userDto.getSectionId() != null) {
+            user.setSection(sectionRepository.findOne(userDto.getSectionId()));
+        }
+
         grantAuthority(user, userDto.getAuthorityName());
 
         return user;
@@ -240,8 +244,8 @@ public class UserService {
         tempUser.setUserAgeGroup(user.getUserAgeGroup());
         tempUser.setUserRank(user.getUserRank());
         tempUser.setCountry(user.getCountry());
+        tempUser.setRegion(user.getRegion());
         tempUser.setCity(user.getCity());
-        tempUser.setGroup(user.getGroup());
         tempUser.setPlatoon(user.getPlatoon());
         tempUser.setSection(user.getSection());
 
@@ -262,8 +266,8 @@ public class UserService {
         user.setUserAgeGroup(tempUser.getUserAgeGroup());
         user.setUserRank(tempUser.getUserRank());
         user.setCountry(tempUser.getCountry());
+        user.setRegion(tempUser.getRegion());
         user.setCity(tempUser.getCity());
-        user.setGroup(tempUser.getGroup());
         user.setPlatoon(tempUser.getPlatoon());
         user.setSection(tempUser.getSection());
 
@@ -282,8 +286,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -303,8 +307,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -328,8 +332,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 

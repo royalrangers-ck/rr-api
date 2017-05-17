@@ -41,13 +41,13 @@ public abstract class BaseUser extends BaseModel {
 
     @JsonView(Views.Profile.class)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "city_id")
-    private City city;
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     @JsonView(Views.Profile.class)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @JsonView(Views.Profile.class)
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

@@ -16,8 +16,8 @@ public class UserRegistrationDto {
     private String gender;
     private String telephoneNumber;
     private Long countryId;
+    private Long regionId;
     private Long cityId;
-    private Long groupId;
     private Long platoonId;
     private Long sectionId;
     private AuthorityName authorityName;

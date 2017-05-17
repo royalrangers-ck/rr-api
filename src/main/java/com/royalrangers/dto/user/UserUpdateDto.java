@@ -16,8 +16,8 @@ public class UserUpdateDto {
     private UserAgeGroup userAgeGroup;
     private UserRank userRank;
     private Long countryId;
+    private Long regionId;
     private Long cityId;
-    private Long groupId;
     private Long platoonId;
     private Long sectionId;
 }

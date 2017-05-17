@@ -1,0 +1,75 @@
+&1 !com.royalrangers.model.Country
+name: Україна
+regions:
+  - &10 !com.royalrangers.model.Region
+    country: *1
+    name: Карпати
+    cities:
+      - &100 !com.royalrangers.model.City
+        region: *10
+        name: Мукачево
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *100
+            name: 49
+      - &101 !com.royalrangers.model.City
+        region: *10
+        name: Клиновець
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *101
+            name: 12
+      - &102 !com.royalrangers.model.City
+        region: *10
+        name: Лалово
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *102
+            name: 13
+
+  - &11 !com.royalrangers.model.Region
+    country: *1
+    name: Центральний
+    cities:
+      - &103 !com.royalrangers.model.City
+        region: *11
+        name: Житомир
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *103
+            name: 3
+      - &104 !com.royalrangers.model.City
+        region: *11
+        name: Коростишів
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *104
+            name: 11
+      - &105 !com.royalrangers.model.City
+        region: *11
+        name: Київ
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *105
+            name: 45
+      - &106 !com.royalrangers.model.City
+        region: *11
+        name: Черкаси
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *106
+            name: 9
+      - &107 !com.royalrangers.model.City
+        region: *11
+        name: Вінниця
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *107
+            name: 7
+      - &108 !com.royalrangers.model.City
+        region: *11
+        name: Брусилів
+        platoons:
+          - !com.royalrangers.model.Platoon
+            city: *108
+            name: 5

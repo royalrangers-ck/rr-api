@@ -7,10 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class CityDto {
-    private Long id;
+public class RegionDto {
     private String name;
-    private Long regionId;
-    private String history;
-    private String address;
+    Long countryId;
 }

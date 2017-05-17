@@ -3,13 +3,13 @@
    firstName: User
    lastName: Simple
    birthDate: 1262304000000
-   gender:
+   gender: M
    telephoneNumber:
    countryId: 1
+   regionId: 1
    cityId: 1
-   groupId:
-   platoonId:
-   sectionId:
+   platoonId: 1
+   sectionId: 1
    authorityName: ROLE_USER
 ---
    email: admin@ranger.online
@@ -17,12 +17,12 @@
    firstName: Admin
    lastName: Simple
    birthDate: 1104537600000
-   gender:
+   gender: F
    telephoneNumber:
    countryId: 1
+   regionId: 1
    cityId: 1
-   groupId:
-   platoonId:
+   platoonId: 1
    sectionId:
    authorityName: ROLE_ADMIN
 ---
@@ -31,11 +31,11 @@
    firstName: Admin
    lastName: Super
    birthDate: 788918400000
-   gender:
+   gender: M
    telephoneNumber:
    countryId: 1
+   regionId: 1
    cityId: 1
-   groupId: 1
    platoonId: 1
-   sectionId: 1
+   sectionId:
    authorityName: ROLE_SUPER_ADMIN

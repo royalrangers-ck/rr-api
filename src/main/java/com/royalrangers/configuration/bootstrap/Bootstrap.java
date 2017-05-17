@@ -5,8 +5,8 @@ import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.achivement.AgeCategory;
 import com.royalrangers.model.Authority;
-import com.royalrangers.model.City;
 import com.royalrangers.model.Country;
+import com.royalrangers.model.Region;
 import com.royalrangers.model.User;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.repository.AuthorityRepository;
@@ -40,7 +40,6 @@ import java.util.stream.Stream;
 public class Bootstrap {
     private final String DDL_AUTO_CREATE = "create";
     private final String DDL_AUTO_CREATE_DROP = "create-drop";
-    private final String UKRAINE_CITIES = "src/main/resources/init/ukraine.cities";
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
@@ -97,15 +96,12 @@ public class Bootstrap {
     public void init() {
         if (DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
 
-            try {
-                initCountry("Україна", UKRAINE_CITIES);
-            } catch (IOException e) {
-                log.error("Error in loading file " + e.getMessage(), e);
-            }
             initTwelveYear();
             initReward();
 
             initAuthorities();
+
+            initCountry();
             initUsers();
         }
     }
@@ -132,6 +128,18 @@ public class Bootstrap {
         userRepository.save(users);
     }
 
+    private void initCountry() {
+
+        try {
+            Resource resource = new ClassPathResource("init/ukraine.yml");
+            YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
+            Country country = reader.read(Country.class);
+            countryRepository.save(country);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void initAuthorities() {
         Authority userAuthority = new Authority();
         userAuthority.setName(AuthorityName.ROLE_USER);
@@ -144,15 +152,6 @@ public class Bootstrap {
         Authority superAdminAuthority = new Authority();
         superAdminAuthority.setName(AuthorityName.ROLE_SUPER_ADMIN);
         authorityRepository.save(superAdminAuthority);
-    }
-
-    private void initCountry(String countryName, String path) throws IOException {
-        Country country = new Country(countryName);
-        Set<City> citySet = new HashSet<>();
-        Files.lines(Paths.get(path), StandardCharsets.UTF_8)
-                .forEach(element -> citySet.add(new City(country, element)));
-        country.setCity(citySet);
-        countryRepository.save(country);
     }
 
     private void initReward() {
