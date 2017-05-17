@@ -86,6 +86,7 @@ public class UserService {
         user.setEnabled(false);
         user.setConfirmed(false);
         user.setApproved(false);
+        user.setRejected(false);
         user.setUserAgeGroup(determineUserAgeGroup(calculateUserAge(userDto.getBirthDate())));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         user.setGender(userDto.getGender());
@@ -372,7 +373,7 @@ public class UserService {
         if (!isEmailExist(email)) {
             throw new UserRepositoryException("User with this email is not exist.");
         }
-        if (!user.getConfirmed()) {
+        if (user.getConfirmed()) {
             throw new UserRepositoryException("User with this email already confirmed.");
         }
         if (user.getRejected()) {
