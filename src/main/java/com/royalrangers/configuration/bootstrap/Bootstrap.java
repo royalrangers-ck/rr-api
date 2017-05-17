@@ -1,22 +1,32 @@
 package com.royalrangers.configuration.bootstrap;
 
+import com.esotericsoftware.yamlbeans.YamlReader;
+import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.achivement.AgeCategory;
-import com.royalrangers.model.*;
+import com.royalrangers.model.Authority;
+import com.royalrangers.model.City;
+import com.royalrangers.model.Country;
+import com.royalrangers.model.User;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.CountryRepository;
 import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.*;
-import com.royalrangers.service.achievement.*;
+import com.royalrangers.service.UserService;
+import com.royalrangers.service.achievement.QuarterAchievementService;
+import com.royalrangers.service.achievement.RewardService;
+import com.royalrangers.service.achievement.TestService;
+import com.royalrangers.service.achievement.TwelveYearAchievementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -37,6 +47,9 @@ public class Bootstrap {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private CountryRepository countryRepository;
@@ -83,8 +96,7 @@ public class Bootstrap {
     @PostConstruct
     public void init() {
         if (DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
-            initAuthorities();
-            initUsers();
+
             try {
                 initCountry("Україна", UKRAINE_CITIES);
             } catch (IOException e) {
@@ -92,54 +104,31 @@ public class Bootstrap {
             }
             initTwelveYear();
             initReward();
+
+            initAuthorities();
+            initUsers();
         }
     }
 
     private void initUsers() {
         List<User> users = new ArrayList<>();
-        IntStream.range(1, 4).forEach(element -> {
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
-            User user = new User();
-            user.setEmail("email" + element + "@mail.test");
-            user.setPassword(encoder.encode("password" + element));
-            user.setFirstName("first " + element);
-            user.setLastName("last " + element);
-            user.setGender("gender " + element);
-            user.setEnabled(true);
-            user.setConfirmed(true);
-            user.setApproved(true);
-            user.setCountry(new Country("Ukraine" + element));
-            user.setCity(new City(user.getCountry(), "Cherkasy" + element));
-            user.setGroup(new Group(user.getCity(), "group " + element));
-            user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
-            user.setSection(new Section(user.getPlatoon(), "section " + element));
-            user.setLastPasswordResetDate(new Date(new GregorianCalendar(2016,
-                    Calendar.FEBRUARY, 9).getTimeInMillis()));
-            Authority userAuthority = authorityRepository.findOne(1L);
-            Authority adminAuthority = authorityRepository.findOne(2L);
-            Authority superAdminAuthority = authorityRepository.findOne(3L);
-            switch (element) {
-                case 1:
-                    user.setAuthorities(new HashSet<Authority>() {{
-                        add(userAuthority);
-                    }});
-                    break;
-                case 2:
-                    user.setAuthorities(new HashSet<Authority>() {{
-                        add(userAuthority);
-                        add(adminAuthority);
-                    }});
-                    break;
-                case 3:
-                    user.setAuthorities(new HashSet<Authority>() {{
-                        add(userAuthority);
-                        add(adminAuthority);
-                        add(superAdminAuthority);
-                    }});
-                    break;
+
+        try {
+            Resource resource = new ClassPathResource("init/initial_users.yml");
+            YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
+            while (true) {
+                UserRegistrationDto userDto = reader.read(UserRegistrationDto.class);
+                if (userDto == null) break;
+                User user = userService.createUser(userDto);
+                user.setEnabled(true);
+                user.setConfirmed(true);
+                user.setApproved(true);
+                users.add(user);
             }
-            users.add(user);
-        });
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+
         userRepository.save(users);
     }
 
@@ -154,7 +143,6 @@ public class Bootstrap {
 
         Authority superAdminAuthority = new Authority();
         superAdminAuthority.setName(AuthorityName.ROLE_SUPER_ADMIN);
-        authorityRepository.save(superAdminAuthority);
         authorityRepository.save(superAdminAuthority);
     }
 
