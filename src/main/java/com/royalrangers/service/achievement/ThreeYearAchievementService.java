@@ -3,7 +3,7 @@ package com.royalrangers.service.achievement;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.achievement.ThreeYearRequestDto;
 import com.royalrangers.enums.ImageType;
-import com.royalrangers.enums.achivement.AgeCategory;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.repository.achievement.ThreeYearAchievementRepository;
 import com.royalrangers.model.achievement.ThreeYearAchievement;
 import com.royalrangers.service.DropboxService;
@@ -34,7 +34,7 @@ public class ThreeYearAchievementService {
         threeYearAchievementSaved.setDescription(params.getDescription());
         Integer id = params.getUpLevelId();
         threeYearAchievementSaved.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(id.longValue()));
-        threeYearAchievementSaved.setAgeCategory(AgeCategory.valueOf(params.getAgeCategory()));
+        threeYearAchievementSaved.setUserAgeGroup(UserAgeGroup.valueOf(params.getAgeCategory()));
         threeYearAchievementRepository.saveAndFlush(threeYearAchievementSaved);
     }
 
@@ -53,7 +53,7 @@ public class ThreeYearAchievementService {
         threeYearData.setName(params.getName());
         threeYearData.setDescription(params.getDescription());
         threeYearData.setLogoUrl(params.getLogoUrl());
-        threeYearData.setAgeCategory(AgeCategory.valueOf(params.getAgeCategory()));
+        threeYearData.setUserAgeGroup(UserAgeGroup.valueOf(params.getAgeCategory()));
         return threeYearAchievementRepository.saveAndFlush(threeYearData);
     }
 
