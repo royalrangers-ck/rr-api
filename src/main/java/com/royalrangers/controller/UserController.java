@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @JsonView(Views.Profile.class)
-    @GetMapping("{userId}")
+    @GetMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get user info (for admin)")
     public ResponseResult getUserDetailById(@PathVariable("userId") Long id) {
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @JsonView(Views.Profile.class)
-    @GetMapping("/approve/update{platoonId}")
+    @GetMapping("/approve/update/{platoonId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get tempUsers for approve (for platoon admin)")
     public ResponseResult getTempUsersToApprove(@PathVariable("platoonId") Long id) {
@@ -85,7 +85,7 @@ public class UserController {
 
 
     @JsonView(Views.Profile.class)
-    @GetMapping("/approve/{platoonId}")
+    @GetMapping("/approve/registration/{platoonId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get users for approve (for platoon admin)")
     public ResponseResult getUserToApprove(@PathVariable("platoonId") Long id) {
@@ -97,17 +97,17 @@ public class UserController {
     }
 
     @JsonView(Views.Profile.class)
-    @GetMapping("/approve/super")
+    @GetMapping("/approve/registration/super")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ApiOperation(value = "Get users for approve (for super admin)")
     public ResponseResult getUsersToApprove(){
         return ResponseBuilder.success(userService.getUsersForApproveForSuperAdmin());
     }
 
-    @PostMapping("/approve/registration")
+    @PostMapping("/approve/registration/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @ApiOperation(value = "Approve users after registration")
-    public ResponseResult approveUsers(@RequestParam Long id) {
+    public ResponseResult approveUsers(@PathVariable("userId") Long id) {
         try {
             userService.approveUser(id);
             return ResponseBuilder.success("User successfully approved.");
@@ -116,10 +116,10 @@ public class UserController {
         }
     }
 
-    @PostMapping("/reject/registration")
+    @PostMapping("/reject/registration/{userId}")
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     @ApiOperation(value = "Reject user after registration (for platoon admin)")
-    public ResponseResult rejectUser(@RequestParam Long id) {
+    public ResponseResult rejectUser(@PathVariable("userId") Long id) {
         try {
             userService.rejectUser(id);
             return ResponseBuilder.success("User successfully rejected.");
@@ -137,10 +137,10 @@ public class UserController {
         return ResponseBuilder.success(String.format("User %s successfully updated, waiting for approve this update by admin", userService.getAuthenticatedUser().getEmail()));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{temp_userId")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Confirm to update user data from temp_user data(for admin)")
-    public ResponseResult updateUser(@RequestParam Long id, @RequestBody UserUpdateDto update) {
+    public ResponseResult updateUser(@PathVariable("temp_userId") Long id, @RequestBody UserUpdateDto update) {
         TempUser user = userService.getTempUserById(id);
         try {
             userService.updateUser(id, update);
@@ -166,9 +166,9 @@ public class UserController {
         }
     }
 
-    @PostMapping("/avatar")
+    @PostMapping("/avatar/{file}")
     @ApiOperation(value = "Upload and set avatar for current user")
-    public ResponseResult upload(@RequestParam("file") MultipartFile file) {
+    public ResponseResult upload(@PathVariable("file") MultipartFile file) {
         if (file.getSize() >= FILE_MAX_SIZE)
             return ResponseBuilder.fail("File too large.");
 

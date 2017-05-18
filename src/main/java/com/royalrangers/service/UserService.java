@@ -232,27 +232,6 @@ public class UserService {
         return tempUser;
     }
 
-    private User getUserFromTempUser(TempUser tempUser) {
-        User user = getAuthenticatedUser();
-
-        user.setCreateDate(tempUser.getCreateDate());
-        user.setUpdateDate(tempUser.getUpdateDate());
-        user.setFirstName(tempUser.getFirstName());
-        user.setLastName(tempUser.getLastName());
-        user.setGender(tempUser.getGender());
-        user.setBirthDate(tempUser.getBirthDate());
-        user.setTelephoneNumber(tempUser.getTelephoneNumber());
-        user.setUserAgeGroup(tempUser.getUserAgeGroup());
-        user.setUserRank(tempUser.getUserRank());
-        user.setCountry(tempUser.getCountry());
-        user.setCity(tempUser.getCity());
-        user.setGroup(tempUser.getGroup());
-        user.setPlatoon(tempUser.getPlatoon());
-        user.setSection(tempUser.getSection());
-
-        return user;
-    }
-
     public TempUser getTempUserById(Long id) {
         return tempUserRepository.findOne(id);
     }
