@@ -116,7 +116,7 @@ public class UserController {
         userService.updateTempUser(update);
         log.info("Update temp_user " + email);
 
-        return ResponseBuilder.success(String.format("User %s successfully updated", email));
+        return ResponseBuilder.success("User %s successfully updated", email);
     }
 
     @PutMapping("/update")
@@ -129,7 +129,7 @@ public class UserController {
         userService.updateUser(update);
         log.info("Update user " + email);
 
-        return ResponseBuilder.success(String.format("User %s successfully updated", email));
+        return ResponseBuilder.success("User %s successfully updated", email);
     }
 
     @PutMapping(value = "/{userId}")
@@ -140,7 +140,7 @@ public class UserController {
             userService.updateUserById(id, userUpdate);
             log.info("Update user with id %d " + id);
 
-            return ResponseBuilder.success(String.format("User with id %d successfully updated", id));
+            return ResponseBuilder.success("User with id %d successfully updated", String.valueOf(id));
         } catch (UserRepositoryException e){
             return ResponseBuilder.fail(e.getMessage());
         }
