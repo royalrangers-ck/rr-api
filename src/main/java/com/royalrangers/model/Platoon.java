@@ -31,10 +31,6 @@ public class Platoon extends BaseModel{
     @JsonView(Views.Public.class)
     private Date meetTime;
 
-    //    TODO What is this?
-//    @JsonView(Views.Public.class)
-//    private String city;
-
     @JsonIgnore
     @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Section> sections;

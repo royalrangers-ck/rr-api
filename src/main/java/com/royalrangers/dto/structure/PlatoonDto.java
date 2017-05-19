@@ -15,5 +15,4 @@ public class PlatoonDto {
     private String logoUrl;
     private String address;
     private Date meetTime;
-//    private String city;
 }

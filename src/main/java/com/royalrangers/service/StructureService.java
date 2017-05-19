@@ -44,7 +44,6 @@ public class StructureService {
         platoon.setHistory(platoonDto.getHistory());
         platoon.setAddress(platoonDto.getAddress());
         platoon.setCity(cityRepository.findOne(platoonDto.getCityId()));
-//        platoon.setCity(groupRepository.findOne(platoonDto.getCityId()).getRegions().getName());
         platoon.setMeetTime(platoonDto.getMeetTime());
         platoonRepository.save(platoon);
     }
@@ -56,7 +55,6 @@ public class StructureService {
         platoon.setHistory(update.getHistory());
         platoon.setAddress(update.getAddress());
         platoon.setCity(cityRepository.findOne(update.getCityId()));
-//        platoon.setCity(groupRepository.findOne(update.getCityId()).getRegions().getName());
         platoon.setMeetTime(update.getMeetTime());
         platoonRepository.save(platoon);
     }
