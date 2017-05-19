@@ -26,9 +26,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -117,6 +115,9 @@ public class Bootstrap {
                 user.setEnabled(true);
                 user.setConfirmed(true);
                 user.setApproved(true);
+                user.setLastPasswordResetDate(new Date(new GregorianCalendar(
+                        2017, Calendar.FEBRUARY, 9)
+                        .getTimeInMillis()));
                 users.add(user);
             }
         } catch (Exception e) {
