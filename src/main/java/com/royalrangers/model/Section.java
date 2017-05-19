@@ -18,7 +18,7 @@ public class Section extends BaseModel{
     @NotNull
     private String name;
 
-    @JsonView(Views.Profile.class)
+    @JsonView(Views.Public.class)
     private UserAgeGroup userAgeGroup;
 
     @JsonIgnore
