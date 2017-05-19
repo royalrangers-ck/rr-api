@@ -37,6 +37,8 @@ import java.util.stream.Stream;
 public class Bootstrap {
     private final String DDL_AUTO_CREATE = "create";
     private final String DDL_AUTO_CREATE_DROP = "create-drop";
+    private final String COUNTRY_FILE = "init/ukraine.yml";
+    private final String USERS_FILE = "init/initial_users.yml";
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
@@ -106,7 +108,7 @@ public class Bootstrap {
         List<User> users = new ArrayList<>();
 
         try {
-            Resource resource = new ClassPathResource("init/initial_users.yml");
+            Resource resource = new ClassPathResource(USERS_FILE);
             YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
             while (true) {
                 UserRegistrationDto userDto = reader.read(UserRegistrationDto.class);
@@ -127,7 +129,7 @@ public class Bootstrap {
     private void initCountry() {
 
         try {
-            Resource resource = new ClassPathResource("init/ukraine.yml");
+            Resource resource = new ClassPathResource(COUNTRY_FILE);
             YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
             Country country = reader.read(Country.class);
             countryRepository.save(country);
