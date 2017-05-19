@@ -9,9 +9,13 @@ regions:
         region: *10
         name: Мукачево
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1000 !com.royalrangers.model.Platoon
             city: *100
             name: 49
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1000
+                name: Section 1
       - &101 !com.royalrangers.model.City
         region: *10
         name: Клиновець
