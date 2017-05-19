@@ -1,27 +1,34 @@
 package com.royalrangers.configuration.bootstrap;
 
+import com.esotericsoftware.yamlbeans.YamlReader;
+import com.royalrangers.dto.user.UserRegistrationDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.UserAgeGroup;
-import com.royalrangers.model.*;
+import com.royalrangers.model.Authority;
+import com.royalrangers.model.Country;
+import com.royalrangers.model.User;
 import com.royalrangers.model.achievement.*;
 import com.royalrangers.repository.AuthorityRepository;
 import com.royalrangers.repository.CountryRepository;
 import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.*;
-import com.royalrangers.service.achievement.*;
+import com.royalrangers.service.UserService;
+import com.royalrangers.service.achievement.RewardService;
+import com.royalrangers.service.achievement.TestService;
+import com.royalrangers.service.achievement.TwelveYearAchievementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.FileReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -30,13 +37,17 @@ import java.util.stream.Stream;
 public class Bootstrap {
     private final String DDL_AUTO_CREATE = "create";
     private final String DDL_AUTO_CREATE_DROP = "create-drop";
-    private final String UKRAINE_CITIES = "src/main/resources/init/ukraine.cities";
+    private final String COUNTRY_FILE = "init/ukraine.yml";
+    private final String USERS_FILE = "init/initial_users.yml";
 
     @Value("${spring.jpa.hibernate.ddl-auto}")
     private String ddlAuto;
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private CountryRepository countryRepository;
@@ -82,65 +93,49 @@ public class Bootstrap {
     @PostConstruct
     public void init() {
         if (DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
-            initAuthorities();
-            initUsers();
-            try {
-                initCountry("Україна", UKRAINE_CITIES);
-            } catch (IOException e) {
-                log.error("Error in loading file " + e.getMessage(), e);
-            }
+
             initTwelveYear();
             initReward();
+
+            initAuthorities();
+
+            initCountry();
+            initUsers();
         }
     }
 
     private void initUsers() {
         List<User> users = new ArrayList<>();
-        IntStream.range(1, 4).forEach(element -> {
-            PasswordEncoder encoder = new BCryptPasswordEncoder();
-            User user = new User();
-            user.setEmail("email" + element + "@mail.test");
-            user.setPassword(encoder.encode("password" + element));
-            user.setFirstName("first " + element);
-            user.setLastName("last " + element);
-            user.setGender("gender " + element);
-            user.setEnabled(true);
-            user.setConfirmed(true);
-            user.setApproved(true);
-            user.setRejected(false);
-            user.setCountry(new Country("Ukraine" + element));
-            user.setCity(new City(user.getCountry(), "Cherkasy" + element));
-            user.setGroup(new Group(user.getCity(), "group " + element));
-            user.setPlatoon(new Platoon(user.getGroup(), "platoon " + element));
-            user.setSection(new Section(user.getPlatoon(), "section " + element));
-            user.setLastPasswordResetDate(new Date(new GregorianCalendar(2016,
-                    Calendar.FEBRUARY, 9).getTimeInMillis()));
-            Authority userAuthority = authorityRepository.findOne(1L);
-            Authority adminAuthority = authorityRepository.findOne(2L);
-            Authority superAdminAuthority = authorityRepository.findOne(3L);
-            switch (element) {
-                case 1:
-                    user.setAuthorities(new HashSet<Authority>() {{
-                        add(userAuthority);
-                    }});
-                    break;
-                case 2:
-                    user.setAuthorities(new HashSet<Authority>() {{
-                        add(userAuthority);
-                        add(adminAuthority);
-                    }});
-                    break;
-                case 3:
-                    user.setAuthorities(new HashSet<Authority>() {{
-                        add(userAuthority);
-                        add(adminAuthority);
-                        add(superAdminAuthority);
-                    }});
-                    break;
+
+        try {
+            Resource resource = new ClassPathResource(USERS_FILE);
+            YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
+            while (true) {
+                UserRegistrationDto userDto = reader.read(UserRegistrationDto.class);
+                if (userDto == null) break;
+                User user = userService.createUser(userDto);
+                user.setEnabled(true);
+                user.setConfirmed(true);
+                user.setApproved(true);
+                users.add(user);
             }
-            users.add(user);
-        });
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+
         userRepository.save(users);
+    }
+
+    private void initCountry() {
+
+        try {
+            Resource resource = new ClassPathResource(COUNTRY_FILE);
+            YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
+            Country country = reader.read(Country.class);
+            countryRepository.save(country);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initAuthorities() {
@@ -155,16 +150,6 @@ public class Bootstrap {
         Authority superAdminAuthority = new Authority();
         superAdminAuthority.setName(AuthorityName.ROLE_SUPER_ADMIN);
         authorityRepository.save(superAdminAuthority);
-        authorityRepository.save(superAdminAuthority);
-    }
-
-    private void initCountry(String countryName, String path) throws IOException {
-        Country country = new Country(countryName);
-        Set<City> citySet = new HashSet<>();
-        Files.lines(Paths.get(path), StandardCharsets.UTF_8)
-                .forEach(element -> citySet.add(new City(country, element)));
-        country.setCity(citySet);
-        countryRepository.save(country);
     }
 
     private void initReward() {

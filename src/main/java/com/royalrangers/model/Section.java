@@ -2,6 +2,7 @@ package com.royalrangers.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.enums.UserAgeGroup;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +17,9 @@ public class Section extends BaseModel{
     @JsonView(Views.Profile.class)
     @NotNull
     private String name;
+
+    @JsonView(Views.Profile.class)
+    private UserAgeGroup userAgeGroup;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

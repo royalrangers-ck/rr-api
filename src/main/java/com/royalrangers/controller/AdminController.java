@@ -1,9 +1,9 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.structure.CityDto;
+import com.royalrangers.dto.structure.RegionDto;
 import com.royalrangers.dto.structure.CountryDto;
-import com.royalrangers.dto.structure.GroupDto;
+import com.royalrangers.dto.structure.CityDto;
 import com.royalrangers.dto.structure.SectionDto;
 import com.royalrangers.service.StructureService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -37,6 +37,18 @@ public class AdminController {
         return ResponseBuilder.success("Country '%s' successfully created.", countryDto.getName());
     }
 
+    @PostMapping("/region")
+    @ApiOperation(value = "Add regions")
+    public ResponseResult addRegion(@RequestBody RegionDto regionDto) {
+        try {
+            if (!structureService.createRegion(regionDto))
+                return ResponseBuilder.fail("Region with this name already exist.");
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error creating new regions");
+        }
+        return ResponseBuilder.success("Region '%s' successfully created.", regionDto.getName());
+    }
+
     @PostMapping("/city")
     @ApiOperation(value = "Add city")
     public ResponseResult addCity(@RequestBody CityDto cityDto) {
@@ -44,21 +56,9 @@ public class AdminController {
             if (!structureService.createCity(cityDto))
                 return ResponseBuilder.fail("City with this name already exist.");
         } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new city");
+            return ResponseBuilder.fail("Error creating new city.");
         }
         return ResponseBuilder.success("City '%s' successfully created.", cityDto.getName());
-    }
-
-    @PostMapping("/group")
-    @ApiOperation(value = "Add group")
-    public ResponseResult addGroup(@RequestBody GroupDto groupDto) {
-        try {
-            if (!structureService.createGroup(groupDto))
-                return ResponseBuilder.fail("Group with this name already exist.");
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new group.");
-        }
-        return ResponseBuilder.success("Group '%s' successfully created.", groupDto.getName());
     }
 
     @PostMapping("/section")

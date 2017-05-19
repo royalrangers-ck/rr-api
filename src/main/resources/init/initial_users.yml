@@ -1,0 +1,41 @@
+   email: user@ranger.online
+   password: user
+   firstName: User
+   lastName: Simple
+   birthDate: 1262304000000
+   gender: M
+   telephoneNumber:
+   countryId: 1
+   regionId: 1
+   cityId: 1
+   platoonId: 1
+   sectionId: 1
+   authorityName: ROLE_USER
+---
+   email: admin@ranger.online
+   password: admin
+   firstName: Admin
+   lastName: Simple
+   birthDate: 1104537600000
+   gender: F
+   telephoneNumber:
+   countryId: 1
+   regionId: 1
+   cityId: 1
+   platoonId: 1
+   sectionId:
+   authorityName: ROLE_ADMIN
+---
+   email: superadmin@ranger.online
+   password: superadmin
+   firstName: Admin
+   lastName: Super
+   birthDate: 788918400000
+   gender: M
+   telephoneNumber:
+   countryId: 1
+   regionId: 1
+   cityId: 1
+   platoonId: 1
+   sectionId:
+   authorityName: ROLE_SUPER_ADMIN

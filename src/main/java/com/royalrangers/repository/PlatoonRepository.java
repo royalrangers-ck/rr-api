@@ -8,5 +8,5 @@ import java.util.List;
 
 @Transactional
 public interface PlatoonRepository extends CrudRepository<Platoon, Long> {
-    List<Platoon> findByGroupId(Long group_id);
+    List<Platoon> findByCityId(Long cityId);
 }

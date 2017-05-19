@@ -7,9 +7,7 @@ import java.util.Date;
 
 @Getter
 @Setter
-public class GroupDto {
+public class RegionDto {
     private String name;
-    private Long cityId;
-    private String history;
-    private String address;
+    Long countryId;
 }

@@ -12,25 +12,25 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class City extends BaseModel {
+public class Region extends BaseModel {
 
     @JsonView(Views.Profile.class)
     @NotNull
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Platoon> platoons;
+    @OneToMany(mappedBy = "region", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    private Set<City> cities;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
-    private Region region;
+    @ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+    private Country country;
 
-    public City(){}
+    public Region() {}
 
-    public City(Region region, String name) {
-        this.region = region;
+    public Region(Country country, String name) {
+        this.country = country;
         this.name = name;
     }
 

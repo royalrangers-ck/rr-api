@@ -1,7 +1,7 @@
 package com.royalrangers.dto.user;
 
+import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.UserRank;
-import com.royalrangers.enums.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,10 +17,10 @@ public class UserRegistrationDto {
     private String gender;
     private String telephoneNumber;
     private Long countryId;
+    private Long regionId;
     private Long cityId;
-    private Long groupId;
     private Long platoonId;
     private Long sectionId;
-    private UserStatus status;
     private UserRank userRank;
+    private AuthorityName authorityName;
 }

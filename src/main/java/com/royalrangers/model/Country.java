@@ -20,7 +20,7 @@ public class Country extends BaseModel {
 
     @JsonIgnore
     @OneToMany(mappedBy = "country", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<City> city;
+    private Set<Region> regions;
 
     public Country() {}
 

@@ -17,7 +17,7 @@ public class Platoon extends BaseModel{
 
     @JsonView(Views.Profile.class)
     @NotNull
-    private String name;
+    private Integer name;
 
     @JsonView(Views.Public.class)
     private String history;
@@ -31,22 +31,19 @@ public class Platoon extends BaseModel{
     @JsonView(Views.Public.class)
     private Date meetTime;
 
-    @JsonView(Views.Public.class)
-    private String city;
-
     @JsonIgnore
     @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Section> sections;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "city_id")
+    private City city;
 
     public Platoon() {}
 
-    public Platoon(Group group, String name) {
-        this.group = group;
+    public Platoon(City city, Integer name) {
+        this.city = city;
         this.name = name;
     }
 }

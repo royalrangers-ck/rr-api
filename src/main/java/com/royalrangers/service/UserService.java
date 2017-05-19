@@ -6,7 +6,6 @@ import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.AuthorityName;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.UserAgeGroup;
-import com.royalrangers.enums.UserStatus;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.Authority;
 import com.royalrangers.model.TempUser;
@@ -25,6 +24,8 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
+import static com.royalrangers.enums.AuthorityName.*;
+
 @Slf4j
 @Service
 public class UserService {
@@ -42,10 +43,10 @@ public class UserService {
     private CountryRepository countryRepository;
 
     @Autowired
-    private CityRepository cityRepository;
+    private RegionRepository regionRepository;
 
     @Autowired
-    private GroupRepository groupRepository;
+    private CityRepository cityRepository;
 
     @Autowired
     private PlatoonRepository platoonRepository;
@@ -65,16 +66,22 @@ public class UserService {
     @Autowired
     private TempUserRepository tempUserRepository;
 
-    private void grantAuthority(User user, AuthorityName... roles) {
+    private void grantAuthority(User user, AuthorityName authorityName) {
         Set<Authority> authoritySet = new HashSet<>();
-        for (AuthorityName role : roles) {
-            Authority authority = authorityRepository.findByName(role);
-            authoritySet.add(authority);
+
+        switch (authorityName) {
+            case ROLE_SUPER_ADMIN:
+                authoritySet.add(authorityRepository.findByName(ROLE_SUPER_ADMIN));
+            case ROLE_ADMIN:
+                authoritySet.add(authorityRepository.findByName(ROLE_ADMIN));
+            case ROLE_USER:
+                authoritySet.add(authorityRepository.findByName(ROLE_USER));
         }
+
         user.setAuthorities(authoritySet);
     }
 
-    public User createUserFromUserForm(UserRegistrationDto userDto) {
+    public User createUser(UserRegistrationDto userDto) {
         User user = new User();
         user.setCreateDate(new Date());
         user.setUpdateDate(new Date());
@@ -93,16 +100,16 @@ public class UserService {
         user.setTelephoneNumber(userDto.getTelephoneNumber());
         user.setBirthDate(userDto.getBirthDate());
         user.setCountry(countryRepository.findOne(userDto.getCountryId()));
+        user.setRegion(regionRepository.findOne(userDto.getRegionId()));
         user.setCity(cityRepository.findOne(userDto.getCityId()));
-        user.setGroup(groupRepository.findOne(userDto.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(userDto.getPlatoonId()));
-        user.setSection(sectionRepository.findOne(userDto.getSectionId()));
-        user.setUserRank(userDto.getUserRank());
-        if (Objects.equals(userDto.getStatus(), UserStatus.TEACHER)) {
-            grantAuthority(user, AuthorityName.ROLE_USER, AuthorityName.ROLE_ADMIN);
-        } else {
-            grantAuthority(user, AuthorityName.ROLE_USER);
+
+        if (userDto.getSectionId() != null) {
+            user.setSection(sectionRepository.findOne(userDto.getSectionId()));
         }
+
+        grantAuthority(user, userDto.getAuthorityName());
+
         return user;
     }
 
@@ -224,8 +231,8 @@ public class UserService {
         tempUser.setUserAgeGroup(user.getUserAgeGroup());
         tempUser.setUserRank(user.getUserRank());
         tempUser.setCountry(user.getCountry());
+        tempUser.setRegion(user.getRegion());
         tempUser.setCity(user.getCity());
-        tempUser.setGroup(user.getGroup());
         tempUser.setPlatoon(user.getPlatoon());
         tempUser.setSection(user.getSection());
 
@@ -249,8 +256,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -270,8 +277,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -295,8 +302,8 @@ public class UserService {
         user.setUserAgeGroup(update.getUserAgeGroup());
         user.setUserRank(update.getUserRank());
         user.setCountry(countryRepository.findOne(update.getCountryId()));
+        user.setRegion(regionRepository.findOne(update.getRegionId()));
         user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setGroup(groupRepository.findOne(update.getGroupId()));
         user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
         user.setSection(sectionRepository.findOne(update.getSectionId()));
 
@@ -329,7 +336,7 @@ public class UserService {
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
                 .filter(element -> user.getAuthorities()
-                        .contains(AuthorityName.ROLE_ADMIN))
+                        .contains(ROLE_ADMIN))
                 .findFirst();
         if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);

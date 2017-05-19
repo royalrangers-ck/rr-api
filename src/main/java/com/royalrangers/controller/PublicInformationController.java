@@ -3,7 +3,7 @@ package com.royalrangers.controller;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.enums.UserRank;
-import com.royalrangers.model.City;
+import com.royalrangers.model.Region;
 import com.royalrangers.model.Platoon;
 import com.royalrangers.model.Section;
 import com.royalrangers.model.Views;
@@ -24,10 +24,10 @@ public class PublicInformationController {
     private CountryRepository countryRepository;
 
     @Autowired
-    private CityRepository cityRepository;
+    private RegionRepository regionRepository;
 
     @Autowired
-    private GroupRepository groupRepository;
+    private CityRepository cityRepository;
 
     @Autowired
     private PlatoonRepository platoonRepository;
@@ -50,6 +50,21 @@ public class PublicInformationController {
     }
 
     @JsonView(Views.Public.class)
+    @GetMapping("/regions")
+    @ApiOperation(value = "Get a list of regions")
+    public ResponseResult getAllRegions() {
+        return ResponseBuilder.success(regionRepository.findAll());
+    }
+
+    @JsonView(Views.Public.class)
+    @GetMapping("/region")
+    @ApiOperation(value = "Get a list of regions for given country")
+    public ResponseResult getCitiesByCountry(@RequestParam Long countryId) {
+        List<Region> cities = regionRepository.findByCountryId(countryId);
+        return ResponseBuilder.success(cities);
+    }
+
+    @JsonView(Views.Public.class)
     @GetMapping("/cities")
     @ApiOperation(value = "Get a list of cities")
     public ResponseResult getAllCities() {
@@ -58,24 +73,9 @@ public class PublicInformationController {
 
     @JsonView(Views.Public.class)
     @GetMapping("/city")
-    @ApiOperation(value = "Get a list of cities for given country")
-    public ResponseResult getCitiesByCountry(@RequestParam Long countryId) {
-        List<City> cities = cityRepository.findByCountryId(countryId);
-        return ResponseBuilder.success(cities);
-    }
-
-    @JsonView(Views.Public.class)
-    @GetMapping("/groups")
-    @ApiOperation(value = "Get a list of groups")
-    public ResponseResult getAllGroups() {
-        return ResponseBuilder.success(groupRepository.findAll());
-    }
-
-    @JsonView(Views.Public.class)
-    @GetMapping("/group")
-    @ApiOperation(value = "Get a list of groups for given city")
-    public ResponseResult getGroupsByCity(@RequestParam Long cityId) {
-        return ResponseBuilder.success(groupRepository.findByCityId(cityId));
+    @ApiOperation(value = "Get a list of cities for given region")
+    public ResponseResult getCitiesByRegion(@RequestParam Long regionId) {
+        return ResponseBuilder.success(cityRepository.findByRegionId(regionId));
     }
 
     @JsonView(Views.Public.class)
@@ -87,14 +87,14 @@ public class PublicInformationController {
 
     @JsonView(Views.Public.class)
     @GetMapping("/platoon")
-    @ApiOperation(value = "Get a list of platoons for given group")
-    public ResponseResult getPlatoonsByGroup(@RequestParam Long groupId) {
-        List<Platoon> platoons = platoonRepository.findByGroupId(groupId);
+    @ApiOperation(value = "Get a list of platoons for given city")
+    public ResponseResult getPlatoonsByCity(@RequestParam Long cityId) {
+        List<Platoon> platoons = platoonRepository.findByCityId(cityId);
         return ResponseBuilder.success(platoons);
     }
 
     @JsonView(Views.Public.class)
-    @GetMapping("/")
+    @GetMapping("/sections")
     @ApiOperation(value = "Get a list of sections")
     public ResponseResult getAllSections() {
         return ResponseBuilder.success(sectionRepository.findAll());

@@ -21,13 +21,13 @@ public class StructureService {
     private CountryRepository countryRepository;
 
     @Autowired
-    private CityRepository cityRepository;
+    private RegionRepository regionRepository;
 
     @Autowired
     private PlatoonRepository platoonRepository;
 
     @Autowired
-    private GroupRepository groupRepository;
+    private CityRepository cityRepository;
 
     @Autowired
     private UserService userService;
@@ -43,21 +43,18 @@ public class StructureService {
         platoon.setName(platoonDto.getName());
         platoon.setHistory(platoonDto.getHistory());
         platoon.setAddress(platoonDto.getAddress());
-        platoon.setGroup(groupRepository.findOne(platoonDto.getGroupId()));
-        platoon.setCity(groupRepository.findOne(platoonDto.getGroupId()).getCity().getName());
+        platoon.setCity(cityRepository.findOne(platoonDto.getCityId()));
         platoon.setMeetTime(platoonDto.getMeetTime());
         platoonRepository.save(platoon);
     }
 
     public void updatePlatoon(Long id, PlatoonDto update) {
         Platoon platoon = platoonRepository.findOne(id);
-        platoon.setCreateDate(update.getCreateDate());
         platoon.setUpdateDate(new Date());
         platoon.setName(update.getName());
         platoon.setHistory(update.getHistory());
         platoon.setAddress(update.getAddress());
-        platoon.setGroup(groupRepository.findOne(update.getGroupId()));
-        platoon.setCity(groupRepository.findOne(update.getGroupId()).getCity().getName());
+        platoon.setCity(cityRepository.findOne(update.getCityId()));
         platoon.setMeetTime(update.getMeetTime());
         platoonRepository.save(platoon);
     }
@@ -84,16 +81,14 @@ public class StructureService {
         platoonRepository.save(platoon);
     }
 
-    public boolean createGroup(GroupDto groupDto){
-        City city = cityRepository.findOne(groupDto.getCityId());
-        Group group = new Group(city,groupDto.getName());
-        Set<Group> groupsSet = city.getGroups();
-        group.setHistory(groupDto.getHistory());
-        group.setAddress(groupDto.getAddress());
-        if (!groupsSet.add(group))
+    public boolean createCity(CityDto cityDto){
+        Region region = regionRepository.findOne(cityDto.getRegionId());
+        City city = new City(region, cityDto.getName());
+        Set<City> citySet = region.getCities();
+        if (!citySet.add(city))
             return false;
-        city.setGroups(groupsSet);
-        cityRepository.save(city);
+        region.setCities(citySet);
+        regionRepository.save(region);
         return true;
     }
 
@@ -108,15 +103,15 @@ public class StructureService {
         return  true;
     }
 
-    public boolean createCity(CityDto cityDto){
-        Country country = countryRepository.findOne(cityDto.getCountryId());
-        if(cityRepository.findByNameAndCountryId(cityDto.getName(), cityDto.getCountryId()) != null)
+    public boolean createRegion(RegionDto regionDto){
+        Country country = countryRepository.findOne(regionDto.getCountryId());
+        if(regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null)
             return false;
-        City city = new City(country, cityDto.getName());
-        Set<City> citySet = country.getCity();
-        if (!citySet.add(city))
+        Region region = new Region(country, regionDto.getName());
+        Set<Region> regionSet = country.getRegions();
+        if (!regionSet.add(region))
             return false;
-        country.setCity(citySet);
+        country.setRegions(regionSet);
         countryRepository.save(country);
         return true;
     }
