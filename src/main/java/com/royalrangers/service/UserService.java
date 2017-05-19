@@ -165,8 +165,7 @@ public class UserService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public void approveUsers(List<Long> ids) {
-        ids.forEach(id -> {
+    public void approveUser(Long id) {
             User user = userRepository.findOne(id);
             user.setApproved(true);
             user.setEnabled(true);
@@ -174,11 +173,9 @@ public class UserService {
             userRepository.save(user);
             emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
             log.info("User %s approved.", user.getEmail());
-        });
     }
 
-    public void rejectUsers(List<Long> ids) {
-        ids.forEach(id -> {
+    public void rejectUser(Long id) {
             User user = userRepository.findOne(id);
             user.setEnabled(false);
             user.setConfirmed(false);
@@ -186,30 +183,6 @@ public class UserService {
             userRepository.save(user);
             emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
             log.info("User %s rejected.", user.getEmail());
-        });
-    }
-
-
-    public void superApproveUsers() {
-        List<User> users = getUsersForApproveForSuperAdmin();
-        for (User user : users) {
-            user.setApproved(true);
-            user.setEnabled(true);
-            userRepository.save(user);
-            emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
-            log.info("User %s approved.", user.getEmail());
-        }
-    }
-
-    public void superRejectUsers() {
-        List<User> users = getUsersForApproveForSuperAdmin();
-        for (User user : users) {
-            user.setEnabled(false);
-            user.setConfirmed(false);
-            userRepository.save(user);
-            emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
-            log.info("User %s rejected.", user.getEmail());
-        }
     }
 
     public User getUserByEmail(String email) {
@@ -223,7 +196,20 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    private TempUser getTempUser() {
+    public List<TempUser> getTempUsersByPlatoon(Long platoonId){
+        return tempUserRepository.findByPlatoonId(platoonId);
+    }
+
+    public List<TempUser> getTempUsers(){
+        return tempUserRepository.findAll();
+    }
+
+    public TempUser getTempUser(){
+        TempUser tempUser = tempUserRepository.findByUserId(getAuthenticatedUserId());
+        return tempUserRepository.findOne(tempUser.getId());
+    }
+
+    private TempUser createTempUser() {
         User user = getAuthenticatedUser();
         TempUser tempUser = new TempUser();
 
@@ -247,29 +233,12 @@ public class UserService {
         return tempUser;
     }
 
-    private User getUserFromTempUser(TempUser tempUser) {
-        User user = getAuthenticatedUser();
-
-        user.setCreateDate(tempUser.getCreateDate());
-        user.setUpdateDate(tempUser.getUpdateDate());
-        user.setFirstName(tempUser.getFirstName());
-        user.setLastName(tempUser.getLastName());
-        user.setGender(tempUser.getGender());
-        user.setBirthDate(tempUser.getBirthDate());
-        user.setTelephoneNumber(tempUser.getTelephoneNumber());
-        user.setUserAgeGroup(tempUser.getUserAgeGroup());
-        user.setUserRank(tempUser.getUserRank());
-        user.setCountry(tempUser.getCountry());
-        user.setCity(tempUser.getCity());
-        user.setGroup(tempUser.getGroup());
-        user.setPlatoon(tempUser.getPlatoon());
-        user.setSection(tempUser.getSection());
-
-        return user;
+    public TempUser getTempUserById(Long id) {
+        return tempUserRepository.findOne(id);
     }
 
-    public void updateTempUser(UserUpdateDto update) {
-        TempUser user = getTempUser();
+    public void updateTempUser(UserUpdateDto update ) {
+        TempUser user = createTempUser();
 
         user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());
@@ -288,9 +257,9 @@ public class UserService {
         tempUserRepository.save(user);
     }
 
-    public void updateUser(UserUpdateDto update) {
-        TempUser tempUser = tempUserRepository.findByUserId(getAuthenticatedUserId());
-        User user = getUserFromTempUser(tempUser);
+    public void updateUser(Long id, UserUpdateDto update) {
+        TempUser tempUser = getTempUserById(id);
+        User user = tempUser.getUser();
 
         user.setUpdateDate(new Date());
         user.setFirstName(update.getFirstName());

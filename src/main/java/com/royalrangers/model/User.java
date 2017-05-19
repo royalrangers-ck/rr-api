@@ -13,9 +13,6 @@ import java.util.Set;
 @Entity
 public class User extends BaseUser {
 
-    @JsonView(Views.Achievement.class)
-    private String email;
-
     private String password;
     private Boolean enabled;
     private Boolean confirmed;
