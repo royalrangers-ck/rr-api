@@ -100,7 +100,7 @@ public class RegistrationController {
             log.error("Error in confirmation URL for '%s'", email);
             return ResponseBuilder.fail("Error in confirmation URL");
         }
-        return ResponseBuilder.success("Confirmation email successfully resending.");
+        return ResponseBuilder.success("Confirmation email is successfully resending.");
     }
 
 }

@@ -25,7 +25,7 @@ public class SubscribeController {
         log.info("Add subscriber: " + email);
         try {
             subscribeService.add(email);
-            return ResponseBuilder.success("Email %s added to subscribers list", email);
+            return ResponseBuilder.success("Email %s is added to subscribers list", email);
         } catch (Exception e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -39,7 +39,7 @@ public class SubscribeController {
         log.info("Remove subscriber: " + email);
         try {
             subscribeService.remove(email);
-            return ResponseBuilder.success("Email %s removed from subscribers list", email);
+            return ResponseBuilder.success("Email %s is removed from subscribers list", email);
         } catch (Exception e) {
             return ResponseBuilder.fail(e.getMessage());
         }
