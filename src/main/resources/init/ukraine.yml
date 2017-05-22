@@ -15,21 +15,29 @@ regions:
             sections:
               -  !com.royalrangers.model.Section
                 platoon: *1000
-                name: Section 1
+                name: Ланка 49/1
       - &101 !com.royalrangers.model.City
         region: *10
         name: Клиновець
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1001 !com.royalrangers.model.Platoon
             city: *101
             name: 12
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1001
+                name: Ланка 12/1
       - &102 !com.royalrangers.model.City
         region: *10
         name: Лалово
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1002 !com.royalrangers.model.Platoon
             city: *102
             name: 13
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1002
+                name: Ланка 13/1
 
   - &11 !com.royalrangers.model.Region
     country: *1
@@ -39,41 +47,65 @@ regions:
         region: *11
         name: Житомир
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1003 !com.royalrangers.model.Platoon
             city: *103
             name: 3
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1003
+                name: Ланка 3/1
       - &104 !com.royalrangers.model.City
         region: *11
         name: Коростишів
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1004 !com.royalrangers.model.Platoon
             city: *104
             name: 11
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1004
+                name: Ланка 11/1
       - &105 !com.royalrangers.model.City
         region: *11
         name: Київ
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1005 !com.royalrangers.model.Platoon
             city: *105
             name: 45
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1005
+                name: Ланка 45/1
       - &106 !com.royalrangers.model.City
         region: *11
         name: Черкаси
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1006 !com.royalrangers.model.Platoon
             city: *106
             name: 9
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1006
+                name: Ланка 9/1
       - &107 !com.royalrangers.model.City
         region: *11
         name: Вінниця
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1007 !com.royalrangers.model.Platoon
             city: *107
             name: 7
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1007
+                name: Ланка 7/1
       - &108 !com.royalrangers.model.City
         region: *11
         name: Брусилів
         platoons:
-          - !com.royalrangers.model.Platoon
+          - &1008 !com.royalrangers.model.Platoon
             city: *108
             name: 5
+            sections:
+              -  !com.royalrangers.model.Section
+                platoon: *1008
+                name: Ланка 5/1
