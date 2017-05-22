@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequestMapping("/user")
 public class UserController {
 
-    private final long FILE_MAX_SIZE = 1024*1024;
+    private final long FILE_MAX_SIZE = 1024 * 1024;
 
     @Autowired
     private UserService userService;
@@ -52,14 +52,15 @@ public class UserController {
         try {
             log.info("Get details for user id " + id);
             return ResponseBuilder.success(userService.getUserById(id));
-        } catch (UserRepositoryException e){
+        } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
+
     @JsonView(Views.Profile.class)
     @GetMapping("/temp")
     @ApiOperation(value = "Get current temp_user info")
-    public ResponseResult getAuthenticatedTempUserDetail(){
+    public ResponseResult getAuthenticatedTempUserDetail() {
         return ResponseBuilder.success(userService.getTempUser());
     }
 
@@ -79,7 +80,7 @@ public class UserController {
     @GetMapping("/approve/update")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ApiOperation(value = "Get tempUsers for approve (for super admin)")
-    public ResponseResult getTempUserToApprove(){
+    public ResponseResult getTempUserToApprove() {
         return ResponseBuilder.success(userService.getTempUsers());
     }
 
@@ -100,7 +101,7 @@ public class UserController {
     @GetMapping("/approve/registration/super")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ApiOperation(value = "Get users for approve (for super admin)")
-    public ResponseResult getUsersToApprove(){
+    public ResponseResult getUsersToApprove() {
         return ResponseBuilder.success(userService.getUsersForApproveForSuperAdmin());
     }
 
@@ -161,26 +162,26 @@ public class UserController {
             log.info("Update user with id %d " + id);
 
             return ResponseBuilder.success("User with id %d is successfully updated", String.valueOf(id));
-        } catch (UserRepositoryException e){
+        } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
 
-    @PostMapping("/avatar/{file}")
+    @PostMapping("/avatar")
     @ApiOperation(value = "Upload and set avatar for current user")
-    public ResponseResult upload(@PathVariable("file") MultipartFile file) {
+    public ResponseResult upload(@RequestParam("file") MultipartFile file) {
         if (file.getSize() >= FILE_MAX_SIZE)
             return ResponseBuilder.fail("File too large.");
 
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
-            log.info("Set user avatar public URL: " +avatarUrl);
+            log.info("Set user avatar public URL: " + avatarUrl);
 
             userService.setUserAvatarUrl(avatarUrl);
 
             return ResponseBuilder.success("avatarUrl", avatarUrl);
         } catch (IOException | DbxException e) {
-            return  ResponseBuilder.fail(e.getMessage());
+            return ResponseBuilder.fail(e.getMessage());
         }
     }
 }
