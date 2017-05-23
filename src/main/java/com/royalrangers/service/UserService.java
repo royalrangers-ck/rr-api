@@ -173,23 +173,23 @@ public class UserService {
     }
 
     public void approveUser(Long id) {
-            User user = userRepository.findOne(id);
-            user.setApproved(true);
-            user.setEnabled(true);
-            user.setRejected(false);
-            userRepository.save(user);
-            emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
-            log.info("User %s approved.", user.getEmail());
+        User user = userRepository.findOne(id);
+        user.setApproved(true);
+        user.setEnabled(true);
+        user.setRejected(false);
+        userRepository.save(user);
+        emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
+        log.info("User " + user.getEmail() + " approved.");
     }
 
     public void rejectUser(Long id) {
-            User user = userRepository.findOne(id);
-            user.setEnabled(false);
-            user.setConfirmed(false);
-            user.setRejected(true);
-            userRepository.save(user);
-            emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
-            log.info("User %s rejected.", user.getEmail());
+        User user = userRepository.findOne(id);
+        user.setEnabled(false);
+        user.setConfirmed(false);
+        user.setRejected(true);
+        userRepository.save(user);
+        emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
+        log.info("User " + user.getEmail() + " rejected.");
     }
 
     public User getUserByEmail(String email) {
@@ -203,15 +203,15 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    public List<TempUser> getTempUsersByPlatoon(Long platoonId){
+    public List<TempUser> getTempUsersByPlatoon(Long platoonId) {
         return tempUserRepository.findByPlatoonId(platoonId);
     }
 
-    public List<TempUser> getTempUsers(){
+    public List<TempUser> getTempUsers() {
         return tempUserRepository.findAll();
     }
 
-    public TempUser getTempUser(){
+    public TempUser getTempUser() {
         TempUser tempUser = tempUserRepository.findByUserId(getAuthenticatedUserId());
         return tempUserRepository.findOne(tempUser.getId());
     }
@@ -244,7 +244,7 @@ public class UserService {
         return tempUserRepository.findOne(id);
     }
 
-    public void updateTempUser(UserUpdateDto update ) {
+    public void updateTempUser(UserUpdateDto update) {
         TempUser user = createTempUser();
 
         user.setUpdateDate(new Date());

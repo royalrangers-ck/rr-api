@@ -159,7 +159,7 @@ public class UserController {
     public ResponseResult updateUserById(@PathVariable("userId") Long id, @RequestBody UserUpdateDto userUpdate) {
         try {
             userService.updateUserById(id, userUpdate);
-            log.info("Update user with id %d " + id);
+            log.info("Update user with id " + id);
 
             return ResponseBuilder.success("User with id %d is successfully updated", String.valueOf(id));
         } catch (UserRepositoryException e) {

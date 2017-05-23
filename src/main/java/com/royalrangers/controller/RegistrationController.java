@@ -37,7 +37,7 @@ public class RegistrationController {
     public ResponseResult registration(@RequestBody UserRegistrationDto userInfo) {
 
         if (userService.isEmailExist(userInfo.getEmail())) {
-            log.info("User with email '%s' already exists", userInfo.getEmail());
+            log.info("User with email " + userInfo.getEmail() + " already exists");
             return ResponseBuilder.fail("User with this email already exists");
         }
 
@@ -45,12 +45,12 @@ public class RegistrationController {
 
         try {
             String confirmLink = userService.getConfirmRegistrationLink(user);
-            emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
-        } catch (UnknownHostException e){
-           log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
+            emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
+        } catch (UnknownHostException e) {
+            log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
         }
 
-        log.info("User '%s' is successfully created", userInfo.getEmail());
+        log.info("User " + userInfo.getEmail() + " is successfully created");
         return ResponseBuilder.success("User is successfully created");
     }
 
@@ -60,19 +60,19 @@ public class RegistrationController {
 
         VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
         if (verificationToken == null) {
-            log.info("Verification token '%s' is invalid", token);
+            log.info("Verification token " + token + " is invalid");
             return ResponseBuilder.fail("Verification token is invalid");
         }
 
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            log.info("Verification token '%s' is expired", token);
+            log.info("Verification token " + token + "is expired");
             return ResponseBuilder.fail("Verification token is expired");
         }
 
         userService.confirmUser(verificationToken);
 
-        log.info("Verification token '%s' is confirmed", token);
+        log.info("Verification token " + token + " is confirmed", token);
         return ResponseBuilder.success("User confirm registration successfully");
     }
 
@@ -80,7 +80,7 @@ public class RegistrationController {
     @ApiOperation(value = "Check is user with such email already exists")
     public ResponseResult checkEmail(@RequestParam("email") String email) {
 
-        log.info("Checking email '%s'", email);
+        log.info("Checking email " + email);
 
         if (userService.isEmailExist(email)) {
             return ResponseBuilder.fail("User with such an email already exists!");
