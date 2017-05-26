@@ -2,12 +2,13 @@ package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.UserRegistrationDto;
+import com.royalrangers.exception.TokenException;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
 import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
-import com.royalrangers.service.VerificationTokenService;
+import com.royalrangers.service.TokenService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class RegistrationController {
     private EmailService emailService;
 
     @Autowired
-    private VerificationTokenService verificationTokenService;
+    private TokenService tokenService;
 
 
     @PostMapping
@@ -57,21 +58,13 @@ public class RegistrationController {
     @GetMapping("/confirm")
     @ApiOperation(value = "Confirm user email by given token")
     public ResponseResult registrationConfirm(@RequestParam("token") String token) {
-
-        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-        if (verificationToken == null) {
-            log.info(String.format("Verification token '%s' is invalid", token));
-            return ResponseBuilder.fail("Verification token is invalid");
+        try {
+            VerificationToken verificationToken = tokenService.getVerificationToken(token);
+            userService.confirmUser(verificationToken);
+        } catch (TokenException e) {
+            log.info(e.getMessage());
+            return ResponseBuilder.fail(e.getMessage());
         }
-
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            log.info(String.format("Verification token '%s' is expired", token));
-            return ResponseBuilder.fail("Verification token is expired");
-        }
-
-        userService.confirmUser(verificationToken);
-
         log.info(String.format("Verification token '%s' is confirmed", token));
         return ResponseBuilder.success("User confirm registration successfully");
     }

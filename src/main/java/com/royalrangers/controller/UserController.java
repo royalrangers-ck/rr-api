@@ -5,20 +5,26 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.*;
 import com.royalrangers.enums.ImageType;
+import com.royalrangers.exception.TokenException;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.TempUser;
+import com.royalrangers.model.User;
+import com.royalrangers.model.VerificationToken;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
+import com.royalrangers.service.TokenService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 @Slf4j
 @RestController
@@ -29,6 +35,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private DropboxService dropboxService;
@@ -182,5 +191,29 @@ public class UserController {
         } catch (IOException | DbxException e) {
             return  ResponseBuilder.fail(e.getMessage());
         }
+    }
+
+    @PostMapping("/forgotPassword/{email}")
+    @ApiOperation(value = "Send email with resetPasswordLink for user")
+    public ResponseResult sendResetPasswordLink(@PathVariable("email") String email) {
+        try {
+            userService.sendResetPasswordEmail(email);
+        } catch (UserRepositoryException | UnknownHostException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
+        return ResponseBuilder.success("Send reset password email to user %s", email);
+    }
+
+    @PostMapping("/changePassword")
+    @ApiOperation(value = "Change user password by given token")
+    public ResponseResult registrationConfirm(@RequestParam("token") String token, @RequestBody String newPassword) {
+        try {
+            userService.changeUserPassword(token, newPassword);
+        } catch (TokenException e) {
+            log.info(e.getMessage());
+            return ResponseBuilder.fail(e.getMessage());
+        }
+        log.info(String.format("Verification token '%s' is confirmed", token));
+        return ResponseBuilder.success("User password was changed successfully");
     }
 }

@@ -55,7 +55,7 @@ public class UserService {
     private SectionRepository sectionRepository;
 
     @Autowired
-    private VerificationTokenService verificationTokenService;
+    private TokenService tokenService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -109,7 +109,7 @@ public class UserService {
         }
 
         grantAuthority(user, userDto.getAuthorityName());
-
+        userRepository.save(user);
         return user;
     }
 
@@ -119,12 +119,19 @@ public class UserService {
 
     public String getConfirmRegistrationLink(User user) throws UnknownHostException {
 
-        String token = verificationTokenService.generateToken(user);
+        String token = tokenService.generateVerificationToken(user);
         String confirmRegistrationUrl =
                 "http://" + InetAddress.getLocalHost().getHostAddress()
                         + "/landing/#/registration/confirm?token=" + token;
         return confirmRegistrationUrl;
     }
+
+    public String generateResetPasswordLink(String token) throws UnknownHostException {
+        String resetPasswordLink = "http://" + InetAddress.getLocalHost().getHostAddress()
+                + "/#/changePassword?token=" + token;
+        return resetPasswordLink;
+    }
+
 
     private int calculateUserAge(Long birthdate) {
         Calendar cal = Calendar.getInstance();
@@ -358,6 +365,29 @@ public class UserService {
 
         emailService.sendEmail(user, "RegistrationConfirm",
                 "submit.email.inline.html", getConfirmRegistrationLink(user));
+    }
+
+    public void sendResetPasswordEmail(String email) throws UserRepositoryException, UnknownHostException{
+        User user = userRepository.findByEmail(email);
+        if (!isEmailExist(email)) {
+            throw new UserRepositoryException("User with this email is not exist.");
+        }
+        if (user.getConfirmed()) {
+            throw new UserRepositoryException("User with this email already confirmed.");
+        }
+        if (user.getRejected()) {
+            throw new UserRepositoryException("User with this email has been rejected.");
+        }
+        String token = tokenService.generateVerificationToken(user);
+        emailService.sendEmail(user, "ResetPassword",
+                "submit.email.inline.html", generateResetPasswordLink(token));
+    }
+
+    public void changeUserPassword (String token, String newPassword){
+        VerificationToken verificationToken = tokenService.getVerificationToken(token);
+        User user = verificationToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
     }
 }
 
