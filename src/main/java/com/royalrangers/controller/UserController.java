@@ -137,7 +137,7 @@ public class UserController {
         return ResponseBuilder.success("User %s successfully updated, waiting for approve this update by admin", userService.getAuthenticatedUser().getEmail());
     }
 
-    @PutMapping("/update/{temp_userId")
+    @PutMapping("/update/{temp_userId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Confirm to update user data from temp_user data(for admin)")
     public ResponseResult updateUser(@PathVariable("temp_userId") Long id, @RequestBody UserUpdateDto update) {
