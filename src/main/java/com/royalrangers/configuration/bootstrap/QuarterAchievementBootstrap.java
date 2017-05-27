@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class QuarterAchievementBootstrap {
-    public List<QuarterAchievement> createQuarter() {
-        List<QuarterAchievement> quarterAchievementList = new ArrayList<>();
+
+    private void createQuarterForBeginner(List<QuarterAchievement> quarterAchievementList) {
         IntStream.range(1, 4).forEach(yearBeginner -> {
             switch (yearBeginner) {
                 case 1: {
@@ -84,7 +84,9 @@ public class QuarterAchievementBootstrap {
                 }
             }
         });
+    }
 
+    private void createQuarterForPathfinder(List<QuarterAchievement> quarterAchievementList) {
         IntStream.range(1, 4).forEach(yearPathfinder -> {
             switch (yearPathfinder) {
                 case 1: {
@@ -122,7 +124,9 @@ public class QuarterAchievementBootstrap {
                 }
             }
         });
+    }
 
+    private void createQuarterForPioneer(List<QuarterAchievement> quarterAchievementList) {
         IntStream.range(1, 4).forEach(yearPioneer -> {
             switch (yearPioneer) {
                 case 1: {
@@ -159,11 +163,13 @@ public class QuarterAchievementBootstrap {
                 }
             }
         });
+    }
 
-        IntStream.range(1, 4).forEach(yearPioneer -> {
+    private void createQuarterForRanger(List<QuarterAchievement> quarterAchievementList) {
+        IntStream.range(1, 4).forEach(yearRanger -> {
             IntStream.range(1, 5).forEach(element -> {
                 QuarterAchievement quarterAchievement = new QuarterAchievement();
-                quarterAchievement.setName("Нагорода за " + yearPioneer + " чверть " + yearPioneer + "-го року");
+                quarterAchievement.setName("Нагорода за " + yearRanger + " чверть " + yearRanger + "-го року");
                 quarterAchievement.setDescription(" ");
                 quarterAchievement.setYearAchievement(null);
                 quarterAchievement.setUserAgeGroup(UserAgeGroup.RANGER);
@@ -171,7 +177,14 @@ public class QuarterAchievementBootstrap {
                 quarterAchievementList.add(quarterAchievement);
             });
         });
+    }
 
+    public List<QuarterAchievement> createQuarter() {
+        List<QuarterAchievement> quarterAchievementList = new ArrayList<>();
+        createQuarterForBeginner(quarterAchievementList);
+        createQuarterForPathfinder(quarterAchievementList);
+        createQuarterForPioneer(quarterAchievementList);
+        createQuarterForRanger(quarterAchievementList);
         return quarterAchievementList;
     }
 }

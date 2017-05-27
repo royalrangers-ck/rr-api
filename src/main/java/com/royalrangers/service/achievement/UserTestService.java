@@ -77,18 +77,34 @@ public class UserTestService {
 
     public void updateQuarterAchievements(UserAgeGroup userAgeGroup) {
         List<UserTest> userTestListForBeginner = userTestRepository.findByAchievementStateAndTest_UserAgeGroupsContains(AchievementState.APPROVED, new ArrayList<>(Arrays.asList(userAgeGroup)));
+        if (checkCountUserApprovedTestForCreate(userTestListForBeginner)) {
+            userQuarterAchievementService.addUserQuarterAchievement(userAgeGroup);
+        }
+        if (checkCountUserApprovedTestForUpdate(userTestListForBeginner)) {
+            userQuarterAchievementService.autoEditQuarterAchievement(AchievementState.APPROVED, userAgeGroup);
+        }
+    }
+
+    private boolean checkCountUserApprovedTestForCreate(List<UserTest> userTestListForBeginner){
         if (userTestListForBeginner.size() == 1 || userTestListForBeginner.size() == 5 || userTestListForBeginner.size() == 9 || userTestListForBeginner.size() == 13 ||
                 userTestListForBeginner.size() == 17 || userTestListForBeginner.size() == 21 || userTestListForBeginner.size() == 25 || userTestListForBeginner.size() == 29 ||
                 userTestListForBeginner.size() == 33 || userTestListForBeginner.size() == 37 || userTestListForBeginner.size() == 41 || userTestListForBeginner.size() == 45) {
-            userQuarterAchievementService.addUserQuarterAchievement(userAgeGroup);
+            return true;
+        } else {
+            return false;
         }
+    }
+
+    private boolean checkCountUserApprovedTestForUpdate(List<UserTest> userTestListForBeginner){
         if (userTestListForBeginner.size() == 4 || userTestListForBeginner.size() == 8 ||
                 userTestListForBeginner.size() == 12 || userTestListForBeginner.size() == 16 ||
                 userTestListForBeginner.size() == 20 || userTestListForBeginner.size() == 24 ||
                 userTestListForBeginner.size() == 28 || userTestListForBeginner.size() == 32 ||
                 userTestListForBeginner.size() == 36 || userTestListForBeginner.size() == 40 ||
-                userTestListForBeginner.size() == 44 || userTestListForBeginner.size() == 48) {
-            userQuarterAchievementService.autoEditQuarterAchievement(AchievementState.APPROVED, userAgeGroup);
+                userTestListForBeginner.size() == 44 || userTestListForBeginner.size() == 48){
+            return true;
+        } else {
+            return false;
         }
     }
 

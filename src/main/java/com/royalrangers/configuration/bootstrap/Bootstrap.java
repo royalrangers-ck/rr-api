@@ -178,8 +178,7 @@ public class Bootstrap {
 
     private void initYear() {
         Stream.of(yearAchievementBootstrap.createYear().toArray()).forEach(yearAchievements -> {
-            YearAchievement yearAchievement = (YearAchievement) yearAchievements;
-            yearAchievementRepository.saveAndFlush(yearAchievement);
+            yearAchievementRepository.saveAndFlush((YearAchievement) yearAchievements);
         });
         Stream.of(threeYearAchievementRepository.findAll().toArray()).forEach(threeYearAchievements -> {
             ThreeYearAchievement threeYearAchievement = (ThreeYearAchievement) threeYearAchievements;
@@ -195,8 +194,7 @@ public class Bootstrap {
 
     private void initQuarter() {
         Stream.of(quarterAchievementBootstrap.createQuarter().toArray()).forEach(quarter -> {
-            QuarterAchievement quarterAchievement = (QuarterAchievement) quarter;
-            quarterAchievementRepository.saveAndFlush(quarterAchievement);
+            quarterAchievementRepository.saveAndFlush((QuarterAchievement) quarter);
         });
         Stream.of(UserAgeGroup.values()).forEach(ageGroup -> {
             List<YearAchievement> yearAchievementList = yearAchievementRepository.findByUserAgeGroup(ageGroup);
@@ -232,8 +230,7 @@ public class Bootstrap {
 
     public void initTest() {
         Stream.of(testBootstrap.createTest().toArray()).forEach(test -> {
-            Test savedTest = (Test) test;
-            testRepository.saveAndFlush(savedTest);
+            testRepository.saveAndFlush((Test) test);
         });
         initTask();
     }
