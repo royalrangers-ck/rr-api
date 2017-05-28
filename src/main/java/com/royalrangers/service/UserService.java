@@ -118,7 +118,6 @@ public class UserService {
     }
 
     public String getConfirmRegistrationLink(User user) throws UnknownHostException {
-
         String token = tokenService.generateVerificationToken(user);
         String confirmRegistrationUrl =
                 "http://" + InetAddress.getLocalHost().getHostAddress()
@@ -353,6 +352,7 @@ public class UserService {
 
     public void resendConfirmation(String email) throws UserRepositoryException, UnknownHostException {
         User user = userRepository.findByEmail(email);
+
         if (!isEmailExist(email)) {
             throw new UserRepositoryException("User with this email is not exist.");
         }
@@ -369,18 +369,21 @@ public class UserService {
 
     public void sendResetPasswordEmail(String email) throws UserRepositoryException, UnknownHostException{
         User user = userRepository.findByEmail(email);
+
         if (!isEmailExist(email)) {
-            throw new UserRepositoryException("User with this email is not exist.");
+            throw new UserRepositoryException(String.format("User with this email '%s' is not exist.", email));
         }
-        if (user.getConfirmed()) {
-            throw new UserRepositoryException("User with this email already confirmed.");
+        if (!user.getConfirmed()) {
+            throw new UserRepositoryException(String.format("User with this email '%s' already confirmed.", email));
         }
         if (user.getRejected()) {
-            throw new UserRepositoryException("User with this email has been rejected.");
+            throw new UserRepositoryException(String.format("User with this email '%s' has been rejected.",email));
         }
         String token = tokenService.generateVerificationToken(user);
         emailService.sendEmail(user, "ResetPassword",
-                "submit.email.inline.html", generateResetPasswordLink(token));
+                "reset.password.inline.html", generateResetPasswordLink(token));
+        log.info(String.format("Send reset password email for user: '%s' ", email));
+
     }
 
     public void changeUserPassword (String token, String newPassword){
@@ -388,6 +391,7 @@ public class UserService {
         User user = verificationToken.getUser();
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
+        log.info(String.format("Change password for user: ", user.getEmail()));
     }
 }
 
