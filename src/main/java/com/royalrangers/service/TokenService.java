@@ -21,7 +21,7 @@ public class TokenService {
     private VerificationTokenRepository tokenRepository;
 
 
-    public String generateVerificationToken(User user) {
+    String generateVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken(token, user);
         return tokenRepository.save(verificationToken).getToken();

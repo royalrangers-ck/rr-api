@@ -125,7 +125,7 @@ public class UserService {
         return confirmRegistrationUrl;
     }
 
-    public String generateResetPasswordLink(String token) throws UnknownHostException {
+    private String generateResetPasswordLink(String token) throws UnknownHostException {
         String resetPasswordLink = "http://" + InetAddress.getLocalHost().getHostAddress()
                 + "/#/changePassword?token=" + token;
         return resetPasswordLink;
@@ -153,7 +153,7 @@ public class UserService {
         return rank;
     }
 
-    public List<User> getUsersToApproveByPlatoonID(Long platoonId) {
+    private List<User> getUsersToApproveByPlatoonID(Long platoonId) {
         return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
     }
 
