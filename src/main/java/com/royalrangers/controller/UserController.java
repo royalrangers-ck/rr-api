@@ -3,15 +3,16 @@ package com.royalrangers.controller;
 import com.dropbox.core.DbxException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.user.*;
+import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.TempUser;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
+import com.royalrangers.service.TokenService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +30,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TokenService tokenService;
 
     @Autowired
     private DropboxService dropboxService;
@@ -183,4 +187,6 @@ public class UserController {
             return  ResponseBuilder.fail(e.getMessage());
         }
     }
+
+
 }
