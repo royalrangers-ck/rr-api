@@ -109,15 +109,30 @@ public class UserService {
         }
 
         grantAuthority(user, userDto.getAuthorityName());
-        userRepository.save(user);
+
         return user;
+    }
+
+    public void registerUser(UserRegistrationDto userInfo){
+        if (isEmailExist(userInfo.getEmail()))
+            throw new UserRepositoryException(String.format("User with email '%s' already exists", userInfo.getEmail()));
+
+        User user = createUser(userInfo);
+        userRepository.save(user);
+
+        try {
+            emailService.sendEmail(user,"RegistrationConfirm",
+                    "submit.email.inline.html", getConfirmRegistrationLink(user));
+        } catch (UnknownHostException e){
+            log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
+        }
     }
 
     public Boolean isEmailExist(String email) {
         return (userRepository.findByEmail(email) != null);
     }
 
-    public String getConfirmRegistrationLink(User user) throws UnknownHostException {
+    private String getConfirmRegistrationLink(User user) throws UnknownHostException {
         String token = tokenService.generateVerificationToken(user);
         String confirmRegistrationUrl =
                 "http://" + InetAddress.getLocalHost().getHostAddress()

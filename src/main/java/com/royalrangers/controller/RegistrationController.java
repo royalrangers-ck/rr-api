@@ -6,6 +6,7 @@ import com.royalrangers.exception.TokenException;
 import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
+import com.royalrangers.repository.UserRepository;
 import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.service.TokenService;
@@ -27,9 +28,6 @@ public class RegistrationController {
     private UserService userService;
 
     @Autowired
-    private EmailService emailService;
-
-    @Autowired
     private TokenService tokenService;
 
 
@@ -37,20 +35,11 @@ public class RegistrationController {
     @ApiOperation(value = "Add user to database")
     public ResponseResult registration(@RequestBody UserRegistrationDto userInfo) {
 
-        if (userService.isEmailExist(userInfo.getEmail())) {
-            log.info(String.format("User with email '%s' already exists", userInfo.getEmail()));
-            return ResponseBuilder.fail("User with this email already exists");
+        try{
+            userService.registerUser(userInfo);
+        } catch (UserRepositoryException e){
+            return ResponseBuilder.fail(e.getMessage());
         }
-
-        User user = userService.createUser(userInfo);
-
-        try {
-            String confirmLink = userService.getConfirmRegistrationLink(user);
-            emailService.sendEmail(user,"RegistrationConfirm", "submit.email.inline.html", confirmLink);
-        } catch (UnknownHostException e){
-           log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
-        }
-
         log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
         return ResponseBuilder.success("User is successfully created");
     }
