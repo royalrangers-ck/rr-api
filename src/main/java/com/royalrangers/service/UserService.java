@@ -136,7 +136,7 @@ public class UserService {
         String token = tokenService.generateVerificationToken(user);
         String confirmRegistrationUrl =
                 "http://" + InetAddress.getLocalHost().getHostAddress()
-                        + "/landing/#/registration/confirm?token=" + token;
+                        + "/#/registration/confirm?token=" + token;
         return confirmRegistrationUrl;
     }
 
