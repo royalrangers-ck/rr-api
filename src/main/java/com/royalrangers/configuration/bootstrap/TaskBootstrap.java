@@ -10,11 +10,8 @@ import java.util.stream.IntStream;
 
 public class TaskBootstrap {
 
-    public Map<Integer, Object> createTask() {
-        Map<Integer, Object> map = new HashMap<>();
+    private List<Task> createTaskForTest1() {
         List<Task> tasksForTest1 = new ArrayList<>();
-        List<Task> tasksForTest2 = new ArrayList<>();
-        List<Task> tasksForTest3 = new ArrayList<>();
         IntStream.range(1, 9).forEach(taskElement -> {
             Task task = new Task();
             switch (taskElement) {
@@ -83,6 +80,11 @@ public class TaskBootstrap {
             tasksForTest1.add(task);
         });
 
+        return tasksForTest1;
+    }
+
+    private List<Task> createTaskForTest2() {
+        List<Task> tasksForTest2 = new ArrayList<>();
         IntStream.range(1, 7).forEach(element -> {
             Task task = new Task();
             switch (element) {
@@ -150,7 +152,11 @@ public class TaskBootstrap {
             }
             tasksForTest2.add(task);
         });
+        return tasksForTest2;
+    }
 
+    private List<Task> createTaskForTest3() {
+        List<Task> tasksForTest3 = new ArrayList<>();
         IntStream.range(1, 7).forEach(element -> {
             Task task = new Task();
             switch (element) {
@@ -197,9 +203,14 @@ public class TaskBootstrap {
             }
             tasksForTest3.add(task);
         });
-        map.put(1, tasksForTest1);
-        map.put(2, tasksForTest2);
-        map.put(3, tasksForTest3);
+        return tasksForTest3;
+    }
+
+    public Map<Integer, Object> createTask() {
+        Map<Integer, Object> map = new HashMap<>();
+        map.put(1, createTaskForTest1());
+        map.put(2, createTaskForTest2());
+        map.put(3, createTaskForTest3());
         return map;
     }
 
