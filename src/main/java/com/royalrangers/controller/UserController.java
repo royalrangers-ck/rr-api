@@ -170,9 +170,9 @@ public class UserController {
         }
     }
 
-    @PostMapping("/avatar/{file}")
+    @PostMapping("/avatar")
     @ApiOperation(value = "Upload and set avatar for current user")
-    public ResponseResult upload(@PathVariable("file") MultipartFile file) {
+    public ResponseResult upload(@RequestParam("file") MultipartFile file) {
         if (file.getSize() >= FILE_MAX_SIZE)
             return ResponseBuilder.fail("File too large.");
 
