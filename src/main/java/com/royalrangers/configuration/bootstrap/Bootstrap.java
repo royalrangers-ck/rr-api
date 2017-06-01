@@ -24,8 +24,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -106,8 +108,7 @@ public class Bootstrap {
         List<User> users = new ArrayList<>();
 
         try {
-            Resource resource = new ClassPathResource(USERS_FILE);
-            YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
+            YamlReader reader = getYamlReader(USERS_FILE);
             while (true) {
                 UserRegistrationDto userDto = reader.read(UserRegistrationDto.class);
                 if (userDto == null) break;
@@ -128,15 +129,21 @@ public class Bootstrap {
     }
 
     private void initCountry() {
-
         try {
-            Resource resource = new ClassPathResource(COUNTRY_FILE);
-            YamlReader reader = new YamlReader(new FileReader(resource.getFile()));
+            YamlReader reader = getYamlReader(COUNTRY_FILE);
             Country country = reader.read(Country.class);
             countryRepository.save(country);
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //Used for read file with correct encoding
+    private YamlReader getYamlReader(String file) throws IOException {
+        Resource resource = new ClassPathResource(file);
+        FileInputStream is = new FileInputStream(resource.getFile());
+        InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
+        return new YamlReader(isr);
     }
 
     private void initAuthorities() {
