@@ -11,5 +11,4 @@ public class TestRequestDto {
     private String description;
     private String logoUrl;
     private String testType;
-    private Integer quarterAchievementId;
 }
