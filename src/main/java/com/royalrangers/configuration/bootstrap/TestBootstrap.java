@@ -9,103 +9,7 @@ import java.util.stream.IntStream;
 
 public class TestBootstrap {
 
-    public List<Test> createTest() {
-        List<Test> tests = new ArrayList<>();
-        IntStream.range(1, 6).forEach(element -> {
-            Test test = new Test();
-            switch (element) {
-                case 1: {
-                    test.setName("Дика природа");
-                    test.setShortDescription("Синій тест майстерності. Ти дізнаєшся багато нового про дику природу та зможеш\n"
-                            + "здійснити невеликий похід зі своєю ланкою.");
-                    test.setDescription(
-                            "Ти дізнаєшся що таке охорона природи." +
-                                    "Ти дізнаєшся наскільки важливою була дика природа для виживання людини протягом усієї історії." +
-                                    "Ти дізнаєшся чому так важливо зберігати природу." +
-                                    "Ти навчишся розпізнавати сліди тварин для того, щоб дізнатись про них більше." +
-                                    "Ти навчишся виготовлятии гіпсовий зліпок сліду, знайденого на природі." +
-                                    "Ти дізнаєшся про різні місця мешкання, а також описати те, як диким тваринам може" +
-                                    "загрожувати вимирання, якщо не виконуватимуться закони про Охорону." +
-                                    "Ти дізнаєшся про дві проблеми, які впливають на дику природу краю (області, країни)." +
-                                    "Ти дізнаєшся, чому охорона й збереження природи є корисними для нас самих." +
-                                    "Ти дізнаєшся про способи охорони природи."
-                    );
-                    test.setLogoUrl(null);
-                    test.setTestType(TestType.BLUE);
-                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PIONEER, UserAgeGroup.RANGER)));
-                    break;
-                }
-                case 2: {
-                    test.setName("Догляд заСобакою");
-                    test.setShortDescription("Ти дізнаєшся багато нового про собаку та догляд про неї.");
-                    test.setDescription(
-                            "Ти зможеш назвати частини тіла собаки й підписати на малюнку." +
-                                    "Ти зможеш обговорити користь собак для людей." +
-                                    "Ти зможеш розпізнати деякі з основних відмінностей між деякими групами собак." +
-                                    "Ти зможеш розповісти, за якими характерними ознаками оцінюють собак на великих змаганнях." +
-                                    "Ти зможеш назвати деякі породи собак, а також деякі характеристики, які кожну з цих порід роблять унікальною." +
-                                    "Ти зможеш назвати деякі породи собак, а також деякі характеристики, які кожну з цих порід роблять унікальною." +
-                                    "Ти зможеш пояснити, що значить доглядати за собакою: годувати, забезпечувати водою, грумінг, фізичні вправи й купання." +
-                                    "Ти зможеш розповісти про виховання та дресирування собаки."
-                    );
-                    test.setLogoUrl(null);
-                    test.setTestType(TestType.BLUE);
-                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PIONEER)));
-                    break;
-                }
-                case 3: {
-                    test.setName("Лешинг");
-                    test.setShortDescription("Червоний тест майстерності. Для його виконання, тобі потрібно закінчити тест Робота з " +
-                            "Мотузкою. Ти навчишся робити багато корисних в поході речей за допомогою лешингу.");
-                    test.setDescription(
-                            "Ти вивчиш квадратний, діагональний, круговий, паралельний та безперервний лешинг. Ти навчишся робити туристичні меблі." +
-                                    "Діти зможуть правильно виконати квадратне кріплення.");
-                    test.setLogoUrl(null);
-                    test.setTestType(TestType.RED);
-                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.BEGINNER)));
-                    break;
-                }
-                case 4: {
-                    test.setName("Приготування їжї");
-                    test.setShortDescription("Червоний тест майстерності. Цей Тест Майстерності є обов’язковим для отримання Золотої Медалі Досягнень. Ти навчишся складати меню для походу та готувати їжу у фользі.");
-                    test.setDescription(
-                            "Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. знаються про харчову піраміду. Діти дізнаються про харчову піраміду. 1. Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. 1. Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. Діти почнуть планувати меню для походу на 6 дітей. Ти дізнаєшся про харчові піраміду" +
-                                    "Ти дізнаєшся про розмір рекомендованої порції на одну людину" +
-                                    "Ти навчишся планувати меню для походу" +
-                                    "Ти навчишся розраховувати вартість меню для походу" +
-                                    "Ти навчишся обладнувати місце для миття посуду способом «мий, промивай, промивай»" +
-                                    "Діти навчаться обладнувати місце для миття посуду способом «помий і двічі сполосни». Ти навчишся обладнувати місце для миття рук\n" +
-                                    "Ти навчишся випікати кекси на багатті" +
-                                    "Ти навчишся готувати в фользі");
-                    test.setLogoUrl(null);
-                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.BEGINNER)));
-                    test.setTestType(TestType.RED);
-                    break;
-                }
-                case 5: {
-                    test.setName("Розведення багаття");
-                    test.setShortDescription("Червоний тест майстерності. Ти навчишся розпалювати багаття 6 видів.");
-                    test.setDescription(
-                            "Ти зможеш назвати правила техніки безпеки при розпалюванні багаття." +
-                                    "Ти знатимеш про 4 види трута, хмиз та дрова." +
-                                    "Ти зможеш показати, як складається багаття Тіпі." +
-                                    "Ти зможут зібрати протипожежне обладнання для походу." +
-                                    "Ти зможеш пояснити, як боротися з вогнем у різних умовах: вдома, в лісі, на відкритому просторі." +
-                                    "Ти зможеш зібрати табірне протипожежне обладнання й пояснити його призначення." +
-                                    "Ти зможеш скласти багаття в вигляді літери А." +
-                                    "Ти зможеш назвати правила безпеки при поводженні з газовою плиткою." +
-                                    "Ти зможеш показати, як складається мисливське багаття та багаття ради." +
-                                    "Ти зможеш показати, як складається канавне багаття." +
-                                    "Ти навчишся виконувати всі правила безпеки." +
-                                    "Ти зможеш показати, як правильно гасити багаття.");
-                    test.setLogoUrl(null);
-                    test.setTestType(TestType.RED);
-                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PATHFINDER, UserAgeGroup.RANGER)));
-                    break;
-                }
-            }
-            tests.add(test);
-        });
+    private void createGreenTest(List<Test> tests) {
         IntStream.range(1, 61).forEach(index -> {
             Test greenTest = new Test();
             greenTest.setTestType(TestType.GREEN);
@@ -354,7 +258,9 @@ public class TestBootstrap {
             }
             tests.add(greenTest);
         });
+    }
 
+    private void createOrangeTest(List<Test> tests) {
         IntStream.range(1, 16).forEach(index -> {
             Test orangeTest = new Test();
             orangeTest.setTestType(TestType.ORANGE);
@@ -362,7 +268,9 @@ public class TestBootstrap {
             orangeTest.setName("Оранжевий біблійний тест 0" + index);
             tests.add(orangeTest);
         });
+    }
 
+    private void createBrownTest(List<Test> tests) {
         IntStream.range(1, 16).forEach(index -> {
             Test brownTest = new Test();
             brownTest.setTestType(TestType.BROWN);
@@ -370,292 +278,296 @@ public class TestBootstrap {
             brownTest.setName("Коричневий біблійний тест 0" + index);
             tests.add(brownTest);
         });
+    }
 
+    private void createPlatinumTest(List<Test> tests) {
         IntStream.range(1, 61).forEach(index -> {
-            Test greenTest = new Test();
-            greenTest.setTestType(TestType.PLATINUM);
-            greenTest.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PATHFINDER, UserAgeGroup.RANGER)));
+            Test platinumTest = new Test();
+            platinumTest.setTestType(TestType.PLATINUM);
+            platinumTest.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PATHFINDER, UserAgeGroup.RANGER)));
             switch (index) {
                 case 1: {
-                    greenTest.setName("Advanced Backpacking");
+                    platinumTest.setName("Advanced Backpacking");
                     break;
                 }
                 case 2: {
-                    greenTest.setName("Air Rifle");
+                    platinumTest.setName("Air Rifle");
                     break;
                 }
                 case 3: {
-                    greenTest.setName("American Cultures");
+                    platinumTest.setName("American Cultures");
                     break;
                 }
                 case 4: {
-                    greenTest.setName("Animal Husbandry");
+                    platinumTest.setName("Animal Husbandry");
                     break;
                 }
                 case 5: {
-                    greenTest.setName("Architecture");
+                    platinumTest.setName("Architecture");
                     break;
                 }
                 case 6: {
-                    greenTest.setName("Atomic Energy");
+                    platinumTest.setName("Atomic Energy");
                     break;
                 }
                 case 7: {
-                    greenTest.setName("Auto Mechanics");
+                    platinumTest.setName("Auto Mechanics");
                     break;
                 }
                 case 8: {
-                    greenTest.setName("Bible Reading");
+                    platinumTest.setName("Bible Reading");
                     break;
                 }
                 case 9: {
-                    greenTest.setName("Boating");
+                    platinumTest.setName("Boating");
                     break;
                 }
                 case 10: {
-                    greenTest.setName("Chemistry");
+                    platinumTest.setName("Chemistry");
                     break;
                 }
                 case 11: {
-                    greenTest.setName("Cinematography");
+                    platinumTest.setName("Cinematography");
                     break;
                 }
                 case 12: {
-                    greenTest.setName("Citizenship");
+                    platinumTest.setName("Citizenship");
                     break;
                 }
                 case 13: {
-                    greenTest.setName("Dentistry");
+                    platinumTest.setName("Dentistry");
                     break;
                 }
                 case 14: {
-                    greenTest.setName("Drafting");
+                    platinumTest.setName("Drafting");
                     break;
                 }
                 case 15: {
-                    greenTest.setName("Economics");
+                    platinumTest.setName("Economics");
                     break;
                 }
                 case 16: {
-                    greenTest.setName("Electricity");
+                    platinumTest.setName("Electricity");
                     break;
                 }
                 case 17: {
-                    greenTest.setName("Electronics");
+                    platinumTest.setName("Electronics");
                     break;
                 }
                 case 18: {
-                    greenTest.setName("Engineering");
+                    platinumTest.setName("Engineering");
                     break;
                 }
                 case 19: {
-                    greenTest.setName("Farm & Ranch Management");
+                    platinumTest.setName("Farm & Ranch Management");
                     break;
                 }
                 case 20: {
-                    greenTest.setName("Farm Mechanics");
+                    platinumTest.setName("Farm Mechanics");
                     break;
                 }
                 case 21: {
-                    greenTest.setName("Fly‐Fishing");
+                    platinumTest.setName("Fly‐Fishing");
                     break;
                 }
                 case 22: {
-                    greenTest.setName("Foreign Language");
+                    platinumTest.setName("Foreign Language");
                     break;
                 }
                 case 23: {
-                    greenTest.setName("Geology");
+                    platinumTest.setName("Geology");
                     break;
                 }
                 case 24: {
-                    greenTest.setName("Golf");
+                    platinumTest.setName("Golf");
                     break;
                 }
                 case 25: {
-                    greenTest.setName("Graphic Arts");
+                    platinumTest.setName("Graphic Arts");
                     break;
                 }
                 case 26: {
-                    greenTest.setName("Hide Tanning");
+                    platinumTest.setName("Hide Tanning");
                     break;
                 }
                 case 27: {
-                    greenTest.setName("Home Missions Construction");
+                    platinumTest.setName("Home Missions Construction");
                     break;
                 }
                 case 28: {
-                    greenTest.setName("Hunter Education/Safety");
+                    platinumTest.setName("Hunter Education/Safety");
                     break;
                 }
                 case 29: {
-                    greenTest.setName("Journalism");
+                    platinumTest.setName("Journalism");
                     break;
                 }
                 case 30: {
-                    greenTest.setName("Kayaking");
+                    platinumTest.setName("Kayaking");
                     break;
                 }
                 case 31: {
-                    greenTest.setName("Landscape Architecture");
+                    platinumTest.setName("Landscape Architecture");
                     break;
                 }
                 case 32: {
-                    greenTest.setName("Law");
+                    platinumTest.setName("Law");
                     break;
                 }
                 case 33: {
-                    greenTest.setName("Lifesaving");
+                    platinumTest.setName("Lifesaving");
                     break;
                 }
                 case 34: {
-                    greenTest.setName("Mammals");
+                    platinumTest.setName("Mammals");
                     break;
                 }
                 case 35: {
-                    greenTest.setName("Masonry");
+                    platinumTest.setName("Masonry");
                     break;
                 }
                 case 36: {
-                    greenTest.setName("Medicine");
+                    platinumTest.setName("Medicine");
                     break;
                 }
                 case 37: {
-                    greenTest.setName("Metalwork");
+                    platinumTest.setName("Metalwork");
                     break;
                 }
                 case 38: {
-                    greenTest.setName("Model Rocketry");
+                    platinumTest.setName("Model Rocketry");
                     break;
                 }
                 case 39: {
-                    greenTest.setName("Motor Boating");
+                    platinumTest.setName("Motor Boating");
                     break;
                 }
                 case 40: {
-                    greenTest.setName("Mountain Biking");
+                    platinumTest.setName("Mountain Biking");
                     break;
                 }
                 case 41: {
-                    greenTest.setName("Oceanography");
+                    platinumTest.setName("Oceanography");
                     break;
                 }
                 case 42: {
-                    greenTest.setName("Pageantry");
+                    platinumTest.setName("Pageantry");
                     break;
                 }
                 case 43: {
-                    greenTest.setName("Paintball");
+                    platinumTest.setName("Paintball");
                     break;
                 }
                 case 44: {
-                    greenTest.setName("Plumbing");
+                    platinumTest.setName("Plumbing");
                     break;
                 }
                 case 45: {
-                    greenTest.setName("Public Health");
+                    platinumTest.setName("Public Health");
                     break;
                 }
                 case 46: {
-                    greenTest.setName("Rappelling");
+                    platinumTest.setName("Rappelling");
                     break;
                 }
                 case 47: {
-                    greenTest.setName("Rock Climbing");
+                    platinumTest.setName("Rock Climbing");
                     break;
                 }
                 case 48: {
-                    greenTest.setName("Sailing");
+                    platinumTest.setName("Sailing");
                     break;
                 }
                 case 49: {
-                    greenTest.setName("Scholarship");
+                    platinumTest.setName("Scholarship");
                     break;
                 }
                 case 50: {
-                    greenTest.setName("Scuba Diving");
+                    platinumTest.setName("Scuba Diving");
                     break;
                 }
                 case 51: {
-                    greenTest.setName("Sign Language");
+                    platinumTest.setName("Sign Language");
                     break;
                 }
                 case 52: {
-                    greenTest.setName("Sixteen Fundamental Truths");
+                    platinumTest.setName("Sixteen Fundamental Truths");
                     break;
                 }
                 case 53: {
-                    greenTest.setName("Skiing");
+                    platinumTest.setName("Skiing");
                     break;
                 }
                 case 54: {
-                    greenTest.setName("Skin Diving");
+                    platinumTest.setName("Skin Diving");
                     break;
                 }
                 case 55: {
-                    greenTest.setName("Snowboarding");
+                    platinumTest.setName("Snowboarding");
                     break;
                 }
                 case 56: {
-                    greenTest.setName("Soil & Water Conservation");
+                    platinumTest.setName("Soil & Water Conservation");
                     break;
                 }
                 case 57: {
-                    greenTest.setName("Solar Science");
+                    platinumTest.setName("Solar Science");
                     break;
                 }
                 case 58: {
-                    greenTest.setName("Surveying");
+                    platinumTest.setName("Surveying");
                     break;
                 }
                 case 59: {
-                    greenTest.setName("Track");
+                    platinumTest.setName("Track");
                     break;
                 }
                 case 60: {
-                    greenTest.setName("Traffic Safety");
+                    platinumTest.setName("Traffic Safety");
                     break;
                 }
                 case 61: {
-                    greenTest.setName("Veterinary Medicine");
+                    platinumTest.setName("Veterinary Medicine");
                     break;
                 }
                 case 62: {
-                    greenTest.setName("Water Safety Instructor");
+                    platinumTest.setName("Water Safety Instructor");
                     break;
                 }
                 case 63: {
-                    greenTest.setName("Water Skiing");
+                    platinumTest.setName("Water Skiing");
                     break;
                 }
                 case 64: {
-                    greenTest.setName("Whitewater Rafting");
+                    platinumTest.setName("Whitewater Rafting");
                     break;
                 }
                 case 65: {
-                    greenTest.setName("Winter Camping");
+                    platinumTest.setName("Winter Camping");
                     break;
                 }
                 case 66: {
-                    greenTest.setName("Woodworking");
+                    platinumTest.setName("Woodworking");
                     break;
                 }
                 case 67: {
-                    greenTest.setName("World Missions");
+                    platinumTest.setName("World Missions");
                     break;
                 }
                 case 68: {
-                    greenTest.setName("World Missions Construction");
+                    platinumTest.setName("World Missions Construction");
                     break;
                 }
                 case 69: {
-                    greenTest.setName("Youth Missions");
+                    platinumTest.setName("Youth Missions");
                     break;
                 }
             }
-            tests.add(greenTest);
+            tests.add(platinumTest);
         });
+    }
 
+    private void createRedTest(List<Test> tests) {
         IntStream.range(1, 7).forEach(index -> {
             Test redTest = new Test();
             redTest.setTestType(TestType.RED);
@@ -663,7 +575,9 @@ public class TestBootstrap {
             redTest.setName("Червоний тест лідерство 10" + index);
             tests.add(redTest);
         });
+    }
 
+    private void createYellowTest(List<Test> tests) {
         IntStream.range(1, 7).forEach(index -> {
             Test yellowTest = new Test();
             yellowTest.setTestType(TestType.YELLOW);
@@ -671,7 +585,9 @@ public class TestBootstrap {
             yellowTest.setName("Жовтий тест лідерство 20" + index);
             tests.add(yellowTest);
         });
+    }
 
+    private void createLightBlueTest(List<Test> tests) {
         IntStream.range(1, 7).forEach(index -> {
             Test lightBlueTest = new Test();
             lightBlueTest.setTestType(TestType.LIGHTBLUE);
@@ -679,199 +595,312 @@ public class TestBootstrap {
             lightBlueTest.setName("Голубий тест лідерство 30" + index);
             tests.add(lightBlueTest);
         });
+    }
 
+    private void createBlueTest(List<Test> tests) {
         IntStream.range(1, 48).forEach(index -> {
-            Test greenTest = new Test();
-            greenTest.setTestType(TestType.BLUE);
-            greenTest.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PIONEER)));
+            Test blueTest = new Test();
+            blueTest.setTestType(TestType.BLUE);
+            blueTest.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PIONEER)));
             switch (index) {
                 case 1: {
-                    greenTest.setName("Art");
+                    blueTest.setName("Art");
                     break;
                 }
                 case 2: {
-                    greenTest.setName("Astronomy");
+                    blueTest.setName("Astronomy");
                     break;
                 }
                 case 3: {
-                    greenTest.setName("Basic Sign Language");
+                    blueTest.setName("Basic Sign Language");
                     break;
                 }
                 case 4: {
-                    greenTest.setName("Basketry");
+                    blueTest.setName("Basketry");
                     break;
                 }
                 case 5: {
-                    greenTest.setName("BB Gun");
+                    blueTest.setName("BB Gun");
                     break;
                 }
                 case 6: {
-                    greenTest.setName("Bible Reading");
+                    blueTest.setName("Bible Reading");
                     break;
                 }
                 case 7: {
-                    greenTest.setName("Bird Study");
+                    blueTest.setName("Bird Study");
                     break;
                 }
                 case 8: {
-                    greenTest.setName("Chess");
+                    blueTest.setName("Chess");
                     break;
                 }
                 case 9: {
-                    greenTest.setName("Coin Collecting");
+                    blueTest.setName("Coin Collecting");
                     break;
                 }
                 case 10: {
-                    greenTest.setName("Collections");
+                    blueTest.setName("Collections");
                     break;
                 }
                 case 11: {
-                    greenTest.setName("Compass");
+                    blueTest.setName("Compass");
                     break;
                 }
                 case 12: {
-                    greenTest.setName("Darts");
+                    blueTest.setName("Darts");
                     break;
                 }
                 case 13: {
-                    greenTest.setName("Disability");
+                    blueTest.setName("Disability");
                     break;
                 }
                 case 14: {
-                    greenTest.setName("Awareness");
+                    blueTest.setName("Awareness");
                     break;
                 }
                 case 15: {
-                    greenTest.setName("Dog Care");
+                    blueTest.setName("Dog Care");
                     break;
                 }
                 case 16: {
-                    greenTest.setName("Family Life");
+                    blueTest.setName("Family Life");
                     break;
                 }
                 case 17: {
-                    greenTest.setName("Fingerprinting");
+                    blueTest.setName("Fingerprinting");
                     break;
                 }
                 case 18: {
-                    greenTest.setName("Firearm Safety");
+                    blueTest.setName("Firearm Safety");
                     break;
                 }
                 case 19: {
-                    greenTest.setName("Fishing");
+                    blueTest.setName("Fishing");
                     break;
                 }
                 case 20: {
-                    greenTest.setName("Global Missions");
+                    blueTest.setName("Global Missions");
                     break;
                 }
                 case 21: {
-                    greenTest.setName("Hobby");
+                    blueTest.setName("Hobby");
                     break;
                 }
                 case 22: {
-                    greenTest.setName("Ice Skating");
+                    blueTest.setName("Ice Skating");
                     break;
                 }
                 case 23: {
-                    greenTest.setName("In‐Line Skating");
+                    blueTest.setName("In‐Line Skating");
                     break;
                 }
                 case 24: {
-                    greenTest.setName("Insect Study");
+                    blueTest.setName("Insect Study");
                     break;
                 }
                 case 25: {
-                    greenTest.setName("Junior Bible Quiz");
+                    blueTest.setName("Junior Bible Quiz");
                     break;
                 }
                 case 26: {
-                    greenTest.setName("Lashing");
+                    blueTest.setName("Lashing");
                     break;
                 }
                 case 27: {
-                    greenTest.setName("Law Enforcement");
+                    blueTest.setName("Law Enforcement");
                     break;
                 }
                 case 28: {
-                    greenTest.setName("Marksmanship");
+                    blueTest.setName("Marksmanship");
                     break;
                 }
                 case 29: {
-                    greenTest.setName("Models & Design");
+                    blueTest.setName("Models & Design");
                     break;
                 }
                 case 30: {
-                    greenTest.setName("Music");
+                    blueTest.setName("Music");
                     break;
                 }
                 case 31: {
-                    greenTest.setName("National Prayer Center");
+                    blueTest.setName("National Prayer Center");
                     break;
                 }
                 case 32: {
-                    greenTest.setName("Painting");
+                    blueTest.setName("Painting");
                     break;
                 }
                 case 33: {
-                    greenTest.setName("Pets");
+                    blueTest.setName("Pets");
                     break;
                 }
                 case 34: {
-                    greenTest.setName("Pioneer Lore");
+                    blueTest.setName("Pioneer Lore");
                     break;
                 }
                 case 35: {
-                    greenTest.setName("Presidents");
+                    blueTest.setName("Presidents");
                     break;
                 }
                 case 36: {
-                    greenTest.setName("Railroading");
+                    blueTest.setName("Railroading");
                     break;
                 }
                 case 37: {
-                    greenTest.setName("Reading");
+                    blueTest.setName("Reading");
                     break;
                 }
                 case 38: {
-                    greenTest.setName("Rocketry");
+                    blueTest.setName("Rocketry");
                     break;
                 }
                 case 39: {
-                    greenTest.setName("Roller Skating");
+                    blueTest.setName("Roller Skating");
                     break;
                 }
                 case 40: {
-                    greenTest.setName("Rowing");
+                    blueTest.setName("Rowing");
                     break;
                 }
                 case 41: {
-                    greenTest.setName("Safety");
+                    blueTest.setName("Safety");
                     break;
                 }
                 case 42: {
-                    greenTest.setName("Sculpture");
+                    blueTest.setName("Sculpture");
                     break;
                 }
                 case 43: {
-                    greenTest.setName("Senior Citizens");
+                    blueTest.setName("Senior Citizens");
                     break;
                 }
                 case 44: {
-                    greenTest.setName("Space Exploration");
+                    blueTest.setName("Space Exploration");
                     break;
                 }
                 case 45: {
-                    greenTest.setName("Weather");
+                    blueTest.setName("Weather");
                     break;
                 }
                 case 47: {
-                    greenTest.setName("Wildlife");
+                    blueTest.setName("Wildlife");
                     break;
                 }
             }
+            tests.add(blueTest);
         });
+    }
 
+    private void createExampleTest(List<Test> tests) {
+        IntStream.range(1, 6).forEach(element -> {
+            Test test = new Test();
+            switch (element) {
+                case 1: {
+                    test.setName("Дика природа");
+                    test.setShortDescription("Синій тест майстерності. Ти дізнаєшся багато нового про дику природу та зможеш\n"
+                            + "здійснити невеликий похід зі своєю ланкою.");
+                    test.setDescription(
+                            "Ти дізнаєшся що таке охорона природи." +
+                                    "Ти дізнаєшся наскільки важливою була дика природа для виживання людини протягом усієї історії." +
+                                    "Ти дізнаєшся чому так важливо зберігати природу." +
+                                    "Ти навчишся розпізнавати сліди тварин для того, щоб дізнатись про них більше." +
+                                    "Ти навчишся виготовлятии гіпсовий зліпок сліду, знайденого на природі." +
+                                    "Ти дізнаєшся про різні місця мешкання, а також описати те, як диким тваринам може" +
+                                    "загрожувати вимирання, якщо не виконуватимуться закони про Охорону." +
+                                    "Ти дізнаєшся про дві проблеми, які впливають на дику природу краю (області, країни)." +
+                                    "Ти дізнаєшся, чому охорона й збереження природи є корисними для нас самих." +
+                                    "Ти дізнаєшся про способи охорони природи."
+                    );
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.BLUE);
+                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PIONEER, UserAgeGroup.RANGER)));
+                    break;
+                }
+                case 2: {
+                    test.setName("Догляд заСобакою");
+                    test.setShortDescription("Ти дізнаєшся багато нового про собаку та догляд про неї.");
+                    test.setDescription(
+                            "Ти зможеш назвати частини тіла собаки й підписати на малюнку." +
+                                    "Ти зможеш обговорити користь собак для людей." +
+                                    "Ти зможеш розпізнати деякі з основних відмінностей між деякими групами собак." +
+                                    "Ти зможеш розповісти, за якими характерними ознаками оцінюють собак на великих змаганнях." +
+                                    "Ти зможеш назвати деякі породи собак, а також деякі характеристики, які кожну з цих порід роблять унікальною." +
+                                    "Ти зможеш назвати деякі породи собак, а також деякі характеристики, які кожну з цих порід роблять унікальною." +
+                                    "Ти зможеш пояснити, що значить доглядати за собакою: годувати, забезпечувати водою, грумінг, фізичні вправи й купання." +
+                                    "Ти зможеш розповісти про виховання та дресирування собаки."
+                    );
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.BLUE);
+                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PIONEER)));
+                    break;
+                }
+                case 3: {
+                    test.setName("Лешинг");
+                    test.setShortDescription("Червоний тест майстерності. Для його виконання, тобі потрібно закінчити тест Робота з " +
+                            "Мотузкою. Ти навчишся робити багато корисних в поході речей за допомогою лешингу.");
+                    test.setDescription(
+                            "Ти вивчиш квадратний, діагональний, круговий, паралельний та безперервний лешинг. Ти навчишся робити туристичні меблі." +
+                                    "Діти зможуть правильно виконати квадратне кріплення.");
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.RED);
+                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.BEGINNER)));
+                    break;
+                }
+                case 4: {
+                    test.setName("Приготування їжї");
+                    test.setShortDescription("Червоний тест майстерності. Цей Тест Майстерності є обов’язковим для отримання Золотої Медалі Досягнень. Ти навчишся складати меню для походу та готувати їжу у фользі.");
+                    test.setDescription(
+                            "Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. знаються про харчову піраміду. Діти дізнаються про харчову піраміду. 1. Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. 1. Діти дізнаються про харчову піраміду. 2. Діти дізнаються про розмір рекомендованої порції на одну людину. 3. Діти почнуть планувати меню для походу на 6 дітей. Діти почнуть планувати меню для походу на 6 дітей. Ти дізнаєшся про харчові піраміду" +
+                                    "Ти дізнаєшся про розмір рекомендованої порції на одну людину" +
+                                    "Ти навчишся планувати меню для походу" +
+                                    "Ти навчишся розраховувати вартість меню для походу" +
+                                    "Ти навчишся обладнувати місце для миття посуду способом «мий, промивай, промивай»" +
+                                    "Діти навчаться обладнувати місце для миття посуду способом «помий і двічі сполосни». Ти навчишся обладнувати місце для миття рук\n" +
+                                    "Ти навчишся випікати кекси на багатті" +
+                                    "Ти навчишся готувати в фользі");
+                    test.setLogoUrl(null);
+                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.BEGINNER)));
+                    test.setTestType(TestType.RED);
+                    break;
+                }
+                case 5: {
+                    test.setName("Розведення багаття");
+                    test.setShortDescription("Червоний тест майстерності. Ти навчишся розпалювати багаття 6 видів.");
+                    test.setDescription(
+                            "Ти зможеш назвати правила техніки безпеки при розпалюванні багаття." +
+                                    "Ти знатимеш про 4 види трута, хмиз та дрова." +
+                                    "Ти зможеш показати, як складається багаття Тіпі." +
+                                    "Ти зможут зібрати протипожежне обладнання для походу." +
+                                    "Ти зможеш пояснити, як боротися з вогнем у різних умовах: вдома, в лісі, на відкритому просторі." +
+                                    "Ти зможеш зібрати табірне протипожежне обладнання й пояснити його призначення." +
+                                    "Ти зможеш скласти багаття в вигляді літери А." +
+                                    "Ти зможеш назвати правила безпеки при поводженні з газовою плиткою." +
+                                    "Ти зможеш показати, як складається мисливське багаття та багаття ради." +
+                                    "Ти зможеш показати, як складається канавне багаття." +
+                                    "Ти навчишся виконувати всі правила безпеки." +
+                                    "Ти зможеш показати, як правильно гасити багаття.");
+                    test.setLogoUrl(null);
+                    test.setTestType(TestType.RED);
+                    test.setUserAgeGroups(new ArrayList<>(Arrays.asList(UserAgeGroup.PATHFINDER, UserAgeGroup.RANGER)));
+                    break;
+                }
+            }
+            tests.add(test);
+        });
+    }
+
+    public List<Test> createTest() {
+        List<Test> tests = new ArrayList<>();
+        createGreenTest(tests);
+        createOrangeTest(tests);
+        createBrownTest(tests);
+        createPlatinumTest(tests);
+        createRedTest(tests);
+        createYellowTest(tests);
+        createLightBlueTest(tests);
+        createBlueTest(tests);
+        createExampleTest(tests);
         return tests;
     }
 }
