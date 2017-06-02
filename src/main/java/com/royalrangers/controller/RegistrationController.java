@@ -2,12 +2,11 @@ package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.UserRegistrationDto;
+import com.royalrangers.exception.TokenException;
 import com.royalrangers.exception.UserRepositoryException;
-import com.royalrangers.model.User;
 import com.royalrangers.model.VerificationToken;
-import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
-import com.royalrangers.service.VerificationTokenService;
+import com.royalrangers.service.TokenService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.UnknownHostException;
-import java.util.Calendar;
 
 @Slf4j
 @RestController
@@ -26,30 +24,17 @@ public class RegistrationController {
     private UserService userService;
 
     @Autowired
-    private EmailService emailService;
-
-    @Autowired
-    private VerificationTokenService verificationTokenService;
+    private TokenService tokenService;
 
 
     @PostMapping
     @ApiOperation(value = "Add user to database")
     public ResponseResult registration(@RequestBody UserRegistrationDto userInfo) {
-
-        if (userService.isEmailExist(userInfo.getEmail())) {
-            log.info("User with email " + userInfo.getEmail() + " already exists");
-            return ResponseBuilder.fail("User with this email already exists");
-        }
-
-        User user = userService.createUser(userInfo);
-
         try {
-            String confirmLink = userService.getConfirmRegistrationLink(user);
-            emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
-        } catch (UnknownHostException e) {
-            log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
+            userService.registerUser(userInfo);
+        } catch (UserRepositoryException e) {
+            return ResponseBuilder.fail(e.getMessage());
         }
-
         log.info("User " + userInfo.getEmail() + " is successfully created");
         return ResponseBuilder.success("User is successfully created");
     }
@@ -57,22 +42,14 @@ public class RegistrationController {
     @GetMapping("/confirm")
     @ApiOperation(value = "Confirm user email by given token")
     public ResponseResult registrationConfirm(@RequestParam("token") String token) {
-
-        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-        if (verificationToken == null) {
-            log.info("Verification token " + token + " is invalid");
-            return ResponseBuilder.fail("Verification token is invalid");
+        try {
+            VerificationToken verificationToken = tokenService.getVerificationToken(token);
+            userService.confirmUser(verificationToken);
+        } catch (TokenException e) {
+            log.info(e.getMessage());
+            return ResponseBuilder.fail(e.getMessage());
         }
-
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            log.info("Verification token " + token + "is expired");
-            return ResponseBuilder.fail("Verification token is expired");
-        }
-
-        userService.confirmUser(verificationToken);
-
-        log.info("Verification token " + token + " is confirmed", token);
+        log.info("Verification token " + token + " is confirmed");
         return ResponseBuilder.success("User confirm registration successfully");
     }
 
@@ -97,10 +74,9 @@ public class RegistrationController {
         } catch (UserRepositoryException ex) {
             return ResponseBuilder.fail(ex.getMessage());
         } catch (UnknownHostException e) {
-            log.error("Error in confirmation URL for '%s'", email);
+            log.error("Error in confirmation URL for " + email);
             return ResponseBuilder.fail("Error in confirmation URL");
         }
         return ResponseBuilder.success("Confirmation email is successfully resending.");
     }
-
 }

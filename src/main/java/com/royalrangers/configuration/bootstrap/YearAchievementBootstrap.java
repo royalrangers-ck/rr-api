@@ -8,8 +8,19 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class YearAchievementBootstrap {
-    public List<YearAchievement> createYear() {
-        List<YearAchievement> yearAchievementList = new ArrayList<>();
+    private void createYearForBeginner(List<YearAchievement> yearAchievementList) {
+        IntStream.range(1, 4).forEach(element -> {
+            YearAchievement yearForBeginners = new YearAchievement();
+            yearForBeginners.setName("Нагорода за " + element + " рік.");
+            yearForBeginners.setDescription("Щоб отримати нагороду за рік (бронзовий, срібний. золотий) потрібно зібрати 4 нагороди за чверть (синю, червону, зелену, жовту).");
+            yearForBeginners.setThreeYearAchievement(null);
+            yearForBeginners.setLogoUrl(null);
+            yearForBeginners.setUserAgeGroup(UserAgeGroup.BEGINNER);
+            yearAchievementList.add(yearForBeginners);
+        });
+    }
+
+    private void createYearForPathfinder(List<YearAchievement> yearAchievementList) {
         IntStream.range(1, 4).forEach(element -> {
             YearAchievement yearForPathfinders = new YearAchievement();
             switch (element) {
@@ -55,63 +66,9 @@ public class YearAchievementBootstrap {
             }
             yearAchievementList.add(yearForPathfinders);
         });
+    }
 
-        IntStream.range(1, 4).forEach(element -> {
-            YearAchievement yearForBeginners = new YearAchievement();
-            yearForBeginners.setName("Нагорода за " + element + " рік.");
-            yearForBeginners.setDescription("Щоб отримати нагороду за рік (бронзовий, срібний. золотий) потрібно зібрати 4 нагороди за чверть (синю, червону, зелену, жовту).");
-            yearForBeginners.setThreeYearAchievement(null);
-            yearForBeginners.setLogoUrl(null);
-            yearForBeginners.setUserAgeGroup(UserAgeGroup.BEGINNER);
-            yearAchievementList.add(yearForBeginners);
-        });
-
-        IntStream.range(1, 4).forEach(element -> {
-            YearAchievement yearForRangers = new YearAchievement();
-            switch (element) {
-                case 1: {
-                    yearForRangers.setName("Нагорода за " + element + " рік.");
-                    yearForRangers.setDescription("Щоб отримати нагороду за перший рік (E1) потрібно виконати один ДУХОВНИЙ ВИКЛИК " +
-                            "(синій) та чотири платинових тести на вибір + один платиновий обов’язковий тест + один " +
-                            "тест лідерства (жовтий чи голубий) + потрібно виконати додаткові вимоги: " +
-                            "\uF0B7 Recite again from memory the Royal Rangers Pledge, Code, Motto, the meaning of the points  of the Emblem, and the Golden Rule.");
-                    yearForRangers.setThreeYearAchievement(null);
-                    yearForRangers.setUserAgeGroup(UserAgeGroup.RANGER);
-                    yearForRangers.setLogoUrl(null);
-                    break;
-                }
-                case 2: {
-                    yearForRangers.setName("Нагорода за " + element + " рік.");
-                    yearForRangers.setDescription("Щоб отримати нагороду за другий рік (E2) потрібно виконати один ДУХОВНИЙ ВИКЛИК " +
-                            "(червоний) та чотири платинових тести на вибір + один платиновий обов’язковий тест  один тест лідерства + (жовтий чи голубий)" +
-                            " + потрібно виконати додаткові вимоги:" +
-                            "• Recite again from memory the Royal Rangers Pledge, Code, Motto, the meaning of the points of the Emblem, and the Golden Rule." +
-                            "• Be an E1 Award recipient at least six months." +
-                            "• Serve in one or more leadership positions in Expedition Rangers for at least six months." +
-                            "• Demonstrate the ability to present the plan of salvation to someone.");
-                    yearForRangers.setThreeYearAchievement(null);
-                    yearForRangers.setUserAgeGroup(UserAgeGroup.RANGER);
-                    yearForRangers.setLogoUrl(null);
-                    break;
-                }
-                case 3: {
-                    yearForRangers.setName("Нагорода за " + element + " рік.");
-                    yearForRangers.setDescription("Щоб отримати нагороду за третій рік (E3) потрібно виконати один ДУХОВНИЙ ВИКЛИК " +
-                            "(зелений) та чотири платинових тести на вибір + один платиновий обов’язковий тест + два тести лідерства (жовтий чи голубий) " +
-                            "+ потрібно виконати додаткові вимоги:" +
-                            "• Recite again from memory the Royal Rangers Pledge, Code, Motto, the meaning of the points of the Emblem, and the Golden Rule." +
-                            "• Be an E2 Award recipient for no less than nine months." +
-                            "• Serve in one or more leadership positions in Expedition Rangers for an additional six months, for a total of twelve months." +
-                            "• Demonstrate the ability to present the plan of salvation to someone.");
-                    yearForRangers.setThreeYearAchievement(null);
-                    yearForRangers.setUserAgeGroup(UserAgeGroup.RANGER);
-                    yearForRangers.setLogoUrl(null);
-                    break;
-                }
-            }
-            yearAchievementList.add(yearForRangers);
-        });
-
+    private void createYearForPioneer(List<YearAchievement> yearAchievementList) {
         IntStream.range(1, 4).forEach(element -> {
             YearAchievement yearForPioneer = new YearAchievement();
             switch (element) {
@@ -158,6 +115,62 @@ public class YearAchievementBootstrap {
             }
             yearAchievementList.add(yearForPioneer);
         });
+    }
+
+    private void createYearForRanger(List<YearAchievement> yearAchievementList) {
+        IntStream.range(1, 4).forEach(element -> {
+            YearAchievement yearForRangers = new YearAchievement();
+            switch (element) {
+                case 1: {
+                    yearForRangers.setName("Нагорода за " + element + " рік.");
+                    yearForRangers.setDescription("Щоб отримати нагороду за перший рік (E1) потрібно виконати один ДУХОВНИЙ ВИКЛИК " +
+                            "(синій) та чотири платинових тести на вибір + один платиновий обов’язковий тест + один " +
+                            "тест лідерства (жовтий чи голубий) + потрібно виконати додаткові вимоги: " +
+                            "\uF0B7 Recite again from memory the Royal Rangers Pledge, Code, Motto, the meaning of the points  of the Emblem, and the Golden Rule.");
+                    yearForRangers.setThreeYearAchievement(null);
+                    yearForRangers.setUserAgeGroup(UserAgeGroup.RANGER);
+                    yearForRangers.setLogoUrl(null);
+                    break;
+                }
+                case 2: {
+                    yearForRangers.setName("Нагорода за " + element + " рік.");
+                    yearForRangers.setDescription("Щоб отримати нагороду за другий рік (E2) потрібно виконати один ДУХОВНИЙ ВИКЛИК " +
+                            "(червоний) та чотири платинових тести на вибір + один платиновий обов’язковий тест  один тест лідерства + (жовтий чи голубий)" +
+                            " + потрібно виконати додаткові вимоги:" +
+                            "• Recite again from memory the Royal Rangers Pledge, Code, Motto, the meaning of the points of the Emblem, and the Golden Rule." +
+                            "• Be an E1 Award recipient at least six months." +
+                            "• Serve in one or more leadership positions in Expedition Rangers for at least six months." +
+                            "• Demonstrate the ability to present the plan of salvation to someone.");
+                    yearForRangers.setThreeYearAchievement(null);
+                    yearForRangers.setUserAgeGroup(UserAgeGroup.RANGER);
+                    yearForRangers.setLogoUrl(null);
+                    break;
+                }
+                case 3: {
+                    yearForRangers.setName("Нагорода за " + element + " рік.");
+                    yearForRangers.setDescription("Щоб отримати нагороду за третій рік (E3) потрібно виконати один ДУХОВНИЙ ВИКЛИК " +
+                            "(зелений) та чотири платинових тести на вибір + один платиновий обов’язковий тест + два тести лідерства (жовтий чи голубий) " +
+                            "+ потрібно виконати додаткові вимоги:" +
+                            "• Recite again from memory the Royal Rangers Pledge, Code, Motto, the meaning of the points of the Emblem, and the Golden Rule." +
+                            "• Be an E2 Award recipient for no less than nine months." +
+                            "• Serve in one or more leadership positions in Expedition Rangers for an additional six months, for a total of twelve months." +
+                            "• Demonstrate the ability to present the plan of salvation to someone.");
+                    yearForRangers.setThreeYearAchievement(null);
+                    yearForRangers.setUserAgeGroup(UserAgeGroup.RANGER);
+                    yearForRangers.setLogoUrl(null);
+                    break;
+                }
+            }
+            yearAchievementList.add(yearForRangers);
+        });
+    }
+
+    public List<YearAchievement> createYear() {
+        List<YearAchievement> yearAchievementList = new ArrayList<>();
+        createYearForBeginner(yearAchievementList);
+        createYearForPathfinder(yearAchievementList);
+        createYearForPioneer(yearAchievementList);
+        createYearForRanger(yearAchievementList);
         return yearAchievementList;
     }
 }
