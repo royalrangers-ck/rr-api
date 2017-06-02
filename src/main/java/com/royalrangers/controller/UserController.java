@@ -135,7 +135,7 @@ public class UserController {
         userService.updateTempUser(update);
         log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
 
-        return ResponseBuilder.success("User %s is successfully updated, waiting for approve this update by admin", userService.getAuthenticatedUser().getEmail());
+        return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
     }
 
     @PutMapping("/update/{temp_userId")
@@ -147,7 +147,7 @@ public class UserController {
             userService.updateUser(id, update);
             log.info("Update temp_user " + user.getEmail());
 
-            return ResponseBuilder.success("User %s is successfully updated", user.getEmail());
+            return ResponseBuilder.success("User " + user.getEmail() + "is successfully updated");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -161,7 +161,7 @@ public class UserController {
             userService.updateUserById(id, userUpdate);
             log.info("Update user with id " + id);
 
-            return ResponseBuilder.success("User with id %d is successfully updated", String.valueOf(id));
+            return ResponseBuilder.success("User with id " + id + " is successfully updated");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
