@@ -117,7 +117,7 @@ public class PublicInformationController {
         return ResponseBuilder.success(sections);
     }
 
-    @PostMapping("/forgotPassword/{email}")
+    @PostMapping("/forgotPassword")
     @ApiOperation(value = "Send email with resetPasswordLink for user")
     public ResponseResult sendResetPasswordLink(@RequestParam("email") String email) {
         try {
