@@ -99,6 +99,7 @@ public class UserService {
         user.setGender(userDto.getGender());
         user.setTelephoneNumber(userDto.getTelephoneNumber());
         user.setBirthDate(userDto.getBirthDate());
+        user.setUserRank(userDto.getUserRank());
         user.setCountry(countryRepository.findOne(userDto.getCountryId()));
         user.setRegion(regionRepository.findOne(userDto.getRegionId()));
         user.setCity(cityRepository.findOne(userDto.getCityId()));
