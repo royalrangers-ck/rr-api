@@ -125,7 +125,7 @@ public class PublicInformationController {
         } catch (UserRepositoryException | UnknownHostException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
-        return ResponseBuilder.success("Send reset password email to user: ", email);
+        return ResponseBuilder.success("Send reset password email to user: " + email);
     }
 
     @PostMapping("/changePassword")
