@@ -114,18 +114,18 @@ public class UserService {
         return user;
     }
 
-    public void registerUser(UserRegistrationDto userInfo){
+    public void registerUser(UserRegistrationDto userInfo) {
         if (isEmailExist(userInfo.getEmail()))
-            throw new UserRepositoryException(String.format("User with email '%s' already exists", userInfo.getEmail()));
+            throw new UserRepositoryException("User with email " + userInfo.getEmail() + " already exists");
 
         User user = createUser(userInfo);
         userRepository.save(user);
 
         try {
-            emailService.sendEmail(user,"RegistrationConfirm",
+            emailService.sendEmail(user, "RegistrationConfirm",
                     "submit.email.inline.html", getConfirmRegistrationLink(user));
-        } catch (UnknownHostException e){
-            log.error("Error in confirmation URL for '%s'", userInfo.getEmail());
+        } catch (UnknownHostException e) {
+            log.error("Error in confirmation URL for " + userInfo.getEmail());
         }
     }
 
@@ -195,23 +195,23 @@ public class UserService {
     }
 
     public void approveUser(Long id) {
-            User user = userRepository.findOne(id);
-            user.setApproved(true);
-            user.setEnabled(true);
-            user.setRejected(false);
-            userRepository.save(user);
-            emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
-            log.info("User %s approved.", user.getEmail());
+        User user = userRepository.findOne(id);
+        user.setApproved(true);
+        user.setEnabled(true);
+        user.setRejected(false);
+        userRepository.save(user);
+        emailService.sendEmail(user, "Registration accepted", "approved.inline.html", "");
+        log.info("User " + user.getEmail() + " approved.");
     }
 
     public void rejectUser(Long id) {
-            User user = userRepository.findOne(id);
-            user.setEnabled(false);
-            user.setConfirmed(false);
-            user.setRejected(true);
-            userRepository.save(user);
-            emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
-            log.info("User %s rejected.", user.getEmail());
+        User user = userRepository.findOne(id);
+        user.setEnabled(false);
+        user.setConfirmed(false);
+        user.setRejected(true);
+        userRepository.save(user);
+        emailService.sendEmail(user, "Registration rejected", "rejected.inline.html", "");
+        log.info("User " + user.getEmail() + " rejected.");
     }
 
     public User getUserByEmail(String email) {
@@ -225,15 +225,15 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    public List<TempUser> getTempUsersByPlatoon(Long platoonId){
+    public List<TempUser> getTempUsersByPlatoon(Long platoonId) {
         return tempUserRepository.findByPlatoonId(platoonId);
     }
 
-    public List<TempUser> getTempUsers(){
+    public List<TempUser> getTempUsers() {
         return tempUserRepository.findAll();
     }
 
-    public TempUser getTempUser(){
+    public TempUser getTempUser() {
         TempUser tempUser = tempUserRepository.findByUserId(getAuthenticatedUserId());
         return tempUserRepository.findOne(tempUser.getId());
     }
@@ -266,7 +266,7 @@ public class UserService {
         return tempUserRepository.findOne(id);
     }
 
-    public void updateTempUser(UserUpdateDto update ) {
+    public void updateTempUser(UserUpdateDto update) {
         TempUser user = createTempUser();
 
         user.setUpdateDate(new Date());
@@ -383,31 +383,31 @@ public class UserService {
                 "submit.email.inline.html", getConfirmRegistrationLink(user));
     }
 
-    public void sendResetPasswordEmail(String email) throws UserRepositoryException, UnknownHostException{
+    public void sendResetPasswordEmail(String email) throws UserRepositoryException, UnknownHostException {
         User user = userRepository.findByEmail(email);
 
         if (!isEmailExist(email)) {
-            throw new UserRepositoryException(String.format("User with this email '%s' is not exist.", email));
+            throw new UserRepositoryException("User with this email " + email + " is not exist.");
         }
         if (!user.getConfirmed()) {
-            throw new UserRepositoryException(String.format("User with this email '%s' already confirmed.", email));
+            throw new UserRepositoryException("User with this email " + email + " already confirmed.");
         }
         if (user.getRejected()) {
-            throw new UserRepositoryException(String.format("User with this email '%s' has been rejected.",email));
+            throw new UserRepositoryException("User with this email " + email + " has been rejected.");
         }
         String token = tokenService.generateVerificationToken(user);
         emailService.sendEmail(user, "ResetPassword",
                 "reset.password.inline.html", generateResetPasswordLink(token));
-        log.info(String.format("Send reset password email for user: '%s' ", email));
+        log.info("Send reset password email for user:  " + email);
 
     }
 
-    public void changeUserPassword (String token, String newPassword){
+    public void changeUserPassword(String token, String newPassword) {
         VerificationToken verificationToken = tokenService.getVerificationToken(token);
         User user = verificationToken.getUser();
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
-        log.info(String.format("Change password for user: ", user.getEmail()));
+        log.info("Change password for user: " + user.getEmail());
     }
 }
 

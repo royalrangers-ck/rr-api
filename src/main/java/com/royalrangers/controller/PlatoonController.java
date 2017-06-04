@@ -47,7 +47,7 @@ public class PlatoonController {
     public ResponseResult creation(@RequestBody PlatoonDto platoonDto) {
         try {
             structureService.createPlatoon(platoonDto);
-            log.info(String.format("Platoon '%s' is successfully created", platoonDto.getName()));
+            log.info("Platoon " + platoonDto.getName() + " is successfully created");
             return ResponseBuilder.success("Platoon is successfully created");
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
@@ -61,8 +61,8 @@ public class PlatoonController {
 
         try {
             structureService.updatePlatoon(id, platoonUpdate);
-            log.info("Update platoon with id %d " + id);
-            return ResponseBuilder.success(String.format("Platoon with id %d successfully updated", id));
+            log.info("Update platoon with id " + id);
+            return ResponseBuilder.success("Platoon with id " + id + " is successfully updated");
 
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());

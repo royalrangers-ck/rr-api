@@ -26,7 +26,7 @@ import java.io.IOException;
 @RequestMapping("/user")
 public class UserController {
 
-    private final long FILE_MAX_SIZE = 1024*1024;
+    private final long FILE_MAX_SIZE = 1024 * 1024;
 
     @Autowired
     private UserService userService;
@@ -56,14 +56,15 @@ public class UserController {
         try {
             log.info("Get details for user id " + id);
             return ResponseBuilder.success(userService.getUserById(id));
-        } catch (UserRepositoryException e){
+        } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
+
     @JsonView(Views.Profile.class)
     @GetMapping("/temp")
     @ApiOperation(value = "Get current temp_user info")
-    public ResponseResult getAuthenticatedTempUserDetail(){
+    public ResponseResult getAuthenticatedTempUserDetail() {
         return ResponseBuilder.success(userService.getTempUser());
     }
 
@@ -83,7 +84,7 @@ public class UserController {
     @GetMapping("/approve/update")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ApiOperation(value = "Get tempUsers for approve (for super admin)")
-    public ResponseResult getTempUserToApprove(){
+    public ResponseResult getTempUserToApprove() {
         return ResponseBuilder.success(userService.getTempUsers());
     }
 
@@ -104,7 +105,7 @@ public class UserController {
     @GetMapping("/approve/registration/super")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ApiOperation(value = "Get users for approve (for super admin)")
-    public ResponseResult getUsersToApprove(){
+    public ResponseResult getUsersToApprove() {
         return ResponseBuilder.success(userService.getUsersForApproveForSuperAdmin());
     }
 
@@ -114,7 +115,7 @@ public class UserController {
     public ResponseResult approveUsers(@PathVariable("userId") Long id) {
         try {
             userService.approveUser(id);
-            return ResponseBuilder.success("User successfully approved.");
+            return ResponseBuilder.success("User is successfully approved.");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -126,7 +127,7 @@ public class UserController {
     public ResponseResult rejectUser(@PathVariable("userId") Long id) {
         try {
             userService.rejectUser(id);
-            return ResponseBuilder.success("User successfully rejected.");
+            return ResponseBuilder.success("User is successfully rejected.");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -138,7 +139,7 @@ public class UserController {
         userService.updateTempUser(update);
         log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
 
-        return ResponseBuilder.success("User %s successfully updated, waiting for approve this update by admin", userService.getAuthenticatedUser().getEmail());
+        return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
     }
 
     @PutMapping("/update/{temp_userId}")
@@ -150,7 +151,7 @@ public class UserController {
             userService.updateUser(id, update);
             log.info("Update temp_user " + user.getEmail());
 
-            return ResponseBuilder.success("User %s successfully updated", user.getEmail());
+            return ResponseBuilder.success("User " + user.getEmail() + "is successfully updated");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -162,10 +163,10 @@ public class UserController {
     public ResponseResult updateUserById(@PathVariable("userId") Long id, @RequestBody UserUpdateDto userUpdate) {
         try {
             userService.updateUserById(id, userUpdate);
-            log.info("Update user with id %d " + id);
+            log.info("Update user with id " + id);
 
-            return ResponseBuilder.success("User with id %d successfully updated", String.valueOf(id));
-        } catch (UserRepositoryException e){
+            return ResponseBuilder.success("User with id " + id + " is successfully updated");
+        } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
@@ -178,13 +179,13 @@ public class UserController {
 
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
-            log.info("Set user avatar public URL: " +avatarUrl);
+            log.info("Set user avatar public URL: " + avatarUrl);
 
             userService.setUserAvatarUrl(avatarUrl);
 
             return ResponseBuilder.success("avatarUrl", avatarUrl);
         } catch (IOException | DbxException e) {
-            return  ResponseBuilder.fail(e.getMessage());
+            return ResponseBuilder.fail(e.getMessage());
         }
     }
 

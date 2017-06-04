@@ -20,7 +20,6 @@ public class TokenService {
     @Autowired
     private VerificationTokenRepository tokenRepository;
 
-
     String generateVerificationToken(User user) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken(token, user);
@@ -30,13 +29,13 @@ public class TokenService {
     public VerificationToken getVerificationToken(String token) throws TokenException {
         VerificationToken verificationToken = tokenRepository.findByToken(token);
         if (verificationToken == null) {
-            throw new TokenException(String.format("Verification token '%s' is invalid", token));
+            throw new TokenException("Verification token " + token + " is invalid");
         }
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            throw  new TokenException(String.format("Verification token '%s' is expired", token));
+            throw new TokenException("Verification token " + token + " is expired");
         }
-        log.info(String.format("Verification token '%s' is confirmed", token));
+        log.info("Verification token " + token + " is confirmed");
         return verificationToken;
     }
 
