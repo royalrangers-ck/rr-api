@@ -133,6 +133,10 @@ public class UserService {
         return (userRepository.findByEmail(email) != null);
     }
 
+    public Boolean isTempUserExist(Long userId) {
+        return (tempUserRepository.findByUserId(userId) != null);
+    }
+
     private String getConfirmRegistrationLink(User user) throws UnknownHostException {
         String token = tokenService.generateVerificationToken(user);
         String confirmRegistrationUrl =
