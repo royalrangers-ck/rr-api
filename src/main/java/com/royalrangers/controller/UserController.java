@@ -140,10 +140,6 @@ public class UserController {
     @PutMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
-        if (userService.isTempUserExist(userService.getAuthenticatedUserId())) {
-            log.info("TempUser already exists");
-            return ResponseBuilder.fail("Waiting to confirm existing update by admin");
-        }
         userService.updateTempUser(update);
         log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
 

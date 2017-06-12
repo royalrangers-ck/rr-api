@@ -41,6 +41,7 @@ public class Test extends BaseModel {
     @Enumerated(EnumType.STRING)
     private Collection<UserAgeGroup> userAgeGroups;
 
+    @JsonView(Views.AchievementUser.class)
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "test")
     private List<Task> taskList;
 
