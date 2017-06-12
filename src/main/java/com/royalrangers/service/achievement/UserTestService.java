@@ -34,26 +34,7 @@ public class UserTestService {
     private UserQuarterAchievementService userQuarterAchievementService;
 
     public List<UserTest> findAllForUser() {
-        List<Test> testList = testService.getAllTest();
-        List<UserTest> userTestList = userTestRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserTest> resultUserTestList = new ArrayList<>();
-        Stream.of(testList.toArray()).forEach(tests -> {
-            Test test = (Test) tests;
-            UserTest savedUserTest = new UserTest();
-            savedUserTest.setTest(test);
-            savedUserTest.setAchievementState(AchievementState.NOT_STARTED);
-            if (userTestList.size() != 0) {
-                Stream.of(userTestList.toArray()).forEach(userTestElement -> {
-                    UserTest userTest = (UserTest) userTestElement;
-                    if (userTest.getTest().getId().equals(test.getId())) {
-                        savedUserTest.setAchievementState(userTest.getAchievementState());
-                    }
-                });
-            }
-            savedUserTest.setUser(userService.getAuthenticatedUser());
-            resultUserTestList.add(savedUserTest);
-        });
-        return resultUserTestList;
+        return userTestRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
     public void addUserTest(UserTestRequestDto params) {

@@ -1,11 +1,13 @@
 package com.royalrangers.controller.achievement;
 
 import com.dropbox.core.DbxException;
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.TestAgeGroupDto;
 import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.UserAgeGroup;
+import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -30,6 +32,7 @@ public class TestController {
 
     @GetMapping
     @ApiOperation(value = "Get list of all tests")
+    @JsonView(Views.Achievement.class)
     public ResponseResult getAllTest() {
         try {
             return ResponseBuilder.success(testService.getAllTest());
