@@ -9,7 +9,6 @@ import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.TempUser;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
-import com.royalrangers.service.TokenService;
 import com.royalrangers.service.UserService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
@@ -30,9 +29,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private TokenService tokenService;
 
     @Autowired
     private DropboxService dropboxService;
@@ -66,6 +62,14 @@ public class UserController {
     @ApiOperation(value = "Get current temp_user info")
     public ResponseResult getAuthenticatedTempUserDetail() {
         return ResponseBuilder.success(userService.getTempUser());
+    }
+
+    @JsonView(Views.Profile.class)
+    @GetMapping("/temp/{temp_userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @ApiOperation(value = "Get temp_user info by id")
+    public ResponseResult getTempUserDetailById(@PathVariable("temp_userId") Long id) {
+        return ResponseBuilder.success(userService.getTempUserById(id));
     }
 
     @JsonView(Views.Profile.class)
@@ -188,6 +192,4 @@ public class UserController {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
-
-
 }
