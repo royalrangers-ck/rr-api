@@ -15,12 +15,12 @@ import com.royalrangers.repository.*;
 import com.royalrangers.utils.security.JwtUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -29,6 +29,11 @@ import static com.royalrangers.enums.AuthorityName.*;
 @Slf4j
 @Service
 public class UserService {
+    private final String CONFIRM_EMAIL_STRING = "/#/registration/confirm?token=";
+    private final String CHANGE_PASSWORD_STRING = "/#/changePassword?token=";
+
+    @Value("${application.host}")
+    private String host;
 
     @Autowired
     private EmailService emailService;
@@ -123,7 +128,7 @@ public class UserService {
 
         try {
             emailService.sendEmail(user, "RegistrationConfirm",
-                    "submit.email.inline.html", getConfirmRegistrationLink(user));
+                    "submit.email.inline.html", generateConfirmationLink(user, CONFIRM_EMAIL_STRING));
         } catch (UnknownHostException e) {
             log.error("Error in confirmation URL for " + userInfo.getEmail());
         }
@@ -133,20 +138,9 @@ public class UserService {
         return (userRepository.findByEmail(email) != null);
     }
 
-    private String getConfirmRegistrationLink(User user) throws UnknownHostException {
-        String token = tokenService.generateVerificationToken(user);
-        String confirmRegistrationUrl =
-                "http://" + InetAddress.getLocalHost().getHostAddress()
-                        + "/#/registration/confirm?token=" + token;
-        return confirmRegistrationUrl;
+    private String generateConfirmationLink(User user, String link) throws UnknownHostException {
+        return "http://" + host + link + tokenService.generateVerificationToken(user);
     }
-
-    private String generateResetPasswordLink(String token) throws UnknownHostException {
-        String resetPasswordLink = "http://" + InetAddress.getLocalHost().getHostAddress()
-                + "/#/changePassword?token=" + token;
-        return resetPasswordLink;
-    }
-
 
     private int calculateUserAge(Long birthdate) {
         Calendar cal = Calendar.getInstance();
@@ -380,7 +374,7 @@ public class UserService {
         }
 
         emailService.sendEmail(user, "RegistrationConfirm",
-                "submit.email.inline.html", getConfirmRegistrationLink(user));
+                "submit.email.inline.html", generateConfirmationLink(user, CONFIRM_EMAIL_STRING));
     }
 
     public void sendResetPasswordEmail(String email) throws UserRepositoryException, UnknownHostException {
@@ -395,9 +389,9 @@ public class UserService {
         if (user.getRejected()) {
             throw new UserRepositoryException("User with this email " + email + " has been rejected.");
         }
-        String token = tokenService.generateVerificationToken(user);
+
         emailService.sendEmail(user, "ResetPassword",
-                "reset.password.inline.html", generateResetPasswordLink(token));
+                "reset.password.inline.html", generateConfirmationLink(user, CHANGE_PASSWORD_STRING));
         log.info("Send reset password email for user:  " + email);
 
     }
