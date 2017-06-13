@@ -29,6 +29,7 @@ import static com.royalrangers.enums.AuthorityName.*;
 @Slf4j
 @Service
 public class UserService {
+
     private final String CONFIRM_EMAIL_STRING = "/#/registration/confirm?token=";
     private final String CHANGE_PASSWORD_STRING = "/#/changePassword?token=";
 
@@ -163,16 +164,15 @@ public class UserService {
         return rank;
     }
 
-    private List<User> getUsersToApproveByPlatoonID(Long platoonId) {
-        return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
-    }
-
-    public List<User> getUsersForApprove(Long platoonId) {
-        return getUsersToApproveByPlatoonID(platoonId);
-    }
-
-    public List<User> getUsersForApproveForSuperAdmin() {
-        return userRepository.findAllByConfirmedTrueAndApprovedFalse();
+    public List<User> getUsersForApprove() {
+        User user = userRepository.findOne(getAuthenticatedUserId());
+        Set <Authority> roles = user.getAuthorities();
+        if (roles.contains(ROLE_SUPER_ADMIN))
+            return userRepository.findAllByConfirmedTrueAndApprovedFalse();
+        else {
+            Long platoonId = user.getPlatoon().getId();
+            return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
+        }
     }
 
     public Long getAuthenticatedUserId() {

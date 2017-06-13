@@ -94,23 +94,15 @@ public class UserController {
 
 
     @JsonView(Views.Profile.class)
-    @GetMapping("/approve/registration/{platoonId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Get users for approve (for platoon admin)")
-    public ResponseResult getUserToApprove(@PathVariable("platoonId") Long id) {
+    @GetMapping("/approve/registration")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @ApiOperation(value = "Get users for approve (for platoon admins and super admin)")
+    public ResponseResult getUserToApprove() {
         try {
-            return ResponseBuilder.success(userService.getUsersForApprove(id));
+            return ResponseBuilder.success(userService.getUsersForApprove());
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
-    }
-
-    @JsonView(Views.Profile.class)
-    @GetMapping("/approve/registration/super")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @ApiOperation(value = "Get users for approve (for super admin)")
-    public ResponseResult getUsersToApprove() {
-        return ResponseBuilder.success(userService.getUsersForApproveForSuperAdmin());
     }
 
     @PostMapping("/approve/registration/{userId}")
