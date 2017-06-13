@@ -140,10 +140,14 @@ public class UserController {
     @PutMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
-        userService.updateTempUser(update);
-        log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
+        if (userService.checkTempUser(update)) {
+            return ResponseBuilder.fail("You not update any field");
+        } else {
+            userService.updateTempUser(update);
+            log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
 
-        return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
+            return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
+        }
     }
 
     @PutMapping("/update/{temp_userId}")
@@ -153,9 +157,9 @@ public class UserController {
         TempUser user = userService.getTempUserById(id);
         try {
             userService.updateUser(id, update);
-            log.info("Update temp_user " + user.getEmail());
+            log.info("Update temp_user " + user.getUser().getEmail());
 
-            return ResponseBuilder.success("User " + user.getEmail() + "is successfully updated");
+            return ResponseBuilder.success("User " + user.getUser().getEmail() + "is successfully updated");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
