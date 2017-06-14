@@ -137,7 +137,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update/temp")
+    @PostMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
         if (userService.checkTempUser(update)) {
@@ -150,7 +150,7 @@ public class UserController {
         }
     }
 
-    @PutMapping("/update/{temp_userId}")
+    @PostMapping("/update/{temp_userId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Confirm to update user data from temp_user data(for admin)")
     public ResponseResult updateUser(@PathVariable("temp_userId") Long id, @RequestBody UserUpdateDto update) {
