@@ -255,7 +255,10 @@ public class UserService {
         tempUserRepository.save(tempUser);
     }
 
-    public boolean checkTempUser(UserUpdateDto tempUser) {
+    /**
+     Compares temp_user to user - if they are the same we should delete temp_user
+     */
+    private boolean isTempUserEqualsUser(UserUpdateDto tempUser) {
         User user = getAuthenticatedUser();
 
         return tempUser.getBirthDate().equals(user.getBirthDate()) && tempUser.getCityId().equals(user.getCity().getId()) && tempUser.getCountryId().equals(user.getCountry().getId()) &&
@@ -281,7 +284,7 @@ public class UserService {
     private void updateTempUsr(UserUpdateDto update) {
         TempUser user = tempUserRepository.findByUserId(getAuthenticatedUserId());
 
-        if (checkTempUser(update)) {
+        if (isTempUserEqualsUser(update)) {
             tempUserRepository.delete(user);
         } else {
             user.setUpdateDate(new Date());

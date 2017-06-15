@@ -141,7 +141,7 @@ public class UserController {
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
         if (userService.checkTempUser(update)) {
-            return ResponseBuilder.fail("You not update any field");
+            return ResponseBuilder.success("Temp user was deleted as it is the same as user");
         } else {
             userService.updateTempUser(update);
             log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
