@@ -170,11 +170,10 @@ public class UserService {
         Set<Authority> roles = user.getAuthorities();
         if (roles.contains(ROLE_SUPER_ADMIN))
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-        else if (roles.contains(ROLE_ADMIN) && !roles.contains(ROLE_SUPER_ADMIN)){
+        else if (roles.contains(ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
-        }
-        else
+        } else
             return Collections.emptyList();
     }
 
