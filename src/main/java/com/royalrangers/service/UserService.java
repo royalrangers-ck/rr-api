@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ import static com.royalrangers.enums.AuthorityName.*;
 @Slf4j
 @Service
 public class UserService {
+
     private final String CONFIRM_EMAIL_STRING = "/#/registration/confirm?token=";
     private final String CHANGE_PASSWORD_STRING = "/#/changePassword?token=";
 
@@ -163,17 +165,18 @@ public class UserService {
         return rank;
     }
 
-    private List<User> getUsersToApproveByPlatoonID(Long platoonId) {
-        return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
+    public List<User> getUsersForApprove() {
+        User user = userRepository.findOne(getAuthenticatedUserId());
+        Set<Authority> roles = user.getAuthorities();
+        if (roles.contains(ROLE_SUPER_ADMIN))
+            return userRepository.findAllByConfirmedTrueAndApprovedFalse();
+        else if (roles.contains(ROLE_ADMIN)) {
+            Long platoonId = user.getPlatoon().getId();
+            return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
+        } else
+            return Collections.emptyList();
     }
 
-    public List<User> getUsersForApprove(Long platoonId) {
-        return getUsersToApproveByPlatoonID(platoonId);
-    }
-
-    public List<User> getUsersForApproveForSuperAdmin() {
-        return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-    }
 
     public Long getAuthenticatedUserId() {
         JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
