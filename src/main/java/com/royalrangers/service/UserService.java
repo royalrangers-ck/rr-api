@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -164,9 +165,10 @@ public class UserService {
         return rank;
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public List<User> getUsersForApprove() {
         User user = userRepository.findOne(getAuthenticatedUserId());
-        Set <Authority> roles = user.getAuthorities();
+        Set<Authority> roles = user.getAuthorities();
         if (roles.contains(ROLE_SUPER_ADMIN))
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
         else {
@@ -174,6 +176,7 @@ public class UserService {
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
         }
     }
+
 
     public Long getAuthenticatedUserId() {
         JwtUser user = (JwtUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
