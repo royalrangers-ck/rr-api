@@ -232,7 +232,7 @@ public class UserService {
         return tempUserRepository.findOne(tempUser.getId());
     }
 
-    private TempUser createTempUser() {
+    private void createTempUser() {
         User user = getAuthenticatedUser();
         TempUser tempUser = new TempUser();
 
@@ -253,7 +253,19 @@ public class UserService {
         tempUser.setSection(user.getSection());
 
         tempUserRepository.save(tempUser);
-        return tempUser;
+    }
+
+    /**
+     Compares temp_user to user - if they are the same we should delete temp_user
+     */
+    private boolean isTempUserEqualsUser(UserUpdateDto tempUser) {
+        User user = getAuthenticatedUser();
+
+        return tempUser.getBirthDate().equals(user.getBirthDate()) && tempUser.getCityId().equals(user.getCity().getId()) && tempUser.getCountryId().equals(user.getCountry().getId()) &&
+                tempUser.getPlatoonId().equals(user.getPlatoon().getId()) && tempUser.getRegionId().equals(user.getRegion().getId()) && tempUser.getSectionId().equals(user.getSection().getId()) &&
+                tempUser.getFirstName().equals(user.getFirstName()) && tempUser.getLastName().equals(user.getLastName()) && tempUser.getGender().equals(user.getGender()) &&
+                tempUser.getTelephoneNumber().equals(user.getTelephoneNumber()) && tempUser.getUserAgeGroup().equals(user.getUserAgeGroup()) &&
+                tempUser.getUserRank().equals(user.getUserRank());
     }
 
     public TempUser getTempUserById(Long id) {
@@ -261,23 +273,36 @@ public class UserService {
     }
 
     public void updateTempUser(UserUpdateDto update) {
-        TempUser user = createTempUser();
+        if (tempUserRepository.findByUserId(getAuthenticatedUserId()) == null) {
+            createTempUser();
+            updateTempUsr(update);
+        } else {
+            updateTempUsr(update);
+        }
+    }
 
-        user.setUpdateDate(new Date());
-        user.setFirstName(update.getFirstName());
-        user.setLastName(update.getLastName());
-        user.setGender(update.getGender());
-        user.setBirthDate(update.getBirthDate());
-        user.setTelephoneNumber(update.getTelephoneNumber());
-        user.setUserAgeGroup(update.getUserAgeGroup());
-        user.setUserRank(update.getUserRank());
-        user.setCountry(countryRepository.findOne(update.getCountryId()));
-        user.setRegion(regionRepository.findOne(update.getRegionId()));
-        user.setCity(cityRepository.findOne(update.getCityId()));
-        user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
-        user.setSection(sectionRepository.findOne(update.getSectionId()));
+    private void updateTempUsr(UserUpdateDto update) {
+        TempUser user = tempUserRepository.findByUserId(getAuthenticatedUserId());
 
-        tempUserRepository.save(user);
+        if (isTempUserEqualsUser(update)) {
+            tempUserRepository.delete(user);
+        } else {
+            user.setUpdateDate(new Date());
+            user.setFirstName(update.getFirstName());
+            user.setLastName(update.getLastName());
+            user.setGender(update.getGender());
+            user.setBirthDate(update.getBirthDate());
+            user.setTelephoneNumber(update.getTelephoneNumber());
+            user.setUserAgeGroup(update.getUserAgeGroup());
+            user.setUserRank(update.getUserRank());
+            user.setCountry(countryRepository.findOne(update.getCountryId()));
+            user.setRegion(regionRepository.findOne(update.getRegionId()));
+            user.setCity(cityRepository.findOne(update.getCityId()));
+            user.setPlatoon(platoonRepository.findOne(update.getPlatoonId()));
+            user.setSection(sectionRepository.findOne(update.getSectionId()));
+
+            tempUserRepository.save(user);
+        }
     }
 
     public void updateUser(Long id, UserUpdateDto update) {
