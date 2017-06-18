@@ -165,16 +165,17 @@ public class UserService {
         return rank;
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
     public List<User> getUsersForApprove() {
         User user = userRepository.findOne(getAuthenticatedUserId());
         Set<Authority> roles = user.getAuthorities();
         if (roles.contains(ROLE_SUPER_ADMIN))
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-        else {
+        else if (roles.contains(ROLE_ADMIN) && !roles.contains(ROLE_SUPER_ADMIN)){
             Long platoonId = user.getPlatoon().getId();
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
         }
+        else
+            return Collections.emptyList();
     }
 
 
