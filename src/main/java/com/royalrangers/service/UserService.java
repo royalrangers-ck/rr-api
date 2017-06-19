@@ -261,7 +261,7 @@ public class UserService {
     /**
      Compares temp_user to user - if they are the same we should delete temp_user
      */
-    private boolean isTempUserEqualsUser(UserUpdateDto tempUser) {
+    public boolean isTempUserEqualsUser(UserUpdateDto tempUser) {
         User user = getAuthenticatedUser();
 
         return tempUser.getBirthDate().equals(user.getBirthDate()) && tempUser.getCityId().equals(user.getCity().getId()) && tempUser.getCountryId().equals(user.getCountry().getId()) &&
