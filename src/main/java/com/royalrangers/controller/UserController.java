@@ -132,7 +132,7 @@ public class UserController {
     @PostMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
-        if (userService.checkTempUser(update)) {
+        if (userService.isTempUserEqualsUser(update)) {
             return ResponseBuilder.success("Temp user was deleted as it is the same as user");
         } else {
             userService.updateTempUser(update);
