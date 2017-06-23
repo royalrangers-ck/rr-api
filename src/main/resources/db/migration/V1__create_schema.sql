@@ -1,8 +1,6 @@
 --
 -- Table structure for table `authority`
 --
-
-DROP TABLE IF EXISTS `authority`;
 CREATE TABLE `authority` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -14,8 +12,6 @@ CREATE TABLE `authority` (
 --
 -- Table structure for table `subscriber`
 --
-
-DROP TABLE IF EXISTS `subscriber`;
 CREATE TABLE `subscriber` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
@@ -27,21 +23,17 @@ CREATE TABLE `subscriber` (
 --
 -- Table structure for table `country`
 --
-
-DROP TABLE IF EXISTS `country`;
 CREATE TABLE `country` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `region`
 --
-
-DROP TABLE IF EXISTS `region`;
 CREATE TABLE `region` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -56,8 +48,6 @@ CREATE TABLE `region` (
 --
 -- Table structure for table `city`
 --
-
-DROP TABLE IF EXISTS `city`;
 CREATE TABLE `city` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -67,14 +57,11 @@ CREATE TABLE `city` (
   PRIMARY KEY (`id`),
   KEY `FK_CITY_REGION_ID` (`region_id`),
   CONSTRAINT `FK_CITY_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `platoon`
 --
-
-DROP TABLE IF EXISTS `platoon`;
 CREATE TABLE `platoon` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` int(11) NOT NULL,
@@ -93,8 +80,6 @@ CREATE TABLE `platoon` (
 --
 -- Table structure for table `section`
 --
-
-DROP TABLE IF EXISTS `section`;
 CREATE TABLE `section` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -110,8 +95,6 @@ CREATE TABLE `section` (
 --
 -- Table structure for table `user`
 --
-
-DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) DEFAULT NULL,
@@ -152,8 +135,6 @@ CREATE TABLE `user` (
 --
 -- Table structure for table `user_authority`
 --
-
-DROP TABLE IF EXISTS `user_authority`;
 CREATE TABLE `user_authority` (
   `user_id` bigint(20) NOT NULL,
   `authority_id` bigint(20) NOT NULL,
@@ -165,8 +146,6 @@ CREATE TABLE `user_authority` (
 --
 -- Table structure for table `temp_user`
 --
-
-DROP TABLE IF EXISTS `temp_user`;
 CREATE TABLE `temp_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `create_date` datetime DEFAULT NULL,
@@ -203,8 +182,6 @@ CREATE TABLE `temp_user` (
 --
 -- Table structure for table `twelve_year_achievement`
 --
-
-DROP TABLE IF EXISTS `twelve_year_achievement`;
 CREATE TABLE `twelve_year_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -219,8 +196,6 @@ CREATE TABLE `twelve_year_achievement` (
 --
 -- Table structure for table `three_year_achievement`
 --
-
-DROP TABLE IF EXISTS `three_year_achievement`;
 CREATE TABLE `three_year_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -238,8 +213,6 @@ CREATE TABLE `three_year_achievement` (
 --
 -- Table structure for table `year_achievement`
 --
-
-DROP TABLE IF EXISTS `year_achievement`;
 CREATE TABLE `year_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -257,8 +230,6 @@ CREATE TABLE `year_achievement` (
 --
 -- Table structure for table `quarter_achievement`
 --
-
-DROP TABLE IF EXISTS `quarter_achievement`;
 CREATE TABLE `quarter_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -276,8 +247,6 @@ CREATE TABLE `quarter_achievement` (
 --
 -- Table structure for table `reward`
 --
-
-DROP TABLE IF EXISTS `reward`;
 CREATE TABLE `reward` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
@@ -294,8 +263,6 @@ CREATE TABLE `reward` (
 --
 -- Table structure for table `test`
 --
-
-DROP TABLE IF EXISTS `test`;
 CREATE TABLE `test` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -314,8 +281,6 @@ CREATE TABLE `test` (
 --
 -- Table structure for table `task`
 --
-
-DROP TABLE IF EXISTS `task`;
 CREATE TABLE `task` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
@@ -331,8 +296,6 @@ CREATE TABLE `task` (
 --
 -- Table structure for table `test_user_age_groups`
 --
-
-DROP TABLE IF EXISTS `test_user_age_groups`;
 CREATE TABLE `test_user_age_groups` (
   `test_id` bigint(20) NOT NULL,
   `age_category` varchar(255) NOT NULL,
@@ -342,8 +305,6 @@ CREATE TABLE `test_user_age_groups` (
 --
 -- Table structure for table `user_twelve_year_achievement`
 --
-
-DROP TABLE IF EXISTS `user_twelve_year_achievement`;
 CREATE TABLE `user_twelve_year_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -361,8 +322,6 @@ CREATE TABLE `user_twelve_year_achievement` (
 --
 -- Table structure for table `user_three_year_achievement`
 --
-
-DROP TABLE IF EXISTS `user_three_year_achievement`;
 CREATE TABLE `user_three_year_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -380,8 +339,6 @@ CREATE TABLE `user_three_year_achievement` (
 --
 -- Table structure for table `user_year_achievement`
 --
-
-DROP TABLE IF EXISTS `user_year_achievement`;
 CREATE TABLE `user_year_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -399,8 +356,6 @@ CREATE TABLE `user_year_achievement` (
 --
 -- Table structure for table `user_quarter_achievement`
 --
-
-DROP TABLE IF EXISTS `user_quarter_achievement`;
 CREATE TABLE `user_quarter_achievement` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -419,8 +374,6 @@ CREATE TABLE `user_quarter_achievement` (
 --
 -- Table structure for table `user_reward`
 --
-
-DROP TABLE IF EXISTS `user_reward`;
 CREATE TABLE `user_reward` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -438,8 +391,6 @@ CREATE TABLE `user_reward` (
 --
 -- Table structure for table `user_task`
 --
-
-DROP TABLE IF EXISTS `user_task`;
 CREATE TABLE `user_task` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -457,8 +408,6 @@ CREATE TABLE `user_task` (
 --
 -- Table structure for table `user_test`
 --
-
-DROP TABLE IF EXISTS `user_test`;
 CREATE TABLE `user_test` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `achievement_state` int(11) DEFAULT NULL,
@@ -479,8 +428,6 @@ CREATE TABLE `user_test` (
 --
 -- Table structure for table `verification_token`
 --
-
-DROP TABLE IF EXISTS `verification_token`;
 CREATE TABLE `verification_token` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) NOT NULL,
