@@ -32,29 +32,16 @@ CREATE TABLE `country` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Table structure for table `region`
+-- Table structure for table `city`
 --
-CREATE TABLE `region` (
+CREATE TABLE `city` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `country_id` bigint(20) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `FK_REGION_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Table structure for table `city`
---
-CREATE TABLE `city` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `region_id` bigint(20) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_CITY_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
+  CONSTRAINT `FK_CITY_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -103,7 +90,6 @@ CREATE TABLE `user` (
   `user_rank` int(11) DEFAULT NULL,
   `avatar_url` varchar(255) DEFAULT NULL,
   `country_id` bigint(20) DEFAULT NULL,
-  `region_id` bigint(20) DEFAULT NULL,
   `city_id` bigint(20) DEFAULT NULL,
   `platoon_id` bigint(20) DEFAULT NULL,
   `section_id` bigint(20) DEFAULT NULL,
@@ -117,7 +103,6 @@ CREATE TABLE `user` (
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `FK_USER_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
-  CONSTRAINT `FK_USER_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FK_USER_CITY_ID` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
   CONSTRAINT `FK_USER_PLATOON_ID` FOREIGN KEY (`platoon_id`) REFERENCES `platoon` (`id`),
   CONSTRAINT `FK_USER_SECTION_ID` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`)
@@ -133,36 +118,6 @@ CREATE TABLE `user_authority` (
   CONSTRAINT `FK_USER_AUTHORITY_ID` FOREIGN KEY (`authority_id`) REFERENCES `authority` (`id`),
   CONSTRAINT `FK_AUTHORITY_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB;
-
---
--- Table structure for table `temp_user`
---
-CREATE TABLE `temp_user` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) DEFAULT NULL,
-  `first_name` varchar(255) DEFAULT NULL,
-  `last_name` varchar(255) DEFAULT NULL,
-  `birth_date` bigint(20) DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
-  `telephone_number` varchar(255) DEFAULT NULL,
-  `user_age_group` int(11) DEFAULT NULL,
-  `user_rank` int(11) DEFAULT NULL,
-  `country_id` bigint(20) DEFAULT NULL,
-  `region_id` bigint(20) DEFAULT NULL,
-  `city_id` bigint(20) DEFAULT NULL,
-  `platoon_id` bigint(20) DEFAULT NULL,
-  `section_id` bigint(20) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_TEMP_USER_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
-  CONSTRAINT `FK_TEMP_USER_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
-  CONSTRAINT `FK_TEMP_USER_CITY_ID` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
-  CONSTRAINT `FK_TEMP_USER_PLATOON_ID` FOREIGN KEY (`platoon_id`) REFERENCES `platoon` (`id`),
-  CONSTRAINT `FK_TEMP_USER_SECTION_ID` FOREIGN KEY (`section_id`) REFERENCES `section` (`id`),
-  CONSTRAINT `FK_TEMP_USER_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `twelve_year_achievement`
@@ -390,16 +345,3 @@ CREATE TABLE `user_test` (
   CONSTRAINT `FKj71y3to5b51rn0htxq1bwe0e9` FOREIGN KEY (`user_quarter_achievement_id`) REFERENCES `user_quarter_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Table structure for table `verification_token`
---
-CREATE TABLE `verification_token` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) NOT NULL,
-  `expiry_date` datetime DEFAULT NULL,
-  `token` varchar(255) DEFAULT NULL,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `FK_TOKEN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
