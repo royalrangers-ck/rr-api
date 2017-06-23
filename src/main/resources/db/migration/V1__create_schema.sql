@@ -41,7 +41,6 @@ CREATE TABLE `region` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_REGION_COUNTRY_ID` (`country_id`),
   CONSTRAINT `FK_REGION_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -55,7 +54,6 @@ CREATE TABLE `city` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_CITY_REGION_ID` (`region_id`),
   CONSTRAINT `FK_CITY_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -73,7 +71,6 @@ CREATE TABLE `platoon` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_PLATOON_CITY_ID` (`city_id`),
   CONSTRAINT `FK_PLATOON_CITY_ID` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -88,7 +85,6 @@ CREATE TABLE `section` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_SECTION_PLATOON_ID` (`platoon_id`),
   CONSTRAINT `FK_SECTION_PLATOON_ID` FOREIGN KEY (`platoon_id`) REFERENCES `platoon` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -120,11 +116,6 @@ CREATE TABLE `user` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_USER_COUNTRY_ID` (`country_id`),
-  KEY `FK_USER_REGION_ID` (`region_id`),
-  KEY `FK_USER_CITY_ID` (`city_id`),
-  KEY `FK_USER_PLATOON_ID` (`platoon_id`),
-  KEY `FK_USER_SECTION_ID` (`section_id`),
   CONSTRAINT `FK_USER_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
   CONSTRAINT `FK_USER_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FK_USER_CITY_ID` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
@@ -148,29 +139,23 @@ CREATE TABLE `user_authority` (
 --
 CREATE TABLE `temp_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `create_date` datetime DEFAULT NULL,
-  `update_date` datetime DEFAULT NULL,
-  `birth_date` bigint(20) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `first_name` varchar(255) DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
   `last_name` varchar(255) DEFAULT NULL,
+  `birth_date` bigint(20) DEFAULT NULL,
+  `gender` varchar(255) DEFAULT NULL,
   `telephone_number` varchar(255) DEFAULT NULL,
   `user_age_group` int(11) DEFAULT NULL,
   `user_rank` int(11) DEFAULT NULL,
-  `city_id` bigint(20) DEFAULT NULL,
   `country_id` bigint(20) DEFAULT NULL,
-  `platoon_id` bigint(20) DEFAULT NULL,
   `region_id` bigint(20) DEFAULT NULL,
+  `city_id` bigint(20) DEFAULT NULL,
+  `platoon_id` bigint(20) DEFAULT NULL,
   `section_id` bigint(20) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
+  `create_date` datetime DEFAULT NULL,
+  `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_TEMP_USER_COUNTRY_ID` (`country_id`),
-  KEY `FK_TEMP_USER_REGION_ID` (`region_id`),
-  KEY `FK_TEMP_USER_CITY_ID` (`city_id`),
-  KEY `FK_TEMP_USER_PLATOON_ID` (`platoon_id`),
-  KEY `FK_TEMP_USER_SECTION_ID` (`section_id`),
-  KEY `FK_TEMP_USER_USER_ID` (`user_id`),
   CONSTRAINT `FK_TEMP_USER_COUNTRY_ID` FOREIGN KEY (`country_id`) REFERENCES `country` (`id`),
   CONSTRAINT `FK_TEMP_USER_REGION_ID` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FK_TEMP_USER_CITY_ID` FOREIGN KEY (`city_id`) REFERENCES `city` (`id`),
@@ -206,7 +191,6 @@ CREATE TABLE `three_year_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKivl8h306off48jw3mca58g79t` (`twelve_year_achievement_id`),
   CONSTRAINT `FKivl8h306off48jw3mca58g79t` FOREIGN KEY (`twelve_year_achievement_id`) REFERENCES `twelve_year_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -223,7 +207,6 @@ CREATE TABLE `year_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK5wd9lpe2xwqean3lmoca3qye5` (`three_year_achievement_id`),
   CONSTRAINT `FK5wd9lpe2xwqean3lmoca3qye5` FOREIGN KEY (`three_year_achievement_id`) REFERENCES `three_year_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -240,7 +223,6 @@ CREATE TABLE `quarter_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKeybmly5fjivmxdtjbd49t2vdr` (`year_achievement_id`),
   CONSTRAINT `FKeybmly5fjivmxdtjbd49t2vdr` FOREIGN KEY (`year_achievement_id`) REFERENCES `year_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -274,7 +256,6 @@ CREATE TABLE `test` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKqri9lej5vnkd7hchjuudlqke4` (`quarter_achievement_id`),
   CONSTRAINT `FKqri9lej5vnkd7hchjuudlqke4` FOREIGN KEY (`quarter_achievement_id`) REFERENCES `quarter_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -289,7 +270,6 @@ CREATE TABLE `task` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKojhuohbslrwalcmrql2wvad8m` (`test_id`),
   CONSTRAINT `FKojhuohbslrwalcmrql2wvad8m` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -313,8 +293,6 @@ CREATE TABLE `user_twelve_year_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKlo66fids9umqxi9a78lc48ftt` (`user_id`),
-  KEY `FK8lejciqedl23mgxeu9w2jy8n3` (`twelve_year_achievement_id`),
   CONSTRAINT `FKlo66fids9umqxi9a78lc48ftt` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK8lejciqedl23mgxeu9w2jy8n3` FOREIGN KEY (`twelve_year_achievement_id`) REFERENCES `twelve_year_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -330,8 +308,6 @@ CREATE TABLE `user_three_year_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK7r01wa21vp9ufnijqy9eeqp3i` (`user_id`),
-  KEY `FKtif87r72kpubd3gv6x81hx4rd` (`three_year_achievement_id`),
   CONSTRAINT `FK7r01wa21vp9ufnijqy9eeqp3i` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKtif87r72kpubd3gv6x81hx4rd` FOREIGN KEY (`three_year_achievement_id`) REFERENCES `three_year_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -347,8 +323,6 @@ CREATE TABLE `user_year_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKtes4181fy1ic1otqf9vf99w9p` (`user_id`),
-  KEY `FKiheiix877aiw4867fq43ykc23` (`year_achievement_id`),
   CONSTRAINT `FKtes4181fy1ic1otqf9vf99w9p` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKiheiix877aiw4867fq43ykc23` FOREIGN KEY (`year_achievement_id`) REFERENCES `year_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -365,8 +339,6 @@ CREATE TABLE `user_quarter_achievement` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKdo3wdl0e5ymckg6x9lpk4k2si` (`user_id`),
-  KEY `FKe4smnfd1p3h88r57vnpc52ekf` (`quarter_achievement_id`),
   CONSTRAINT `FKdo3wdl0e5ymckg6x9lpk4k2si` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKe4smnfd1p3h88r57vnpc52ekf` FOREIGN KEY (`quarter_achievement_id`) REFERENCES `quarter_achievement` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -382,8 +354,6 @@ CREATE TABLE `user_reward` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKaipr0um0a8q2w6kie0rapkjkv` (`user_id`),
-  KEY `FKdl3mrw4v03cqj3g08g8h44x30` (`reward_id`),
   CONSTRAINT `FKaipr0um0a8q2w6kie0rapkjkv` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKdl3mrw4v03cqj3g08g8h44x30` FOREIGN KEY (`reward_id`) REFERENCES `reward` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -399,8 +369,6 @@ CREATE TABLE `user_task` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FKr2jik008e3jx6r1fal5e9aq1n` (`user_id`),
-  KEY `FKvs34bjkmpbk2e54qlrol3ilt` (`task_id`),
   CONSTRAINT `FKr2jik008e3jx6r1fal5e9aq1n` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKvs34bjkmpbk2e54qlrol3ilt` FOREIGN KEY (`task_id`) REFERENCES `task` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -417,9 +385,6 @@ CREATE TABLE `user_test` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK54073ir8kqlk4cfahr56begn4` (`user_id`),
-  KEY `FKt0r12g1hnb4e9f0j12yn4ky7g` (`test_id`),
-  KEY `FKj71y3to5b51rn0htxq1bwe0e9` (`user_quarter_achievement_id`),
   CONSTRAINT `FK54073ir8kqlk4cfahr56begn4` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FKt0r12g1hnb4e9f0j12yn4ky7g` FOREIGN KEY (`test_id`) REFERENCES `test` (`id`),
   CONSTRAINT `FKj71y3to5b51rn0htxq1bwe0e9` FOREIGN KEY (`user_quarter_achievement_id`) REFERENCES `user_quarter_achievement` (`id`)
@@ -436,6 +401,5 @@ CREATE TABLE `verification_token` (
   `create_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_TOKEN_USER_ID` (`user_id`),
   CONSTRAINT `FK_TOKEN_USER_ID` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
