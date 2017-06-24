@@ -61,7 +61,14 @@ public class UserController {
     @GetMapping("/temp")
     @ApiOperation(value = "Get current temp_user info")
     public ResponseResult getAuthenticatedTempUserDetail() {
-        return ResponseBuilder.success(userService.getTempUser());
+        if (!userService.isTempUserExist()) {
+            return ResponseBuilder.fail("Temp_user with email " + userService.getAuthenticatedUser().getEmail() + " is not found");
+        }
+        try {
+            return ResponseBuilder.success(userService.getTempUser());
+        } catch (Exception e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
     }
 
     @JsonView(Views.Profile.class)
@@ -69,7 +76,14 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Get temp_user info by id")
     public ResponseResult getTempUserDetailById(@PathVariable("temp_userId") Long id) {
-        return ResponseBuilder.success(userService.getTempUserById(id));
+        if (!userService.isTempUserExist()) {
+            return ResponseBuilder.fail("Temp_user with id " + id + " is not found");
+        }
+        try {
+            return ResponseBuilder.success(userService.getTempUserById(id));
+        } catch (Exception e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
     }
 
     @JsonView(Views.Profile.class)
@@ -89,9 +103,12 @@ public class UserController {
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     @ApiOperation(value = "Get tempUsers for approve (for super admin)")
     public ResponseResult getTempUserToApprove() {
-        return ResponseBuilder.success(userService.getTempUsers());
+        try {
+            return ResponseBuilder.success(userService.getTempUsers());
+        } catch (Exception e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
     }
-
 
     @JsonView(Views.Profile.class)
     @GetMapping("/approve/registration")
@@ -146,12 +163,14 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Confirm to update user data from temp_user data(for admin)")
     public ResponseResult updateUser(@PathVariable("temp_userId") Long id, @RequestBody UserUpdateDto update) {
-        TempUser user = userService.getTempUserById(id);
+        if (!userService.isTempUserExist()) {
+            return ResponseBuilder.fail("Temp_user with id " + id + " is not found");
+        }
         try {
             userService.updateUser(id, update);
-            log.info("Update temp_user " + user.getUser().getEmail());
+            log.info("Update temp_user " + userService.getTempUserById(id).getUser().getEmail());
 
-            return ResponseBuilder.success("User " + user.getUser().getEmail() + "is successfully updated");
+            return ResponseBuilder.success("User " + userService.getTempUserById(id).getUser().getEmail() + "is successfully updated");
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -180,7 +199,6 @@ public class UserController {
         try {
             String avatarUrl = dropboxService.imageUpload(file, ImageType.USER_AVATAR);
             log.info("Set user avatar public URL: " + avatarUrl);
-
             userService.setUserAvatarUrl(avatarUrl);
 
             return ResponseBuilder.success("avatarUrl", avatarUrl);

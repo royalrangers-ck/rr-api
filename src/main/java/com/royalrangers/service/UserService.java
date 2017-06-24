@@ -140,6 +140,10 @@ public class UserService {
         return (userRepository.findByEmail(email) != null);
     }
 
+    public Boolean isTempUserExist() {
+        return (tempUserRepository.findByUserId(getAuthenticatedUserId()) != null);
+    }
+
     private String generateConfirmationLink(User user, String link) throws UnknownHostException {
         return "http://" + host + link + tokenService.generateVerificationToken(user);
     }
