@@ -84,61 +84,38 @@ public class StructureService {
         platoonRepository.save(platoon);
     }
 
-    public boolean createCity(CityDto cityDto){
+    public City createCity(CityDto cityDto) {
         Region region = regionRepository.findOne(cityDto.getRegionId());
+        if (cityRepository.findByNameAndRegionId(cityDto.getName(), cityDto.getRegionId()) != null) {
+            throw new NullPointerException();
+        }
         City city = new City(region, cityDto.getName());
-        Set<City> citySet = region.getCities();
-        if (!citySet.add(city))
-            return false;
-        region.setCities(citySet);
-        regionRepository.save(region);
-        return true;
+        return cityRepository.save(city);
     }
 
-    public boolean createSection(SectionDto sectionDto){
+    public Section createSection(SectionDto sectionDto){
         Platoon platoon = platoonRepository.findOne(sectionDto.getPlatoonId());
+        if (sectionRepository.findByName(sectionDto.getName()) != null) {
+            throw new NullPointerException();
+        }
         Section section = new Section(platoon,sectionDto.getName());
-        Set<Section> sectionSet = platoon.getSections();
-        if (!sectionSet.add(section))
-            return false;
-        platoon.setSections(sectionSet);
-        platoonRepository.save(platoon);
-        return  true;
+        return sectionRepository.save(section);
     }
 
-    public boolean createRegion(RegionDto regionDto){
+    public Region createRegion(RegionDto regionDto) {
         Country country = countryRepository.findOne(regionDto.getCountryId());
-        if(regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null)
-            return false;
+        if (regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null) {
+            throw new NullPointerException();
+        }
         Region region = new Region(country, regionDto.getName());
-        Set<Region> regionSet = country.getRegions();
-        if (!regionSet.add(region))
-            return false;
-        country.setRegions(regionSet);
-        countryRepository.save(country);
-        return true;
-    }
-    public boolean createCountry(CountryDto countryDto){
-        if (countryRepository.findByName(countryDto.getName()) != null)
-            return false;
-        countryRepository.save(new Country(countryDto.getName()));
-        return true;
+        return regionRepository.save(region);
     }
 
-    public Region getRegion(RegionDto regionDto){
-        return regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId());
-    }
-
-    public City getCity(CityDto cityDto){
-        return cityRepository.findByNameAndRegionId(cityDto.getName(),cityDto.getRegionId());
-    }
-
-    public Section getSection(SectionDto sectionDto){
-        return sectionRepository.findByNameAndPlatoonId(sectionDto.getName(), sectionDto.getPlatoonId());
-    }
-
-    public Country getCountry (CountryDto countryDto){
-        return countryRepository.findByName(countryDto.getName());
+    public Country createCountry(CountryDto countryDto) {
+        if (countryRepository.findByName(countryDto.getName()) != null) {
+            throw new NullPointerException();
+        }
+        return countryRepository.save(new Country(countryDto.getName()));
     }
 
 }

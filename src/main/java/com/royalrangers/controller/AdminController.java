@@ -29,51 +29,43 @@ public class AdminController {
     @ApiOperation(value = "Add country")
     public ResponseResult addCountry(@RequestBody CountryDto countryDto) {
         try {
-            if (!structureService.createCountry(countryDto))
-                return ResponseBuilder.fail("Country with this name already exist.");
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new country");
+            log.info("Country " + countryDto.getName() + " is successfully created.");
+            return ResponseBuilder.success(structureService.createCountry(countryDto));
+        } catch (NullPointerException e) {
+            return ResponseBuilder.fail("Country with this name already exist.");
         }
-        log.info("Country " + countryDto.getName() + " is successfully created.");
-        return ResponseBuilder.success(structureService.getCountry(countryDto));
     }
 
     @PostMapping("/region")
     @ApiOperation(value = "Add regions")
     public ResponseResult addRegion(@RequestBody RegionDto regionDto) {
         try {
-            if (!structureService.createRegion(regionDto))
-                return ResponseBuilder.fail("Region with this name already exist.");
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new regions");
+            log.info("Region " + regionDto.getName() + " is successfully created.");
+            return ResponseBuilder.success(structureService.createRegion(regionDto));
+        } catch (NullPointerException e) {
+            return ResponseBuilder.fail("Region with this name already exist.");
         }
-        log.info("Region " + regionDto.getName() + " is successfully created.");
-        return ResponseBuilder.success(structureService.getRegion(regionDto));
     }
 
     @PostMapping("/city")
     @ApiOperation(value = "Add city")
     public ResponseResult addCity(@RequestBody CityDto cityDto) {
         try {
-            if (!structureService.createCity(cityDto))
-                return ResponseBuilder.fail("City with this name already exist.");
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new city.");
+            log.info("City " + cityDto.getName() + " is successfully created.");
+            return ResponseBuilder.success(structureService.createCity(cityDto));
+        } catch (NullPointerException e) {
+            return ResponseBuilder.fail("City with this name already exist.");
         }
-        log.info("City " + cityDto.getName() + " is successfully created.");
-        return ResponseBuilder.success(structureService.getCity(cityDto));
     }
 
     @PostMapping("/section")
     @ApiOperation(value = "Add section")
     public ResponseResult addSection(@RequestBody SectionDto sectionDto) {
         try {
-            if (!structureService.createSection(sectionDto))
-                return ResponseBuilder.fail("Section with this name already exist.");
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating section");
+            log.info("Section " + sectionDto.getName() + " is successfully created.");
+            return ResponseBuilder.success(structureService.createSection(sectionDto));
+        } catch (NullPointerException e) {
+            return ResponseBuilder.fail("Section with this name already exist.");
         }
-        log.info("Section " + sectionDto.getName() + " is successfully created.");
-        return ResponseBuilder.success(structureService.getSection(sectionDto));
     }
 }
