@@ -32,7 +32,7 @@ import static com.royalrangers.enums.AuthorityName.*;
 public class UserService {
 
     private final String CONFIRM_EMAIL_STRING = "/#/registration/confirm?token=";
-    private final String CHANGE_PASSWORD_STRING = "/#/changePassword/";
+    private final String CHANGE_PASSWORD_STRING = "/#/changePassword?token=";
 
     @Value("${application.host}")
     private String host;
