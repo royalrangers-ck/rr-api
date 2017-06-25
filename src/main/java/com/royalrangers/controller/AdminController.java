@@ -34,7 +34,8 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new country");
         }
-        return ResponseBuilder.success("Country " + countryDto.getName() + " is successfully created.");
+        log.info("Country " + countryDto.getName() + " is successfully created.");
+        return ResponseBuilder.success(structureService.getCountry(countryDto));
     }
 
     @PostMapping("/region")
@@ -46,7 +47,8 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new regions");
         }
-        return ResponseBuilder.success("Region " + regionDto.getName() + " is successfully created.");
+        log.info("Region " + regionDto.getName() + " is successfully created.");
+        return ResponseBuilder.success(structureService.getRegion(regionDto));
     }
 
     @PostMapping("/city")
@@ -58,7 +60,8 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new city.");
         }
-        return ResponseBuilder.success("City " + cityDto.getName() + " is successfully created.");
+        log.info("City " + cityDto.getName() + " is successfully created.");
+        return ResponseBuilder.success(structureService.getCity(cityDto));
     }
 
     @PostMapping("/section")
@@ -70,6 +73,7 @@ public class AdminController {
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating section");
         }
-        return ResponseBuilder.success("Section " + sectionDto.getName() + " is successfully created.");
+        log.info("Section " + sectionDto.getName() + " is successfully created.");
+        return ResponseBuilder.success(structureService.getSection(sectionDto));
     }
 }

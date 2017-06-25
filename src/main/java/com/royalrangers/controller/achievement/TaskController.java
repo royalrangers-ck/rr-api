@@ -32,8 +32,8 @@ public class TaskController {
     @ApiOperation(value = "Add task")
     public ResponseResult addTask(@RequestBody TaskRequestDto params) {
         try {
-            taskService.addTask(params);
-            return ResponseBuilder.success("Task saved successfully");
+            log.info("Add Task " + params.getName());
+            return ResponseBuilder.success(taskService.addTask(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed adding task");

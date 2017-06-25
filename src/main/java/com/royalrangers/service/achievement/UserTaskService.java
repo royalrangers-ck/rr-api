@@ -48,13 +48,13 @@ public class UserTaskService {
         userTaskRepository.delete(id);
     }
 
-    public void editUserTask(UserAchievementRequestDto params, Long id) {
+    public UserTask editUserTask(UserAchievementRequestDto params, Long id) {
         UserTask savedUserTask = userTaskRepository.findOne(id);
         savedUserTask.setUpdateDate(new Date());
         String achievementState = params.getState();
         savedUserTask.setAchievementState(AchievementState.valueOf(achievementState));
         Integer taskId = params.getId();
         savedUserTask.setTask(taskService.getTaskById(taskId.longValue()));
-        userTaskRepository.saveAndFlush(savedUserTask);
+        return userTaskRepository.saveAndFlush(savedUserTask);
     }
 }

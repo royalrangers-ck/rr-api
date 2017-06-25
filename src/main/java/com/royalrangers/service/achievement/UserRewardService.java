@@ -31,7 +31,7 @@ public class UserRewardService {
         return userRewardRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserReward(RewardRequestDto params){
+    public UserReward addUserReward(RewardRequestDto params){
         UserReward savedUserReward = new UserReward();
         Integer rewardId = params.getRewardId();
         if(!rewardRepository.exists(rewardId.longValue())) {
@@ -40,6 +40,7 @@ public class UserRewardService {
         savedUserReward.setReward(rewardService.getRewardById(rewardId.longValue()));
         savedUserReward.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
         userRewardRepository.saveAndFlush(savedUserReward);
+        return savedUserReward;
     }
 
     public UserReward getRewardById(Long id){
@@ -50,11 +51,11 @@ public class UserRewardService {
         userRewardRepository.delete(id);
     }
 
-    public void editUserReward(RewardRequestDto params, Long id){
+    public UserReward editUserReward(RewardRequestDto params, Long id){
         UserReward savedUserReward = userRewardRepository.findOne(id);
         savedUserReward.setUpdateDate(new Date());
         Integer rewardId = params.getRewardId();
         savedUserReward.setReward(rewardService.getRewardById(rewardId.longValue()));
-        userRewardRepository.saveAndFlush(savedUserReward);
+        return userRewardRepository.saveAndFlush(savedUserReward);
     }
 }

@@ -49,8 +49,8 @@ public class UserTestController {
     @ApiOperation(value = "Add test for current user")
     public ResponseResult addUserTest(@RequestBody UserTestRequestDto params) {
         try {
-            userTestService.addUserTest(params);
-            return ResponseBuilder.success("Successfully added UserTestAchievement");
+            log.info("Add Test " + params.getTestId());
+            return ResponseBuilder.success(userTestService.addUserTest(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add UserTestAchievement");
@@ -86,7 +86,7 @@ public class UserTestController {
     public ResponseResult editUserTest(@RequestBody UserAchievementRequestDto params, @PathVariable Long userTestId) {
         try {
             userTestService.editUserTest(params, userTestId);
-            return ResponseBuilder.success("Successfully editing UserTest");
+            return ResponseBuilder.success(userTestService.getUserTestById(userTestId));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit UserTest");

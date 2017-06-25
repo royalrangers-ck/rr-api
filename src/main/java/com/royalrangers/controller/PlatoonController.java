@@ -46,9 +46,8 @@ public class PlatoonController {
     @ApiOperation(value = "Add platoon")
     public ResponseResult creation(@RequestBody PlatoonDto platoonDto) {
         try {
-            structureService.createPlatoon(platoonDto);
             log.info("Platoon " + platoonDto.getName() + " is successfully created");
-            return ResponseBuilder.success("Platoon is successfully created");
+            return ResponseBuilder.success(structureService.createPlatoon(platoonDto));
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
@@ -60,9 +59,8 @@ public class PlatoonController {
     public ResponseResult updatePlatoonById(@RequestParam("id") Long id, @RequestBody PlatoonDto platoonUpdate) {
 
         try {
-            structureService.updatePlatoon(id, platoonUpdate);
             log.info("Update platoon with id " + id);
-            return ResponseBuilder.success("Platoon with id " + id + " is successfully updated");
+            return ResponseBuilder.success(structureService.updatePlatoon(id, platoonUpdate));
 
         } catch (PlatoonRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());

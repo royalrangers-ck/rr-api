@@ -37,7 +37,7 @@ public class UserTestService {
         return userTestRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserTest(UserTestRequestDto params) {
+    public UserTest addUserTest(UserTestRequestDto params) {
         UserTest savedUserAchievement = new UserTest();
         savedUserAchievement.setAchievementState(AchievementState.IN_PROGRESS);
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
@@ -46,6 +46,7 @@ public class UserTestService {
         List<Task> tasks = testService.getTestById(testId.longValue()).getTaskList();
         tasks.forEach(task -> userTaskService.addTaskForUser(task));
         userTestRepository.saveAndFlush(savedUserAchievement);
+        return savedUserAchievement;
     }
 
     public UserTest getUserTestById(Long id) {

@@ -46,8 +46,8 @@ public class TestController {
     @ApiOperation(value = "Add test")
     public ResponseResult addTest(@RequestBody TestRequestDto params) {
         try {
-            testService.addTest(params);
-            return ResponseBuilder.success("Test saved successfully");
+            log.info("Add Test " + params.getName());
+            return ResponseBuilder.success(testService.addTest(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed adding Test");

@@ -27,6 +27,9 @@ public class StructureService {
     private PlatoonRepository platoonRepository;
 
     @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
     private CityRepository cityRepository;
 
     @Autowired
@@ -36,7 +39,7 @@ public class StructureService {
         return platoonRepository.findOne(userService.getAuthenticatedUser().getPlatoon().getId());
     }
 
-    public void createPlatoon(PlatoonDto platoonDto) {
+    public Platoon createPlatoon(PlatoonDto platoonDto) {
         Platoon platoon = new Platoon();
         platoon.setCreateDate(platoon.getCreateDate());
         platoon.setUpdateDate(platoon.getUpdateDate());
@@ -45,10 +48,10 @@ public class StructureService {
         platoon.setAddress(platoonDto.getAddress());
         platoon.setCity(cityRepository.findOne(platoonDto.getCityId()));
         platoon.setMeetTime(platoonDto.getMeetTime());
-        platoonRepository.save(platoon);
+        return platoonRepository.save(platoon);
     }
 
-    public void updatePlatoon(Long id, PlatoonDto update) {
+    public Platoon updatePlatoon(Long id, PlatoonDto update) {
         Platoon platoon = platoonRepository.findOne(id);
         platoon.setUpdateDate(new Date());
         platoon.setName(update.getName());
@@ -56,7 +59,7 @@ public class StructureService {
         platoon.setAddress(update.getAddress());
         platoon.setCity(cityRepository.findOne(update.getCityId()));
         platoon.setMeetTime(update.getMeetTime());
-        platoonRepository.save(platoon);
+        return platoonRepository.save(platoon);
     }
 
     public void setPlatoonLogoUrl(Long id, String logoUrl) throws DbxException {
@@ -115,11 +118,27 @@ public class StructureService {
         countryRepository.save(country);
         return true;
     }
-
     public boolean createCountry(CountryDto countryDto){
         if (countryRepository.findByName(countryDto.getName()) != null)
             return false;
         countryRepository.save(new Country(countryDto.getName()));
         return true;
     }
+
+    public Region getRegion(RegionDto regionDto){
+        return regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId());
+    }
+
+    public City getCity(CityDto cityDto){
+        return cityRepository.findByNameAndRegionId(cityDto.getName(),cityDto.getRegionId());
+    }
+
+    public Section getSection(SectionDto sectionDto){
+        return sectionRepository.findByNameAndPlatoonId(sectionDto.getName(), sectionDto.getPlatoonId());
+    }
+
+    public Country getCountry (CountryDto countryDto){
+        return countryRepository.findByName(countryDto.getName());
+    }
+
 }
