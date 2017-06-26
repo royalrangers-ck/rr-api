@@ -1,10 +1,11 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.structure.RegionDto;
-import com.royalrangers.dto.structure.CountryDto;
 import com.royalrangers.dto.structure.CityDto;
+import com.royalrangers.dto.structure.CountryDto;
+import com.royalrangers.dto.structure.RegionDto;
 import com.royalrangers.dto.structure.SectionDto;
+import com.royalrangers.exception.EntryAlreadyExistsException;
 import com.royalrangers.service.StructureService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
@@ -29,10 +30,11 @@ public class AdminController {
     @ApiOperation(value = "Add country")
     public ResponseResult addCountry(@RequestBody CountryDto countryDto) {
         try {
-            log.info("Country " + countryDto.getName() + " is successfully created.");
             return ResponseBuilder.success(structureService.createCountry(countryDto));
-        } catch (NullPointerException e) {
-            return ResponseBuilder.fail("Country with this name already exist.");
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error creating new country");
         }
     }
 
@@ -40,10 +42,11 @@ public class AdminController {
     @ApiOperation(value = "Add regions")
     public ResponseResult addRegion(@RequestBody RegionDto regionDto) {
         try {
-            log.info("Region " + regionDto.getName() + " is successfully created.");
             return ResponseBuilder.success(structureService.createRegion(regionDto));
-        } catch (NullPointerException e) {
-            return ResponseBuilder.fail("Region with this name already exist.");
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error creating new region");
         }
     }
 
@@ -51,10 +54,11 @@ public class AdminController {
     @ApiOperation(value = "Add city")
     public ResponseResult addCity(@RequestBody CityDto cityDto) {
         try {
-            log.info("City " + cityDto.getName() + " is successfully created.");
             return ResponseBuilder.success(structureService.createCity(cityDto));
-        } catch (NullPointerException e) {
-            return ResponseBuilder.fail("City with this name already exist.");
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error creating new city.");
         }
     }
 
@@ -62,10 +66,11 @@ public class AdminController {
     @ApiOperation(value = "Add section")
     public ResponseResult addSection(@RequestBody SectionDto sectionDto) {
         try {
-            log.info("Section " + sectionDto.getName() + " is successfully created.");
             return ResponseBuilder.success(structureService.createSection(sectionDto));
-        } catch (NullPointerException e) {
-            return ResponseBuilder.fail("Section with this name already exist.");
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error creating new section.");
         }
     }
 }
