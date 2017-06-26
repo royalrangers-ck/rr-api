@@ -32,7 +32,7 @@ import static com.royalrangers.enums.AuthorityName.*;
 public class UserService {
 
     private final String CONFIRM_EMAIL_STRING = "/#/registration/confirm?token=";
-    private final String CHANGE_PASSWORD_STRING = "/#/changePassword/";
+    private final String CHANGE_PASSWORD_STRING = "/#/changePassword?token=";
 
     @Value("${application.host}")
     private String host;
@@ -265,22 +265,26 @@ public class UserService {
     /**
      Compares temp_user to user - if they are the same we should delete temp_user
      */
-    public boolean isTempUserEqualsUser(UserUpdateDto tempUser) {
+    public boolean isTempUserEqualsUser(TempUser tempUser) {
         User user = getAuthenticatedUser();
 
-        return tempUser.getBirthDate().equals(user.getBirthDate()) && tempUser.getCityId().equals(user.getCity().getId()) && tempUser.getCountryId().equals(user.getCountry().getId()) &&
-                tempUser.getPlatoonId().equals(user.getPlatoon().getId()) && tempUser.getRegionId().equals(user.getRegion().getId()) && tempUser.getSectionId().equals(user.getSection().getId()) &&
+        return  tempUser.getBirthDate().equals(user.getBirthDate()) && tempUser.getCity().equals(user.getCity()) && tempUser.getCountry().equals(user.getCountry()) &&
+                tempUser.getPlatoon().equals(user.getPlatoon()) && tempUser.getRegion().equals(user.getRegion()) && tempUser.getSection().equals(user.getSection()) &&
                 tempUser.getFirstName().equals(user.getFirstName()) && tempUser.getLastName().equals(user.getLastName()) && tempUser.getGender().equals(user.getGender()) &&
                 tempUser.getTelephoneNumber().equals(user.getTelephoneNumber()) && tempUser.getUserAgeGroup().equals(user.getUserAgeGroup()) &&
                 tempUser.getUserRank().equals(user.getUserRank());
+    }
+
+    public void removeTempUserByAuthenticatedUserId(){
+        tempUserRepository.delete(tempUserRepository.findByUserId(getAuthenticatedUserId()));
     }
 
     public TempUser getTempUserById(Long id) {
         return tempUserRepository.findOne(id);
     }
 
-    public void updateTempUser(UserUpdateDto update) {
-        if (tempUserRepository.findByUserId(getAuthenticatedUserId()) == null) {
+    public void updateTempUser(UserUpdateDto update){
+        if (!isTempUserExist()) {
             createTempUser();
             updateTempUsr(update);
         } else {
@@ -291,9 +295,6 @@ public class UserService {
     private void updateTempUsr(UserUpdateDto update) {
         TempUser user = tempUserRepository.findByUserId(getAuthenticatedUserId());
 
-        if (isTempUserEqualsUser(update)) {
-            tempUserRepository.delete(user);
-        } else {
             user.setUpdateDate(new Date());
             user.setFirstName(update.getFirstName());
             user.setLastName(update.getLastName());
@@ -309,7 +310,7 @@ public class UserService {
             user.setSection(sectionRepository.findOne(update.getSectionId()));
 
             tempUserRepository.save(user);
-        }
+
     }
 
     public void updateUser(Long id, UserUpdateDto update) {

@@ -149,28 +149,29 @@ public class UserController {
     @PostMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
-        if (userService.isTempUserEqualsUser(update)) {
+        userService.updateTempUser(update);
+        if (userService.isTempUserEqualsUser(userService.getTempUser())) {
+            userService.removeTempUserByAuthenticatedUserId();
             return ResponseBuilder.success("Temp user was deleted as it is the same as user");
-        } else {
-            userService.updateTempUser(update);
-            log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
-
-            return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
         }
+        log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
+
+        return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
     }
 
     @PostMapping("/update/{temp_userId}")
     @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Confirm to update user data from temp_user data(for admin)")
     public ResponseResult updateUser(@PathVariable("temp_userId") Long id, @RequestBody UserUpdateDto update) {
-        if (!userService.isTempUserExist()) {
-            return ResponseBuilder.fail("Temp_user with id " + id + " is not found");
-        }
         try {
-            userService.updateUser(id, update);
-            log.info("Update temp_user " + userService.getTempUserById(id).getUser().getEmail());
+            if (userService.getTempUserById(id) == null) {
+                return ResponseBuilder.fail("Temp_user with id " + id + " is not found");
+            } else {
+                log.info("Update temp_user " + userService.getTempUserById(id).getEmail());
+                userService.updateUser(id, update);
 
-            return ResponseBuilder.success("User " + userService.getTempUserById(id).getUser().getEmail() + "is successfully updated");
+                return ResponseBuilder.success("User is successfully updated");
+            }
         } catch (UserRepositoryException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
