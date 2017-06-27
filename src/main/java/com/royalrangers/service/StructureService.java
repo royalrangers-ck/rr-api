@@ -3,15 +3,17 @@ package com.royalrangers.service;
 import com.dropbox.core.DbxException;
 import com.royalrangers.dto.structure.*;
 import com.royalrangers.enums.ImageType;
+import com.royalrangers.exception.EntryAlreadyExistsException;
 import com.royalrangers.model.*;
 import com.royalrangers.repository.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.Set;
 
 @Service
+@Slf4j
 public class StructureService {
 
     @Autowired
@@ -27,6 +29,9 @@ public class StructureService {
     private PlatoonRepository platoonRepository;
 
     @Autowired
+    private SectionRepository sectionRepository;
+
+    @Autowired
     private CityRepository cityRepository;
 
     @Autowired
@@ -36,7 +41,7 @@ public class StructureService {
         return platoonRepository.findOne(userService.getAuthenticatedUser().getPlatoon().getId());
     }
 
-    public void createPlatoon(PlatoonDto platoonDto) {
+    public Platoon createPlatoon(PlatoonDto platoonDto) {
         Platoon platoon = new Platoon();
         platoon.setCreateDate(platoon.getCreateDate());
         platoon.setUpdateDate(platoon.getUpdateDate());
@@ -45,10 +50,10 @@ public class StructureService {
         platoon.setAddress(platoonDto.getAddress());
         platoon.setCity(cityRepository.findOne(platoonDto.getCityId()));
         platoon.setMeetTime(platoonDto.getMeetTime());
-        platoonRepository.save(platoon);
+        return platoonRepository.save(platoon);
     }
 
-    public void updatePlatoon(Long id, PlatoonDto update) {
+    public Platoon updatePlatoon(Long id, PlatoonDto update) {
         Platoon platoon = platoonRepository.findOne(id);
         platoon.setUpdateDate(new Date());
         platoon.setName(update.getName());
@@ -56,7 +61,7 @@ public class StructureService {
         platoon.setAddress(update.getAddress());
         platoon.setCity(cityRepository.findOne(update.getCityId()));
         platoon.setMeetTime(update.getMeetTime());
-        platoonRepository.save(platoon);
+        return platoonRepository.save(platoon);
     }
 
     public void setPlatoonLogoUrl(Long id, String logoUrl) throws DbxException {
@@ -81,45 +86,42 @@ public class StructureService {
         platoonRepository.save(platoon);
     }
 
-    public boolean createCity(CityDto cityDto){
+    public City createCity(CityDto cityDto) {
         Region region = regionRepository.findOne(cityDto.getRegionId());
+        if (cityRepository.findByNameAndRegionId(cityDto.getName(), cityDto.getRegionId()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
         City city = new City(region, cityDto.getName());
-        Set<City> citySet = region.getCities();
-        if (!citySet.add(city))
-            return false;
-        region.setCities(citySet);
-        regionRepository.save(region);
-        return true;
+        log.info("City " + cityDto.getName() + " is successfully created.");
+        return cityRepository.save(city);
     }
 
-    public boolean createSection(SectionDto sectionDto){
+    public Section createSection(SectionDto sectionDto) {
         Platoon platoon = platoonRepository.findOne(sectionDto.getPlatoonId());
-        Section section = new Section(platoon,sectionDto.getName());
-        Set<Section> sectionSet = platoon.getSections();
-        if (!sectionSet.add(section))
-            return false;
-        platoon.setSections(sectionSet);
-        platoonRepository.save(platoon);
-        return  true;
+        if (sectionRepository.findByName(sectionDto.getName()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
+        Section section = new Section(platoon, sectionDto.getName());
+        log.info("Section " + sectionDto.getName() + " is successfully created.");
+        return sectionRepository.save(section);
     }
 
-    public boolean createRegion(RegionDto regionDto){
+    public Region createRegion(RegionDto regionDto) {
         Country country = countryRepository.findOne(regionDto.getCountryId());
-        if(regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null)
-            return false;
-        Region region = new Region(country, regionDto.getName());
-        Set<Region> regionSet = country.getRegions();
-        if (!regionSet.add(region))
-            return false;
-        country.setRegions(regionSet);
-        countryRepository.save(country);
-        return true;
+        if (regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
+        Region region = regionRepository.save(new Region(country, regionDto.getName()));
+        log.info("Region " + regionDto.getName() + " is successfully created.");
+        return region;
     }
 
-    public boolean createCountry(CountryDto countryDto){
-        if (countryRepository.findByName(countryDto.getName()) != null)
-            return false;
-        countryRepository.save(new Country(countryDto.getName()));
-        return true;
+    public Country createCountry(CountryDto countryDto) {
+        if (countryRepository.findByName(countryDto.getName()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
+        Country country = countryRepository.save(new Country(countryDto.getName()));
+        log.info("Country " + countryDto.getName() + " is successfully created.");
+        return country;
     }
 }

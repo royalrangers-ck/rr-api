@@ -32,7 +32,7 @@ public class TestService {
         return testRepository.findByUserAgeGroupsContains(new ArrayList<>(Arrays.asList(userAgeGroup)));
     }
 
-    public void addTest(TestRequestDto params) {
+    public Test addTest(TestRequestDto params) {
         Test test = new Test();
         test.setName(params.getName());
         test.setShortDescription(params.getShortDescription());
@@ -40,6 +40,7 @@ public class TestService {
         test.setLogoUrl(params.getLogoUrl());
         test.setTestType(TestType.valueOf(params.getTestType()));
         testRepository.saveAndFlush(test);
+        return test;
     }
 
     public Test getTestById(Long testId) {

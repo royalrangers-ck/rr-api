@@ -27,7 +27,8 @@ public class TaskService {
         savedTask.setDescription(params.getDescription());
         Integer id = params.getTestId();
         savedTask.setTest(testService.getTestById(id.longValue()));
-        return taskRepository.saveAndFlush(savedTask);
+        taskRepository.saveAndFlush(savedTask);
+        return savedTask;
     }
 
     public Task getTaskById(Long id) {

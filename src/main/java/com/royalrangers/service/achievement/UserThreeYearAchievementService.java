@@ -27,7 +27,7 @@ public class UserThreeYearAchievementService {
         return userThreeYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserThreeYearAchievement(UserAchievementRequestDto params) {
+    public UserThreeYearAchievement addUserThreeYearAchievement(UserAchievementRequestDto params) {
         UserThreeYearAchievement savedUserAchievement = new UserThreeYearAchievement();
         String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
@@ -35,6 +35,7 @@ public class UserThreeYearAchievementService {
         Integer threeYearId = params.getId();
         savedUserAchievement.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(threeYearId.longValue()));
         userThreeYearAchievementRepository.saveAndFlush(savedUserAchievement);
+        return savedUserAchievement;
     }
 
     public UserThreeYearAchievement getUserThreeYearAchievementById(Long id) {
@@ -49,7 +50,7 @@ public class UserThreeYearAchievementService {
         userThreeYearAchievementRepository.delete(id);
     }
 
-    public void editUserThreeYearAchievement(UserAchievementRequestDto params, Long id) {
+    public UserThreeYearAchievement editUserThreeYearAchievement(UserAchievementRequestDto params, Long id) {
         UserThreeYearAchievement savedUserAchievement = userThreeYearAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();
@@ -57,6 +58,6 @@ public class UserThreeYearAchievementService {
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
         Integer threeYearId = params.getId();
         savedUserAchievement.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(threeYearId.longValue()));
-        userThreeYearAchievementRepository.saveAndFlush(savedUserAchievement);
+        return userThreeYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 }

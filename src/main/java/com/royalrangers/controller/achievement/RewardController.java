@@ -41,8 +41,8 @@ public class RewardController {
     @ApiOperation(value = "Add reward")
     public ResponseResult addReward(@RequestBody Reward reward) {
         try {
-            rewardService.addReward(reward);
-            return ResponseBuilder.success("Successful addition of a reward");
+            log.info("Add Reward " + reward.getName());
+            return ResponseBuilder.success(rewardService.addReward(reward));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add reward");

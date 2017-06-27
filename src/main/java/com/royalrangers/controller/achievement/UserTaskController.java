@@ -59,8 +59,7 @@ public class UserTaskController {
     @ApiOperation(value = "Update user task")
     public ResponseResult editUserTask(@RequestBody UserAchievementRequestDto params, @PathVariable Long userTaskId) {
         try {
-            userTaskService.editUserTask(params, userTaskId);
-            return ResponseBuilder.success("Successfully editing UserTask");
+            return ResponseBuilder.success(userTaskService.editUserTask(params, userTaskId));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit userTask");

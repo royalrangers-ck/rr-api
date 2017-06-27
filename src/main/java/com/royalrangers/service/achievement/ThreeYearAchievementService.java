@@ -28,7 +28,7 @@ public class ThreeYearAchievementService {
         return threeYearAchievementRepository.findAll();
     }
 
-    public void addThreeYearAchievement(ThreeYearRequestDto params) {
+    public ThreeYearAchievement addThreeYearAchievement(ThreeYearRequestDto params) {
         ThreeYearAchievement threeYearAchievementSaved = new ThreeYearAchievement();
         threeYearAchievementSaved.setName(params.getName());
         threeYearAchievementSaved.setDescription(params.getDescription());
@@ -36,6 +36,7 @@ public class ThreeYearAchievementService {
         threeYearAchievementSaved.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(id.longValue()));
         threeYearAchievementSaved.setUserAgeGroup(UserAgeGroup.valueOf(params.getAgeCategory()));
         threeYearAchievementRepository.saveAndFlush(threeYearAchievementSaved);
+        return threeYearAchievementSaved;
     }
 
     public ThreeYearAchievement getThreeYearAchievementById(Long id) {

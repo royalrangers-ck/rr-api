@@ -24,8 +24,8 @@ public class RewardService {
         return rewardRepository.findAll();
     }
 
-    public void addReward(Reward reward) {
-        rewardRepository.saveAndFlush(reward);
+    public Reward addReward(Reward reward) {
+        return rewardRepository.saveAndFlush(reward);
     }
 
     public Reward getRewardById(Long id) {

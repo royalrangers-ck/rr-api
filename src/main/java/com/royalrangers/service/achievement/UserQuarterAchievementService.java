@@ -56,14 +56,14 @@ public class UserQuarterAchievementService {
         userQuarterAchievementRepository.delete(id);
     }
 
-    public void editUserQuarterAchievement(UserAchievementRequestDto params, Long id) {
+    public UserQuarterAchievement editUserQuarterAchievement(UserAchievementRequestDto params, Long id) {
         UserQuarterAchievement savedUserAchievement = userQuarterAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         Integer quarterId = params.getId();
         savedUserAchievement.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
-        userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
+        return userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
     public void autoEditQuarterAchievement(AchievementState achievementState, UserAgeGroup userAgeGroup) {

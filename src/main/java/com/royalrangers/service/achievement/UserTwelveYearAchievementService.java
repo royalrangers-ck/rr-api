@@ -27,7 +27,7 @@ public class UserTwelveYearAchievementService {
         return userTwelveYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserTwelveYearAchievement(UserAchievementRequestDto params) {
+    public UserTwelveYearAchievement addUserTwelveYearAchievement(UserAchievementRequestDto params) {
         UserTwelveYearAchievement savedUserAchievement = new UserTwelveYearAchievement();
         String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
@@ -35,6 +35,7 @@ public class UserTwelveYearAchievementService {
         Integer twelveYearId = params.getId();
         savedUserAchievement.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearId.longValue()));
         userTwelveYearAchievementRepository.saveAndFlush(savedUserAchievement);
+        return savedUserAchievement;
     }
 
     public UserTwelveYearAchievement getUserTwelveYearAchievementById(Long id) {
@@ -49,13 +50,13 @@ public class UserTwelveYearAchievementService {
         userTwelveYearAchievementRepository.delete(id);
     }
 
-    public void editUserTwelveYearAchievement(UserAchievementRequestDto params, Long id) {
+    public UserTwelveYearAchievement editUserTwelveYearAchievement(UserAchievementRequestDto params, Long id) {
         UserTwelveYearAchievement editUserAchievement = userTwelveYearAchievementRepository.findOne(id);
         editUserAchievement.setUpdateDate(new Date());
         String achievementState = params.getState();
         editUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
         Integer twelveYearId = params.getId();
         editUserAchievement.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearId.longValue()));
-        userTwelveYearAchievementRepository.saveAndFlush(editUserAchievement);
+        return userTwelveYearAchievementRepository.saveAndFlush(editUserAchievement);
     }
 }

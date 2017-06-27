@@ -1,10 +1,11 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.structure.RegionDto;
-import com.royalrangers.dto.structure.CountryDto;
 import com.royalrangers.dto.structure.CityDto;
+import com.royalrangers.dto.structure.CountryDto;
+import com.royalrangers.dto.structure.RegionDto;
 import com.royalrangers.dto.structure.SectionDto;
+import com.royalrangers.exception.EntryAlreadyExistsException;
 import com.royalrangers.service.StructureService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
@@ -29,47 +30,47 @@ public class AdminController {
     @ApiOperation(value = "Add country")
     public ResponseResult addCountry(@RequestBody CountryDto countryDto) {
         try {
-            if (!structureService.createCountry(countryDto))
-                return ResponseBuilder.fail("Country with this name already exist.");
+            return ResponseBuilder.success(structureService.createCountry(countryDto));
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new country");
         }
-        return ResponseBuilder.success("Country " + countryDto.getName() + " is successfully created.");
     }
 
     @PostMapping("/region")
     @ApiOperation(value = "Add regions")
     public ResponseResult addRegion(@RequestBody RegionDto regionDto) {
         try {
-            if (!structureService.createRegion(regionDto))
-                return ResponseBuilder.fail("Region with this name already exist.");
+            return ResponseBuilder.success(structureService.createRegion(regionDto));
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
         } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new regions");
+            return ResponseBuilder.fail("Error creating new region");
         }
-        return ResponseBuilder.success("Region " + regionDto.getName() + " is successfully created.");
     }
 
     @PostMapping("/city")
     @ApiOperation(value = "Add city")
     public ResponseResult addCity(@RequestBody CityDto cityDto) {
         try {
-            if (!structureService.createCity(cityDto))
-                return ResponseBuilder.fail("City with this name already exist.");
+            return ResponseBuilder.success(structureService.createCity(cityDto));
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new city.");
         }
-        return ResponseBuilder.success("City " + cityDto.getName() + " is successfully created.");
     }
 
     @PostMapping("/section")
     @ApiOperation(value = "Add section")
     public ResponseResult addSection(@RequestBody SectionDto sectionDto) {
         try {
-            if (!structureService.createSection(sectionDto))
-                return ResponseBuilder.fail("Section with this name already exist.");
+            return ResponseBuilder.success(structureService.createSection(sectionDto));
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
         } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating section");
+            return ResponseBuilder.fail("Error creating new section.");
         }
-        return ResponseBuilder.success("Section " + sectionDto.getName() + " is successfully created.");
     }
 }

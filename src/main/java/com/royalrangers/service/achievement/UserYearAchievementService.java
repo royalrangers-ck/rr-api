@@ -27,7 +27,7 @@ public class UserYearAchievementService {
         return userYearAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserYearAchievement(UserAchievementRequestDto params) {
+    public UserYearAchievement addUserYearAchievement(UserAchievementRequestDto params) {
         UserYearAchievement savedUserAchievement = new UserYearAchievement();
         String achievementStatus = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementStatus));
@@ -35,6 +35,7 @@ public class UserYearAchievementService {
         Integer yearId = params.getId();
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         userYearAchievementRepository.saveAndFlush(savedUserAchievement);
+        return savedUserAchievement;
     }
 
     public UserYearAchievement getUserYearAchievementById(Long id) {
@@ -49,12 +50,12 @@ public class UserYearAchievementService {
         userYearAchievementRepository.delete(id);
     }
 
-    public void editUserYearAchievement(UserAchievementRequestDto params, Long id) {
+    public UserYearAchievement editUserYearAchievement(UserAchievementRequestDto params, Long id) {
         UserYearAchievement savedUserAchievement = userYearAchievementRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
         savedUserAchievement.setAchievementState(AchievementState.valueOf(params.getState()));
         Integer yearId = params.getId();
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
-        userYearAchievementRepository.saveAndFlush(savedUserAchievement);
+        return userYearAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 }

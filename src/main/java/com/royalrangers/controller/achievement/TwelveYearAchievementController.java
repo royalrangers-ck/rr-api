@@ -41,8 +41,8 @@ public class TwelveYearAchievementController {
     @ApiOperation(value = "Add twelve-year achievement")
     public ResponseResult addTwelveYearAchievement(@RequestBody AchievementRequestDto params) {
         try {
-            twelveYearAchievementService.addTwelveYearAchievement(params);
-            return ResponseBuilder.success("Successful addition of a TwelveYearAchievement");
+            log.info("Add TwelveYearAchievement " + params.getName());
+            return ResponseBuilder.success(twelveYearAchievementService.addTwelveYearAchievement(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add TwelveYearAchievement");

@@ -41,8 +41,8 @@ public class QuarterAchievementController {
     @PostMapping
     public ResponseResult addQuarterAchievement(@RequestBody AchievementRequestDto params) {
         try {
-            quarterAchievementService.addQuarterAchievement(params);
-            return ResponseBuilder.success("Adding QuarterAchievement was a success");
+            log.info("Add QuarterAchievement " + params.getName());
+            return ResponseBuilder.success(quarterAchievementService.addQuarterAchievement(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed added QuarterAchievement");

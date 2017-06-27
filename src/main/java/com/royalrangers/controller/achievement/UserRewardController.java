@@ -35,8 +35,8 @@ public class UserRewardController {
     @ApiOperation(value = "Add the reward for current user")
     public ResponseResult addUserReward(@RequestBody RewardRequestDto params) {
         try {
-            userRewardService.addUserReward(params);
-            return ResponseBuilder.success("Successfully added UserReward");
+            log.info("Add Reward " + params.getRewardId());
+            return ResponseBuilder.success(userRewardService.addUserReward(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add UserReward");
@@ -70,8 +70,7 @@ public class UserRewardController {
     @ApiOperation(value = "Update user reward")
     public ResponseResult editUserReward(@RequestBody RewardRequestDto params, @PathVariable Long userRewardId) {
         try {
-            userRewardService.editUserReward(params, userRewardId);
-            return ResponseBuilder.success("Successfully edited UserReward");
+            return ResponseBuilder.success(userRewardService.editUserReward(params, userRewardId));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit UserReward");

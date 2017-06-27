@@ -27,13 +27,14 @@ public class YearAchievementService {
         return yearAchievementRepository.findAll();
     }
 
-    public void addYearAchievement(AchievementRequestDto params) {
+    public YearAchievement addYearAchievement(AchievementRequestDto params) {
         YearAchievement yearAchievementSaved = new YearAchievement();
         yearAchievementSaved.setName(params.getName());
         yearAchievementSaved.setDescription(params.getDescription());
         Integer id = params.getUpLevelId();
         yearAchievementSaved.setThreeYearAchievement(threeYearAchievementService.getThreeYearAchievementById(id.longValue()));
         yearAchievementRepository.saveAndFlush(yearAchievementSaved);
+        return yearAchievementSaved;
     }
 
     public YearAchievement getYearAchievementById(Long id) {

@@ -59,8 +59,7 @@ public class UserQuarterAchievementController {
     @ApiOperation(value = "Update current user quarter-year achievement")
     public ResponseResult editUserQuarterAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
-            userQuarterAchievementService.editUserQuarterAchievement(params, userAchievementId);
-            return ResponseBuilder.success("Successfully editing UserQuarterAchievement");
+            return ResponseBuilder.success(userQuarterAchievementService.editUserQuarterAchievement(params, userAchievementId));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit userAchievement");

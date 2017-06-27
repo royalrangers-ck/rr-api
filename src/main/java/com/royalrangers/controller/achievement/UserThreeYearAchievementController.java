@@ -35,8 +35,8 @@ public class UserThreeYearAchievementController {
     @ApiOperation(value = "Add the three-year achievement for current user")
     public ResponseResult addTreeYearAchievement(@RequestBody UserAchievementRequestDto params) {
         try {
-            userThreeYearAchievementService.addUserThreeYearAchievement(params);
-            return ResponseBuilder.success("Successfully added userThreeYearAchievement");
+            log.info("Add UserThreeYearAchievement " + params.getId());
+            return ResponseBuilder.success(userThreeYearAchievementService.addUserThreeYearAchievement(params));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add userThreeYearAchievement");
@@ -71,8 +71,7 @@ public class UserThreeYearAchievementController {
     @ApiOperation(value = "Update current user three-year achievement")
     public ResponseResult editUserThreeYearAchievement(@RequestBody UserAchievementRequestDto params, @PathVariable Long userAchievementId) {
         try {
-            userThreeYearAchievementService.editUserThreeYearAchievement(params, userAchievementId);
-            return ResponseBuilder.success("Successfully editing UserThreeYearAchievement");
+            return ResponseBuilder.success(userThreeYearAchievementService.editUserThreeYearAchievement(params, userAchievementId));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed edit userAchievement");

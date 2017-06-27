@@ -29,13 +29,13 @@ public class QuarterAchievementService {
         return quarterAchievementRepository.findAll();
     }
 
-    public void addQuarterAchievement(AchievementRequestDto params) {
+    public QuarterAchievement addQuarterAchievement(AchievementRequestDto params) {
         QuarterAchievement quarterAchievement = new QuarterAchievement();
         quarterAchievement.setName(params.getName());
         quarterAchievement.setDescription(params.getDescription());
         Integer yearId = params.getUpLevelId();
         quarterAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
-        quarterAchievementRepository.saveAndFlush(quarterAchievement);
+        return quarterAchievementRepository.saveAndFlush(quarterAchievement);
     }
 
     public QuarterAchievement getQuarterAchievementById(Long quarterId) {

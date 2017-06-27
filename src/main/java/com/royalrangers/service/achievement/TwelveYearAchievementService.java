@@ -24,12 +24,13 @@ public class TwelveYearAchievementService {
         return twelveYearAchievementRepository.findAll();
     }
 
-    public void addTwelveYearAchievement(AchievementRequestDto params) {
+    public TwelveYearAchievement addTwelveYearAchievement(AchievementRequestDto params) {
         TwelveYearAchievement twelveYearAchievement = new TwelveYearAchievement();
         twelveYearAchievement.setName(params.getName());
         twelveYearAchievement.setDescription(params.getDescription());
         twelveYearAchievement.setLogoUrl(params.getLogoUrl());
         twelveYearAchievementRepository.saveAndFlush(twelveYearAchievement);
+        return twelveYearAchievement;
     }
 
     public TwelveYearAchievement getTwelveYearAchievementById(Long id) {
