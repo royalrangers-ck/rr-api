@@ -67,4 +67,5 @@ dependencies {
     compile group: "junit", name: "junit", version: "${project.junitVersion}"
     compile group: "com.esotericsoftware.yamlbeans", name: "yamlbeans", version: "${project.yamlBeansVersion}"
 
+    compile "org.flywaydb:flyway-core:4.2.0"
 }

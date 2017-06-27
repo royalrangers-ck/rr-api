@@ -17,6 +17,7 @@ import com.royalrangers.service.achievement.RewardService;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.service.achievement.TwelveYearAchievementService;
 import lombok.extern.slf4j.Slf4j;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -34,13 +35,17 @@ import java.util.stream.Stream;
 @Slf4j
 @Component
 public class Bootstrap {
-    private final String DDL_AUTO_CREATE = "create";
-    private final String DDL_AUTO_CREATE_DROP = "create-drop";
     private final String COUNTRY_FILE = "init/ukraine.yml";
     private final String USERS_FILE = "init/initial_users.yml";
 
-    @Value("${spring.jpa.hibernate.ddl-auto}")
-    private String ddlAuto;
+    @Value("${spring.datasource.url}")
+    String db_url;
+
+    @Value("${spring.datasource.username}")
+    String db_username;
+
+    @Value("${spring.datasource.password}")
+    String db_password;
 
     @Autowired
     private UserRepository userRepository;
@@ -91,15 +96,24 @@ public class Bootstrap {
 
     @PostConstruct
     public void init() {
-        if (DDL_AUTO_CREATE.equals(ddlAuto) || DDL_AUTO_CREATE_DROP.equals(ddlAuto)) {
 
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(db_url, db_username, db_password);
+        flyway.migrate();
+
+
+        if (countryRepository.count() == 0) {
+            initCountry();
+        }
+
+        if (authorityRepository.count() == 0) {
+            initAuthorities();
+        }
+
+        if (userRepository.count() == 0) {
+            initUsers();
             initTwelveYear();
             initReward();
-
-            initAuthorities();
-
-            initCountry();
-            initUsers();
         }
     }
 
