@@ -146,6 +146,22 @@ public class UserController {
         }
     }
 
+    @PostMapping("/reject/temp/{tempUserId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @ApiOperation(value = "Reject tempUser (for admin)")
+    public ResponseResult rejectTempUser(@PathVariable("tempUserId") Long id) {
+        try {
+            if (userService.getTempUserById(id) == null) {
+                return ResponseBuilder.fail("Temp_user with id " + id + " is not found");
+            } else {
+                userService.rejectTempUser(id);
+                return ResponseBuilder.success("TempUser is successfully rejected.");
+            }
+        } catch (Exception e) {
+            return ResponseBuilder.fail(e.getMessage());
+        }
+    }
+
     @PostMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
