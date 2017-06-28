@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.ImageType;
+import com.royalrangers.exception.EntryAlreadyExistsException;
 import com.royalrangers.exception.UserRepositoryException;
-import com.royalrangers.model.TempUser;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserService;
@@ -66,7 +66,7 @@ public class UserController {
         }
         try {
             return ResponseBuilder.success(userService.getTempUser());
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
@@ -81,7 +81,7 @@ public class UserController {
         }
         try {
             return ResponseBuilder.success(userService.getTempUserById(id));
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
@@ -105,7 +105,7 @@ public class UserController {
     public ResponseResult getTempUserToApprove() {
         try {
             return ResponseBuilder.success(userService.getTempUsers());
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
@@ -157,7 +157,7 @@ public class UserController {
                 userService.rejectTempUser(id);
                 return ResponseBuilder.success("TempUser is successfully rejected.");
             }
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
         }
     }
