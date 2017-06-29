@@ -5,8 +5,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.user.UserUpdateDto;
 import com.royalrangers.enums.ImageType;
+import com.royalrangers.exception.EntryAlreadyExistsException;
 import com.royalrangers.exception.UserRepositoryException;
-import com.royalrangers.model.TempUser;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.UserService;
@@ -37,11 +37,16 @@ public class UserController {
     @GetMapping
     @ApiOperation(value = "Get current user info")
     public ResponseResult getAuthenticatedUserDetail() {
+        try {
+            String username = userService.getAuthenticatedUserEmail();
+            log.info("Get details for user " + username);
 
-        String username = userService.getAuthenticatedUserEmail();
-        log.info("Get details for user " + username);
-
-        return ResponseBuilder.success(userService.getUserByEmail(username));
+            return ResponseBuilder.success(userService.getUserByEmail(username));
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error get current user info");
+        }
     }
 
     @JsonView(Views.Profile.class)
@@ -52,8 +57,10 @@ public class UserController {
         try {
             log.info("Get details for user id " + id);
             return ResponseBuilder.success(userService.getUserById(id));
-        } catch (UserRepositoryException e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error get user info");
         }
     }
 
@@ -66,8 +73,10 @@ public class UserController {
         }
         try {
             return ResponseBuilder.success(userService.getTempUser());
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error get current temp_user info");
         }
     }
 
@@ -81,8 +90,10 @@ public class UserController {
         }
         try {
             return ResponseBuilder.success(userService.getTempUserById(id));
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error get temp user");
         }
     }
 
@@ -93,8 +104,10 @@ public class UserController {
     public ResponseResult getTempUsersToApprove(@PathVariable("platoonId") Long id) {
         try {
             return ResponseBuilder.success(userService.getTempUsersByPlatoon(id));
-        } catch (UserRepositoryException e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error get temp users");
         }
     }
 
@@ -105,8 +118,10 @@ public class UserController {
     public ResponseResult getTempUserToApprove() {
         try {
             return ResponseBuilder.success(userService.getTempUsers());
-        } catch (Exception e) {
+        } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error get temp users");
         }
     }
 
@@ -146,17 +161,41 @@ public class UserController {
         }
     }
 
+    @PostMapping("/reject/temp/{tempUserId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @ApiOperation(value = "Reject tempUser (for admin)")
+    public ResponseResult rejectTempUser(@PathVariable("tempUserId") Long id) {
+        try {
+            if (userService.getTempUserById(id) == null) {
+                return ResponseBuilder.fail("Temp_user with id " + id + " is not found");
+            } else {
+                userService.rejectTempUser(id);
+                return ResponseBuilder.success("TempUser is successfully rejected.");
+            }
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error reject temp user");
+        }
+    }
+
     @PostMapping("/update/temp")
     @ApiOperation(value = "Update user data (for current user)")
     public ResponseResult updateTempUser(@RequestBody UserUpdateDto update) {
-        userService.updateTempUser(update);
-        if (userService.isTempUserEqualsUser(userService.getTempUser())) {
-            userService.removeTempUserByAuthenticatedUserId();
-            return ResponseBuilder.success("Temp user was deleted as it is the same as user");
-        }
-        log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
+        try {
+            userService.updateTempUser(update);
+            if (userService.isTempUserEqualsUser(userService.getTempUser())) {
+                userService.removeTempUserByAuthenticatedUserId();
+                return ResponseBuilder.success("Temp user was deleted as it is the same as user");
+            }
+            log.info("Update temp_user " + userService.getAuthenticatedUser().getEmail());
 
-        return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
+            return ResponseBuilder.success("User " + userService.getAuthenticatedUser().getEmail() + " is successfully updated, waiting for approve this update by admin");
+        } catch (EntryAlreadyExistsException e) {
+            return ResponseBuilder.fail(e.getMessage());
+        } catch (Exception e) {
+            return ResponseBuilder.fail("Error update user data");
+        }
     }
 
     @PostMapping("/update/{temp_userId}")

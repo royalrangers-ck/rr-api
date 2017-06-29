@@ -215,6 +215,12 @@ public class UserService {
         log.info("User " + user.getEmail() + " rejected.");
     }
 
+    public void rejectTempUser(Long id) {
+        TempUser tempUser = tempUserRepository.findOne(id);
+        tempUserRepository.delete(tempUser);
+        log.info("TempUser " + tempUser.getEmail() + " rejected.");
+    }
+
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
