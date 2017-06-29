@@ -98,26 +98,12 @@ public class UserController {
     }
 
     @JsonView(Views.Profile.class)
-    @GetMapping("/approve/update/{platoonId}")
-    @PreAuthorize("hasRole('ADMIN')")
-    @ApiOperation(value = "Get tempUsers for approve (for platoon admin)")
-    public ResponseResult getTempUsersToApprove(@PathVariable("platoonId") Long id) {
-        try {
-            return ResponseBuilder.success(userService.getTempUsersByPlatoon(id));
-        } catch (EntryAlreadyExistsException e) {
-            return ResponseBuilder.fail(e.getMessage());
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error get temp users");
-        }
-    }
-
-    @JsonView(Views.Profile.class)
     @GetMapping("/approve/update")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
-    @ApiOperation(value = "Get tempUsers for approve (for super admin)")
-    public ResponseResult getTempUserToApprove() {
+    @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
+    @ApiOperation(value = "Get tempUsers for approve update(for platoon admins and super admin)")
+    public ResponseResult getTempUsersToApproveUpdate() {
         try {
-            return ResponseBuilder.success(userService.getTempUsers());
+            return ResponseBuilder.success(userService.getTempUsersForUpdate());
         } catch (EntryAlreadyExistsException e) {
             return ResponseBuilder.fail(e.getMessage());
         } catch (Exception e) {
