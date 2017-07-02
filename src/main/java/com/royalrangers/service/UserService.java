@@ -232,12 +232,16 @@ public class UserService {
         return userRepository.findOne(id);
     }
 
-    public List<TempUser> getTempUsersByPlatoon(Long platoonId) {
-        return tempUserRepository.findByPlatoonId(platoonId);
-    }
-
-    public List<TempUser> getTempUsers() {
-        return tempUserRepository.findAll();
+    public List<TempUser> getTempUsersForUpdate() {
+        User user = userRepository.findOne(getAuthenticatedUserId());
+        Set<Authority> roles = user.getAuthorities();
+        if (roles.contains(ROLE_SUPER_ADMIN))
+            return tempUserRepository.findAll();
+        else if (roles.contains(ROLE_ADMIN)) {
+            Long platoonId = user.getPlatoon().getId();
+            return tempUserRepository.findByPlatoonId(platoonId);
+        } else
+            return Collections.emptyList();
     }
 
     public TempUser getTempUser() {
