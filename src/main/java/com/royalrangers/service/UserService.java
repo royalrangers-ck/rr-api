@@ -172,9 +172,9 @@ public class UserService {
     public List<User> getUsersForApprove() {
         User user = userRepository.findOne(getAuthenticatedUserId());
         Set<Authority> roles = user.getAuthorities();
-        if (roles.contains(ROLE_SUPER_ADMIN))
+        if (roles.size() == 3)
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-        else if (roles.contains(ROLE_ADMIN)) {
+        else if (roles.size() == 2) {
             Long platoonId = user.getPlatoon().getId();
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
         } else
@@ -235,9 +235,9 @@ public class UserService {
     public List<TempUser> getTempUsersForUpdate() {
         User user = userRepository.findOne(getAuthenticatedUserId());
         Set<Authority> roles = user.getAuthorities();
-        if (roles.contains(ROLE_SUPER_ADMIN))
+        if (roles.size() == 3)
             return tempUserRepository.findAll();
-        else if (roles.contains(ROLE_ADMIN)) {
+        else if (roles.size() == 2) {
             Long platoonId = user.getPlatoon().getId();
             return tempUserRepository.findByPlatoonId(platoonId);
         } else
@@ -395,7 +395,7 @@ public class UserService {
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
                 .filter(element -> user.getAuthorities()
-                        .contains(ROLE_ADMIN))
+                        .size() == 2)
                 .findFirst();
         if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);
