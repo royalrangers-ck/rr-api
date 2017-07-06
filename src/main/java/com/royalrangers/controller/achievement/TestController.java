@@ -8,12 +8,17 @@ import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.model.Views;
+import com.royalrangers.model.achievement.Test;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +36,28 @@ public class TestController {
     private DropboxService dropboxService;
 
     @GetMapping
+    @ApiOperation(value = "Get list of tests with pagination")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", dataType = "integer", paramType = "query",
+                    value = "The page number that you want to receive. (0..N)"),
+            @ApiImplicitParam(name = "size", dataType = "integer", paramType = "query",
+                    value = "Number of records per page."),
+            @ApiImplicitParam(name = "sort", allowMultiple = true, dataType = "string", paramType = "query",
+                    value = "Sorting criteria in the format: property(,asc|desc). " +
+                            "Default sort order is ascending. " +
+                            "Multiple sort criteria are supported.")
+    })
+    @JsonView(Views.Achievement.class)
+    public ResponseResult getAllTest(Pageable pageable) {
+        try {
+            return ResponseBuilder.success(testService.getAllTestPaged(pageable));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseBuilder.fail("Failed get Tests");
+        }
+    }
+
+    @GetMapping("/all")
     @ApiOperation(value = "Get list of all tests")
     @JsonView(Views.Achievement.class)
     public ResponseResult getAllTest() {
