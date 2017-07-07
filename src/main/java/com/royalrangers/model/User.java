@@ -34,10 +34,7 @@ public class User extends BaseUser {
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private Set<Authority> authorities;
 
-    public boolean isUserHasRole(AuthorityName authorityName){
-        return this.authorities.stream().filter(
-                authority -> authority.isHasThisRole(authorityName))
-                .anyMatch(authority -> true);
+    public boolean hasRole(AuthorityName authorityName){
+        return this.authorities.stream().anyMatch(authority -> authority.equals(authorityName));
     }
-
 }

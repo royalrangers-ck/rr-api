@@ -32,6 +32,9 @@ import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static com.royalrangers.enums.AuthorityName.ROLE_ADMIN;
+import static com.royalrangers.enums.AuthorityName.ROLE_USER;
+
 @Slf4j
 @Component
 public class Bootstrap {
@@ -126,9 +129,16 @@ public class Bootstrap {
                 UserRegistrationDto userDto = reader.read(UserRegistrationDto.class);
                 if (userDto == null) break;
                 User user = userService.createUser(userDto);
-                user.setEnabled(true);
-                user.setConfirmed(true);
-                user.setApproved(true);
+                System.out.println(user.hasRole(ROLE_ADMIN));
+                if (user.hasRole(ROLE_ADMIN)) {
+                    user.setEnabled(true);
+                    user.setConfirmed(true);
+                    user.setApproved(true);
+                } else {
+                    user.setEnabled(false);
+                    user.setConfirmed(true);
+                    user.setApproved(false);
+                }
                 user.setLastPasswordResetDate(new Date(new GregorianCalendar(
                         2017, Calendar.FEBRUARY, 9)
                         .getTimeInMillis()));
@@ -160,7 +170,7 @@ public class Bootstrap {
 
     private void initAuthorities() {
         Authority userAuthority = new Authority();
-        userAuthority.setName(AuthorityName.ROLE_USER);
+        userAuthority.setName(ROLE_USER);
         authorityRepository.save(userAuthority);
 
         Authority adminAuthority = new Authority();

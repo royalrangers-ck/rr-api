@@ -17,7 +17,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -171,9 +170,9 @@ public class UserService {
 
     public List<User> getUsersForApprove() {
         User user = userRepository.findOne(getAuthenticatedUserId());
-        if (user.isUserHasRole(ROLE_SUPER_ADMIN))
+        if (user.hasRole(ROLE_SUPER_ADMIN))
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-        else if (user.isUserHasRole(ROLE_ADMIN)) {
+        else if (user.hasRole(ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
         } else
@@ -233,9 +232,9 @@ public class UserService {
 
     public List<TempUser> getTempUsersForUpdate() {
         User user = userRepository.findOne(getAuthenticatedUserId());
-        if (user.isUserHasRole(ROLE_SUPER_ADMIN))
+        if (user.hasRole(ROLE_SUPER_ADMIN))
             return tempUserRepository.findAll();
-        else if (user.isUserHasRole(ROLE_ADMIN)) {
+        else if (user.hasRole(ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return tempUserRepository.findByPlatoonId(platoonId);
         } else
@@ -392,7 +391,7 @@ public class UserService {
         Long platoonId = user.getPlatoon().getId();
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
-                .filter(element -> user.isUserHasRole(ROLE_ADMIN))
+                .filter(element -> user.hasRole(ROLE_ADMIN))
                 .findFirst();
         if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);

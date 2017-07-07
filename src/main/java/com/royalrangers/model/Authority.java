@@ -20,7 +20,7 @@ public class Authority extends BaseModel {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authorities", fetch = FetchType.LAZY)
     private Set<User> users;
 
-    public boolean isHasThisRole(AuthorityName authorityName){
+    boolean equals (AuthorityName authorityName){
         return this.name == authorityName;
     }
 }
