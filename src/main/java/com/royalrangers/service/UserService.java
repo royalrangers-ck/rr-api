@@ -88,6 +88,12 @@ public class UserService {
         user.setAuthorities(authoritySet);
     }
 
+    public boolean isUserHasRole(User user, AuthorityName authorityName){
+        return user.getAuthorities().stream().filter(
+                authority -> authority.isHasThisRole(authorityName))
+                .anyMatch(authority -> true);
+    }
+
     public User createUser(UserRegistrationDto userDto) {
         User user = new User();
         user.setCreateDate(new Date());
@@ -172,9 +178,9 @@ public class UserService {
     public List<User> getUsersForApprove() {
         User user = userRepository.findOne(getAuthenticatedUserId());
         Set<Authority> roles = user.getAuthorities();
-        if (roles.size() == 3)
+        if (isUserHasRole(user, ROLE_SUPER_ADMIN))
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-        else if (roles.size() == 2) {
+        else if (isUserHasRole(user, ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
         } else
@@ -235,9 +241,9 @@ public class UserService {
     public List<TempUser> getTempUsersForUpdate() {
         User user = userRepository.findOne(getAuthenticatedUserId());
         Set<Authority> roles = user.getAuthorities();
-        if (roles.size() == 3)
+        if (isUserHasRole(user, ROLE_SUPER_ADMIN))
             return tempUserRepository.findAll();
-        else if (roles.size() == 2) {
+        else if (isUserHasRole(user, ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return tempUserRepository.findByPlatoonId(platoonId);
         } else
@@ -394,8 +400,7 @@ public class UserService {
         Long platoonId = user.getPlatoon().getId();
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
         Optional<User> admin = usersByPlatoon.stream()
-                .filter(element -> user.getAuthorities()
-                        .size() == 2)
+                .filter(element -> user.getAuthorities().size() == 2)
                 .findFirst();
         if (!admin.isPresent())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);
