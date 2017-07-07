@@ -1,6 +1,7 @@
 package com.royalrangers.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.enums.AuthorityName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,5 +33,11 @@ public class User extends BaseUser {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private Set<Authority> authorities;
+
+    public boolean isUserHasRole(AuthorityName authorityName){
+        return this.authorities.stream().filter(
+                authority -> authority.isHasThisRole(authorityName))
+                .anyMatch(authority -> true);
+    }
 
 }
