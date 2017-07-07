@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.royalrangers.enums.AuthorityName.*;
 
@@ -383,19 +384,18 @@ public class UserService {
     public void confirmUser(VerificationToken verificationToken) {
         User user = verificationToken.getUser();
         user.setConfirmed(true);
-        emailService.sendEmail(getPlatoonAdmin(user), "New user needs approve", "newuserforapprove.inline.html", "");
+        getPlatoonAdminsList(user).forEach(admin -> emailService.sendEmail(admin,"New user needs approve", "newuserforapprove.inline.html", ""));
         userRepository.save(user);
     }
 
-    private User getPlatoonAdmin(User user) {
+    private List<User> getPlatoonAdminsList(User user) {
         Long platoonId = user.getPlatoon().getId();
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
-        Optional<User> admin = usersByPlatoon.stream()
-                .filter(element -> user.hasRole(ROLE_ADMIN))
-                .findFirst();
-        if (!admin.isPresent())
+        List<User> adminList = usersByPlatoon.stream().filter(element -> user.hasRole(ROLE_ADMIN))
+                .collect(Collectors.toList());
+        if (adminList.isEmpty())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);
-        return admin.get();
+        return adminList;
     }
 
     public void resendConfirmation(String email) throws UserRepositoryException, UnknownHostException {
