@@ -3,12 +3,10 @@ package com.royalrangers.controller.achievement;
 import com.dropbox.core.DbxException;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.achievement.TestAgeGroupDto;
 import com.royalrangers.dto.achievement.TestRequestDto;
 import com.royalrangers.enums.ImageType;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.model.Views;
-import com.royalrangers.model.achievement.Test;
 import com.royalrangers.service.DropboxService;
 import com.royalrangers.service.achievement.TestService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -17,7 +15,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,7 +47,7 @@ public class TestController {
     @JsonView(Views.Achievement.class)
     public ResponseResult getAllTest(Pageable pageable) {
         try {
-            return ResponseBuilder.success(testService.getAllTestPaged(pageable));
+            return ResponseBuilder.success(testService.getAllTest(pageable));
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get Tests");

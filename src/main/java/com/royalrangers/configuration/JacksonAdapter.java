@@ -25,7 +25,6 @@ public class JacksonAdapter extends WebMvcConfigurerAdapter {
                 .failOnUnknownProperties(false)
                 .serializationInclusion(Include.NON_EMPTY)
                 .serializerByType(Page.class, new JsonPageSerializer());
-
     }
 
     public class JsonPageSerializer extends JsonSerializer<Page> {

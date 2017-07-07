@@ -7,7 +7,6 @@ import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.TestType;
 import com.royalrangers.model.achievement.Test;
 import com.royalrangers.repository.achievement.TestRepository;
-import com.royalrangers.repository.achievement.TestRepositoryPaged;
 import com.royalrangers.service.DropboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,8 +22,6 @@ public class TestService {
 
     @Autowired
     private TestRepository testRepository;
-    @Autowired
-    private TestRepositoryPaged testRepositoryPaged;
 
     @Autowired
     private DropboxService dropboxService;
@@ -33,8 +30,8 @@ public class TestService {
         return testRepository.findAll();
     }
 
-    public Page<Test> getAllTestPaged(Pageable pageable) {
-        return testRepositoryPaged.findAll(pageable);
+    public Page<Test> getAllTest(Pageable pageable) {
+        return testRepository.findAll(pageable);
     }
 
     public List<Test> getAllTestByUserAgeGroup(UserAgeGroup userAgeGroup) {
