@@ -1,0 +1,92 @@
+server:
+  context-path: /api
+---
+spring:
+    application:
+        name: royal-rangers
+    profiles:
+        active: dev
+    main:
+        banner-mode: "off"
+    jpa:
+        show_sql: false
+        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+        database: MYSQL
+    mvc:
+        favicon:
+            enabled: false
+---
+spring:
+    profiles: dev
+    datasource:
+        url: jdbc:mysql://database:3306/royalrangers?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        password: root
+        test-on-borrow: true
+        validation-query: SELECT 1
+        test-while-idle: true
+    jpa:
+        hibernate:
+            ddl-auto: none
+    resources:
+        chain:
+            cache: false
+    http:
+        multipart:
+            max-file-size: 1MB
+            max-request-size: 1MB
+---
+spring:
+    profiles: prod
+    datasource:
+        url:
+        username:
+        password:
+        validation-query: SELECT 1
+        test-while-idle: true
+    jpa:
+        hibernate:
+            ddl-auto: none
+    resources:
+        chain:
+            cache: true
+---
+jwt:
+  header: Authorization
+  secret: s3kr3t
+  expiration: 604800
+---
+dropbox:
+    appName: RoyalRanger
+    accessToken: DFoAZto0iaAAAAAAAAAACfPm4YmwBUR7cCcP9_KsZwQLyVjOMA_1NksW30T7RXLW
+    avatarPrefix: /avatar/
+    platoonLogoPrefix: /platoon/logo/
+    achievementTestLogoPrefix: /achievement/test/logo/
+    achievementQuarterLogoPrefix: /achievement/quarter/logo/
+    achievementYearLogoPrefix: /achievement/year/logo/
+    achievementThreeYearLogoPrefix: /achievement/threeYear/logo/
+    achievementTwelveYearLogoPrefix: /achievement/twelveYear/logo/
+    achievementRewardLogoPrefix: /achievement/reward/logo/
+---
+springfox:
+    documentation:
+        swagger:
+            v2:
+                path: /docs
+                title: Royal Rangers
+                description: API for Royal Rangers application
+                termsOfServiceUrl: http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open
+                license: Apache License Version 2.0
+                licenseUrl: https://github.com/royalrangers-ck/rr-api/blob/develop/LICENSE
+                contactName: RoyalRangers team
+                contactUrl: https://github.com/royalrangers-ck
+                contactEmail: royalrangers.ck@gmail.com
+---
+mail-sender:
+    mailhost: smtp.gmail.com
+    mailport: 587
+    mailusername: royal.rangers.test@gmail.com
+    mailpassword: RoyalRangers
+---
+application:
+    host: royalrangers.online

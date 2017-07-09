@@ -1,0 +1,7 @@
+# Foulders
+.idea/
+.gradle/
+build/
+
+# Files
+*.iml
