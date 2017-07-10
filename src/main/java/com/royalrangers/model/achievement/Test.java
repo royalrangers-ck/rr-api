@@ -50,4 +50,9 @@ public class Test extends BaseModel {
     @JoinColumn(name = "quarterAchievement_id", nullable = true)
     private QuarterAchievement quarterAchievement;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "yearAchievement_id")
+    private YearAchievement year;
+
 }

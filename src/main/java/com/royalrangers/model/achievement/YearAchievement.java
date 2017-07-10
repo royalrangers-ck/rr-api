@@ -16,6 +16,9 @@ public class YearAchievement extends Achievement {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "yearAchievement")
     private List<QuarterAchievement> quarterAchievement;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "year")
+    private List<Test> additionalTests;
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "threeYearAchievement_id")

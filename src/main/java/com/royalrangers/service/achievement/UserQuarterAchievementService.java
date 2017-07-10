@@ -1,9 +1,15 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.dto.achievement.UserQuarterAchievementDto;
+import com.royalrangers.dto.achievement.UserTestRequestDto;
 import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.AchievementState;
+import com.royalrangers.model.User;
+import com.royalrangers.model.achievement.QuarterAchievement;
+import com.royalrangers.model.achievement.Test;
 import com.royalrangers.model.achievement.UserQuarterAchievement;
+import com.royalrangers.model.achievement.UserTest;
 import com.royalrangers.repository.achievement.UserQuarterAchievementRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class UserQuarterAchievementService {
@@ -22,25 +29,25 @@ public class UserQuarterAchievementService {
     private UserService userService;
 
     @Autowired
+    private TestService testService;
+
+    @Autowired
+    private UserTestService userTestService;
+
+    @Autowired
     private QuarterAchievementService quarterAchievementService;
 
     public List<UserQuarterAchievement> findAllForUser() {
         return userQuarterAchievementRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserQuarterAchievement(UserAgeGroup userAgeGroup) {
+    public void addUserQuarterAchievement(QuarterAchievement quarterAchievement, User user) {
         UserQuarterAchievement savedUserAchievement = new UserQuarterAchievement();
-        savedUserAchievement.setUserAgeGroup(userAgeGroup);
-        savedUserAchievement.setAchievementState(AchievementState.IN_PROGRESS);
-        savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer quarterId;
-        if (findAllForUser().size() == 0) {
-            quarterId = 1;
-        } else {
-            quarterId = findAllForUser().size() + 1;
-        }
-        savedUserAchievement.setQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId.longValue()));
-        savedUserAchievement.getQuarterAchievement().setUserAgeGroup(userAgeGroup);
+        savedUserAchievement.setUserAgeGroup(quarterAchievement.getUserAgeGroup());
+        savedUserAchievement.setAchievementState(AchievementState.NOT_STARTED);
+        savedUserAchievement.setUser(user);
+        savedUserAchievement.setQuarterAchievement(quarterAchievement);
+        savedUserAchievement.setUserAgeGroup(quarterAchievement.getUserAgeGroup());
         userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
@@ -66,11 +73,39 @@ public class UserQuarterAchievementService {
         return userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
     }
 
-    public void autoEditQuarterAchievement(AchievementState achievementState, UserAgeGroup userAgeGroup) {
-        List<UserQuarterAchievement> userQuarterAchievementList = userQuarterAchievementRepository.findByUserAgeGroup(userAgeGroup);
-        UserQuarterAchievement savedUserAchievement = userQuarterAchievementList.get(userQuarterAchievementList.size() - 1);
-        savedUserAchievement.setUpdateDate(new Date());
-        savedUserAchievement.setAchievementState(achievementState);
-        userQuarterAchievementRepository.saveAndFlush(savedUserAchievement);
+    public void addQuarterForSectionUsers(UserQuarterAchievementDto userQuarterAchievementDto) {
+        List<User> usersFromSection = userService.getUsersBySectionId(userQuarterAchievementDto.getSectionId());
+        UserQuarterAchievement userQuarter;
+        if (usersFromSection.size() != 0) {
+            Stream.of(usersFromSection.toArray()).forEach(userElement -> {
+                User user = (User) userElement;
+                UserQuarterAchievement userQuarterAchievement = checkUserQuarter(user, userQuarterAchievementDto.getQuarterId());
+                Stream.of(userQuarterAchievementDto.getTestIds().toArray()).forEach(testId -> {
+                    Test test = testService.getTestById((Long) testId);
+                    checkUserTest(test, user, userQuarterAchievement);
+                });
+            });
+        }
     }
+
+    private UserQuarterAchievement checkUserQuarter(User user, Long quarterId){
+        UserQuarterAchievement userQuarterAchievement = userQuarterAchievementRepository.findByUserIdAndQuarterAchievementId(user.getId(), quarterId);
+        if (userQuarterAchievement == null){
+            addUserQuarterAchievement(quarterAchievementService.getQuarterAchievementById(quarterId), user);
+        }
+        return userQuarterAchievement;
+    }
+
+    private void checkUserTest(Test test, User user, UserQuarterAchievement userQuarterAchievement){
+        UserTest userTest = userTestService.getUserTestByUserIdAndTestId(user.getId(), test.getId());
+        if (userTest != null){
+            userTest.setUserQuarterAchievement(userQuarterAchievement);
+        } else {
+            UserTestRequestDto userTestRequestDto = new UserTestRequestDto();
+            userTestRequestDto.setTestId(test.getId());
+            userTestRequestDto.setUserId(user.getId());
+            userTestService.addUserTest(userTestRequestDto);
+        }
+    }
+
 }

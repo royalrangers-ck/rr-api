@@ -3,6 +3,7 @@ package com.royalrangers.controller.achievement;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.dto.achievement.UserYearAchievementDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserYearAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -33,10 +34,11 @@ public class UserYearAchievementController {
 
     @PostMapping
     @ApiOperation(value = "Add the year achievement for current user")
-    public ResponseResult addUserYearAchievement(@RequestBody UserAchievementRequestDto params) {
+    public ResponseResult addUserYearAchievement(@RequestBody UserYearAchievementDto params) {
         try {
-            log.info("Add UserYearAchievement " + params.getId());
-            return ResponseBuilder.success(userYearAchievementService.addUserYearAchievement(params));
+            log.info("Add UserYearAchievement " + params.getYearId());
+            userYearAchievementService.addYearForSectionUsers(params);
+            return ResponseBuilder.success("UserYearAchievement was success added");
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed add userAchievement");

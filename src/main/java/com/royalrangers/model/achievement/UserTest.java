@@ -22,4 +22,9 @@ public class UserTest extends UserAchievement {
     @JoinColumn(name = "userQuarterAchievement_id", nullable = true)
     private UserQuarterAchievement userQuarterAchievement;
 
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userYearAchievement_id", nullable = true)
+    private UserYearAchievement userYearAchievement;
+
 }

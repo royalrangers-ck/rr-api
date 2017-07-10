@@ -15,4 +15,5 @@ public interface UserQuarterAchievementRepository extends JpaRepository<UserQuar
     List<UserQuarterAchievement> findByUserPlatoonIdAndAchievementState(Long id, AchievementState state);
 
     public List<UserQuarterAchievement> findByUserAgeGroup(UserAgeGroup userAgeGroup);
+    UserQuarterAchievement findByUserIdAndQuarterAchievementId(Long userId, Long quarterId);
 }

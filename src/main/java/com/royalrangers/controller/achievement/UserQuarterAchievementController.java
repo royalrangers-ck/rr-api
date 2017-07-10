@@ -3,6 +3,7 @@ package com.royalrangers.controller.achievement;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.dto.ResponseResult;
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.dto.achievement.UserQuarterAchievementDto;
 import com.royalrangers.model.Views;
 import com.royalrangers.service.achievement.UserQuarterAchievementService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -25,6 +26,19 @@ public class UserQuarterAchievementController {
     public ResponseResult getAllUserQuarterAchievement() {
         try {
             return ResponseBuilder.success(userQuarterAchievementService.findAllForUser());
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return ResponseBuilder.fail("Failed get all UserQuarterAchievement");
+        }
+    }
+
+    @JsonView(Views.Public.class)
+    @PostMapping
+    @ApiOperation(value = "Add new userQuarter achievement for users from current section")
+    public ResponseResult addUserQuarter(@RequestBody UserQuarterAchievementDto userQuarterAchievementDto) {
+        try {
+            userQuarterAchievementService.addQuarterForSectionUsers(userQuarterAchievementDto);
+            return ResponseBuilder.success("UserQuarterAchievement was success added");
         } catch (Exception ex) {
             log.error(ex.getMessage());
             return ResponseBuilder.fail("Failed get all UserQuarterAchievement");
