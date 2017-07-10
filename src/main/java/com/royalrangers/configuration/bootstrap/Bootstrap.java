@@ -32,7 +32,6 @@ import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static com.royalrangers.enums.AuthorityName.ROLE_ADMIN;
 import static com.royalrangers.enums.AuthorityName.ROLE_USER;
 
 @Slf4j
@@ -74,9 +73,9 @@ public class Bootstrap {
     @Autowired
     private QuarterAchievementRepository quarterAchievementRepository;
 
-    public YearAchievementBootstrap yearAchievementBootstrap = new YearAchievementBootstrap();
-    public QuarterAchievementBootstrap quarterAchievementBootstrap = new QuarterAchievementBootstrap();
-    public AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
+    private YearAchievementBootstrap yearAchievementBootstrap = new YearAchievementBootstrap();
+    private QuarterAchievementBootstrap quarterAchievementBootstrap = new QuarterAchievementBootstrap();
+    private AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
 
     TestBootstrap testBootstrap = new TestBootstrap();
 
@@ -129,16 +128,9 @@ public class Bootstrap {
                 UserRegistrationDto userDto = reader.read(UserRegistrationDto.class);
                 if (userDto == null) break;
                 User user = userService.createUser(userDto);
-                System.out.println(user.hasRole(ROLE_ADMIN));
-                if (user.hasRole(ROLE_ADMIN)) {
-                    user.setEnabled(true);
-                    user.setConfirmed(true);
-                    user.setApproved(true);
-                } else {
-                    user.setEnabled(false);
-                    user.setConfirmed(true);
-                    user.setApproved(false);
-                }
+                user.setEnabled(true);
+                user.setConfirmed(true);
+                user.setApproved(true);
                 user.setLastPasswordResetDate(new Date(new GregorianCalendar(
                         2017, Calendar.FEBRUARY, 9)
                         .getTimeInMillis()));
@@ -257,14 +249,14 @@ public class Bootstrap {
         initTest();
     }
 
-    public void initTest() {
+    private void initTest() {
         Stream.of(testBootstrap.createTest().toArray()).forEach(test -> {
             testRepository.saveAndFlush((Test) test);
         });
         initTask();
     }
 
-    public void initTask() {
+    private void initTask() {
         IntStream.range(1, testService.getAllTest().size()).forEach(testId -> {
             Test test = testService.getTestById((long) testId);
             Map<Integer, Object> map = taskBootstrap.createTask();
