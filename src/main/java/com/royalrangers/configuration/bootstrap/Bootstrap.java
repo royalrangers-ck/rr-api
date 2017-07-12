@@ -32,6 +32,8 @@ import java.util.*;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static com.royalrangers.enums.AuthorityName.ROLE_USER;
+
 @Slf4j
 @Component
 public class Bootstrap {
@@ -71,9 +73,9 @@ public class Bootstrap {
     @Autowired
     private QuarterAchievementRepository quarterAchievementRepository;
 
-    public YearAchievementBootstrap yearAchievementBootstrap = new YearAchievementBootstrap();
-    public QuarterAchievementBootstrap quarterAchievementBootstrap = new QuarterAchievementBootstrap();
-    public AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
+    private YearAchievementBootstrap yearAchievementBootstrap = new YearAchievementBootstrap();
+    private QuarterAchievementBootstrap quarterAchievementBootstrap = new QuarterAchievementBootstrap();
+    private AchievementBootstrap achievementBootstrap = new AchievementBootstrap();
 
     TestBootstrap testBootstrap = new TestBootstrap();
 
@@ -160,7 +162,7 @@ public class Bootstrap {
 
     private void initAuthorities() {
         Authority userAuthority = new Authority();
-        userAuthority.setName(AuthorityName.ROLE_USER);
+        userAuthority.setName(ROLE_USER);
         authorityRepository.save(userAuthority);
 
         Authority adminAuthority = new Authority();
@@ -247,14 +249,14 @@ public class Bootstrap {
         initTest();
     }
 
-    public void initTest() {
+    private void initTest() {
         Stream.of(testBootstrap.createTest().toArray()).forEach(test -> {
             testRepository.saveAndFlush((Test) test);
         });
         initTask();
     }
 
-    public void initTask() {
+    private void initTask() {
         IntStream.range(1, testService.getAllTest().size()).forEach(testId -> {
             Test test = testService.getTestById((long) testId);
             Map<Integer, Object> map = taskBootstrap.createTask();

@@ -19,4 +19,8 @@ public class Authority extends BaseModel {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authorities", fetch = FetchType.LAZY)
     private Set<User> users;
+
+    boolean equals (AuthorityName authorityName){
+        return this.name == authorityName;
+    }
 }
