@@ -9,6 +9,8 @@ import com.royalrangers.model.achievement.Test;
 import com.royalrangers.repository.achievement.TestRepository;
 import com.royalrangers.service.DropboxService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -26,6 +28,10 @@ public class TestService {
 
     public List<Test> getAllTest() {
         return testRepository.findAll();
+    }
+
+    public Page<Test> getAllTest(Pageable pageable) {
+        return testRepository.findAll(pageable);
     }
 
     public List<Test> getAllTestByUserAgeGroup(UserAgeGroup userAgeGroup) {
