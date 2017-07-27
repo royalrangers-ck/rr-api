@@ -1,8 +1,6 @@
 package com.royalrangers.service.achievement;
 
 import com.royalrangers.dto.achievement.UserAchievementRequestDto;
-import com.royalrangers.dto.achievement.UserTestRequestDto;
-import com.royalrangers.dto.achievement.UserYearAchievementDto;
 import com.royalrangers.enums.achivement.AchievementState;
 import com.royalrangers.model.User;
 import com.royalrangers.model.achievement.*;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class UserYearAchievementService {
@@ -65,41 +62,6 @@ public class UserYearAchievementService {
         Integer yearId = params.getId();
         savedUserAchievement.setYearAchievement(yearAchievementService.getYearAchievementById(yearId.longValue()));
         return userYearAchievementRepository.saveAndFlush(savedUserAchievement);
-    }
-
-    public void addYearForSectionUsers(UserYearAchievementDto userYearAchievementDto) {
-        List<User> usersFromSection = userService.getUsersBySectionId(userYearAchievementDto.getSectionId());
-        if (usersFromSection.size() != 0) {
-            Stream.of(usersFromSection.toArray()).forEach(userElement -> {
-                User user = (User) userElement;
-                UserYearAchievement userYearAchievement = checkUserYear(user, userYearAchievementDto.getYearId());
-                Stream.of(userYearAchievementDto.getAdditionalTestIds().toArray()).forEach(testId -> {
-                    Test test = testService.getTestById((Long) testId);
-                    checkUserTest(test, user, userYearAchievement);
-                });
-            });
-        }
-    }
-
-    private UserYearAchievement checkUserYear(User user, Long yearId) {
-        UserYearAchievement userQuarterAchievement = userYearAchievementRepository.findByUserIdAndYearAchievementId(user.getId(), yearId);
-        if (userQuarterAchievement == null) {
-            addUserYearAchievement(yearAchievementService.getYearAchievementById(yearId), user);
-        }
-        return userQuarterAchievement;
-    }
-
-    private void checkUserTest(Test test, User user, UserYearAchievement userYearAchievement) {
-        UserTest userTest = userTestService.getUserTestByUserIdAndTestId(user.getId(), test.getId());
-        if (userTest != null) {
-            userTest.setUserYearAchievement(userYearAchievement);
-        } else {
-            UserTestRequestDto userTestRequestDto = new UserTestRequestDto();
-            userTestRequestDto.setTestId(test.getId());
-            userTestRequestDto.setUserId(user.getId());
-            UserTest savedUserTest = userTestService.addUserTest(userTestRequestDto);
-            savedUserTest.setUserYearAchievement(userYearAchievement);
-        }
     }
 
 }

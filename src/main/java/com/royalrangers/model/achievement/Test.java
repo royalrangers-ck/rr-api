@@ -55,4 +55,12 @@ public class Test extends BaseModel {
     @JoinColumn(name = "yearAchievement_id")
     private YearAchievement year;
 
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "tests", fetch = FetchType.LAZY)
+    private List<RoadMapQuarterAchievement> roadMapQuarterAchievement;
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "tests", fetch = FetchType.LAZY)
+    private List<RoadMapYearAchievement> roadMapYearAchievement;
+
 }

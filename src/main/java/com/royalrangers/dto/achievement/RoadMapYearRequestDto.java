@@ -7,8 +7,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UserQuarterAchievementDto {
-    private Long quarterId;
+public class RoadMapYearRequestDto {
     private Long sectionId;
+    private Long yearId;
     private List<Long> testIds;
 }
