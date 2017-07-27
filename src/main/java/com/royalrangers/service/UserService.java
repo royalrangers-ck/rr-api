@@ -17,13 +17,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.net.UnknownHostException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.royalrangers.enums.AuthorityName.*;
 
@@ -171,10 +171,9 @@ public class UserService {
 
     public List<User> getUsersForApprove() {
         User user = userRepository.findOne(getAuthenticatedUserId());
-        Set<Authority> roles = user.getAuthorities();
-        if (roles.contains(ROLE_SUPER_ADMIN))
+        if (user.hasRole(ROLE_SUPER_ADMIN))
             return userRepository.findAllByConfirmedTrueAndApprovedFalse();
-        else if (roles.contains(ROLE_ADMIN)) {
+        else if (user.hasRole(ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return userRepository.findAllByConfirmedTrueAndApprovedFalseAndPlatoonId(platoonId);
         } else
@@ -234,10 +233,9 @@ public class UserService {
 
     public List<TempUser> getTempUsersForUpdate() {
         User user = userRepository.findOne(getAuthenticatedUserId());
-        Set<Authority> roles = user.getAuthorities();
-        if (roles.contains(ROLE_SUPER_ADMIN))
+        if (user.hasRole(ROLE_SUPER_ADMIN))
             return tempUserRepository.findAll();
-        else if (roles.contains(ROLE_ADMIN)) {
+        else if (user.hasRole(ROLE_ADMIN)) {
             Long platoonId = user.getPlatoon().getId();
             return tempUserRepository.findByPlatoonId(platoonId);
         } else
@@ -386,21 +384,18 @@ public class UserService {
     public void confirmUser(VerificationToken verificationToken) {
         User user = verificationToken.getUser();
         user.setConfirmed(true);
-        emailService.sendEmail(getPlatoonAdmin(user), "New user needs approve", "newuserforapprove.inline.html", "");
+        getPlatoonAdminsList(user).forEach(admin -> emailService.sendEmail(admin,"New user needs approve", "newuserforapprove.inline.html", ""));
         userRepository.save(user);
     }
 
-    private User getPlatoonAdmin(User user) {
+    private List<User> getPlatoonAdminsList(User user) {
         Long platoonId = user.getPlatoon().getId();
         List<User> usersByPlatoon = userRepository.findAllByPlatoonId(platoonId);
-        Optional<User> admin = usersByPlatoon.stream()
-                .filter(element -> user.getAuthorities()
-                        .contains(ROLE_ADMIN))
-                .findFirst();
-        if (!admin.isPresent())
+        List<User> adminList = usersByPlatoon.stream().filter(element -> user.hasRole(ROLE_ADMIN))
+                .collect(Collectors.toList());
+        if (adminList.isEmpty())
             throw new UserRepositoryException("Admin not found in platoon " + platoonId);
-
-        return admin.get();
+        return adminList;
     }
 
     public void resendConfirmation(String email) throws UserRepositoryException, UnknownHostException {
