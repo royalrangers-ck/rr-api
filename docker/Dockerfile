@@ -33,4 +33,4 @@ RUN gradle clean build
 EXPOSE 8080
 
 # Serve the app
-ENTRYPOINT java -jar ./build/libs/${JAR_NAME} && /bin/bash
+ENTRYPOINT java -jar -Dspring.profiles.active=prod ./build/libs/${JAR_NAME} && /bin/bash
