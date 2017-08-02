@@ -1,24 +1,19 @@
 package com.royalrangers.model.achievement;
 
-import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.BaseModel;
-import com.royalrangers.model.User;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.model.Views;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 @Getter
 @Setter
 @Entity
-public class UserTask extends BaseModel {
+public class UserTask extends UserAchievement {
 
-    @Enumerated
-    private AchievementState achievementState;
-
-    @OneToOne
-    private User user;
-
+    @JsonView(Views.Achievement.class)
     @OneToOne
     private Task task;
 

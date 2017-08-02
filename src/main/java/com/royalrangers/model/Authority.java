@@ -1,5 +1,6 @@
 package com.royalrangers.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.enums.AuthorityName;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,9 +13,14 @@ import java.util.Set;
 @Entity
 public class Authority extends BaseModel {
 
+    @JsonView(Views.Profile.class)
     @Enumerated(EnumType.STRING)
     private AuthorityName name;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "authorities", fetch = FetchType.LAZY)
     private Set<User> users;
+
+    boolean equals (AuthorityName authorityName){
+        return this.name == authorityName;
+    }
 }

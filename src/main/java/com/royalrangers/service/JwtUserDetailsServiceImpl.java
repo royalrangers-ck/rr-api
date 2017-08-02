@@ -20,7 +20,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with email '%s'.", email));
+            throw new UsernameNotFoundException("User with email " + email + " not found.");
         } else {
             return JwtUserFactory.create(user);
         }

@@ -1,8 +1,7 @@
 package com.royalrangers.model.achievement;
 
-import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.BaseModel;
-import com.royalrangers.model.User;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.model.Views;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +10,10 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class UserThreeYearAchievement extends BaseModel {
+public class UserThreeYearAchievement extends UserAchievement {
 
-    @Enumerated
-    private AchievementState achievementState;
-
-    @OneToOne
-    private User user;
-
+    @JsonView(Views.Achievement.class)
     @OneToOne
     private ThreeYearAchievement threeYearAchievement;
+
 }

@@ -1,8 +1,8 @@
 package com.royalrangers.model.achievement;
 
-import com.royalrangers.enums.achivement.AchievementState;
-import com.royalrangers.model.BaseModel;
-import com.royalrangers.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.model.Views;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,14 +11,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class UserTest extends BaseModel {
+public class UserTest extends UserAchievement {
 
-    @Enumerated
-    private AchievementState achievementState;
-
-    @OneToOne
-    private User user;
-
+    @JsonView(Views.Achievement.class)
     @OneToOne
     private Test test;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userQuarterAchievement_id", nullable = true)
+    private UserQuarterAchievement userQuarterAchievement;
+
 }

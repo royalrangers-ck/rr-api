@@ -1,7 +1,8 @@
 package com.royalrangers.enums.achivement;
 
 public enum RewardMark {
-    /*0*/ GOLD,
-    /*1*/ BRONZE,
-    /*2*/ SILVER
+    /*0*/ DEFAULT,
+    /*1*/ GOLD,
+    /*2*/ BRONZE,
+    /*3*/ SILVER
 }

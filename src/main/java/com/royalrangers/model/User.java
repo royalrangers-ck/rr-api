@@ -1,7 +1,7 @@
 package com.royalrangers.model;
 
-import com.royalrangers.enums.UserAgeGroup;
-import com.royalrangers.enums.UserRank;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.enums.AuthorityName;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,50 +12,29 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class User extends BaseModel {
+public class User extends BaseUser {
 
-    private String email;
     private String password;
-    private String firstName;
-    private String lastName;
-    private String gender;
-    private String telephoneNumber;
-    private Long birthDate;
     private Boolean enabled;
     private Boolean confirmed;
     private Boolean approved;
-    private UserAgeGroup userAgeGroup;
-    private UserRank userRank;
+    private Boolean rejected;
+
+    @JsonView(Views.Achievement.class)
     private String avatarUrl;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastPasswordResetDate;
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "country_id")
-    private Country country;
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "city_id")
-    private City city;
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "group_id")
-    private Group group;
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "platoon_id")
-    private Platoon platoon;
-
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "section_id")
-    private Section section;
-
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
+    @JsonView(Views.Profile.class)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "USER_AUTHORITY",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
     private Set<Authority> authorities;
 
+    public boolean hasRole(AuthorityName authorityName){
+        return this.authorities.stream().anyMatch(authority -> authority.equals(authorityName));
+    }
 }

@@ -1,12 +1,12 @@
 package com.royalrangers.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -14,22 +14,23 @@ import java.util.Set;
 @Entity
 public class City extends BaseModel {
 
+    @JsonView(Views.Profile.class)
     @NotNull
     private String name;
 
     @JsonIgnore
     @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    private Set<Group> groups;
+    private Set<Platoon> platoons;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-    private Country country;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
 
-    public City() {}
+    public City(){}
 
-    public City(Country country, String name) {
-        this.country = country;
+    public City(Region region, String name) {
+        this.region = region;
         this.name = name;
     }
 

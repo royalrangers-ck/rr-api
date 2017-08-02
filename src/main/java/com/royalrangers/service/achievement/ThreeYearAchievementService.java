@@ -1,12 +1,16 @@
 package com.royalrangers.service.achievement;
 
+import com.dropbox.core.DbxException;
+import com.royalrangers.dto.achievement.ThreeYearRequestDto;
+import com.royalrangers.enums.ImageType;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.repository.achievement.ThreeYearAchievementRepository;
 import com.royalrangers.model.achievement.ThreeYearAchievement;
+import com.royalrangers.service.DropboxService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ThreeYearAchievementService {
@@ -17,18 +21,22 @@ public class ThreeYearAchievementService {
     @Autowired
     private TwelveYearAchievementService twelveYearAchievementService;
 
+    @Autowired
+    private DropboxService dropboxService;
+
     public List<ThreeYearAchievement> getAllThreeYearAchievement() {
         return threeYearAchievementRepository.findAll();
     }
 
-    public void addThreeYearAchievement(Map<String, Object> params) {
+    public ThreeYearAchievement addThreeYearAchievement(ThreeYearRequestDto params) {
         ThreeYearAchievement threeYearAchievementSaved = new ThreeYearAchievement();
-        threeYearAchievementSaved.setName((String) params.get("name"));
-        threeYearAchievementSaved.setDescription((String) params.get("description"));
-        Integer id = (Integer) params.get("twelveYearAchievement");
+        threeYearAchievementSaved.setName(params.getName());
+        threeYearAchievementSaved.setDescription(params.getDescription());
+        Integer id = params.getUpLevelId();
         threeYearAchievementSaved.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(id.longValue()));
-        threeYearAchievementSaved.setRequirements((String) params.get("requirements"));
+        threeYearAchievementSaved.setUserAgeGroup(UserAgeGroup.valueOf(params.getAgeCategory()));
         threeYearAchievementRepository.saveAndFlush(threeYearAchievementSaved);
+        return threeYearAchievementSaved;
     }
 
     public ThreeYearAchievement getThreeYearAchievementById(Long id) {
@@ -39,14 +47,32 @@ public class ThreeYearAchievementService {
         threeYearAchievementRepository.delete(id);
     }
 
-    public ThreeYearAchievement editThreeYearAchievement(Map<String, Object> params, Long threeYearId) {
+    public ThreeYearAchievement editThreeYearAchievement(ThreeYearRequestDto params, Long threeYearId) {
         ThreeYearAchievement threeYearData = getThreeYearAchievementById(threeYearId);
-        Integer twelveYearsId = (Integer) params.get("twelveYearAchievement");
+        Integer twelveYearsId = params.getUpLevelId();
         threeYearData.setTwelveYearAchievement(twelveYearAchievementService.getTwelveYearAchievementById(twelveYearsId.longValue()));
-        threeYearData.setName((String) params.get("name"));
-        threeYearData.setDescription((String) params.get("description"));
-        threeYearData.setRequirements((String) params.get("requirements"));
-        threeYearData.setLogoUrl((String) params.get("logoUrl"));
+        threeYearData.setName(params.getName());
+        threeYearData.setDescription(params.getDescription());
+        threeYearData.setLogoUrl(params.getLogoUrl());
+        threeYearData.setUserAgeGroup(UserAgeGroup.valueOf(params.getAgeCategory()));
         return threeYearAchievementRepository.saveAndFlush(threeYearData);
+    }
+
+    public void setLogoUrl(String avatarUrl, Long threeYearId) throws DbxException {
+        ThreeYearAchievement editThreeYearAchievement = threeYearAchievementRepository.findOne(threeYearId);
+        if (editThreeYearAchievement.getLogoUrl() != null) {
+            dropboxService.deleteImage(editThreeYearAchievement.getLogoUrl(), ImageType.THREE_YEAR_ACHIEVEMENT_LOGO);
+        }
+        editThreeYearAchievement.setLogoUrl(avatarUrl);
+        threeYearAchievementRepository.saveAndFlush(editThreeYearAchievement);
+    }
+
+    public void deleteLogo(Long threeYearId) throws DbxException {
+        ThreeYearAchievement threeYearAchievement = threeYearAchievementRepository.findOne(threeYearId);
+        if (threeYearAchievement.getLogoUrl() != null) {
+            dropboxService.deleteImage(threeYearAchievement.getLogoUrl(), ImageType.THREE_YEAR_ACHIEVEMENT_LOGO);
+        }
+        threeYearAchievement.setLogoUrl(null);
+        threeYearAchievementRepository.saveAndFlush(threeYearAchievement);
     }
 }

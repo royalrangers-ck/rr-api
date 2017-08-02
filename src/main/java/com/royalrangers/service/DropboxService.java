@@ -3,7 +3,7 @@ package com.royalrangers.service;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
-import com.dropbox.core.v2.files.FileMetadata;
+import com.royalrangers.enums.ImageType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,31 +15,88 @@ import java.util.UUID;
 
 @Service
 public class DropboxService {
+
     @Value("${dropbox.appName}")
     private String appName;
+
     @Value("${dropbox.accessToken}")
     private String accessToken;
+
     @Value("${dropbox.avatarPrefix}")
     private String avatarPrefix;
 
-    public DbxClientV2 getClient() {
-    DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
-            .withUserLocale(Locale.getDefault().toString())
-            .build();
-    DbxClientV2 client = new DbxClientV2(config, accessToken);
-        return client;
+    @Value("${dropbox.platoonLogoPrefix}")
+    private String platoonLogoPrefix;
+
+    @Value("${dropbox.achievementTestLogoPrefix}")
+    private String achievementTestLogoPrefix;
+
+    @Value("${dropbox.achievementQuarterLogoPrefix}")
+    private String achievementQuarterLogoPrefix;
+
+    @Value("${dropbox.achievementYearLogoPrefix}")
+    private String achievementYearLogoPrefix;
+
+    @Value("${dropbox.achievementThreeYearLogoPrefix}")
+    private String achievementThreeYearLogoPrefix;
+
+    @Value("${dropbox.achievementTwelveYearLogoPrefix}")
+    private String achievementTwelveYearLogoPrefix;
+
+    @Value("${dropbox.achievementRewardLogoPrefix}")
+    private String achievementRewardLogoPrefix;
+
+    private String getImagePrefix(ImageType imageType){
+        String prefix = "";
+        switch (imageType){
+            case USER_AVATAR: {
+                prefix = avatarPrefix;
+                break;
+            }
+            case PLATOON_LOGO: {
+                prefix = platoonLogoPrefix;
+                break;
+            }
+            case TEST_LOGO: {
+                prefix = achievementTestLogoPrefix;
+                break;
+            }
+            case QUARTER_ACHIEVEMENT_LOGO: {
+                prefix = achievementQuarterLogoPrefix;
+                break;
+            }
+            case YEAR_ACHIEVEMENT_LOGO: {
+                prefix = achievementYearLogoPrefix;
+                break;
+            }
+            case THREE_YEAR_ACHIEVEMENT_LOGO: {
+                prefix = achievementThreeYearLogoPrefix;
+                break;
+            }
+            case TWELVE_YEAR_ACHIEVEMENT_LOGO: {
+                prefix = achievementTwelveYearLogoPrefix;
+                break;
+            }
+            case REWARD_LOGO: {
+                prefix = achievementRewardLogoPrefix;
+                break;
+            }
+        }
+        return prefix;
+    };
+
+    private DbxClientV2 getClient() {
+        DbxRequestConfig config = DbxRequestConfig.newBuilder(appName)
+                .withUserLocale(Locale.getDefault().toString())
+                .build();
+
+        return new DbxClientV2(config, accessToken);
     }
 
-    public void fileUpload(MultipartFile file) throws IOException, DbxException {
-        InputStream in = file.getInputStream();
-        FileMetadata metadata = getClient().files().uploadBuilder("/" + file.getOriginalFilename())
-                .uploadAndFinish(in);
-    }
-
-    public String avatarUpload(MultipartFile file) throws IOException, DbxException {
+    public String imageUpload(MultipartFile file, ImageType imageType) throws IOException, DbxException {
 
         String extension = getFilenameExtension(file.getOriginalFilename());
-        String path = avatarPrefix + UUID.randomUUID().toString() + extension;
+        String path = getImagePrefix(imageType) + UUID.randomUUID().toString() + extension;
 
         InputStream in = file.getInputStream();
         getClient().files().uploadBuilder(path).uploadAndFinish(in);
@@ -47,9 +104,9 @@ public class DropboxService {
         return getSharedLink(path);
     }
 
-    public void deleteAvatar(String avatarUrl) throws DbxException {
+    public void deleteImage(String avatarUrl, ImageType imageType) throws DbxException {
         String filename = avatarUrl.substring(avatarUrl.lastIndexOf("/") + 1);
-        String path = avatarPrefix + filename;
+        String path = getImagePrefix(imageType) + filename;
         getClient().files().delete(path);
     }
 

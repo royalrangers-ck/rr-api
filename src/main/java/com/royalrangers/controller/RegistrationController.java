@@ -1,20 +1,19 @@
 package com.royalrangers.controller;
 
-import com.royalrangers.bean.ResponseResult;
-import com.royalrangers.bean.UserBean;
-import com.royalrangers.model.User;
+import com.royalrangers.dto.ResponseResult;
+import com.royalrangers.dto.user.UserRegistrationDto;
+import com.royalrangers.exception.TokenException;
+import com.royalrangers.exception.UserRepositoryException;
 import com.royalrangers.model.VerificationToken;
-import com.royalrangers.repository.UserRepository;
-import com.royalrangers.service.EmailService;
 import com.royalrangers.service.UserService;
-import com.royalrangers.service.VerificationTokenService;
+import com.royalrangers.service.TokenService;
 import com.royalrangers.utils.ResponseBuilder;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Map;
+import java.net.UnknownHostException;
 
 @Slf4j
 @RestController
@@ -25,63 +24,59 @@ public class RegistrationController {
     private UserService userService;
 
     @Autowired
-    private EmailService emailService;
+    private TokenService tokenService;
 
-    @Autowired
-    private VerificationTokenService verificationTokenService;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @PostMapping
-    public ResponseResult registration(@RequestBody UserBean userInfo) {
-
-        if (userService.isEmailExist(userInfo.getEmail())) {
-            log.info(String.format("User with email '%s' already exists", userInfo.getEmail()));
-            return ResponseBuilder.fail("User with this email already exists");
+    @ApiOperation(value = "Add user to database")
+    public ResponseResult registration(@RequestBody UserRegistrationDto userInfo) {
+        try {
+            userService.registerUser(userInfo);
+        } catch (UserRepositoryException e) {
+            return ResponseBuilder.fail(e.getMessage());
         }
-
-        User user = userService.createUserFromUserForm(userInfo);
-        String confirmLink = userService.getConfirmRegistrationLink(user);
-        emailService.sendEmail(user, "RegistrationConfirm", "submit.email.inline.html", confirmLink);
-
-        log.info(String.format("User '%s' is successfully created", userInfo.getEmail()));
+        log.info("User " + userInfo.getEmail() + " is successfully created");
         return ResponseBuilder.success("User is successfully created");
     }
 
     @GetMapping("/confirm")
+    @ApiOperation(value = "Confirm user email by given token")
     public ResponseResult registrationConfirm(@RequestParam("token") String token) {
-
-        VerificationToken verificationToken = verificationTokenService.getVerificationToken(token);
-        if (verificationToken == null) {
-            log.info(String.format("Verification token '%s' is invalid", token));
-            return ResponseBuilder.fail("Verification token is invalid");
+        try {
+            VerificationToken verificationToken = tokenService.getVerificationToken(token);
+            userService.confirmUser(verificationToken);
+        } catch (TokenException e) {
+            log.info(e.getMessage());
+            return ResponseBuilder.fail(e.getMessage());
         }
-
-        Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            log.info(String.format("Verification token '%s' is expired", token));
-            return ResponseBuilder.fail("Verification token is expired");
-        }
-
-        User user = verificationToken.getUser();
-        user.setConfirmed(true);
-        userRepository.save(user);
-
-        log.info(String.format("Verification token '%s' is confirmed", token));
+        log.info("Verification token " + token + " is confirmed");
         return ResponseBuilder.success("User confirm registration successfully");
     }
 
-    @PostMapping("/check/email")
-    public ResponseResult checkEmail(@RequestBody Map<String, Object> params) {
+    @GetMapping("/check")
+    @ApiOperation(value = "Check is user with such email already exists")
+    public ResponseResult checkEmail(@RequestParam("email") String email) {
 
-        String email = (String)params.get("email");
-        log.info(String.format("Checking email '%s'", email));
+        log.info("Checking email " + email);
 
         if (userService.isEmailExist(email)) {
             return ResponseBuilder.fail("User with such an email already exists!");
         }
 
         return ResponseBuilder.success();
+    }
+
+    @PostMapping("/resend/confirmation")
+    @ApiOperation(value = "Resend confirmation email")
+    public ResponseResult resendConfirmationLink(@RequestParam("email") String email) {
+        try {
+            userService.resendConfirmation(email);
+        } catch (UserRepositoryException ex) {
+            return ResponseBuilder.fail(ex.getMessage());
+        } catch (UnknownHostException e) {
+            log.error("Error in confirmation URL for " + email);
+            return ResponseBuilder.fail("Error in confirmation URL");
+        }
+        return ResponseBuilder.success("Confirmation email is successfully resending.");
     }
 }

@@ -1,12 +1,14 @@
 package com.royalrangers.utils;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.royalrangers.bean.ResponseResult;
+import com.royalrangers.dto.ResponseResult;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class ResponseBuilder {
 
     public static ResponseResult success() {
@@ -31,6 +33,7 @@ public class ResponseBuilder {
     }
 
     public static ResponseResult fail(String message) {
+        log.error(message);
         return new ResponseResult(false, new ResponseMessage(message));
     }
 

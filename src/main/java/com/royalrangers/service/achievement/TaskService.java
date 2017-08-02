@@ -1,17 +1,18 @@
 package com.royalrangers.service.achievement;
 
+import com.royalrangers.dto.achievement.TaskRequestDto;
 import com.royalrangers.repository.achievement.TaskRepository;
 import com.royalrangers.model.achievement.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class TaskService {
+
     @Autowired
-    TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     @Autowired
     private TestService testService;
@@ -20,12 +21,14 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task addTask(Map<String, Object> params) {
+    public Task addTask(TaskRequestDto params) {
         Task savedTask = new Task();
-        savedTask.setDescription((String) params.get("description"));
-        Integer id = (Integer) params.get("test");
+        savedTask.setName(params.getName());
+        savedTask.setDescription(params.getDescription());
+        Integer id = params.getTestId();
         savedTask.setTest(testService.getTestById(id.longValue()));
-        return taskRepository.saveAndFlush(savedTask);
+        taskRepository.saveAndFlush(savedTask);
+        return savedTask;
     }
 
     public Task getTaskById(Long id) {
@@ -36,12 +39,12 @@ public class TaskService {
         taskRepository.delete(id);
     }
 
-    public Task editTask(Map<String, Object> params, Long taskId) {
+    public Task editTask(TaskRequestDto params, Long taskId) {
         Task editTask = getTaskById(taskId);
-        Integer quarterId = (Integer) params.get("test");
-        editTask.setName((String) params.get("name"));
-        editTask.setDescription((String) params.get("description"));
-        editTask.setTest(testService.getTestById(quarterId.longValue()));
+        Integer testId = params.getTestId();
+        editTask.setName(params.getName());
+        editTask.setDescription(params.getDescription());
+        editTask.setTest(testService.getTestById(testId.longValue()));
         return taskRepository.saveAndFlush(editTask);
     }
 }

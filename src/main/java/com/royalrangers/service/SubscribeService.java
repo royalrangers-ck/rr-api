@@ -5,10 +5,9 @@ import com.royalrangers.repository.SubscriberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service
 public class SubscribeService {
+
     @Autowired
     private SubscriberRepository subscriberRepository;
 

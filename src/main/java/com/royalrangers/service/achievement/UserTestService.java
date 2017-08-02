@@ -1,19 +1,19 @@
 package com.royalrangers.service.achievement;
 
-import com.royalrangers.bean.achievement.UserAchievementBean;
+import com.royalrangers.dto.achievement.UserAchievementRequestDto;
+import com.royalrangers.dto.achievement.UserTestRequestDto;
+import com.royalrangers.enums.UserAgeGroup;
 import com.royalrangers.enums.achivement.AchievementState;
+import com.royalrangers.model.achievement.Task;
+import com.royalrangers.model.achievement.Test;
 import com.royalrangers.model.achievement.UserTest;
-import com.royalrangers.bean.achievement.UserTestBean;
-import com.royalrangers.repository.UserRepository;
 import com.royalrangers.repository.achievement.UserTestRepository;
 import com.royalrangers.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class UserTestService {
@@ -22,64 +22,91 @@ public class UserTestService {
     private UserTestRepository userTestRepository;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
     private TestService testService;
 
-    public List<UserTestBean> findAllForUser() {
-        List<UserTest> list = userTestRepository.findByUserId(userService.getAuthenticatedUserId());
-        List<UserTestBean> result = new ArrayList<>();
-        for (UserTest item : list) {
-            result.add(buildUserAchievementBean(item));
-        }
-        return result;
+    @Autowired
+    private UserTaskService userTaskService;
+
+    @Autowired
+    private UserQuarterAchievementService userQuarterAchievementService;
+
+    public List<UserTest> findAllForUser() {
+        return userTestRepository.findByUserId(userService.getAuthenticatedUserId());
     }
 
-    public void addUserTest(Map<String, Object> params) {
+    public UserTest addUserTest(UserTestRequestDto params) {
         UserTest savedUserAchievement = new UserTest();
-        savedUserAchievement.setCreateDate(new Date());
-        savedUserAchievement.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
-        savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
+        savedUserAchievement.setAchievementState(AchievementState.IN_PROGRESS);
         savedUserAchievement.setUser(userService.getUserById(userService.getAuthenticatedUserId()));
-        Integer testId = (Integer) params.get("testId");
+        Integer testId = params.getTestId();
         savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
+        List<Task> tasks = testService.getTestById(testId.longValue()).getTaskList();
+        tasks.forEach(task -> userTaskService.addTaskForUser(task));
         userTestRepository.saveAndFlush(savedUserAchievement);
+        return savedUserAchievement;
     }
 
-    public UserTestBean getUserTestById(Long id) {
-        UserTest user = userTestRepository.findOne(id);
-        return buildUserAchievementBean(user);
+    public UserTest getUserTestById(Long id) {
+        return userTestRepository.findOne(id);
+    }
+
+    public List<UserTest> getSubmittedUsersTestsByPlatoon() {
+        return userTestRepository.findByUserPlatoonIdAndAchievementState(userService.getAuthenticatedUser().getPlatoon().getId(), AchievementState.SUBMITTED);
+    }
+
+    public List<UserTest> getUserTestsByTestId(Long testId) {
+        return userTestRepository.findAllByTest(testId);
     }
 
     public void deleteUserTest(Long id) {
         userTestRepository.delete(id);
     }
 
-    public void editUserTest(Map<String, Object> params, Long id) {
+    public void editUserTest(UserAchievementRequestDto params, Long id) {
         UserTest savedUserAchievement = userTestRepository.findOne(id);
         savedUserAchievement.setUpdateDate(new Date());
-        String achievementState = (String) params.get("state");
+        String achievementState = params.getState();
         savedUserAchievement.setAchievementState(AchievementState.valueOf(achievementState));
-        Integer testId = (Integer) params.get("testId");
-        savedUserAchievement.setTest(testService.getTestById(testId.longValue()));
         userTestRepository.saveAndFlush(savedUserAchievement);
+        Stream.of(UserAgeGroup.values()).forEach(ageGroups -> {
+            updateQuarterAchievements(UserAgeGroup.valueOf(ageGroups.toString()));
+        });
     }
 
-    private UserTestBean buildUserAchievementBean(UserTest item) {
-        UserTestBean userAchievementBean = new UserTestBean();
-        userAchievementBean.setId(item.getId());
-        userAchievementBean.setCreateDate(item.getCreateDate());
-        userAchievementBean.setUpdateDate(item.getUpdateDate());
-        userAchievementBean.setAchievementState(item.getAchievementState());
-        UserAchievementBean userBean = UserService.buildUserAchievementBean(item.getUser());
-        userAchievementBean.setUser(userBean);
-        userAchievementBean.setTest(item.getTest());
-        return userAchievementBean;
+    public void updateQuarterAchievements(UserAgeGroup userAgeGroup) {
+        List<UserTest> userTestListForBeginner = userTestRepository.findByAchievementStateAndTest_UserAgeGroupsContains(AchievementState.APPROVED, new ArrayList<>(Arrays.asList(userAgeGroup)));
+        if (checkCountUserApprovedTestForCreate(userTestListForBeginner)) {
+            userQuarterAchievementService.addUserQuarterAchievement(userAgeGroup);
+        }
+        if (checkCountUserApprovedTestForUpdate(userTestListForBeginner)) {
+            userQuarterAchievementService.autoEditQuarterAchievement(AchievementState.APPROVED, userAgeGroup);
+        }
+    }
+
+    private boolean checkCountUserApprovedTestForCreate(List<UserTest> userTestListForBeginner){
+        if (userTestListForBeginner.size() == 1 || userTestListForBeginner.size() == 5 || userTestListForBeginner.size() == 9 || userTestListForBeginner.size() == 13 ||
+                userTestListForBeginner.size() == 17 || userTestListForBeginner.size() == 21 || userTestListForBeginner.size() == 25 || userTestListForBeginner.size() == 29 ||
+                userTestListForBeginner.size() == 33 || userTestListForBeginner.size() == 37 || userTestListForBeginner.size() == 41 || userTestListForBeginner.size() == 45) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkCountUserApprovedTestForUpdate(List<UserTest> userTestListForBeginner){
+        if (userTestListForBeginner.size() == 4 || userTestListForBeginner.size() == 8 ||
+                userTestListForBeginner.size() == 12 || userTestListForBeginner.size() == 16 ||
+                userTestListForBeginner.size() == 20 || userTestListForBeginner.size() == 24 ||
+                userTestListForBeginner.size() == 28 || userTestListForBeginner.size() == 32 ||
+                userTestListForBeginner.size() == 36 || userTestListForBeginner.size() == 40 ||
+                userTestListForBeginner.size() == 44 || userTestListForBeginner.size() == 48){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

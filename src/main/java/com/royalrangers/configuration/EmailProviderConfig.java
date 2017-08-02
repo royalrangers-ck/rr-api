@@ -4,7 +4,6 @@ package com.royalrangers.configuration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
@@ -12,19 +11,18 @@ import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import java.util.Properties;
 
 @Configuration
-@PropertySource("classpath:emailproperties.yml")
 public class EmailProviderConfig {
 
-    @Value("${mailhost}")
+    @Value("${mail-sender.mailhost}")
     String mailhost;
 
-    @Value("${mailport}")
+    @Value("${mail-sender.mailport}")
     int mailport;
 
-    @Value("${mailusername}")
+    @Value("${mail-sender.mailusername}")
     String mailusername;
 
-    @Value("${mailpassword}")
+    @Value("${mail-sender.mailpassword}")
     String mailpassword;
 
     @Bean

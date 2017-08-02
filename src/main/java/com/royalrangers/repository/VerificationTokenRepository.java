@@ -10,8 +10,6 @@ public interface VerificationTokenRepository extends JpaRepository<VerificationT
 
     VerificationToken findByToken(String token);
 
-    Stream<VerificationToken> findAllByExpiryDateLessThan(Date now);
-
     void deleteByExpiryDateLessThan(Date now);
 
 }

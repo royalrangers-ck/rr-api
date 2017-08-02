@@ -1,6 +1,7 @@
 package com.royalrangers.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,8 +15,21 @@ import java.util.Set;
 @Entity
 public class Platoon extends BaseModel{
 
+    @JsonView(Views.Profile.class)
     @NotNull
-    private String name;
+    private Integer name;
+
+    @JsonView(Views.Public.class)
+    private String history;
+
+    @JsonView(Views.Public.class)
+    private String logoUrl;
+
+    @JsonView(Views.Public.class)
+    private String address;
+
+    @JsonView(Views.Public.class)
+    private Date meetTime;
 
     @JsonIgnore
     @OneToMany(mappedBy = "platoon", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -23,14 +37,13 @@ public class Platoon extends BaseModel{
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "city_id")
+    private City city;
 
     public Platoon() {}
 
-    public Platoon(Group group, String name) {
-        this.group = group;
+    public Platoon(City city, Integer name) {
+        this.city = city;
         this.name = name;
     }
-
 }

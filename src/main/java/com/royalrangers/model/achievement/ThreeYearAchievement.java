@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-public class ThreeYearAchievement extends Achievement{
+public class ThreeYearAchievement extends Achievement {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "threeYearAchievement")
     private List<YearAchievement> yearAchievement;
