@@ -22,12 +22,6 @@ public class UserYearAchievementService {
     private UserService userService;
 
     @Autowired
-    private UserTestService userTestService;
-
-    @Autowired
-    private TestService testService;
-
-    @Autowired
     private YearAchievementService yearAchievementService;
 
     public List<UserYearAchievement> findAllForUser() {

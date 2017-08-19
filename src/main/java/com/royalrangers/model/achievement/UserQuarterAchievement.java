@@ -18,14 +18,18 @@ import java.util.List;
 public class UserQuarterAchievement extends UserAchievement {
 
     @JsonView(Views.Achievement.class)
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userQuarterAchievement")
-    private List<UserTest> test;
-
-    @JsonView(Views.Achievement.class)
     private UserAgeGroup userAgeGroup;
 
     @JsonView(Views.Achievement.class)
     @OneToOne
     private QuarterAchievement quarterAchievement;
+
+    @JsonView(Views.Achievement.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userQuarterAchievement")
+    private List<UserTest> userTests;
+
+    @JsonView(Views.Achievement.class)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "userQuarterAchievement")
+    private List<UserTest> additionalUserTests;
 
 }

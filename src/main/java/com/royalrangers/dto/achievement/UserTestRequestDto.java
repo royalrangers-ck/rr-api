@@ -7,5 +7,4 @@ import lombok.Setter;
 @Setter
 public class UserTestRequestDto {
     private Long testId;
-    private Long userId;
 }

@@ -32,4 +32,13 @@ public class RoadMapYearAchievement {
             joinColumns = {@JoinColumn(name = "RoadMapYearAchievement_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "test_id", referencedColumnName = "id")})
     private List<Test> tests;
+
+    @JsonView(Views.Achievement.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "RoadMapYear_AdditionalTests",
+            joinColumns = {@JoinColumn(name = "RoadMapYearAchievement_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "test_id", referencedColumnName = "id")})
+    private List<Test> additionalTests;
+
 }

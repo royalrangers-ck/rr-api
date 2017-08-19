@@ -11,4 +11,5 @@ public class RoadMapQuarterRequestDto {
     private Long sectionId;
     private Long quarterId;
     private List<Long> testIds;
+    private List<Long> additionalTestIds;
 }

@@ -29,28 +29,40 @@ public class RoadMapQuarterService {
         RoadMapQuarterAchievement roadMapQuarter = roadMapQuarterRepository.findBySectionIdAndQuarterAchievementId(roadMapQuarterRequestDto.getSectionId(), roadMapQuarterRequestDto.getQuarterId());
         QuarterAchievement quarterAchievement = quarterAchievementService.getQuarterAchievementById(roadMapQuarterRequestDto.getQuarterId());
         ArrayList<Test> tests = new ArrayList<>();
+        ArrayList<Test> additionalTests = new ArrayList<>();
         roadMapQuarterRequestDto.getTestIds().forEach(id -> {
             tests.add(testService.getTestById(id));
+        });
+        roadMapQuarterRequestDto.getAdditionalTestIds().forEach(additionalTestId -> {
+            additionalTests.add(testService.getTestById(additionalTestId));
         });
         if (roadMapQuarter == null) {
             RoadMapQuarterAchievement roadMapQuarterAchievement = new RoadMapQuarterAchievement();
             roadMapQuarterAchievement.setSectionId(roadMapQuarterRequestDto.getSectionId());
             roadMapQuarterAchievement.setQuarterAchievement(quarterAchievement);
             roadMapQuarterAchievement.setTests(tests);
+            roadMapQuarterAchievement.setAdditionalTests(additionalTests);
             roadMapQuarterRepository.save(roadMapQuarterAchievement);
         } else {
-            editRoadMapYear(roadMapQuarterRequestDto);
+            editRoadMapQuarter(roadMapQuarterRequestDto);
         }
         return roadMapQuarterRepository.findBySectionIdAndQuarterAchievementId(roadMapQuarterRequestDto.getSectionId(), roadMapQuarterRequestDto.getQuarterId());
     }
 
-    private RoadMapQuarterAchievement editRoadMapYear(RoadMapQuarterRequestDto roadMapQuarterRequestDto) {
+    private RoadMapQuarterAchievement editRoadMapQuarter(RoadMapQuarterRequestDto roadMapQuarterRequestDto) {
         RoadMapQuarterAchievement roadMapQuarter = roadMapQuarterRepository.findBySectionIdAndQuarterAchievementId(roadMapQuarterRequestDto.getSectionId(), roadMapQuarterRequestDto.getQuarterId());
         ArrayList<Test> tests = new ArrayList<>();
+        ArrayList<Test> additionalTests = new ArrayList<>();
+
         roadMapQuarterRequestDto.getTestIds().forEach(id -> {
             tests.add(testService.getTestById(id));
         });
+        roadMapQuarterRequestDto.getAdditionalTestIds().forEach(additionalTestId -> {
+            additionalTests.add(testService.getTestById(additionalTestId));
+        });
+
         roadMapQuarter.setTests(tests);
+        roadMapQuarter.setAdditionalTests(additionalTests);
         return roadMapQuarterRepository.saveAndFlush(roadMapQuarter);
     }
 
