@@ -1,6 +1,7 @@
 package com.royalrangers.model.achievement;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.model.BaseModel;
 import com.royalrangers.model.Views;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,11 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-public class RoadMapQuarterAchievement {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class RoadMapQuarterAchievement extends BaseModel {
 
     private Long sectionId;
 
@@ -37,4 +34,5 @@ public class RoadMapQuarterAchievement {
             joinColumns = {@JoinColumn(name = "RoadMapQuarterAchievement_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "test_id", referencedColumnName = "id")})
     private List<Test> additionalTests;
+
 }

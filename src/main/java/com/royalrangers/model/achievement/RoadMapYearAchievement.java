@@ -1,22 +1,17 @@
 package com.royalrangers.model.achievement;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.royalrangers.model.BaseModel;
 import com.royalrangers.model.Views;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-public class RoadMapYearAchievement {
-
-    @JsonView(Views.Achievement.class)
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class RoadMapYearAchievement extends BaseModel {
 
     @JsonView(Views.Achievement.class)
     private Long sectionId;

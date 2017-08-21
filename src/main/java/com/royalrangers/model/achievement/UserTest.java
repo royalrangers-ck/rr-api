@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.royalrangers.model.Views;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Getter

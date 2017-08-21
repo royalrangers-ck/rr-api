@@ -9,9 +9,11 @@ import com.royalrangers.service.achievement.RoadMapQuarterService;
 import com.royalrangers.service.achievement.RoadMapYearService;
 import com.royalrangers.utils.ResponseBuilder;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/achievements/roadMap")
 public class RoadMapController {
@@ -28,6 +30,7 @@ public class RoadMapController {
         try {
             return ResponseBuilder.success(roadMapQuarterService.saveRoadMapQuarter(roadMapQuarterRequestDto));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail(ex.getMessage());
         }
     }
@@ -38,6 +41,7 @@ public class RoadMapController {
         try {
             return ResponseBuilder.success(roadMapYearService.saveRoadMapYear(roadMapYearRequestDto));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail(ex.getMessage());
         }
     }
@@ -49,6 +53,7 @@ public class RoadMapController {
         try {
             return ResponseBuilder.success(roadMapYearService.getAllMapForSpecialSection(sectionId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail(ex.getMessage());
         }
     }
@@ -60,6 +65,7 @@ public class RoadMapController {
         try {
             return ResponseBuilder.success(roadMapQuarterService.getAllMapForSpecialSection(sectionId));
         } catch (Exception ex) {
+            log.error(ex.getMessage());
             return ResponseBuilder.fail(ex.getMessage());
         }
     }
