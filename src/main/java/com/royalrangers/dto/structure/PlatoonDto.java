@@ -8,7 +8,6 @@ import java.util.Date;
 @Getter
 @Setter
 public class PlatoonDto {
-    private Long id;
     private Integer name;
     private Long cityId;
     private String history;
