@@ -1,7 +1,10 @@
 package com.royalrangers.controller;
 
 import com.royalrangers.dto.ResponseResult;
-import com.royalrangers.dto.structure.*;
+import com.royalrangers.dto.structure.CityDto;
+import com.royalrangers.dto.structure.CountryDto;
+import com.royalrangers.dto.structure.RegionDto;
+import com.royalrangers.dto.structure.SectionDto;
 import com.royalrangers.exception.EntryAlreadyExistsException;
 import com.royalrangers.service.StructureService;
 import com.royalrangers.utils.ResponseBuilder;
@@ -56,18 +59,6 @@ public class AdminController {
             return ResponseBuilder.fail(e.getMessage());
         } catch (Exception e) {
             return ResponseBuilder.fail("Error creating new city.");
-        }
-    }
-
-    @PostMapping("/platoon")
-    @ApiOperation(value = "Add platoon")
-    public ResponseResult addPlatoon(@RequestBody PlatoonDto platoonDto) {
-        try {
-            return ResponseBuilder.success(structureService.createPlatoon(platoonDto));
-        } catch (EntryAlreadyExistsException e) {
-            return ResponseBuilder.fail(e.getMessage());
-        } catch (Exception e) {
-            return ResponseBuilder.fail("Error creating new platoon.");
         }
     }
 
