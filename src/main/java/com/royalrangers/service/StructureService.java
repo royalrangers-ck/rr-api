@@ -37,9 +37,35 @@ public class StructureService {
     @Autowired
     private UserService userService;
 
-    public Platoon getPlatoonData() {
-        return platoonRepository.findOne(userService.getAuthenticatedUser().getPlatoon().getId());
+    public Country createCountry(CountryDto countryDto) {
+        if (countryRepository.findByName(countryDto.getName()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
+        Country country = countryRepository.save(new Country(countryDto.getName()));
+        log.info("Country " + countryDto.getName() + " is successfully created.");
+        return country;
     }
+
+    public Region createRegion(RegionDto regionDto) {
+        Country country = countryRepository.findOne(regionDto.getCountryId());
+        if (regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
+        Region region = regionRepository.save(new Region(country, regionDto.getName()));
+        log.info("Region " + regionDto.getName() + " is successfully created.");
+        return region;
+    }
+
+    public City createCity(CityDto cityDto) {
+        Region region = regionRepository.findOne(cityDto.getRegionId());
+        if (cityRepository.findByNameAndRegionId(cityDto.getName(), cityDto.getRegionId()) != null) {
+            throw new EntryAlreadyExistsException("Entry with this name already exist.");
+        }
+        City city = new City(region, cityDto.getName());
+        log.info("City " + cityDto.getName() + " is successfully created.");
+        return cityRepository.save(city);
+    }
+
 
     public Platoon createPlatoon(PlatoonDto platoonDto) {
         Platoon platoon = new Platoon();
@@ -51,6 +77,10 @@ public class StructureService {
         platoon.setCity(cityRepository.findOne(platoonDto.getCityId()));
         platoon.setMeetTime(platoonDto.getMeetTime());
         return platoonRepository.save(platoon);
+    }
+
+    public Platoon getPlatoonData() {
+        return platoonRepository.findOne(userService.getAuthenticatedUser().getPlatoon().getId());
     }
 
     public Platoon updatePlatoon(Long id, PlatoonDto update) {
@@ -86,16 +116,6 @@ public class StructureService {
         platoonRepository.save(platoon);
     }
 
-    public City createCity(CityDto cityDto) {
-        Region region = regionRepository.findOne(cityDto.getRegionId());
-        if (cityRepository.findByNameAndRegionId(cityDto.getName(), cityDto.getRegionId()) != null) {
-            throw new EntryAlreadyExistsException("Entry with this name already exist.");
-        }
-        City city = new City(region, cityDto.getName());
-        log.info("City " + cityDto.getName() + " is successfully created.");
-        return cityRepository.save(city);
-    }
-
     public Section createSection(SectionDto sectionDto) {
         Platoon platoon = platoonRepository.findOne(sectionDto.getPlatoonId());
         if (sectionRepository.findByName(sectionDto.getName()) != null) {
@@ -106,22 +126,4 @@ public class StructureService {
         return sectionRepository.save(section);
     }
 
-    public Region createRegion(RegionDto regionDto) {
-        Country country = countryRepository.findOne(regionDto.getCountryId());
-        if (regionRepository.findByNameAndCountryId(regionDto.getName(), regionDto.getCountryId()) != null) {
-            throw new EntryAlreadyExistsException("Entry with this name already exist.");
-        }
-        Region region = regionRepository.save(new Region(country, regionDto.getName()));
-        log.info("Region " + regionDto.getName() + " is successfully created.");
-        return region;
-    }
-
-    public Country createCountry(CountryDto countryDto) {
-        if (countryRepository.findByName(countryDto.getName()) != null) {
-            throw new EntryAlreadyExistsException("Entry with this name already exist.");
-        }
-        Country country = countryRepository.save(new Country(countryDto.getName()));
-        log.info("Country " + countryDto.getName() + " is successfully created.");
-        return country;
-    }
 }
